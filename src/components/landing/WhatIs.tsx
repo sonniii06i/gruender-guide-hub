@@ -22,13 +22,10 @@ export const WhatIs = () => (
       </h2>
 
       <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-        <strong className="text-foreground">GründerX</strong> ist eine KI-gestützte
-        Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler,
-        Content-Creator und Founder. Sie führt Schritt für Schritt durch die
-        Unternehmensgründung, die Wahl der Rechtsform, Steuern und Buchhaltung – mit{" "}
-        {TOOL_COUNT} Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding) und dem
-        KI-Co-Founder „Felix". Dazu kommen kostenlose Tools wie Businessplan-Generator,
-        Gründungskosten-Rechner und Rechtsform-Finder.
+        <strong className="text-foreground">GründerX</strong> ist eine Lern- und Werkzeug-Plattform aus
+        Deutschland für alle von 12 bis 70, die eine Website, eine App, ein Nebengewerbe, einen Shop, eine GmbH
+        oder ein US-Setup aufbauen. Wir zeigen mit Stand und Quelle, was zuerst kommt und was warten kann: mit{" "}
+        {TOOL_COUNT} Tools, Schritt-für-Schritt-Guides, interaktiven Quizzen und dem KI-Co-Piloten Felix.
       </p>
      </div>
 
@@ -36,33 +33,30 @@ export const WhatIs = () => (
         <div className="bg-card p-6">
           <dt className="font-semibold text-foreground">Für wen ist GründerX?</dt>
           <dd className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-            Für Gründer, Selbstständige, E-Commerce-Händler, Amazon-FBA-Seller und Creator,
-            die in Deutschland ein Unternehmen aufbauen.
+            Für Jugendliche ab 12 (mit Eltern-Infos), Studierende, Angestellte im Nebengewerbe,
+            Händler, Creator, Freelancer und Neustarter bis 70.
           </dd>
         </div>
         <div className="bg-card p-6">
           <dt className="font-semibold text-foreground">Was kann GründerX?</dt>
           <dd className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-            Gründungs-Guides, Rechtsform-Wahl, Businessplan, Gründungskosten, Steuer- &
-            Buchhaltungs-Tools, Anbieter-Vergleiche und den KI-Assistenten Felix.
+            Interaktive Guides mit Arbeitsfenstern, Rechtsform-, Steuer- und Buchhaltungs-Tools,
+            US-Amex- & US-LLC-Wissen, Quizze, Listicles und KI-Co-Pilot Felix.
           </dd>
         </div>
         <div className="bg-card p-6">
           <dt className="font-semibold text-foreground">Was kostet GründerX?</dt>
           <dd className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-            Der volle Zugang mit allen Tools, Wizards, Guides und Felix kostet ab{" "}
-            {formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt. (
+            Der volle Zugang kostet ab {formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. 19 % USt. (
             <Link to="/preise" className="underline hover:text-foreground">alle Preise</Link>). Ohne Konto
-            kostenlos: den Verpackungslizenz-Rechner (LUCID-Wizard) unbegrenzt und ohne E-Mail, je eine Prüfung im
-            WEEE-Check und Brand-Check sowie je eine Nutzung der
-            Generatoren unter <Link to="/gratis-tools" className="underline hover:text-foreground">Gratis-Tools</Link> –
-            nur gegen deine E-Mail-Adresse; unbegrenzt im Abo.
+            kostenlos: LUCID-Wizard, Quizze, Listicles, je eine Prüfung im WEEE-Check und Brand-Check sowie die
+            Generatoren unter <Link to="/gratis-tools" className="underline hover:text-foreground">Gratis-Tools</Link>.
           </dd>
         </div>
         <div className="bg-card p-6">
-          <dt className="font-semibold text-foreground">Sprache &amp; Verfügbarkeit</dt>
+          <dt className="font-semibold text-foreground">Sprache &amp; App</dt>
           <dd className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-            Deutschsprachig, 100 % online als Web-App (Mobile &amp; Desktop), rund um die Uhr.
+            Deutschsprachig, mobile-first als Web-App und Handy-App. Software, keine Steuer- oder Rechtsberatung.
           </dd>
         </div>
       </dl>

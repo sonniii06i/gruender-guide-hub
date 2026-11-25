@@ -22,6 +22,7 @@ import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
 import { ReferralNudge } from "@/components/ReferralNudge";
 import { ArrowUpRight, LayoutGrid, Lock, Search } from "lucide-react";
 import { EmptyState, ToneBadge, stripEmoji, type Tone } from "@/components/cockpit/kit";
+import { GamificationBar } from "@/components/gamification/GamificationBar";
 import { cn } from "@/lib/utils";
 
 interface Profile {
@@ -135,9 +136,9 @@ const Dashboard = () => {
       )}
       {/* Kopf */}
       <header className="mb-5">
-        <p className="text-[13px] font-medium text-muted-foreground">Dein Cockpit</p>
+        <p className="text-[13px] font-medium text-muted-foreground">Dein Lern-Cockpit</p>
         <h1 className="mt-1 text-2xl font-semibold leading-tight tracking-[-0.02em] text-balance md:text-[1.75rem]">
-          Hi {profile?.first_name ?? "Gründer"}. Das steht als Nächstes an.
+          Hi {profile?.first_name ?? "Gründer"}. Dein nächster Schritt wartet.
         </h1>
         {merkmale.length > 0 && (
           <ul className="mt-2.5 flex flex-wrap items-center gap-1.5" aria-label="Dein Profil">
@@ -147,6 +148,8 @@ const Dashboard = () => {
           </ul>
         )}
       </header>
+
+      <GamificationBar className="mb-5" />
 
       {/* View tabs */}
       <div role="tablist" aria-label="Bereiche" className="-mx-4 mb-6 flex items-center gap-5 overflow-x-auto border-b border-border px-4 md:mx-0 md:px-0">

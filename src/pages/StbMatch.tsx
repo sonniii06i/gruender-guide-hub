@@ -256,7 +256,7 @@ const StbMatch = () => {
         y += wrapped.length * (size * 0.45) + gap;
       };
 
-      line("Anonymisiertes Briefing — Gründer-Mandat", { size: 18, bold: true, gap: 3 });
+      line("Anonymisiertes Briefing, Gründer-Mandat", { size: 18, bold: true, gap: 3 });
       line(`Erstellt: ${new Date().toLocaleDateString("de-DE")} · via gruenderx.de`, { size: 8, gap: 8 });
 
       line("Mandant-Profil (anonymisiert)", { size: 13, bold: true, gap: 3 });
@@ -321,12 +321,12 @@ const StbMatch = () => {
           bold: true,
           gap: 3,
         });
-        line("(2-3 Sätze pro Punkt — kein Standard-Anschreiben)", { size: 8, gap: 4 });
+        line("(2-3 Sätze pro Punkt, kein Standard-Anschreiben)", { size: 8, gap: 4 });
         filledPP.forEach((p, i) => line(`${i + 1}. ${p}`, { size: 10, gap: 4 }));
       }
 
       y += 5;
-      line("Erwartetes Angebot — strukturierte Felder", { size: 12, bold: true, gap: 2 });
+      line("Erwartetes Angebot, strukturierte Felder", { size: 12, bold: true, gap: 2 });
       line("• Pauschale Buchhaltung pro Monat (€)", { size: 9, gap: 2 });
       line("• Pauschale Jahresabschluss (€)", { size: 9, gap: 2 });
       line("• Beleg-Aufschlag bei Überschreitung Belege-Range (€/Beleg)", { size: 9, gap: 2 });
@@ -338,7 +338,7 @@ const StbMatch = () => {
       y += 5;
       line("Hinweis", { size: 11, bold: true, gap: 2 });
       line(
-        "Dies ist eine erste Honorar-Anfrage. Klartext-Stammdaten (Firma, USt-ID, Bank) werden erst nach Annahme des Angebots übermittelt — DSGVO-konformer 2-Stufen-Flow.",
+        "Dies ist eine erste Honorar-Anfrage. Klartext-Stammdaten (Firma, USt-ID, Bank) werden erst nach Annahme des Angebots übermittelt, DSGVO-konformer 2-Stufen-Flow.",
         { size: 8, gap: 5 },
       );
 
@@ -394,7 +394,7 @@ const StbMatch = () => {
     lines.push(`• Reaktions-SLA-Zusage (Wunsch: ${briefing.slaWunsch})`);
     lines.push("");
     lines.push(
-      "Klartext-Stammdaten (Firma, USt-ID, Bank) übermittle ich nach Annahme des Angebots — DSGVO-konformer 2-Stufen-Flow.",
+      "Klartext-Stammdaten (Firma, USt-ID, Bank) übermittle ich nach Annahme des Angebots, DSGVO-konformer 2-Stufen-Flow.",
     );
     lines.push("");
     lines.push("Vielen Dank für eine kurze Rückmeldung mit Erstangebot.");
@@ -408,7 +408,7 @@ const StbMatch = () => {
       alert("Bitte mindestens 1 Steuerberater-Profil auswählen.");
       return;
     }
-    const subject = `Honorar-Anfrage Gründer-Mandat — ${briefing.rechtsform} (${briefing.umsatzRange})`;
+    const subject = `Honorar-Anfrage Gründer-Mandat, ${briefing.rechtsform} (${briefing.umsatzRange})`;
     const body = buildEmailBody();
     const note = `\n\n---\nHinweis: Diese Anfrage geht parallel an mehrere Kanzleien (BCC). Die Kanzleien sehen sich gegenseitig nicht.`;
     // Mailto-URLs sind URL-länge-limitiert (~2000 chars) — Body ist hier safe.
@@ -1160,7 +1160,7 @@ const StbMatch = () => {
             <Callout tone="neutral" icon={Scale} title="Rechtlicher Rahmen">
               GründerX vermittelt nicht (§ 9 StBerG). Die Kanzlei-Liste ist redaktionell nach öffentlich bekannten
               Spezialisierungen kuratiert, ohne Provisionsbeziehung. Eigene Recherche und Erstgespräch bleiben Pflicht.
-              Aufnahmekapazität ist nicht garantiert (rund 30 % der Kanzleien in Deutschland haben wegen Nachwuchsmangel einen
+              Aufnahmekapazität ist nicht vorhersagbar (rund 30 % der Kanzleien in Deutschland haben wegen Nachwuchsmangel einen
               Aufnahmestopp). DSGVO: Klartext-Stammdaten (Firma, USt-ID, Bank) erst nach Annahme an die gewählte Kanzlei
               übermitteln.
             </Callout>

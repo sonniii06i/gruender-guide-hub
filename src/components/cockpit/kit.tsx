@@ -101,13 +101,17 @@ export const ToolSection = ({
   as?: ElementType;
   id?: string;
 }) => (
-  <As id={id} className={cn("rounded-lg border border-border bg-card", className)}>
+  <As id={id} className={cn("rounded-2xl border border-border bg-card shadow-card", className)}>
     {(title || actions) && (
-      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-5 py-3.5">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-5 py-4">
         <div className="flex min-w-0 items-start gap-2.5">
-          {Icon && <Icon className="mt-[3px] h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />}
+          {Icon && (
+            <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+              <Icon className="h-4 w-4" aria-hidden="true" />
+            </span>
+          )}
           <div className="min-w-0">
-            {title && <h2 className="text-[15px] font-semibold leading-snug">{title}</h2>}
+            {title && <h2 className="text-[15px] font-semibold leading-snug text-foreground">{title}</h2>}
             {description && <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{description}</p>}
           </div>
         </div>
@@ -151,7 +155,7 @@ export const Field = ({
 
 /** Klassen für native <select>, passend zu <Input>. */
 export const selectCls =
-  "h-10 w-full rounded-md border border-input bg-card px-3 text-sm transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25 disabled:opacity-50";
+  "h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25 disabled:opacity-50";
 
 /** Segment-Auswahl. Ersetzt handgebaute Knopfreihen (aria-pressed inklusive). */
 export function ChoiceGroup<T extends string | number | boolean>({
@@ -170,7 +174,7 @@ export function ChoiceGroup<T extends string | number | boolean>({
   label?: string;
 }) {
   return (
-    <div role="group" aria-label={label} className={cn("flex flex-wrap gap-1.5", className)}>
+    <div role="group" aria-label={label} className={cn("flex flex-wrap gap-2", className)}>
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -180,16 +184,16 @@ export function ChoiceGroup<T extends string | number | boolean>({
             aria-pressed={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              "rounded-md border text-left font-medium transition-[background-color,border-color,color] duration-150 active:translate-y-px",
-              size === "sm" ? "px-2.5 py-1.5 text-xs" : "px-3.5 py-2 text-sm",
+              "press rounded-xl border text-left font-medium",
+              size === "sm" ? "min-h-9 px-3 py-1.5 text-xs" : "min-h-11 px-4 py-2 text-sm",
               active
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-foreground/20 bg-card text-foreground/80 hover:border-foreground/35 hover:text-foreground",
+                ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                : "border-border bg-card text-foreground/85 hover:border-primary/40 hover:text-foreground",
             )}
           >
             <span className="block">{o.label}</span>
             {o.hint && (
-              <span className={cn("mt-0.5 block text-xs font-normal", active ? "text-primary-foreground/75" : "text-muted-foreground")}>
+              <span className={cn("mt-0.5 block text-xs font-normal", active ? "text-primary-foreground/80" : "text-muted-foreground")}>
                 {o.hint}
               </span>
             )}
@@ -230,8 +234,8 @@ export const ResultPanel = ({
     <section
       aria-live="polite"
       className={cn(
-        "relative overflow-hidden rounded-lg border p-5",
-        ink ? "border-transparent bg-ink text-primary-foreground" : "border-border bg-card",
+        "relative overflow-hidden rounded-2xl border p-5 shadow-card md:p-6",
+        ink ? "border-transparent bg-ink text-primary-foreground shadow-md" : "border-border bg-card",
         className,
       )}
     >
@@ -286,7 +290,7 @@ export const StatTile = ({
 }) => (
   <div
     className={cn(
-      "rounded-lg border p-4",
+      "rounded-2xl border p-4 shadow-card",
       emphasis ? TONE_SOFT[tone === "neutral" ? "accent" : tone] : "border-border bg-card",
       className,
     )}
@@ -346,7 +350,7 @@ export const Callout = ({
 }) => {
   const Icon = icon === false ? null : icon ?? TONE_ICON[tone];
   return (
-    <div className={cn("flex gap-3 rounded-md border p-3.5 text-sm leading-relaxed", TONE_SOFT[tone], className)}>
+    <div className={cn("flex gap-3 rounded-xl border p-4 text-sm leading-relaxed", TONE_SOFT[tone], className)}>
       {Icon && <Icon className={cn("mt-0.5 h-4 w-4 shrink-0", TONE_TEXT[tone])} aria-hidden="true" />}
       <div className="min-w-0 flex-1">
         {title && <p className="font-semibold text-foreground">{title}</p>}
@@ -359,7 +363,7 @@ export const Callout = ({
 export const ToneBadge = ({ tone = "neutral", children, className }: { tone?: Tone; children: ReactNode; className?: string }) => (
   <span
     className={cn(
-      "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-semibold leading-none",
+      "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold leading-none",
       TONE_SOFT[tone],
       TONE_TEXT[tone],
       className,
@@ -382,7 +386,7 @@ export const EmptyState = ({
   action?: ReactNode;
   className?: string;
 }) => (
-  <div className={cn("flex flex-col items-center rounded-lg border border-dashed border-foreground/20 bg-card px-6 py-10 text-center", className)}>
+  <div className={cn("flex flex-col items-center rounded-2xl border border-dashed border-foreground/20 bg-card px-6 py-10 text-center shadow-card", className)}>
     <Icon className="mb-3 h-6 w-6 text-muted-foreground" aria-hidden="true" />
     <p className="font-semibold">{title}</p>
     {description && <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">{description}</p>}
@@ -394,7 +398,7 @@ export const EmptyState = ({
 
 /** Rahmen für <table>: scrollt mobil horizontal, Kopfzeile dezent, Zahlen tabellarisch. */
 export const KitTable = ({ children, className, caption }: { children: ReactNode; className?: string; caption?: ReactNode }) => (
-  <div className={cn("relative max-w-full overflow-x-auto rounded-lg border border-border bg-card [contain:paint]", className)}>
+  <div className={cn("relative max-w-full overflow-x-auto rounded-2xl border border-border bg-card shadow-card [contain:paint]", className)}>
     <table
       className={cn(
         "w-full border-collapse text-sm tabular",

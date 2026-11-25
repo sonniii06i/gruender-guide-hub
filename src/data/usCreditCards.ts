@@ -41,7 +41,7 @@ export const US_CARDS: Card[] = [
     foreignTransactionFee: 0,
     bestFor: "Echtes US-Routing + Account-Number für Amazon-US-Payouts, US-Vendor-ACH, Stripe-US",
     watchouts: [
-      "Kein Credit-Card (Debit) — kein Credit-Building",
+      "Kein Credit-Card (Debit), kein Credit-Building",
       "Verifizierung dauert bis 4 Werktage",
       "Routing-Numbers 3150 / 9519 / 9628 sind Amazon-US-getestet",
     ],
@@ -63,7 +63,7 @@ export const US_CARDS: Card[] = [
     foreignTransactionFee: 0,
     bestFor: "Multi-Currency-Wallet mit USD-Halten, kostenlose FX bis Limit",
     watchouts: [
-      "USD-Wallet hat KEIN US-Routing — Amazon-US-Vendoren akzeptieren das nicht",
+      "USD-Wallet hat KEIN US-Routing, Amazon-US-Vendoren akzeptieren das nicht",
       "Bei Umzug US↔DE muss Account geschlossen + neu eröffnet werden",
     ],
     url: "https://www.revolut.com/en-DE/",
@@ -300,7 +300,7 @@ export const US_CARDS: Card[] = [
     einOnlyBusiness: false,
     acceptsForeignAddress: false,
     foreignTransactionFee: null,
-    bestFor: "Installment-Loan — diversifiziert Credit-Mix (anderer Loan-Typ als Revolver)",
+    bestFor: "Installment-Loan, diversifiziert Credit-Mix (anderer Loan-Typ als Revolver)",
     watchouts: [
       "Kein Cash-Zugriff bis Loan-Ende",
       "APR ~15,9%",
@@ -409,7 +409,7 @@ export const US_CARDS: Card[] = [
     foreignTransactionFee: 0,
     bestFor: "Lounge-Access (Centurion, Priority Pass) + $3.500 Credits-Stack",
     watchouts: [
-      "Fee Sep 2025 von $695 auf $895 erhöht — Renewal 2.1.2026",
+      "Fee Sep 2025 von $695 auf $895 erhöht, Renewal 2.1.2026",
       "Once-per-lifetime Bonus",
       "Schwab/Morgan-Stanley-Versionen haben 150k Bonus bis 8.7.2026",
     ],
@@ -524,95 +524,75 @@ export const USE_CASE_META: Record<CardUseCase, { label: string; emoji: string; 
 
 // ===== AUSWANDERER-TIMELINE =====
 export const AUSWANDERER_TIMELINE = [
-  { time: "Tag 0", step: "ITIN-Antrag (W-7)", detail: "Beim IRS oder via Certified Acceptance Agent — 4-7 Wochen Bearbeitung" },
-  { time: "Tag 0", step: "US-Adresse einrichten", detail: "Earth Class Mail / iPostal1 / virtuelle Adresse (kein PO Box!)" },
-  { time: "Tag 7", step: "US-Telefonnummer", detail: "Google Voice (gratis) oder Mint Mobile (kostenpflichtig für Verifications)" },
-  { time: "Tag 14", step: "US-Checking-Account", detail: "Chime, SoFi oder Capital One 360 (alle akzeptieren ITIN online/in-Branch)" },
-  { time: "Tag 21", step: "Erste Secured Card", detail: "Capital One Platinum Secured ($49 Deposit) ODER Discover it Secured ($200) — beide via ITIN" },
-  { time: "Tag 30", step: "Self Credit Builder Loan", detail: "$25/Mo für 24 Mo — diversifiziert Credit-Mix (Installment vs. Revolver)" },
-  { time: "Monat 3", step: "Petal 2 Visa als 2. Karte", detail: "Cash-Flow-Underwriting, KEIN FICO-Pull, baut Credit-Utilization-Mix" },
-  { time: "Monat 6", step: "FICO-Check via Experian Boost", detail: "Erwartet 620-660 nach 6 Mo brave Payments" },
-  { time: "Monat 9", step: "Erstes Mid-Tier-Card", detail: "Capital One Quicksilver (unsecured) oder Discover it Cash Back (auto-graduiert)" },
-  { time: "Monat 12", step: "Erste Rewards-Karte", detail: "Chase Freedom Unlimited (5/24 noch leer!) oder Amex Gold (Nova-Credit-fuel)" },
-  { time: "Monat 15", step: "Sapphire-Preferred-Apply", detail: "FICO ~700, alle Karten under 24-Months — perfect 5/24-Setup" },
-  { time: "Monat 18", step: "FICO 700-740", detail: "Bereit für Premium-Karten (Sapphire Reserve, Venture X, Amex Plat)" },
+  { time: "Tag 0", step: "US-Wohnadresse & Utility-Bill", detail: "Echte US-Wohnadresse (z. B. Cloud Residence, ca. 300 € im Quartal) inkl. Utility-Rechnung als Adressnachweis. Keine offensichtliche Briefkasten-Adresse nutzen." },
+  { time: "Tag 2", step: "US-Mobilfunknummer per eSIM", detail: "Tello per eSIM aus Deutschland einrichten (Wi-Fi Calling an). Amex ruft regelmäßig zur Verifizierung an. Kein VoIP verwenden." },
+  { time: "Tag 7", step: "US-Bankkonto (sicher vs. Risiko)", detail: "Sicherer Weg: Chase oder Bank of America mit persönlichem Filialbesuch in den USA und Reisepass. Wise ist nur eine Risiko-Option (bei Bankprüfung scheitert der Antrag)." },
+  { time: "Tag 14", step: "Private US-Amex via Global Transfer", detail: "Mit bestehender deutscher Amex-Historie (mind. 3 Monate) aus Deutschland beantragen, z. B. US Amex Gold (4x Restaurants weltweit, 0 % FX)." },
+  { time: "Tag 21", step: "ITIN-Antrag (W-7) bei Bedarf", detail: "Für spätere Nicht-Amex-Karten oder Business-Anträge über IRS oder Certifying Acceptance Agent (4 bis 7 Wochen)." },
+  { time: "Monat 3", step: "DE-zu-US-Punktetransfer nutzen", detail: "Bis zu zweimal im Jahr deutsche Membership-Rewards-Punkte zum besseren Kurs in das US-Konto übertragen (u. a. 1:1 zu Hilton Honors und Avios)." },
+  { time: "Monat 6", step: "US-Credit-History & weitere Karten", detail: "Nach sauberer Zahlungshistorie weitere US-Privat- oder Business-Karten prüfen (CRA-Anforderungen vor Antrag aktuell gegenchecken)." },
 ];
 
 // ===== SECRET-TIPS =====
 export const SECRET_TIPS = [
   {
-    title: "Mercury IO statt Brex für Bootstrapped-LLC",
+    title: "Amex Global Transfer aus Deutschland (echtes Praxis-Setup)",
     detail:
-      "Brex hat sich seit 2022 zunehmend auf VC-funded Startups fokussiert. Mercury IO ist die ehrlichere Option für DE-Founder mit Bootstrapped-US-LLC: EIN reicht, kein Personal Guarantee, $15k Mindest-Balance (vs. Brex' $50k), echter Business-Credit-Build via D&B-Reporting.",
+      "Mit einer aktiven deutschen Amex (mind. 3 Monate) kannst du privat per Global Transfer starten. Pflicht-Bausteine: echte US-Wohnadresse (z. B. Cloud Residence, ca. 300 € im Quartal) plus Utility-Bill, echte US-eSIM für den Amex-Anruf (z. B. Tello, weil Amex regelmäßig anruft) und ein US-Bankkonto.",
   },
   {
-    title: "Ramp als Plan B (zero-friction, kein Punkte-Programm)",
+    title: "US-Bankkonto ehrlich eingeordnet: Wise vs. Chase / Bank of America",
     detail:
-      "Ramp ist nach Mercury die zweite EIN-only-Wahl. 1,5% Cashback flat, kein Bonus-Hassle. Vorteil: Letzte 4 SSN-Digits ODER Passport reichen. Nachteil: $25.000 US-Bank-Balance nötig, Charge Card.",
+      "Wise kann klappen, solange Amex keine Bankprüfung auslöst. Kommt eine Rückfrage, ist der Antrag in der Regel durch. Wer auf der sicheren Seite sein will, eröffnet ein echtes US-Filialkonto (z. B. Chase oder Bank of America) per persönlichem Filialbesuch in den USA mit Reisepass.",
   },
   {
-    title: "Amex Global Transfer als Bridge",
+    title: "4x Restaurants in Deutschland & 2x/Jahr DE-zu-US-Transfer",
     detail:
-      "Wenn du in DE seit mind. 3 Monaten eine aktive Amex hast (egal welche), kannst du via Global-Card-Relationship einen US-Amex-Apply ohne US-Credit-Score machen. ABER: US-Adresse + SSN/ITIN nötig. Amex zieht deine Amex-Historie intern (umgeht GDPR).",
+      "Mit einer privaten US-Amex (schon ab der US Amex Gold) sammelst du in Deutschland 4x Punkte in Restaurants bei 0 % Fremdwährungsgebühr, kannst zweimal im Jahr DE-Punkte zum besseren Kurs in die USA schieben und profitierst von 1:1-Partnerkursen (z. B. Hilton Honors, Avios).",
   },
   {
-    title: "Wise > Revolut für Amazon US",
+    title: "Mercury IO statt Brex für Bootstrapped-LLC (EIN-only)",
     detail:
-      "Wise hat echtes US-Routing (3150 / 9519 / 9628) — Amazon US, Stripe US, Paddle akzeptieren das als US-Bank-Account. Revolut USD-Wallet wird NICHT akzeptiert.",
+      "Brex konzentriert sich stark auf VC-finanzierte Startups. Mercury IO ist für Gründer mit eigener US-LLC oft der direktere Weg ohne Personal Guarantee, solange die Mindest-Einlage erfüllt ist.",
   },
   {
-    title: "Curve für Multi-Card-Routing in DE",
+    title: "Ramp als Plan B (EIN-only, Cashback)",
     detail:
-      "Curve lässt dich eine US-Karte hinter einer DE-EUR-Karte als Underlying für EUR-Zahlungen verstecken — Punkte auf US-Karten während du EUR ausgibst. Wochenend-FX 0,5%, sonst 0%.",
+      "Ramp ist neben Mercury eine weitere EIN-only-Option mit 1,5 % Cashback und ohne Punkte-Komplexität. Voraussetzung ist eine entsprechende Liquidität auf dem US-Business-Konto.",
   },
   {
-    title: "Bilt 2.0 ab Feb 2026 ist neu — und schlechter",
+    title: "US-Business-Amex erst nach sauberer Basis",
     detail:
-      "Die alte Wells-Fargo-Bilt-Mastercard war stark (Punkte auf Miete ohne Hassle). Die neue Cardless-Version ab 7.2.2026 verlangt jetzt 75% der Miet-Summe auch als Card-Spend — nur sinnvoll wenn du 75%+ deines Lifestyle-Spends über Bilt routest.",
-  },
-  {
-    title: "5/24 Workaround mit Chase Ink",
-    detail:
-      "Chase Ink Business Cards belegen keinen 5/24-Slot (zählen nicht als 'neue Karte'). ABER Chase prüft 5/24 trotzdem beim Apply — wenn du ÜBER 5/24 bist: denied. Wenn under: Ink-Cards belegen keinen Slot für nächste Personal-Apps.",
-  },
-  {
-    title: "Sapphire-Family-Update Jan 2026",
-    detail:
-      "Seit Januar 2026 kannst du Bonus auf Sapphire Preferred UND Reserve gleichzeitig holen (früher: nur 1 per 48 Mo). Beide gleichzeitig zu halten ist sinnvoll wenn du den $795-Travel-Credit nutzt.",
+      "US-Business-Karten von Amex verlangen in der Regel US-Entity (z. B. LLC mit EIN) und eine persönliche Haftung (Personal Guarantee). Erst private US-Historie und Bankkonto sauber aufsetzen, dann Business-Amex ergänzen.",
   },
 ];
 
 // ===== TAX/COMPLIANCE =====
 export const TAX_COMPLIANCE = [
   {
-    headline: "BOI-Filing NICHT MEHR PFLICHT für US-LLCs (seit 26.3.2025)",
+    headline: "BOI-Filing: Ausnahmen für US-LLCs seit 26.03.2025 prüfen",
     detail:
-      "FinCEN hat am 26.3.2025 einen Interim Final Rule veröffentlicht: US-LLCs (auch mit ausländischen Beneficial Owners wie DE-Founders) sind komplett vom BOI-Reporting ausgenommen. Nur Foreign-Entities, die in den USA als ausländische Gesellschaft REGISTRIERT sind, müssen noch melden — und auch da nur die nicht-US Beneficial Owners. Wer 2024-2025 ein BOI-Filing gemacht hat: keine Re-Filings nötig.",
+      "FinCEN hat am 26.03.2025 per Interim Final Rule inländische US-LLCs von der BOI-Meldepflicht ausgenommen; betroffen bleiben ausländische Gesellschaften, die in den USA registriert sind. Aktuellen FinCEN-Stand vor jeder Gründung direkt prüfen.",
   },
   {
-    headline: "US-Karten als DE-Steuerinländer = kein Problem",
+    headline: "US-Karten als DE-Steuerinländer",
     detail:
-      "Eine US-Kreditkarte ist in DE-Steuerlogik kein meldepflichtiges Auslandskonto (CRS gilt für Bank-Accounts, nicht Card-Linien). Du musst keine Anlage AUS oder Anlage WSO ausfüllen.",
+      "Eine Kreditkarte ist kein Bankkonto im Sinne des CRS-Datenaustauschs. Für ein US-Bankkonto und geschäftliche Umsätze gelten jedoch die regulären steuerlichen Aufzeichnungs- und Erklärungspflichten.",
   },
   {
-    headline: "Sign-Up-Bonus-Punkte = steuerfrei",
+    headline: "Punkte & Willkommensboni steuerlich einordnen",
     detail:
-      "Nach BFH-Logik (analog zu Cashback) sind Rewards-Punkte als Rabatt-Äquivalent zu werten, nicht als Einkommen. Solange du sie nicht in cashbare Werte >$600/Jahr (US-1099-MISC-Schwelle) wandelst, ist nichts zu melden — und 1099-MISC betrifft nur US-Steuerresidente.",
+      "Privat gesammelte Punkte werden häufig als Rabatt eingeordnet, bei geschäftlich veranlassten Ausgaben kann das anders bewertet werden (z. B. Betriebseinnahme oder Sachbezug). Im Einzelfall klärt dein Steuerberater die genaue Behandlung.",
   },
   {
-    headline: "Foreign Transaction Fees als Betriebsausgabe",
+    headline: "Karten- und Fremdwährungsgebühren der US-LLC",
     detail:
-      "Bei US-LLC-Business-Card sind alle FX-Fees, Annual Fees und Card-Subscriptions als reguläre Operating Expenses absetzbar via Schedule C oder Form 1120-Pendant.",
+      "Betrieblich veranlasste Jahresgebühren und Transaktionskosten einer US-Business-Card gehören sauber belegt in die Buchhaltung deiner Entity.",
   },
   {
-    headline: "FBAR-Check für US-Banks",
+    headline: "Single-Member-US-LLC und deutsches Finanzamt",
     detail:
-      "Wenn du als DE-Resident in US-Banks $10k+ aggregierte Konten hältst (Bank-Account zur US-LLC), brauchst du KEIN FBAR — das ist nur für US-Persons. Prüf trotzdem: bist du ggfs. wegen Substantial-Presence-Test ein US-Person?",
-  },
-  {
-    headline: "Single-Member-US-LLC = Pass-Through-Default",
-    detail:
-      "Eine Single-Member-US-LLC ist standardmäßig 'disregarded entity' — alle Card-Rewards/Cashback fließen in DEIN persönliches DE-Einkommen (Anlage S oder G). Anders bei C-Corp-Election (Form 8832).",
+      "Bei Wohnsitz in Deutschland prüft das Finanzamt regelmäßig Ort der Geschäftsleitung und rechtliche Einordnung (Rechtstypenvergleich). Vor der Gründung einer US-LLC solltest du das mit einem auf internationales Steuerrecht spezialisierten Steuerberater klären.",
   },
 ];
 
@@ -622,29 +602,27 @@ export const TAX_COMPLIANCE = [
 // Verifizierte Quellen: LoyaltyLobby, Upgraded Points, The Points Guy,
 // One Mile at a Time, AwardWallet, meilenoptimieren.com
 
-// ===== DE→US AMEX MR-TRANSFER (der Haupt-Hack) =====
+// ===== DE-ZU-US AMEX MR-TRANSFER =====
 export const MR_TRANSFER_DE_US = {
   works: true,
   mechanism:
-    "Nicht offiziell als 'Global Transfer Program' beworben — läuft per Telefon-Konsolidierung zwischen Global-Card-Relationship-verbundenen Accounts. Verifizierter Datapoint (Dec 2025, LoyaltyLobby): 72.477 DE-MR → 85.302 US-MR ≈ 1:1.17 (EUR/USD-Kurs-Bonus, EUR ist die härtere Punktwährung).",
-  conversionRatio: "~1:1.17 (Mai 2026 EUR/USD-Tageskurs)",
-  fxBonus: "~17% mehr Punkte umsonst durch FX-Effekt",
+    "Läuft per Telefon-Konsolidierung über das Global Card Relationship Team nach dem ersten erfolgreichen Global Transfer. Bis zu zweimal im Jahr kannst du deutsche Membership-Rewards-Punkte zum besseren Kurs in das US-Konto übertragen.",
+  conversionRatio: "~1:1.17 (abhängig vom EUR/USD-Kurs)",
+  fxBonus: "besserer Kurs durch EUR/USD-Umrechnung und stärkere US-Transferpartner",
   requirements: [
-    "US-Amex-Karte mit MR-Funktion seit ≥3 Monaten offen + good standing",
-    "DE-Amex-Karte (egal welche MR-fähige) seit ≥3 Monaten",
-    "Beide Accounts via Global Card Relationship verlinkt (oft automatisch wenn Name/Adresse matchen, sonst telefonisch koppeln)",
-    "ITIN oder SSN für die US-Karte",
+    "Aktive deutsche Amex mit Membership Rewards (mindestens 3 Monate sauber geführt)",
+    "Private US-Amex über Global Transfer eingerichtet (echte US-Wohnadresse, Utility-Bill, Tello eSIM, US-Bankkonto)",
+    "Beide Accounts über Global Card Relationship verknüpft",
   ],
   process: [
-    "Hotline: 877-621-2639 (US Global Card Transfer Team, 24/7) oder 1-800-525-3355 (Amex US Platinum-Hotline)",
-    "Request 'transfer Membership Rewards points from my Germany account to my US account'",
-    "Mehrere kleinere Transfers im Jahr berichtet als problemlos — 1× großer Transfer pro Jahr ist Standard",
-    "Transfer ist EINSEITIG: US→DE zurück verliert den FX-Vorteil",
+    "Hotline: 877-621-2639 (US Global Card Transfer Team) oder 1-800-525-3355 (Amex US Platinum-Hotline)",
+    "Um Übertragung der deutschen Membership-Rewards-Punkte in das US-Konto bitten",
+    "Bis zu zweimal pro Jahr bündeln, statt viele Einzeltransfers anzustoßen",
+    "Transfer ist einseitig sinnvoll: US zurück nach DE verliert den Kurs-Vorteil",
   ],
   watchouts: [
-    "UNCLEAR exakter jährlicher Cap — Amex behält sich Einzelfall-Entscheidungen vor",
-    "Amex DE Forex-Fee teilweise auf Transfer aufgeschlagen — netto bleibt aber positiv solange EUR stärker",
-    "Direkter Webseiten-Transfer ('Punkte an anderen Account schicken') existiert NICHT — nur Telefon",
+    "Genaues Jahreslimit und Kurs hängen von den aktuellen Amex-Bedingungen ab",
+    "Direkter Webseiten-Transfer existiert nicht. Der Transfer läuft telefonisch über den Amex-Support.",
   ],
 };
 
@@ -753,7 +731,7 @@ export const SWEET_SPOTS: SweetSpot[] = [
     punkte: 110000,
     realerWertEur: 12000,
     centProPunkt: 10.9,
-    bestFor: "ANA First Class ex West-Küste — bester Sweet Spot überhaupt",
+    bestFor: "ANA First Class ex West-Küste, bester Sweet Spot überhaupt",
     watchouts: ["ANA-First-Saver-Space rar, 355 Tage out suchen", "Letzte Devaluation Mai 2024"],
   },
   {
@@ -790,7 +768,7 @@ export const SWEET_SPOTS: SweetSpot[] = [
     punkte: 75000,
     realerWertEur: 1000,
     centProPunkt: 1.3,
-    bestFor: "Luxus-Tokyo – nach der Abwertung kaum noch Sweet Spot",
+    bestFor: "Luxus-Tokyo, nach der Abwertung kaum noch Sweet Spot",
     watchouts: ["Seit 20.5.2026 Top-Tier bis 75k statt 35k (+114%)", "Newly remodeled, viel Availability gedropped"],
   },
   {
@@ -802,8 +780,8 @@ export const SWEET_SPOTS: SweetSpot[] = [
     punkte: 75000,
     realerWertEur: 1300,
     centProPunkt: 1.7,
-    bestFor: "Overwater-Villa – nach der Abwertung deutlich teurer",
-    watchouts: ["Seit 20.5.2026 bis 75k (Peak) statt 30k – Off-Peak-Preis vor Buchung prüfen", "Resort-Fees fallen weg, Transfer-Speedboat cash"],
+    bestFor: "Overwater-Villa, nach der Abwertung deutlich teurer",
+    watchouts: ["Seit 20.5.2026 bis 75k (Peak) statt 30k, Off-Peak-Preis vor Buchung prüfen", "Resort-Fees fallen weg, Transfer-Speedboat cash"],
   },
   {
     id: "ba-avios-shorthaul",
@@ -819,14 +797,14 @@ export const SWEET_SPOTS: SweetSpot[] = [
   },
   {
     id: "qatar-via-ba-avios",
-    title: "Qatar Qsuites Business via BA-Avios-Umweg (DE-Hack)",
+    title: "Qatar Qsuites Business via BA-Avios-Umweg (DE-Praxis-Tipp)",
     fromProgram: "DE-Amex MR → BA Avios",
     toProgram: "Qatar Privilege Club (via BA Avios free conversion)",
     ratio: "DE 5:4 → 1:1 BA → 1:1 Qatar",
     punkte: 70000,
     realerWertEur: 3500,
     centProPunkt: 5.0,
-    bestFor: "DE-Hack um direkte Qatar-Devaluation auszuweichen",
+    bestFor: "DE-Praxis-Tipp um direkte Qatar-Devaluation auszuweichen",
     watchouts: ["BA → Qatar Avios-Transfer aktuell 1:1 free", "Qatar dynamic pricing"],
   },
   {
@@ -863,7 +841,7 @@ export const SWEET_SPOTS: SweetSpot[] = [
     realerWertEur: 800,
     centProPunkt: 0,
     bestFor: "St. Regis / Ritz Carlton bis effektiv 110k-Property",
-    watchouts: ["Brilliant AF $650/Jahr — nur mit Stay-Plan sinnvoll", "Top-off Maximum 25k seit 12.3.2026 (vorher 15k)"],
+    watchouts: ["Brilliant AF $650/Jahr, nur mit Stay-Plan sinnvoll", "Top-off Maximum 25k seit 12.3.2026 (vorher 15k)"],
   },
   {
     id: "de-mr-payback-mm",
@@ -874,7 +852,7 @@ export const SWEET_SPOTS: SweetSpot[] = [
     punkte: 255000,
     realerWertEur: 1500,
     centProPunkt: 0.6,
-    bestFor: "Wenn US-Transfer keine Option ist — M&M LH-Premium-Prämie (dynamisch bepreist)",
+    bestFor: "Wenn US-Transfer keine Option ist, M&M LH-Premium-Prämie (dynamisch bepreist)",
     watchouts: ["Zweistufiger Transfer", "Nur für M&M-Status-Member empfehlenswert", "M&M dynamic pricing seit Juni 2025"],
   },
 ];
@@ -918,13 +896,13 @@ export const DEADLINES_2026 = [
   {
     date: "30.06.2026",
     event: "Etihad Guest endet als Amex-Partner",
-    detail: "Weltweit — Punkte VERLOREN ab dann wenn nicht transferiert",
+    detail: "Weltweit, Punkte VERLOREN ab dann wenn nicht transferiert",
     status: deadlineStatus("30.06.2026"),
   },
   {
     date: "01.10.2026",
     event: "Amex Platinum verliert Lufthansa-Lounge-Zugang",
-    detail: "Wenn du die Karte deshalb hältst — neu rechnen",
+    detail: "Wenn du die Karte deshalb hältst, neu rechnen",
     status: deadlineStatus("01.10.2026"),
   },
 ];
@@ -935,8 +913,8 @@ export const VELOCITY_STRATEGY = [
   { month: "Monat 0", action: "DE Amex Platinum (85k MR Mai-2026-Rekord)", note: "Basis-MR-Konto, später US-koppelbar" },
   { month: "Monat 1", action: "Cap One Quicksilver für Foreigners (mit ITIN)", note: "Credit-File-Aufbau, kein 5/24-Impact" },
   { month: "Monat 4-6", action: "Cap One Venture X (75k Miles + $300 Travel-Credit)", note: "Erster echter US-SUB, easy Approval" },
-  { month: "Monat 7", action: "Amex US Gold (90k MR) via Global Card Relationship", note: "Hier zahlt sich DE-History aus — oft ohne FICO" },
-  { month: "Monat 9", action: "Chase Sapphire Preferred (100k UR)", note: "Erst jetzt — 5/24 sauberer + Credit-File gebaut" },
+  { month: "Monat 7", action: "Amex US Gold (90k MR) via Global Card Relationship", note: "Hier zahlt sich DE-History aus, oft ohne FICO" },
+  { month: "Monat 9", action: "Chase Sapphire Preferred (100k UR)", note: "Erst jetzt, 5/24 sauberer + Credit-File gebaut" },
   { month: "Monat 11", action: "Amex US Platinum (175k MR)", note: "Maximal-SUB. Achtung: lifetime-per-product Regel" },
   { month: "Monat 13+", action: "Chase Ink Business (90k UR, Business zählt NICHT zu 5/24!)", note: "Skalierung über LLC-EIN" },
 ];
@@ -950,13 +928,13 @@ export const VELOCITY_TOTAL_VALUE = {
 export const MILES_AVOID = [
   { item: "Manufactured Spending (Gift-Cards, Plastiq, BlueBird)", reason: "Amex-Shutdown-Welle seit März 2026 explizit gegen international spend + resale" },
   { item: "Buying Groups", reason: "Multi-Party-Risiko (Merchant-Shutdowns, Theft, Bank-FR)" },
-  { item: "Etihad Guest als Amex-Transferziel", reason: "Seit 30.6.2026 weltweit beendet — kein Transfer mehr möglich" },
-  { item: "Lufthansa-Lounge via Amex Platinum als Hauptgrund", reason: "Seit 1.10.2026 entfallen — wenn das dein einziger Grund war, neu rechnen" },
+  { item: "Etihad Guest als Amex-Transferziel", reason: "Seit 30.6.2026 weltweit beendet, kein Transfer mehr möglich" },
+  { item: "Lufthansa-Lounge via Amex Platinum als Hauptgrund", reason: "Seit 1.10.2026 entfallen, wenn das dein einziger Grund war, neu rechnen" },
   { item: "Aeroplan-Premium-Buchungen nach 1.6.2026", reason: "Massive Devaluation 7.5k-11k-mile-Band (US-Asien-Biz +37%)" },
   { item: "Hyatt Top-Tier nach 20.5.2026", reason: "+114% auf Park Hyatt Tokyo/Kyoto/Maui/Maldives" },
-  { item: "Emirates Skywards via Amex", reason: "44-50% Devaluation seit 23.02.2026 — fast nie noch Sweet Spot" },
-  { item: "Chase UR-Punkte halten ohne aktive Karte", reason: "Verfallen sofort bei Schließung der letzten UR-Karte — vorher zu Hyatt/Avios pushen" },
-  { item: "DE-MR direkt zu Cathay/Emirates/Etihad/Qatar", reason: "Seit 1.8.2025 12-30% schlechter — über BA-Avios-Umweg (Qatar-Free-Transfer) oder via US-Transfer" },
+  { item: "Emirates Skywards via Amex", reason: "44-50% Devaluation seit 23.02.2026, fast nie noch Sweet Spot" },
+  { item: "Chase UR-Punkte halten ohne aktive Karte", reason: "Verfallen sofort bei Schließung der letzten UR-Karte, vorher zu Hyatt/Avios pushen" },
+  { item: "DE-MR direkt zu Cathay/Emirates/Etihad/Qatar", reason: "Seit 1.8.2025 12-30% schlechter, über BA-Avios-Umweg (Qatar-Free-Transfer) oder via US-Transfer" },
   { item: "Bilt Card 2.0 als DE-Resident", reason: "Cardless-Transition unstabil bis T&Cs final publiziert" },
 ];
 
@@ -965,7 +943,7 @@ export const MILES_TAX_NOTES = [
   {
     headline: "Privat gesammelte SUBs/Punkte = steuerfrei in DE",
     detail:
-      "BFH-Rechtsprechung zu Sachprämien + §3 Nr. 38 EStG: Treuepunkte bis €1.080/Jahr Freibetrag. Darüber bei Amex MR durch Amex-eigene Pauschalversteuerung abgedeckt — keine Steuerpflicht beim Empfänger.",
+      "BFH-Rechtsprechung zu Sachprämien + §3 Nr. 38 EStG: Treuepunkte bis €1.080/Jahr Freibetrag. Darüber bei Amex MR durch Amex-eigene Pauschalversteuerung abgedeckt, keine Steuerpflicht beim Empfänger.",
   },
   {
     headline: "Business-Karten (LLC) + private Einlösung = Grauzone",
@@ -1003,10 +981,10 @@ export const AVOID_LIST = [
   },
   {
     name: "Manufactured Spending (MS)",
-    reason: "Amex und Chase shutten Konten ohne Vorwarnung — Punkte + Balance können einkassiert werden.",
+    reason: "Amex und Chase shutten Konten ohne Vorwarnung, Punkte + Balance können einkassiert werden.",
   },
   {
     name: "Sapphire-Family-Repeats vor 48 Monaten",
-    reason: "Bonus pro Karte einmal — 2026-Update lockerte das, aber Cooldown bleibt.",
+    reason: "Bonus pro Karte einmal, 2026-Update lockerte das, aber Cooldown bleibt.",
   },
 ];

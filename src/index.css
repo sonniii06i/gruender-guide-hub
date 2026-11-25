@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 /* Font: Geist (index.html, variabel 400-800).
-   Umbau 11/2026, Richtung "Buchhaltungs-Software": helle graue Arbeitsfläche,
-   weiße Flächen mit 1-px-Linie statt Schatten, kleine Radien. Navy ist Tinte
-   und Hauptknopf, Grün steht nur für Fortschritt und Erledigt, Blau nur für
-   Links. Keine Verläufe, kein Glow, keine Flächentextur. */
+   GründerX Design-System (Rebuild 11/2026): helles, ruhiges Lern-Studio im
+   GründerX-CI (Navy #122B64 als Tinte & Hauptaktion, Felix-Grün für Fortschritt,
+   XP & Erledigt, Link-Blau für Interaktion). Weiche Radien, fein geschichtete
+   Schatten und präzise Micro-Interactions. */
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
+    --background: 220 25% 97.5%;
     --foreground: 222 47% 13%;
 
     --card: 0 0% 100%;
@@ -26,63 +26,64 @@
     --accent-blue: 221 72% 42%;
     --accent-blue-foreground: 0 0% 100%;
 
-    --secondary: 220 18% 94.5%;
+    --secondary: 220 22% 94.5%;
     --secondary-foreground: 222 47% 13%;
 
-    --muted: 220 18% 94.5%;
-    --muted-foreground: 220 12% 38%;
+    --muted: 220 20% 94.5%;
+    --muted-foreground: 220 14% 37%;
 
-    --accent: 220 24% 94%;
+    --accent: 220 28% 94%;
     --accent-foreground: 223 70% 23%;
 
     --success: 152 58% 30%;
     --success-foreground: 0 0% 100%;
-    --success-soft: 150 40% 95%;
+    --success-soft: 150 42% 94.5%;
 
     /* Status-Töne für Tool-Ergebnisse (Ampel, Hinweise). */
     --warning: 32 92% 34%;
     --warning-foreground: 0 0% 100%;
-    --warning-soft: 40 80% 95%;
+    --warning-soft: 40 84% 95%;
     --danger: 0 68% 44%;
     --danger-soft: 0 70% 97%;
     --info: 221 72% 42%;
-    --info-soft: 220 50% 96.5%;
+    --info-soft: 220 55% 96.5%;
 
-    /* Felix-Grün: zweite Markenfarbe, in der Oberfläche nur für Fortschritt
-       und Erledigt. Getrennt von --success (Status). */
+    /* Felix-Grün: zweite Markenfarbe für Fortschritt, XP und Erledigt. */
     --brand-green: 156 50% 30%;
     --brand-green-foreground: 0 0% 100%;
     /* nur auf dunklem Navy (Ergebnis-Karte) */
     --brand-green-glow: 150 48% 72%;
-    --brand-green-soft: 150 36% 94%;
+    --brand-green-soft: 150 38% 93.5%;
 
     --destructive: 0 68% 44%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 16% 88%;
+    --border: 220 18% 88.5%;
     /* Rahmen von Eingabefeldern: 3:1 gegen Weiß. */
-    --input: 220 11% 56%;
+    --input: 220 12% 55%;
     --ring: 221 72% 42%;
 
-    /* Radien: Knöpfe und Felder 6px (md), Karten 8px (lg/xl), große Flächen 10-12px. */
-    --radius: 0.5rem;
+    /* Moderne, freundliche Radien: Knöpfe/Felder 8px (md), Karten 12-16px (lg/xl), große Bühnen 20px (2xl). */
+    --radius: 0.75rem;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
-    /* Die drei Namen bleiben, weil 150 Seiten sie benutzen; sie sind jetzt flach. */
+    /* Die drei Namen bleiben für bestehende Klassen erhalten. */
     --gradient-hero: none;
     --gradient-primary: none;
     --gradient-ink: none;
     --ink: 223 58% 16%;
-    --shadow-card: 0 1px 2px hsl(222 47% 13% / 0.04);
-    --shadow-soft: 0 1px 2px hsl(222 47% 13% / 0.05), 0 6px 16px -8px hsl(222 47% 13% / 0.14);
-    --shadow-glow: 0 1px 2px hsl(222 47% 13% / 0.04);
+    --shadow-card: 0 1px 2px hsl(222 47% 13% / 0.04), 0 0 0 1px hsl(222 47% 13% / 0.03);
+    --shadow-soft: 0 1px 2px hsl(222 47% 13% / 0.05), 0 8px 24px -10px hsl(222 47% 13% / 0.14);
+    --shadow-lift: 0 2px 6px hsl(222 47% 13% / 0.06), 0 14px 32px -12px hsl(222 47% 13% / 0.16);
+    --shadow-glow: 0 1px 2px hsl(222 47% 13% / 0.05), 0 8px 24px -10px hsl(223 70% 23% / 0.16);
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 24% 28%;
     --sidebar-primary: 223 70% 23%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 18% 94.5%;
+    --sidebar-accent: 220 22% 94.5%;
     --sidebar-accent-foreground: 222 47% 13%;
-    --sidebar-border: 220 16% 88%;
+    --sidebar-border: 220 18% 88.5%;
     --sidebar-ring: 221 72% 42%;
   }
 }
@@ -173,12 +174,30 @@
   .bg-dots-light {
     background-image: none;
   }
-  /* Rückmeldung beim Drücken: nur Farbe und Rahmen, 1px Weg. */
+  /* Taktile Rückmeldung beim Tippen und Hovern (emil-design-eng). */
   .press {
-    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 160ms var(--ease-out),
+      border-color 160ms var(--ease-out),
+      color 160ms var(--ease-out),
+      box-shadow 200ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .press:hover {
+      box-shadow: var(--shadow-soft);
+    }
   }
   .press:active {
-    transform: translateY(1px);
+    transform: scale(0.985);
+  }
+  .surface-card {
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-card);
+  }
+  .surface-lift {
+    box-shadow: var(--shadow-lift);
   }
 }
 

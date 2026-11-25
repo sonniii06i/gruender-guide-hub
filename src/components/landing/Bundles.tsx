@@ -8,88 +8,100 @@ import { ladeSupabase } from "@/integrations/supabase/lazy";
 import { getStoredAffiliateRef } from "@/utils/affiliate";
 import { checkoutAttribution } from "@/utils/checkoutAttribution";
 import { trackMonetization } from "@/utils/analytics";
-import { PLANS, PLAN_ORDER, SOLO_CONTENTS, NOT_INCLUDED, CANCEL_NOTE, FOUNDER_CODE, FOUNDER_KURZ, formatEurCents } from "@/config/pricing";
+import {
+  PLANS,
+  PLAN_ORDER,
+  SOLO_CONTENTS,
+  NOT_INCLUDED,
+  CANCEL_NOTE,
+  FOUNDER_CODE,
+  FOUNDER_KURZ,
+  formatEurCents,
+} from "@/config/pricing";
 import { rememberCartVariant } from "@/lib/cart";
-import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, TOOL_COUNT } from "@/data/kennzahlen";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 import { toast } from "sonner";
 import { ProductGallery, type GalleryImage } from "@/components/product/ProductGallery";
 import { galerieBild } from "@/data/screenshots";
 import { ProductBuyBox, eur, type Variant } from "@/components/product/ProductBuyBox";
 import { SpecTable, type Spec } from "@/components/product/SpecTable";
 
-/* ---------------------------------------------------------------------------
-   Der Produktblock der Startseite — aufgebaut wie das Datenblatt einer Ware
-   und nicht wie eine Pricing-Tabelle: Galerie links, Buy-Box rechts, darunter
-   Lieferumfang und Produktdetails.
-
-   Was gegenüber den alten Plan-Kacheln dazugekommen ist, sind genau die
-   Angaben, die man bei einer Ware selbstverständlich erwartet und bei Software
-   fast nie bekommt: Artikelnummer, Umsatzsteuer-Ausweis (§ 3 PAngV — die
-   Kacheln zeigten den Preis nackt), Lieferform, Lieferzeit, Kündigungsregel
-   und Verkäufer. Die Beträge sind BRUTTO; AGB § 4 Abs. 1 führt Solo mit
-   „54,61 € netto / Monat (64,99 € brutto)".
-
-   GründerX ist pay-first: Der Kaufknopf führt eingeloggt wie ausgeloggt
-   direkt in den Stripe-Checkout, das Konto entsteht danach über /willkommen.
-   Die gewählte Ausführung wird vorher in sessionStorage gemerkt — /auth
-   wertet den `price`-Parameter nicht aus und würde sonst immer GründerX
-   monatlich kaufen.
-   --------------------------------------------------------------------------- */
-
-// Preise, Ausführungen und Leistungen kommen aus src/config/pricing.ts —
-// dieselbe Quelle wie /preise und /checkout. Alle Beträge sind BRUTTO.
 const SOLO: Variant = PLANS.gruenderx;
 const VARIANTS: Variant[] = PLAN_ORDER.map((id) => PLANS[id]);
 
-/** priceId + Intervall je Ausführung. Der Preis selbst kommt aus der Edge-Function. */
 const CHECKOUT: Record<string, { priceId: string; interval: "month" | "year" }> = Object.fromEntries(
   PLAN_ORDER.map((id) => [id, { priceId: PLANS[id].priceId, interval: PLANS[id].interval }]),
 );
 
-/**
- * Echte Screenshots aus dem laufenden Cockpit statt Maskottchen.
- *
- * Die Maskottchen sind Markenbilder, kein Produkt: Wer wissen will, was er
- * fuer 64,99 EUR bekommt, sieht darauf nichts davon. Bei Software IST die
- * Oberflaeche das Produkt -- ein Screenshot schlaegt hier jede Illustration
- * und jedes 3D-Mockup.
- */
-// Ansichten der App (11/2026, lokal aufgenommen mit Beispieldaten).
 const SOLO_GALLERY: GalleryImage[] = [
-  { src: galerieBild("uebersicht"), alt: "GründerX-Cockpit mit persönlichem Fahrplan, nächstem Schritt und den Terminen der nächsten 14 Tage", caption: "Dein Cockpit: der nächste Schritt aus deinem Fahrplan und die Termine der nächsten 14 Tage (Ansicht mit Beispieldaten)" },
-  { src: galerieBild("rechtsform"), alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung", caption: "Rechtsform-Wizard: wenige Fragen, dann eine begründete Empfehlung samt Fallstricken" },
-  { src: galerieBild("steuerkalender"), alt: "Steuer- und Fristenkalender mit den Terminen der nächsten 12 Monate", caption: "Steuer- und Fristenkalender: alle Termine der nächsten 12 Monate für deine Situation" },
-  { src: galerieBild("anbieter"), alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`, caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien mit Stärken und Schwächen` },
-  { src: galerieBild("runway"), alt: "Runway-Rechner mit Ergebnis in Monaten", caption: "Runway-Rechner: wie lange das Geld reicht und ab wann du profitabel bist" },
+  {
+    src: galerieBild("uebersicht"),
+    alt: "GründerX-Cockpit mit persönlichem Fahrplan, nächstem Schritt und den Terminen der nächsten 14 Tage",
+    caption: "Dein Cockpit: der nächste Schritt aus deinem Fahrplan, dein Level und die nächsten Termine (Ansicht mit Beispieldaten)",
+  },
+  {
+    src: galerieBild("rechtsform"),
+    alt: "Rechtsform-Wizard mit Empfehlung UG und Begründung",
+    caption: "Rechtsform-Wizard: wenige Fragen, dann eine klare Gegenüberstellung mit Fallstricken",
+  },
+  {
+    src: galerieBild("steuerkalender"),
+    alt: "Steuer- und Fristenkalender mit den Terminen der nächsten 12 Monate",
+    caption: "Steuer- und Fristenkalender: alle Termine der nächsten 12 Monate für deine Situation",
+  },
+  {
+    src: galerieBild("anbieter"),
+    alt: `Anbieter-Vergleich mit ${ANBIETER_ANZAHL} Anbietern nach Kategorien`,
+    caption: `Anbieter-Vergleich: ${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien mit Stärken und Schwächen`,
+  },
+  {
+    src: galerieBild("runway"),
+    alt: "Runway-Rechner mit Ergebnis in Monaten",
+    caption: "Runway-Rechner: wie lange dein Budget reicht und ab wann sich dein Projekt trägt",
+  },
 ];
 
 const GALLERY: Record<string, GalleryImage[]> = {
-  "gruenderx": SOLO_GALLERY,
+  gruenderx: SOLO_GALLERY,
   "gruenderx-year": SOLO_GALLERY,
 };
 
 const BASE_SPECS: Spec[] = [
-  { label: "Kategorie", value: "Software-Abonnement (SaaS) — Gründung, Steuern, Marketplace-Setup" },
-  { label: "Lieferform", value: "Digital — Freischaltung im GründerX-Konto, keine Installation, kein Datenträger" },
+  { label: "Kategorie", value: "Software-Abonnement (SaaS) für Gründung, Webseite, App, Steuern und Setup" },
+  { label: "Lieferform", value: "Digital: Freischaltung im GründerX-Konto im Browser und als App" },
   { label: "Lieferzeit", value: "Sofort nach Zahlungsbestätigung durch Stripe (in der Regel unter einer Minute)" },
-  { label: "Versandkosten", value: "0,00 € — es wird nichts versendet" },
+  { label: "Versandkosten", value: "0,00 € (digitaler Zugang, es wird nichts versendet)" },
   { label: "Kündigung", value: "Jederzeit im Konto, wirksam zum Ende der laufenden Abrechnungsperiode" },
-  { label: "Preisangabe", value: "Endpreis inkl. 19 % USt. (AGB § 4 Abs. 1). Es wird an der Kasse nichts aufgeschlagen; für Unternehmer voll als Betriebsausgabe absetzbar. Für EU-Unternehmer mit gültiger USt-IdNr. Reverse-Charge nach § 3a Abs. 2 UStG — die USt-ID wird im Checkout erfasst." },
-  { label: "Nutzungsgrenzen", value: "Keine. Alle Tools, Wizards, Rechner und Guides unbegrenzt — keine Abrechnung pro Wizard, pro Dokument oder pro Frage an Felix." },
-  { label: "Zahlungsarten", value: "Kreditkarte, Klarna, Apple Pay und Link — welche Zahlarten genau erscheinen, zeigt der Checkout je nach Land und Gerät. Die USt-ID wird dort erfasst." },
-  { label: "Gutscheincode", value: "Im Stripe-Checkout unter „Promo-Code hinzufügen“ — ein Code pro Bestellung, nicht kombinierbar" },
+  {
+    label: "Preisangabe",
+    value:
+      "Endpreis inkl. 19 % USt. (AGB § 4 Abs. 1). An der Kasse wird nichts aufgeschlagen; für Unternehmer als Betriebsausgabe absetzbar. Für EU-Unternehmer mit gültiger USt-IdNr. gilt Reverse-Charge nach § 3a Abs. 2 UStG (USt-ID wird im Checkout erfasst).",
+  },
+  {
+    label: "Nutzungsgrenzen",
+    value:
+      `Keine. Alle ${TOOL_COUNT} Tools, ${GUIDE_COUNT} interaktiven Guides, Arbeitsfenster und Felix unbegrenzt ohne Abrechnung pro Tool oder pro Frage.`,
+  },
+  {
+    label: "Zahlungsarten",
+    value:
+      "Kreditkarte, Klarna, Apple Pay und Link. Welche Zahlarten genau erscheinen, zeigt der Checkout je nach Land und Gerät.",
+  },
+  {
+    label: "Gutscheincode",
+    value: "Im Stripe-Checkout unter „Promo-Code hinzufügen“. Ein Code pro Bestellung, nicht kombinierbar.",
+  },
   { label: "Sprache", value: "Deutsch" },
-  { label: "Voraussetzung", value: "Aktueller Webbrowser und Internetverbindung — Desktop und Mobil" },
+  { label: "Voraussetzung", value: "Aktueller Webbrowser und Internetverbindung auf Desktop, Tablet oder Handy" },
   { label: "Datenhaltung", value: "Server in der EU, DSGVO-konform" },
   { label: "Anbieter", value: "Sonni Buttke, Einzelunternehmen (siehe Impressum)" },
   { label: "Nicht enthalten", value: NOT_INCLUDED },
 ];
 
 const PRODUCTS: Record<string, { title: string; subtitle: string; contents: string[]; specs: Spec[] }> = {
-  "gruenderx": {
+  gruenderx: {
     title: "GründerX",
-    subtitle:
-      `Dein KI-Co-Pilot Felix für Gründung, Steuern, Marketplaces und Brand-Launch — ${TOOL_COUNT} Tools, Wizards und Rechner plus Guides in einem Zugang.`,
+    subtitle: `Dein Lern-Studio und Cockpit für Gründung, Webseite, App, Steuern und US-Setup: ${GUIDE_COUNT} interaktive Guides, ${TOOL_COUNT} Tools und Felix in einem Zugang.`,
     contents: SOLO_CONTENTS,
     specs: [
       { label: "Artikelnummer", value: "GX-PRO-M" },
@@ -98,14 +110,16 @@ const PRODUCTS: Record<string, { title: string; subtitle: string; contents: stri
     ],
   },
   "gruenderx-year": {
-    title: "GründerX — Jahreszugang",
-    subtitle:
-      "Derselbe volle Funktionsumfang, einmal jährlich abgerechnet — zwei Monate geschenkt.",
+    title: "GründerX (Jahreszugang)",
+    subtitle: "Derselbe volle Funktionsumfang, einmal jährlich abgerechnet mit zwei Monaten Ersparnis.",
     contents: SOLO_CONTENTS,
     specs: [
       { label: "Artikelnummer", value: "GX-PRO-Y" },
       { label: "Laufzeit", value: "12 Monate, verlängert sich automatisch um jeweils zwölf Monate" },
-      { label: "Ersparnis", value: `${formatEurCents(PLANS["gruenderx-year"].anchorCents! - PLANS["gruenderx-year"].grossCents)} gegenüber zwölf Monatszahlungen (${formatEurCents(PLANS["gruenderx-year"].anchorCents!)}) — zwei Monate gratis` },
+      {
+        label: "Ersparnis",
+        value: `${formatEurCents(PLANS["gruenderx-year"].anchorCents! - PLANS["gruenderx-year"].grossCents)} gegenüber zwölf Monatszahlungen (${formatEurCents(PLANS["gruenderx-year"].anchorCents!)}), entspricht zwei Monaten gratis`,
+      },
       ...BASE_SPECS,
     ],
   },
@@ -122,18 +136,12 @@ export const Bundles = () => {
 
   const handleCheckout = async (variantId: string) => {
     const { priceId, interval } = CHECKOUT[variantId] ?? CHECKOUT.gruenderx;
-    // Auswahl merken, bevor der Weg über /auth sie verschluckt.
     rememberCartVariant(variantId);
     if (!user) {
-      // Bewusst ueber /auth: Dort stehen der AGB-/Datenschutz-Hinweis vor
-      // Vertragsschluss und "Schon Kunde? Anmelden" (verhindert Doppel-Abos
-      // ausgeloggter Bestandskunden). Ein Direktsprung in den Gast-Checkout
-      // aendert den Kaufweg und braucht die Freigabe des Betreibers.
       navigate(`/auth?mode=kauf&price=${priceId}`);
       return;
     }
     setLoading(variantId);
-    // Start-Stufe auch fuer eingeloggte Kaeufe (Funnel-Pruefung 14.11.2026), vor dem Netzaufruf.
     trackMonetization.checkoutStarted(variantId);
     try {
       const supabase = await ladeSupabase();
@@ -145,13 +153,20 @@ export const Bundles = () => {
         try {
           const body = await (error as { context?: { json?: () => Promise<{ error?: string }> } }).context?.json?.();
           if (body?.error) msg = body.error;
-        } catch { /* ignore */ }
-        if (msg?.includes("Onboarding")) { navigate("/onboarding"); return; }
+        } catch {
+          /* ignore */
+        }
+        if (msg?.includes("Onboarding")) {
+          navigate("/onboarding");
+          return;
+        }
         throw new Error(msg);
       }
-      // Full-Page-Redirect statt window.open: kein Popup-Blocker (open nach await wird sonst geblockt)
-      if (data?.url) { window.location.href = data.url; return; }
-      throw new Error("Keine Checkout-URL erhalten – bitte erneut versuchen.");
+      if (data?.url) {
+        window.location.href = data.url;
+        return;
+      }
+      throw new Error("Keine Checkout-URL erhalten. Bitte versuche es noch einmal.");
     } catch (e) {
       toast.error(e instanceof Error && e.message ? e.message : "Checkout fehlgeschlagen");
     } finally {
@@ -166,105 +181,105 @@ export const Bundles = () => {
   }, []);
 
   return (
-    <section id="bundles" className="border-y border-border/70 bg-secondary/50 py-14 md:py-20">
-      <div className="container max-w-6xl">
-        <p className="mb-6 text-[13px] font-semibold text-accent-blue">Preise</p>
+    <section id="bundles" className="border-y border-border bg-secondary/45 py-14 md:py-20">
+      <div className="container max-w-6xl px-4">
+        <p className="mb-6 inline-flex items-center rounded-full border border-border bg-card px-3 py-0.5 text-[12.5px] font-semibold text-primary shadow-sm">
+          Transparente Preise
+        </p>
 
-        {/* Galerie + Buy-Box */}
-        {/* Die Galerie zeigt 16:9-Screenshots — sie bekommt die breite Spalte,
-            die Buy-Box die feste. */}
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,430px)]">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <ProductGallery images={GALLERY[selected]} variant="screenshot" />
           </div>
 
-          <ProductBuyBox
-            brand="GründerX"
-            title={product.title}
-            subtitle={product.subtitle}
-            variants={VARIANTS}
-            selected={selected}
-            onSelect={setSelected}
-            cancelNote={CANCEL_NOTE}
-            seller="Sonni Buttke, Einzelunternehmen (Anbieter lt. Impressum)"
-            paymentMethods="Kreditkarte · Klarna · Apple Pay · Link — weitere je nach Land und Gerät"
-          >
-            <div className="space-y-2">
-              <Button
-                size="lg"
-                data-cta={`kauf-${selected}`}
-                onClick={() => handleCheckout(selected)}
-                disabled={busy}
-                className="h-14 w-full rounded-xl bg-gradient-primary text-base font-semibold text-primary-foreground hover:opacity-95"
-              >
-                {busy ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                ) : (
-                  <>
-                    <ShoppingCart className="mr-2 h-5 w-5" />
-                    Jetzt kaufen — {eur(variant.grossCents)}/{variant.period === "year" ? "Jahr" : "Monat"}
-                  </>
-                )}
-              </Button>
-              <p className="text-center text-xs text-muted-foreground">
-                {user
-                  ? "Weiter zur gesicherten Zahlung bei Stripe. Erst dort wird die Bestellung kostenpflichtig."
-                  : "Weiter zur gesicherten Zahlung bei Stripe. Dein Konto entsteht direkt nach der Zahlung — es wird nichts abgebucht, bevor du dort bestätigst."}
-              </p>
-              {/* Gilt für die erste Rechnung jeder Ausführung; Beträge stehen nur dort, wo sie gemessen sind (/preise). */}
-              <p className="text-center text-xs text-muted-foreground">
-                Gutscheincode <span className="font-semibold text-foreground">{FOUNDER_CODE.code}</span>: {FOUNDER_KURZ},
-                einlösbar an der Kasse unter „Promo-Code hinzufügen“.
-              </p>
-              <p className="text-center text-xs">
-                <Link to="/preise" className="text-accent-blue hover:underline">
-                  Alle Preise, Kündigung und Fragen zum Abo
-                </Link>
-              </p>
-            </div>
-          </ProductBuyBox>
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-md">
+            <ProductBuyBox
+              brand="GründerX"
+              title={product.title}
+              subtitle={product.subtitle}
+              variants={VARIANTS}
+              selected={selected}
+              onSelect={setSelected}
+              cancelNote={CANCEL_NOTE}
+              seller="Sonni Buttke, Einzelunternehmen (Anbieter lt. Impressum)"
+              paymentMethods="Kreditkarte · Klarna · Apple Pay · Link (weitere je nach Land und Gerät)"
+            >
+              <div className="space-y-2.5">
+                <Button
+                  size="lg"
+                  data-cta={`kauf-${selected}`}
+                  onClick={() => handleCheckout(selected)}
+                  disabled={busy}
+                  className="press h-14 w-full rounded-xl bg-gradient-primary text-base font-semibold text-primary-foreground hover:opacity-95"
+                >
+                  {busy ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <>
+                      <ShoppingCart className="mr-2 h-5 w-5" />
+                      Jetzt kaufen: {eur(variant.grossCents)}/{variant.period === "year" ? "Jahr" : "Monat"}
+                    </>
+                  )}
+                </Button>
+                <p className="text-center text-xs text-muted-foreground">
+                  {user
+                    ? "Weiter zur gesicherten Zahlung bei Stripe. Erst dort wird die Bestellung kostenpflichtig."
+                    : "Weiter zur gesicherten Zahlung bei Stripe. Dein Konto entsteht direkt nach der Zahlung. Vor deiner Bestätigung wird nichts abgebucht."}
+                </p>
+                <p className="rounded-xl border border-brand-green/25 bg-brand-green-soft/60 px-3 py-2 text-center text-xs text-foreground">
+                  Gutscheincode <span className="font-semibold text-primary">{FOUNDER_CODE.code}</span>: {FOUNDER_KURZ},
+                  einlösbar an der Kasse unter „Promo-Code hinzufügen“.
+                </p>
+                <p className="text-center text-xs">
+                  <Link to="/preise" className="font-semibold text-accent-blue hover:underline">
+                    Alle Preise, Kündigung und Fragen zum Abo
+                  </Link>
+                </p>
+              </div>
+            </ProductBuyBox>
+          </div>
         </div>
 
-        {/* Lieferumfang + Produktdetails. Mobil zuklappbar (25.10.2026): Im vorgerenderten HTML
-            offen (Prüfer der Zahlungsanbieter, Suchmaschinen), am Handy nach dem Laden zu,
-            damit der Block die Startseite nicht um ~2.000 px verlängert. */}
         <button
           type="button"
           onClick={() => setDetailsOffen((o) => !o)}
           aria-expanded={detailsOffen}
-          className="mt-12 flex w-full items-center justify-between rounded-xl border border-border bg-card px-4 py-3.5 text-left font-semibold md:hidden"
+          className="mt-10 flex w-full items-center justify-between rounded-2xl border border-border bg-card px-5 py-4 text-left font-semibold shadow-card md:hidden"
         >
-          Lieferumfang & Produktdetails
-          <span aria-hidden="true" className="text-accent-blue">{detailsOffen ? "−" : "+"}</span>
+          Lieferumfang &amp; Produktdetails
+          <span aria-hidden="true" className="text-accent-blue">
+            {detailsOffen ? "−" : "+"}
+          </span>
         </button>
-        <div className={cn("mt-16 grid gap-10 lg:grid-cols-2", !detailsOffen && "max-md:hidden", "max-md:mt-6")}>
-          <div>
-            <h3 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
-              <PackageCheck className="h-6 w-6 text-accent-blue" />
+
+        <div className={cn("mt-14 grid gap-8 lg:grid-cols-2", !detailsOffen && "max-md:hidden", "max-md:mt-6")}>
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
+            <h3 className="mb-3 flex items-center gap-2.5 text-xl font-semibold text-primary">
+              <PackageCheck className="h-5 w-5 text-brand-green" />
               Lieferumfang
             </h3>
             <p className="mb-4 text-sm text-muted-foreground">
-              Das ist im monatlichen Preis enthalten — ohne Abrechnung pro Wizard oder pro Frage.
+              Alles im Zugang enthalten, ohne Abrechnung pro Guide, pro Tool oder pro Frage.
             </p>
             <ul className="space-y-3">
               {product.contents.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-blue/10">
-                    <Check className="h-3 w-3 text-accent-blue" />
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-green-soft">
+                    <Check className="h-3 w-3 text-brand-green" strokeWidth={2.75} />
                   </span>
-                  <span className="text-sm">{item}</span>
+                  <span className="text-sm leading-relaxed">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h3 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
-              <ClipboardList className="h-6 w-6 text-accent-blue" />
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
+            <h3 className="mb-3 flex items-center gap-2.5 text-xl font-semibold text-primary">
+              <ClipboardList className="h-5 w-5 text-accent-blue" />
               Produktdetails
             </h3>
             <p className="mb-4 text-sm text-muted-foreground">
-              Die Angaben, die bei einer Ware auf dem Etikett stehen würden.
+              Alle klaren Fakten zum Abo, wie auf einem Produkt-Etikett.
             </p>
             <SpecTable specs={product.specs} />
           </div>

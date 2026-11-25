@@ -4,10 +4,8 @@ import { AlertTriangle, ArrowRight, CheckCircle2, ExternalLink, Gift, Plus, Sear
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Seo } from "@/components/Seo";
-import { Navbar } from "@/components/landing/Navbar";
-import { Footer } from "@/components/landing/Footer";
 import { HubNav } from "@/components/landing/HubNav";
-import { PageHeader } from "@/components/landing/PageHeader";
+import { AdaptiveAppShell } from "@/components/AdaptiveAppShell";
 import { selectCls } from "@/components/cockpit/kit";
 import { PublicSection, FaqList, CtaBand, ctaPrimaryOnInk, ctaSecondaryOnInk } from "@/components/public/PublicBlocks";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
@@ -121,32 +119,31 @@ export default function StartupGuthaben() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Seo
-        title={`Startup-Guthaben ${new Date().getFullYear()}: ${STARTUP_PERKS.length} Credits & Perks | GründerX`}
-        description={`Claude, AWS, Google Cloud, Microsoft, Cloudflare, Notion, PostHog & Co.: ${STARTUP_PERKS.length} Startup-Programme mit Guthaben und Gratis-Monaten – an der Anbieterseite geprüft, täglich gegengecheckt. Mit Perk-Check: was bekommst du ohne Investor?`}
-        path="/startup-guthaben"
-        jsonLd={jsonLd}
-      />
-      <Navbar />
-      <main>
-        <PageHeader zentriert
-          width="max-w-5xl"
-          kicker={
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
-              <Gift className="h-3.5 w-3.5" aria-hidden="true" /> {STARTUP_PERKS.length} Programme, täglich geprüft
-            </span>
-          }
-          title="Startup-Guthaben: Credits & Perks für Gründer"
-          lead={
-            <p>
-              KI-Guthaben, Cloud-Credits und Gratis-Monate von Anthropic, AWS, Google, Cloudflare, Notion & Co., mit den
-              echten Bedingungen von der Anbieterseite. {ohneInvestorSumme} davon bekommst du auch ohne Investor.
-            </p>
-          }
+    <AdaptiveAppShell
+      eyebrow="Geld & Chancen"
+      width="max-w-5xl"
+      seo={
+        <Seo
+          title={`Startup-Guthaben ${new Date().getFullYear()}: ${STARTUP_PERKS.length} Credits & Perks | GründerX`}
+          description={`Claude, AWS, Google Cloud, Microsoft, Cloudflare, Notion, PostHog & Co.: ${STARTUP_PERKS.length} Startup-Programme mit Guthaben und Gratis-Monaten, täglich geprüft.`}
+          path="/startup-guthaben"
+          jsonLd={jsonLd}
         />
-
-        <div className="container max-w-5xl space-y-12 px-4 py-12 md:py-16">
+      }
+      kicker={
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
+          <Gift className="h-3.5 w-3.5" aria-hidden="true" /> {STARTUP_PERKS.length} Programme, täglich geprüft
+        </span>
+      }
+      title="Startup-Guthaben: Credits & Perks für Gründer"
+      lead={
+        <p>
+          KI-Guthaben, Cloud-Credits und Gratis-Monate von Anthropic, AWS, Google, Cloudflare, Notion &amp; Co., mit den
+          echten Bedingungen von der Anbieterseite. {ohneInvestorSumme} davon bekommst du auch ohne Investor.
+        </p>
+      }
+    >
+      <div className="space-y-10">
           {/* Perk-Check */}
           <section aria-labelledby="perk-check" className="rounded-2xl border border-border bg-card shadow-card">
             <div className="border-b border-border/70 px-5 py-4 md:px-6">
@@ -369,9 +366,7 @@ export default function StartupGuthaben() {
             Anspruch. Keine Affiliate-Links. Programme ohne offiziell belegte Konditionen (z. B. Werbe-Neukundenguthaben) führen wir bewusst nicht auf.
           </p>
           <HubNav show={["tools", "guides", "ratgeber"]} />
-        </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </AdaptiveAppShell>
   );
 }

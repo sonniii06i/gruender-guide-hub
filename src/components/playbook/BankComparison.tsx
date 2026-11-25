@@ -57,13 +57,13 @@ const BANKS: Bank[] = [
     name: "Deutsche Bank Business",
     type: "hausbank",
     url: "https://www.deutsche-bank.de/gk.html",
-    monthlyFee: "8,90–12,90 €/Mon. (Aktiv-Tarif)",
+    monthlyFee: "8,90-12,90 €/Mon. (Aktiv-Tarif)",
     txnCost: "0,15 € pro Buchung (Eingang + Ausgang, online wie beleghaft)",
     freeTxns: "ohne Inklusiv-Buchungen",
     card: "Deutsche Bank Card (Girocard) + optional Visa/Mastercard Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–2 Wochen (online via Video-Ident oder Filialtermin)",
+    setupTime: "1-2 Wochen (online via Video-Ident oder Filialtermin)",
     rating: 4,
     communityPick: true,
     pros: [
@@ -74,7 +74,7 @@ const BANKS: Bank[] = [
       "Echte Filialberatung bei Finanzierungen > 100k €",
     ],
     cons: [
-      "0,15 €/Buchung summiert sich – bei 200 Buchungen/Mon = 30 € obendrauf",
+      "0,15 €/Buchung summiert sich, bei 200 Buchungen/Mon = 30 € obendrauf",
       "Online-Banking + App spürbar behäbiger als Neobanken",
       "Compliance teilweise starr, Eskalationen dauern",
     ],
@@ -95,7 +95,7 @@ const BANKS: Bank[] = [
     card: "Girocard + Mastercard/Visa Business Debit, Apple Pay/Google Pay",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–2 Wochen (Filiale oder Video-Ident)",
+    setupTime: "1-2 Wochen (Filiale oder Video-Ident)",
     rating: 3,
     pros: [
       "Mittelstandsfinanzierung deutlich stärker als Neobanks (Working Capital, Avalkredite)",
@@ -122,7 +122,7 @@ const BANKS: Bank[] = [
     card: "Girocard + optional Mastercard/Visa Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–3 Wochen (i. d. R. Filialtermin)",
+    setupTime: "1-3 Wochen (i. d. R. Filialtermin)",
     rating: 3,
     pros: [
       "Standard für Notar-Akzeptanz beim Sperrkonto (~350 lokale Sparkassen)",
@@ -134,7 +134,7 @@ const BANKS: Bank[] = [
     cons: [
       "0,30 € pro Buchung im Standard-Tarif relativ teuer für Bucher-Heavy-Brands",
       "App + Online-Banking deutlich hinter Neobanken (variiert je Sparkasse)",
-      "Konditionen variieren stark je Sparkasse – immer lokal verhandeln",
+      "Konditionen variieren stark je Sparkasse, immer lokal verhandeln",
     ],
     bestFor: "GmbHs mit lokalem Schwerpunkt + KfW/Förder-Bedarf",
     features: { datev: true, cashEinzahlung: true, kfwPartner: true, multiUser: true },
@@ -144,13 +144,13 @@ const BANKS: Bank[] = [
     name: "Volksbank / Raiffeisenbank",
     type: "hausbank",
     url: "https://www.vr.de/firmenkunden",
-    monthlyFee: "8–14 €/Mon. (regional)",
-    txnCost: "0,12–0,18 € online (variiert je VR-Bank)",
+    monthlyFee: "8-14 €/Mon. (regional)",
+    txnCost: "0,12-0,18 € online (variiert je VR-Bank)",
     freeTxns: "Pakete regional",
     card: "VR-BankCard, optional Mastercard/Visa Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–3 Wochen",
+    setupTime: "1-3 Wochen",
     rating: 3,
     pros: [
       "Genossenschaftliches Modell (Mitglied = Miteigentümer), oft fairere Konditionen",
@@ -172,12 +172,12 @@ const BANKS: Bank[] = [
     type: "hausbank",
     url: "https://www.postbank.de/geschaeftskunden.html",
     monthlyFee: "12,90 €/Mon. (Promo bis 31.12.2026: 0 € Grundpreis)",
-    txnCost: "0,20–0,28 € pro Buchung",
+    txnCost: "0,20-0,28 € pro Buchung",
     freeTxns: "Promo-Aktion läuft",
     card: "Postbank Business Card Plus 24 €/Jahr (1. Jahr frei)",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–2 Wochen (online möglich)",
+    setupTime: "1-2 Wochen (online möglich)",
     rating: 3,
     pros: [
       "Cash Group ATMs (Deutsche Bank, HVB, Commerzbank, Postbank) Bargeld-Abhebung frei",
@@ -187,7 +187,7 @@ const BANKS: Bank[] = [
       "Aktionspreis 0 € Grundpreis bis Ende 2026",
     ],
     cons: [
-      "Pro-Buchung-Modell (0,20–0,28 €) summiert sich bei Active Bookern",
+      "Pro-Buchung-Modell (0,20-0,28 €) summiert sich bei Active Bookern",
       "App + Online-Banking 2026 spürbar hinter Neobanken",
       "Trustpilot Service-Erfahrungen gemischt",
     ],
@@ -204,17 +204,17 @@ const BANKS: Bank[] = [
     card: "UniCredit Card Business 1 €/Mon (frei bis 31.12.2026)",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "2–3 Wochen",
+    setupTime: "2-3 Wochen",
     rating: 3,
     pros: [
-      "Modulares Pricing – nur das zahlen, was man wirklich braucht",
+      "Modulares Pricing, nur das zahlen, was man wirklich braucht",
       "UniCredit-Konzern: starke EU-Präsenz (Italien, Österreich, Südosteuropa)",
       "KfW-Partner",
       "Aktionspreis Karte 0 € bis Ende 2026",
     ],
     cons: [
       "Online-Banking-UI 2026 deutlich veraltet",
-      "Pricing-Transparenz schwach – muss man explizit anfragen",
+      "Pricing-Transparenz schwach, muss man explizit anfragen",
       "Filialnetz schwächer außerhalb Bayern/NRW",
     ],
     bestFor: "GmbHs mit IT/SE/AT-Bezug, modulare Pricing-Bedürfnisse",
@@ -230,7 +230,7 @@ const BANKS: Bank[] = [
     card: "Visa Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "2–3 Wochen",
+    setupTime: "2-3 Wochen",
     rating: 3,
     pros: [
       "Crédit-Mutuel-Konzern (genossenschaftlich, finanziell stark)",
@@ -259,11 +259,11 @@ const BANKS: Bank[] = [
     card: "Visa Business Debit (kostenlos), Apple Pay/Google Pay",
     stammkapital: "nein",
     gmbhIG: "nein",
-    setupTime: "1–3 Tage Video-Ident (nur für Berechtigte)",
+    setupTime: "1-3 Tage Video-Ident (nur für Berechtigte)",
     rating: 4,
-    dealbreaker: "Akzeptiert KEINE GmbH/UG – nur Freiberufler, Gewerbe-Einzelunternehmer, Hausverwalter. Für Gründung nicht nutzbar.",
+    dealbreaker: "Akzeptiert KEINE GmbH/UG, nur Freiberufler, Gewerbe-Einzelunternehmer, Hausverwalter. Für Gründung nicht nutzbar.",
     pros: [
-      "15 € Pauschale unlimited Buchungen – top für Solo-Freiberufler mit hohem Volumen",
+      "15 € Pauschale unlimited Buchungen, top für Solo-Freiberufler mit hohem Volumen",
       "DATEV-Schnittstelle inklusive (kein Aufpreis)",
       "Cash-im-Shop bei REWE/Penny/dm bundesweit (1,5 % Einzahlung)",
       "KfW-Partner, beste Mobile-App unter DE-Vollbanken 2026",
@@ -286,7 +286,7 @@ const BANKS: Bank[] = [
     card: "Fyrst Card + Card Plus inklusive",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–2 Wochen Video-Ident",
+    setupTime: "1-2 Wochen Video-Ident",
     rating: 4,
     pros: [
       "Echte GmbH/UG-Eröffnung inkl. Sperrkonto (Deutsche-Bank-Backbone)",
@@ -324,10 +324,10 @@ const BANKS: Bank[] = [
       "DATEV-Schnittstelle inklusive (kein Aufpreis), plus lexoffice/sevDesk/Pennylane",
       "Multi-User mit granularen Rollen (Admin/Buchhalter/Manager)",
       "Belegerfassung mit OCR pro Buchung, GoBD-konforme Archivierung",
-      "Trustpilot 4,8/5 (~53k Reviews) – konsistent gelobter Support",
+      "Trustpilot 4,8/5 (~53k Reviews), konsistent gelobter Support",
     ],
     cons: [
-      "Nur 30 SEPA im Basic – D2C-Brands wachsen schnell raus, Smart 19 €/Standard 39 €",
+      "Nur 30 SEPA im Basic, D2C-Brands wachsen schnell raus, Smart 19 €/Standard 39 €",
       "Kein klassisches Bargeldhandling (keine Filiale, kein Münzgeld)",
       "Compliance-Sperren bei ungewohnten Beträgen tagelang möglich",
     ],
@@ -351,18 +351,18 @@ const BANKS: Bank[] = [
     card: "Lite: 1× Mastercard Debit + 1 virtuell · Pro: 3+1",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–3 Tage Video-Ident",
+    setupTime: "1-3 Tage Video-Ident",
     rating: 4,
     pros: [
-      "USt-Voranmeldung integriert – spart Steuerberater-Stunden",
+      "USt-Voranmeldung integriert, spart Steuerberater-Stunden",
       "Gründungspaket ab 99 € günstig vs. Anwaltskosten",
       "Mehrere IBANs/Unterkonten elegant gelöst",
       "Saubere Rechnungserstellung mit GoBD-konformer Archivierung",
-      "Pro 15 €/Mon unlimited Buchungen – top Preis-Leistung",
+      "Pro 15 €/Mon unlimited Buchungen, top Preis-Leistung",
     ],
     cons: [
       "DATEV nur gegen 3 €/Mon Aufpreis (bei Wettbewerbern inklusive)",
-      "Support nur Mo–Fr 9–15 Uhr – knapp für Unternehmer",
+      "Support nur Mo–Fr 9-15 Uhr, knapp für Unternehmer",
       "Vereinzelte Account-Sperren bei Compliance-Reviews ohne Vorwarnung",
     ],
     bestFor: "Solo-/Klein-GmbH mit Rechnungs-Tool-Bedarf, USt-VA Integration",
@@ -384,18 +384,18 @@ const BANKS: Bank[] = [
     card: "virtuelle Visa Debit gratis · physische 5 €/Mon.",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "Video-Ident, ~1–3 Tage",
+    setupTime: "Video-Ident, ~1-3 Tage",
     rating: 4,
     pros: [
       "Niedrigster Einstieg unter Neos (Solo 0 € für Selbstständige) mit DE-IBAN",
-      "Eingebaute Rechnungserstellung – spart Buchhaltungs-Tool",
+      "Eingebaute Rechnungserstellung, spart Buchhaltungs-Tool",
       "Schnelle App, übersichtliches Banking + Invoicing",
       "Cashback auf Karten-Umsätze (Premium-Tarife)",
       "Multi-Wallet/Unterkonten-Konzept",
     ],
     cons: [
       "Solaris-Migration 2025 hat IBAN-Wechsel + SEPA-Lastschrift-Brüche verursacht",
-      "Solo-Tarif ist NICHT für GmbH – \"günstigster Tarif\"-Marketing irreführend",
+      "Solo-Tarif ist NICHT für GmbH, \"günstigster Tarif\"-Marketing irreführend",
       "1 %-Umsatzgebühr ab 25k €/Mon SEPA-Volumen unfair für skalierende D2C-Brands",
     ],
     bestFor: "Preissensible Online-GmbHs (Start-Tarif, NICHT Solo!)",
@@ -403,7 +403,7 @@ const BANKS: Bank[] = [
     conditions: {
       additionalCardCost: "5 €/Mon. physische Karte",
       foreignSepa: "EU-Raum frei",
-      fxFee: "1–2 % Markup",
+      fxFee: "1-2 % Markup",
     },
   },
   {
@@ -419,7 +419,7 @@ const BANKS: Bank[] = [
     gmbhIG: "nein",
     setupTime: "Video-Ident",
     rating: 3,
-    dealbreaker: "Kontist akzeptiert NUR Freiberufler/Selbstständige – KEINE GmbH/UG-Eröffnung. Solaris-Backend-Probleme 2024+.",
+    dealbreaker: "Kontist akzeptiert NUR Freiberufler/Selbstständige, KEINE GmbH/UG-Eröffnung. Solaris-Backend-Probleme 2024+.",
     pros: [
       "Integriertes Steuer-Tool (Echtzeit-Schätzung, USt-VA, BWA in Plus)",
       "DATEV-Modul für Steuerberater (Plus-Tarif)",
@@ -446,7 +446,7 @@ const BANKS: Bank[] = [
     gmbhIG: "nein",
     setupTime: "Video-Ident in 30 Min",
     rating: 3,
-    dealbreaker: "N26 Business akzeptiert NUR Freiberufler/Selbstständige – KEINE GmbH/UG-Eröffnung möglich.",
+    dealbreaker: "N26 Business akzeptiert NUR Freiberufler/Selbstständige, KEINE GmbH/UG-Eröffnung möglich.",
     pros: [
       "Bestes Mobile-Banking-Erlebnis am Markt 2026",
       "Sub-Konten („Spaces“) elegant integriert",
@@ -504,7 +504,7 @@ const BANKS: Bank[] = [
     card: "Visa Business Debit · Apple Pay/Google Pay",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "1–3 Tage Video-Ident",
+    setupTime: "1-3 Tage Video-Ident",
     rating: 4,
     pros: [
       "Free-Start-Tarif (0 €) macht Einstieg risikolos",
@@ -532,7 +532,7 @@ const BANKS: Bank[] = [
     card: "Mastercard Business, Apple Pay/Google Pay",
     stammkapital: "ja",
     gmbhIG: "limited",
-    setupTime: "1–3 Tage",
+    setupTime: "1-3 Tage",
     rating: 4,
     pros: [
       "Bis zu 25 Sub-Konten in Pro/Elite (mehr als jeder DE-Anbieter)",
@@ -543,7 +543,7 @@ const BANKS: Bank[] = [
     ],
     cons: [
       "DE-Markt kleiner als Qonto, Support deutsch eingeschränkt",
-      "GmbH-i.G.-Akzeptanz nicht garantiert (Notaren manchmal skeptisch)",
+      "GmbH-i.G.-Akzeptanz nicht vorhersagbar (Notaren manchmal skeptisch)",
       "Kein KfW-Partner",
     ],
     bestFor: "EU-fokussierte GmbHs mit Multi-IBAN/Sub-Konten-Bedarf",
@@ -564,7 +564,7 @@ const BANKS: Bank[] = [
     rating: 5,
     pros: ["Beste FX-Raten weltweit", "Multi-Currency-Konten (40+)", "Ideal als Zweitkonto"],
     cons: ["Kein klassisches Sperrkonto für Stammkapital", "Kein DE-IBAN-Hauptkonto"],
-    bestFor: "Zusatzkonto für USD/GBP/Imports – nicht Hauptkonto",
+    bestFor: "Zusatzkonto für USD/GBP/Imports, nicht Hauptkonto",
   },
 
   // ============ NACHHALTIGE BANKEN ============
@@ -578,7 +578,7 @@ const BANKS: Bank[] = [
     card: "Visa Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "2–3 Wochen",
+    setupTime: "2-3 Wochen",
     rating: 4,
     pros: ["Nachhaltige Geldanlage", "Starkes Werteprofil", "Solide Beratung"],
     cons: ["Mitgliedsanteil nötig", "Nicht jedes Geschäftsmodell akzeptiert"],
@@ -594,7 +594,7 @@ const BANKS: Bank[] = [
     card: "Mastercard Business",
     stammkapital: "ja",
     gmbhIG: "ja",
-    setupTime: "2–3 Wochen",
+    setupTime: "2-3 Wochen",
     rating: 4,
     pros: ["Strikte ESG-Filter", "Transparente Mittelverwendung"],
     cons: ["Feature-Set kleiner", "Onboarding gründlich (langsam)"],
@@ -655,13 +655,13 @@ export function BankComparison() {
             <div className="font-semibold">Wichtig: GmbH in Gründung (i.G.)</div>
             <div className="text-muted-foreground leading-relaxed">
               Zwischen Notartermin und Handelsregister-Eintrag existiert deine GmbH als <em>"GmbH i.G."</em>
-              – das Konto musst du auf <strong>"[Firmenname] GmbH i.G."</strong> eröffnen. Erst danach
+             , das Konto musst du auf <strong>"[Firmenname] GmbH i.G."</strong> eröffnen. Erst danach
               überweist du Stammkapital, der Notar bekommt die Bestätigung der Bank, und das HR
               registriert die GmbH. Nach HR-Eintrag wird der Kontoname auf "GmbH" angepasst.
             </div>
             <div className="text-muted-foreground leading-relaxed">
               Reihenfolge: <strong>Notar → Konto eröffnen (i.G.) → Stammkapital einzahlen → Bank-Bestätigung an Notar → HR-Anmeldung.</strong>
-              {" "}Nicht jede Bank akzeptiert i.G.-Konten – siehe Badge auf jeder Karte.
+              {" "}Nicht jede Bank akzeptiert i.G.-Konten, siehe Badge auf jeder Karte.
             </div>
           </div>
         </div>
@@ -679,7 +679,7 @@ export function BankComparison() {
           wenn die Buchungs-Inklusiv kleiner ist.
         </div>
         <div className="text-[11px] text-muted-foreground">
-          Konditionen Stand 2026 – vor Eröffnung Tarif & GmbH-Annahme aktuell prüfen.
+          Konditionen Stand 2026, vor Eröffnung Tarif & GmbH-Annahme aktuell prüfen.
           Sterne sind <em>indikative</em> Einschätzung basierend auf Trustpilot/finanzfluss/Marktreviews.
         </div>
       </div>

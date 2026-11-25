@@ -32,7 +32,7 @@ const AdvFragebogen = () => (
   <FunnelShell anzeige>
     <Seo
       title="Fragebogen zur steuerlichen Erfassung: wo es hängt"
-      description="Nebengewerbe angemeldet, und dann? Wo der Fragebogen zur steuerlichen Erfassung Nebengründer ausbremst – und wie du ihn Teilseite für Teilseite abschickst."
+      description="Nebengewerbe angemeldet, und dann? Wo der Fragebogen zur steuerlichen Erfassung Nebengründer ausbremst, und wie du ihn Teilseite für Teilseite abschickst."
       path="/anzeige/fragebogen-steuerliche-erfassung"
       type="article"
       noindex
@@ -40,11 +40,11 @@ const AdvFragebogen = () => (
     <article className="container max-w-[720px] px-4 py-10 md:py-14">
       <p className="text-sm font-semibold text-muted-foreground">Gründung im Nebenerwerb</p>
       <h1 className="mt-3 text-balance text-[1.875rem] font-semibold leading-[1.1] tracking-[-0.02em] md:text-[2.5rem]">
-        Gewerbe angemeldet – und dann wartet ein Formular mit 24 Teilseiten
+        Gewerbe angemeldet, und dann wartet ein Formular mit 24 Teilseiten
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
         Mehr als zwei von drei Gründungen laufen nebenbei. Der Papierkram ist trotzdem derselbe. Wo der Fragebogen zur
-        steuerlichen Erfassung Nebengründer ausbremst – und wie du ihn Teilseite für Teilseite abschickst.
+        steuerlichen Erfassung Nebengründer ausbremst, und wie du ihn Teilseite für Teilseite abschickst.
       </p>
       <p className="mt-5 border-y border-border py-3 text-sm text-muted-foreground">GründerX-Redaktion · 08.11.2026 · 5 Min. Lesezeit</p>
 
@@ -54,7 +54,7 @@ const AdvFragebogen = () => (
         Pakete packen, tagsüber der normale Job.
       </P>
       <P>
-        Die Gewerbeanmeldung ist für viele noch der leichte Teil. Danach kommt Post vom Finanzamt – oder eben nicht, weil du
+        Die Gewerbeanmeldung ist für viele noch der leichte Teil. Danach kommt Post vom Finanzamt, oder eben nicht, weil du
         selbst aktiv werden musst: Innerhalb eines Monats nach Beginn der Tätigkeit muss der <b>Fragebogen zur steuerlichen
         Erfassung</b> bei ELSTER sein. So steht es in § 138 Abs. 4 der Abgabenordnung.
       </P>
@@ -63,7 +63,7 @@ const AdvFragebogen = () => (
       <P>
         Der Fragebogen für Einzelunternehmen hat in der aktuellen ELSTER-Fassung 24 Teilseiten. Die meisten Felder sind
         harmlos: Name, Anschrift, Bankverbindung. Aber auf wenigen Seiten triffst du Entscheidungen, die dich lange begleiten
-        – oft ohne es zu merken.
+       , oft ohne es zu merken.
       </P>
       <P>
         Allein auf Teilseite 18 liegen drei der vier verbindlichen Entscheidungen: ob du die Kleinunternehmerregelung

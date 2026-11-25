@@ -71,7 +71,7 @@ export const GUIDE_THEMEN: readonly (readonly string[])[] = [
     "gmbh-gruendung", "ug-gruendung", "einzelunternehmen-gruendung", "kleinunternehmer",
     "freiberufler-anmelden", "gbr-gruenden", "elster-fse-fillout", "holding", "immobilien-gmbh",
     "ag-gruenden", "verein-gug", "handwerk-gruenden", "restaurant-eroeffnen", "unternehmenskauf",
-    "us-llc", "us-accounts-deutscher", "hk-limited", "wegzugsbesteuerung",
+    "us-llc", "us-accounts-deutscher", "amex-us-beantragen", "hk-limited", "wegzugsbesteuerung",
   ],
   // Marktplätze
   [

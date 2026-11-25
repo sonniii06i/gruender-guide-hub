@@ -80,11 +80,11 @@ const TAETIGKEITEN: { v: Taetigkeit; label: string; emoji: string; freiberuf: "j
   { v: "produktverkauf", label: "Produktverkauf", emoji: "📦", freiberuf: "nein", beispiele: "Amazon-FBA, eigene Marke, Dropshipping, Handarbeit verkaufen, eBay-Reseller" },
   { v: "beratung-coaching", label: "Coaching / Beratung", emoji: "💼", freiberuf: "vielleicht", beispiele: "Business-Coach, Lifecoach, Mentaltrainer (oft gewerblich), Unternehmensberater (oft freiberuflich)" },
   { v: "kunst-schreiben-musik", label: "Kunst / Schreiben / Musik", emoji: "🎨", freiberuf: "ja", beispiele: "Autor:in, Musiker:in, Maler:in, Journalist:in (künstlerisch/schriftstellerisch, §18 EStG). Designer:innen und YouTuber:innen mit Werbe-/Affiliate-Einnahmen sind oft gewerblich → „unsicher“ wählen" },
-  { v: "software-entwicklung", label: "Software / IT / Engineering", emoji: "💻", freiberuf: "vielleicht", beispiele: "Ingenieur:in (Katalogberuf). Programmierer:in, IT-Beratung, Web-Developer: nur freiberuflich, wenn ingenieurähnlich (Ausbildung/Kenntnisse wie Informatik-Studium, kein Handel mit Hard-/Software) — Einzelfall" },
+  { v: "software-entwicklung", label: "Software / IT / Engineering", emoji: "💻", freiberuf: "vielleicht", beispiele: "Ingenieur:in (Katalogberuf). Programmierer:in, IT-Beratung, Web-Developer: nur freiberuflich, wenn ingenieurähnlich (Ausbildung/Kenntnisse wie Informatik-Studium, kein Handel mit Hard-/Software), Einzelfall" },
   { v: "lehre-unterricht", label: "Lehre / Unterricht", emoji: "🎓", freiberuf: "ja", beispiele: "Nachhilfe, Sprachlehrer:in, Yoga-/Sport-Trainer:in (unterrichtende Tätigkeit). Verkauf aufgezeichneter Online-Kurse ist meist gewerblich" },
-  { v: "heilberuf-medizin", label: "Heilberufe / Medizin", emoji: "⚕️", freiberuf: "ja", beispiele: "Arzt/Ärztin, Heilpraktiker:in, Physio (Krankengymnast:in) — Katalogberufe §18 EStG; Logopädie und Hebamme als ähnliche Berufe (Einzelfall)" },
+  { v: "heilberuf-medizin", label: "Heilberufe / Medizin", emoji: "⚕️", freiberuf: "ja", beispiele: "Arzt/Ärztin, Heilpraktiker:in, Physio (Krankengymnast:in), Katalogberufe §18 EStG; Logopädie und Hebamme als ähnliche Berufe (Einzelfall)" },
   { v: "rechts-steuer-beratung", label: "Recht / Steuer / Wirtschaftsprüfung", emoji: "⚖️", freiberuf: "ja", beispiele: "Anwalt/Anwältin, Steuerberater:in, Wirtschaftsprüfer:in" },
-  { v: "unsicher", label: "Bin mir unsicher / etwas anderes", emoji: "🤔", freiberuf: "vielleicht", beispiele: "Wenn deine Tätigkeit nicht klar in eine Kategorie passt — wir geben dir eine Empfehlung zur Klärung" },
+  { v: "unsicher", label: "Bin mir unsicher / etwas anderes", emoji: "🤔", freiberuf: "vielleicht", beispiele: "Wenn deine Tätigkeit nicht klar in eine Kategorie passt, wir geben dir eine Empfehlung zur Klärung" },
 ];
 
 // ============================================================================
@@ -110,7 +110,7 @@ const RECHTSFORM_LABEL: Record<RechtsformId, string> = {
   "einzel-frei": "Einzelunternehmen (Freiberufler:in)",
   "einzel-gewerbe": "Einzelunternehmen (Gewerbe)",
   "gbr": "GbR (Gesellschaft bürgerlichen Rechts)",
-  "ug": "UG (haftungsbeschränkt) — Mini-GmbH",
+  "ug": "UG (haftungsbeschränkt), Mini-GmbH",
   "gmbh": "GmbH",
 };
 
@@ -130,7 +130,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
   if (istHobby) {
     return {
       empfohlen: "einzel-frei",
-      empfohlenLabel: "Keine — bleib Hobby",
+      empfohlenLabel: "Keine, bleib Hobby",
       begruendung: "Solange du ohne Gewinnerzielungsabsicht handelst (Liebhaberei), brauchst du KEINE Rechtsform und KEINE Anmeldung. Wenn sich das ändert, komm zurück und mach den Check neu.",
       ustModus: "egal",
       ustHinweis: "Einkommensteuer fällt bei Liebhaberei nicht an. Für die Umsatzsteuer zählt die Gewinnabsicht nicht (§ 2 Abs. 1 S. 3 UStG): Wer nachhaltig verkauft, ist Unternehmer. Dann kann die Kleinunternehmerregelung (§ 19 UStG) greifen.",
@@ -144,10 +144,10 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
     return {
       empfohlen: "einzel-frei",
       empfohlenLabel: "Einzelunternehmen als Freiberufler:in",
-      begruendung: "Für die allermeisten Solo-Freiberufler:innen die richtige Wahl: keine Gewerbeanmeldung, keine GewSt, keine IHK-Pflicht, keine Buchführungspflicht nach § 141 AO (EÜR reicht unabhängig vom Umsatz). Du brauchst KEINE Rechtsform-Anmeldung — nur die steuerliche Erfassung beim Finanzamt.",
+      begruendung: "Für die allermeisten Solo-Freiberufler:innen die richtige Wahl: keine Gewerbeanmeldung, keine GewSt, keine IHK-Pflicht, keine Buchführungspflicht nach § 141 AO (EÜR reicht unabhängig vom Umsatz). Du brauchst KEINE Rechtsform-Anmeldung, nur die steuerliche Erfassung beim Finanzamt.",
       ustModus,
       ustHinweis: ustModus === "ku-19"
-        ? "Bei deinem Umsatz ist §19 UStG (Kleinunternehmer) möglich: keine USt auf Rechnungen, keine USt-Voranmeldungen. Grenze: Vorjahres-Umsatz ≤ 25.000 € und laufendes Jahr ≤ 100.000 € (im Gründungsjahr ≤ 25.000 €). ABER: kein Vorsteuer-Abzug — bei viel B2B-Geschäft mit teuren Anschaffungen kann Regelbesteuerung besser sein."
+        ? "Bei deinem Umsatz ist §19 UStG (Kleinunternehmer) möglich: keine USt auf Rechnungen, keine USt-Voranmeldungen. Grenze: Vorjahres-Umsatz ≤ 25.000 € und laufendes Jahr ≤ 100.000 € (im Gründungsjahr ≤ 25.000 €). ABER: kein Vorsteuer-Abzug, bei viel B2B-Geschäft mit teuren Anschaffungen kann Regelbesteuerung besser sein."
         : "Bei deinem erwarteten Umsatz über 25.000 € ist §19 UStG nicht (mehr) möglich: Regelbesteuerung mit Vorsteuer-Abzug.",
       alternativen: [
         {
@@ -173,7 +173,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
       return {
         empfohlen: "einzel-gewerbe",
         empfohlenLabel: kuMoeglich ? "Einzelunternehmen (Gewerbe) + §19 KU" : "Einzelunternehmen (Gewerbe)",
-        begruendung: "Für Solo-Gewerbe bei niedrigem bis mittlerem Gewinn klar die einfachste Option: GewA1-Anmeldung (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort), keine Stammkapital, EÜR statt Bilanz, GewSt-Freibetrag 24.500 €. Volle persönliche Haftung — bei deinem Risiko-Profil aber meist okay.",
+        begruendung: "Für Solo-Gewerbe bei niedrigem bis mittlerem Gewinn klar die einfachste Option: GewA1-Anmeldung (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort), keine Stammkapital, EÜR statt Bilanz, GewSt-Freibetrag 24.500 €. Volle persönliche Haftung, bei deinem Risiko-Profil aber meist okay.",
         ustModus: kuMoeglich ? "ku-19" : "regel",
         ustHinweis: kuMoeglich
           ? "Kleinunternehmer §19 UStG möglich (Vorjahres-Umsatz ≤ 25.000 €, laufendes Jahr ≤ 100.000 €; im Gründungsjahr ≤ 25.000 €): keine USt-Ausweisung, keine USt-VA. An 5 Jahre gebunden bist du nur, wenn du auf die KU verzichtest. Regelbesteuerung lohnt bei vielen teuren Anschaffungen mit Vorsteuer-Abzug oder überwiegend B2B-Kunden."
@@ -197,18 +197,18 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
     // Hoch: erwäge UG/GmbH
     return {
       empfohlen: "einzel-gewerbe",
-      empfohlenLabel: "Einzelunternehmen (Gewerbe) — UG/GmbH erwägen",
+      empfohlenLabel: "Einzelunternehmen (Gewerbe), UG/GmbH erwägen",
       begruendung: "Bei Solo-Gewerbe und Gewinn > 25k €/Jahr ist Einzelunternehmen weiterhin möglich, aber UG/GmbH lohnen sich zu prüfen. Vorteile: Haftungsbeschränkung + Thesaurierungs-Vorteil bei nicht entnommenen Gewinnen (KSt 15 % + GewSt vs. ESt-Spitze 42 %).",
       ustModus: kuMoeglich ? "ku-19" : "regel",
       ustHinweis: kuMoeglich
         ? "Dein Umsatz liegt unter 25.000 €: §19 UStG ist trotz hohem Gewinn möglich. Prüfe, ob Regelbesteuerung wegen Vorsteuer-Abzug oder B2B-Kunden besser passt."
-        : "Bei deinem Umsatz Regelbesteuerung — KU §19 ist bei Umsatz über 25.000 € nicht möglich. Du brauchst USt-ID (bei EU-Geschäft Pflicht) und musst USt-VA monatlich/quartalsweise abgeben.",
+        : "Bei deinem Umsatz Regelbesteuerung, KU §19 ist bei Umsatz über 25.000 € nicht möglich. Du brauchst USt-ID (bei EU-Geschäft Pflicht) und musst USt-VA monatlich/quartalsweise abgeben.",
       alternativen: [
         {
           id: "ug",
           label: "UG (haftungsbeschränkt)",
           pro: "Haftungsbeschränkung + Thesaurierungs-Vorteil. Ab 1 € Stammkapital + Rücklagenbildung, bis das Stammkapital auf 25.000 € erhöht ist. Notar ~500 €.",
-          contra: "Bilanz-Pflicht + Handelsregister + ~2-3k €/J Buchhaltungskosten. Sozialversicherung: Fremd- und Minderheits-GF sind in der Regel SV-pflichtig, beherrschende Gesellschafter-GF (ab 50 % oder mit Sperrminorität) in der Regel nicht — Statusfeststellung nach §7a SGB IV empfohlen.",
+          contra: "Bilanz-Pflicht + Handelsregister + ~2-3k €/J Buchhaltungskosten. Sozialversicherung: Fremd- und Minderheits-GF sind in der Regel SV-pflichtig, beherrschende Gesellschafter-GF (ab 50 % oder mit Sperrminorität) in der Regel nicht, Statusfeststellung nach §7a SGB IV empfohlen.",
         },
         {
           id: "gmbh",
@@ -228,7 +228,7 @@ function berechneRechtsformEmpfehlung(setup: Setup): RechtsformReco {
     ustModus: kuMoeglich ? "ku-19" : "regel",
     ustHinweis: kuMoeglich
       ? "Bei deinem Umsatz ist KU §19 UStG möglich. Im FsE-Fragebogen ankreuzen."
-      : "Regelbesteuerung — dein Umsatz liegt über der KU-Grenze von 25.000 €.",
+      : "Regelbesteuerung, dein Umsatz liegt über der KU-Grenze von 25.000 €.",
     alternativen: [],
   };
 }
@@ -256,7 +256,7 @@ const GewerbeCheck = () => {
         farbe: "gruen",
         begruendung:
           setup.gewinnabsicht === "nein-hobby"
-            ? "Ohne Gewinnerzielungsabsicht = Liebhaberei. Das Finanzamt sieht das als Hobby — kein Gewerbe nötig, keine Einkommensteuer auf den Erlös. Für die Umsatzsteuer zählt die Gewinnabsicht nicht (§ 2 Abs. 1 S. 3 UStG): Wer nachhaltig verkauft, ist trotzdem Unternehmer."
+            ? "Ohne Gewinnerzielungsabsicht = Liebhaberei. Das Finanzamt sieht das als Hobby, kein Gewerbe nötig, keine Einkommensteuer auf den Erlös. Für die Umsatzsteuer zählt die Gewinnabsicht nicht (§ 2 Abs. 1 S. 3 UStG): Wer nachhaltig verkauft, ist trotzdem Unternehmer."
             : `Bei einmaligen Aktivitäten mit kleinem Gewinn fehlt meist die Nachhaltigkeit, dann liegt kein Gewerbe vor. Die 410 € sind dabei keine Gewerbe-Grenze, sondern die Veranlagungsgrenze für Nebeneinkünfte von Arbeitnehmer:innen (§ 46 Abs. 2 Nr. 1 EStG). Aber Achtung: bei mehrmaliger Wiederholung wertet das FA das als 'nachhaltige Gewinnerzielungsabsicht' und du bist plötzlich gewerbe-/anmeldepflichtig.`,
         nextSteps: [
           { text: "Wichtige Schwellen: §22 EStG Sonstige Einkünfte unter 256 €/J steuerfrei · Ehrenamtspauschale 960 €/J · Übungsleiterpauschale 3.300 €/J" },
@@ -276,7 +276,7 @@ const GewerbeCheck = () => {
         type: ku ? "kleinunternehmer-tauglich" : "freiberuf",
         titel: "Du bist Freiberufler:in (§18 EStG)",
         farbe: "blau",
-        begruendung: `${t.label} fällt unter die freiberuflichen Tätigkeiten nach §18 Abs. 1 Nr. 1 EStG — KEINE Gewerbeanmeldung nötig. Du brauchst nur die steuerliche Erfassung beim Finanzamt (Fragebogen via ELSTER).${
+        begruendung: `${t.label} fällt unter die freiberuflichen Tätigkeiten nach §18 Abs. 1 Nr. 1 EStG, KEINE Gewerbeanmeldung nötig. Du brauchst nur die steuerliche Erfassung beim Finanzamt (Fragebogen via ELSTER).${
           ku ? " Bei deinem erwarteten Umsatz bis 25.000 € kommt die Kleinunternehmer-Regelung §19 UStG in Frage (kein Umsatzsteuer-Ausweis, kein VSt-Abzug)." : ""
         }`,
         nextSteps: [
@@ -288,10 +288,10 @@ const GewerbeCheck = () => {
             text: "Keine IHK-/HWK-Pflichtmitgliedschaft (Freiberufler:innen)",
           },
           {
-            text: "Berufsgenossenschaft prüfen — manche Berufe Pflicht (z.B. Heilberufe)",
+            text: "Berufsgenossenschaft prüfen, manche Berufe Pflicht (z.B. Heilberufe)",
           },
           {
-            text: "Krankenversicherung: KSK prüfen (Künstler/Publizisten) — du zahlst nur etwa die Hälfte, den Rest tragen Bundeszuschuss und Künstlersozialabgabe",
+            text: "Krankenversicherung: KSK prüfen (Künstler/Publizisten), du zahlst nur etwa die Hälfte, den Rest tragen Bundeszuschuss und Künstlersozialabgabe",
             extern: "https://www.kuenstlersozialkasse.de",
           },
           { text: "USt-Rechner: prüfe Kleinunternehmer §19 (25k/100k 2026)", route: "/cockpit/ust-rechner" },
@@ -306,7 +306,7 @@ const GewerbeCheck = () => {
         type: ku ? "kleinunternehmer-tauglich" : "gewerbe",
         titel: "Du brauchst ein Gewerbe",
         farbe: "amber",
-        begruendung: `${t.label} ist eindeutig gewerblich (nicht §18 EStG). Du musst beim Gewerbeamt anmelden (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort). Das Gewerbeamt leitet automatisch ans Finanzamt + IHK weiter. GewSt erst bei Gewinn > 24.500 €/Jahr — die meisten Anfänger:innen zahlen also vorerst keine GewSt.${
+        begruendung: `${t.label} ist eindeutig gewerblich (nicht §18 EStG). Du musst beim Gewerbeamt anmelden (Gebühr je nach Gemeinde, z. B. Berlin 15 € online / 26 € vor Ort). Das Gewerbeamt leitet automatisch ans Finanzamt + IHK weiter. GewSt erst bei Gewinn > 24.500 €/Jahr, die meisten Anfänger:innen zahlen also vorerst keine GewSt.${
           ku ? " Bei deinem erwarteten Umsatz bis 25.000 € kommt die Kleinunternehmer-Regelung §19 UStG in Frage." : ""
         }`,
         nextSteps: [
@@ -327,19 +327,19 @@ const GewerbeCheck = () => {
     // Verdict 4: Vielleicht Freiberuf, vielleicht Gewerbe
     return {
       type: "unklar",
-      titel: "Status nicht eindeutig — Klärung nötig",
+      titel: "Status nicht eindeutig, Klärung nötig",
       farbe: "amber",
-      begruendung: `${t.label} kann sowohl freiberuflich als auch gewerblich sein — hängt vom konkreten Inhalt deiner Tätigkeit ab (z.B. Beratung von Wirtschaftlern = freiberuflich nach §18, Lifecoaching ohne Ausbildung = oft gewerblich). Lass dir das vom Finanzamt vor Anmeldung schriftlich bestätigen, das spart spätere Streitigkeiten.`,
+      begruendung: `${t.label} kann sowohl freiberuflich als auch gewerblich sein, hängt vom konkreten Inhalt deiner Tätigkeit ab (z.B. Beratung von Wirtschaftlern = freiberuflich nach §18, Lifecoaching ohne Ausbildung = oft gewerblich). Lass dir das vom Finanzamt vor Anmeldung schriftlich bestätigen, das spart spätere Streitigkeiten.`,
       nextSteps: [
         {
-          text: "Schriftliche Anfrage an dein örtliches Finanzamt 'Beurteilung freiberufliche vs. gewerbliche Tätigkeit' — kostenlos, ca. 4-8 Wochen",
+          text: "Schriftliche Anfrage an dein örtliches Finanzamt 'Beurteilung freiberufliche vs. gewerbliche Tätigkeit', kostenlos, ca. 4-8 Wochen",
         },
         {
           text: "Alternativ: kostenloses Erstgespräch beim Steuerberater (ca. 0-150€) für verbindliche Einordnung",
           route: "/cockpit/stb-finder",
         },
         {
-          text: "IHK-Gründungsberatung kostenlos buchen — die kennen lokale FA-Praxis",
+          text: "IHK-Gründungsberatung kostenlos buchen, die kennen lokale FA-Praxis",
           extern: "https://www.ihk.de",
         },
         {
@@ -483,9 +483,9 @@ const GewerbeCheck = () => {
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {([
                 { v: "unter-410", l: "Unter 410 € pro Jahr", d: "Mini-Gewinn, wahrscheinlich noch Hobby-Schwelle" },
-                { v: "unter-3000", l: "410 € – 3.000 € pro Jahr", d: "Klassisches Side-Hustle-Niveau" },
+                { v: "unter-3000", l: "410 € – 3.000 € pro Jahr", d: "Klassisches Nebenerwerb-Niveau" },
                 { v: "unter-25000", l: "3.000 € – 25.000 € pro Jahr", d: "Hauptberuflicher Verdienst möglich" },
-                { v: "ueber-25000", l: "Über 25.000 € pro Jahr", d: "Skalierter Solo-Self oder Vollzeit-Business" },
+                { v: "ueber-25000", l: "Über 25.000 € pro Jahr", d: "Vollzeit-Business oder stark wachsendes Einzelunternehmen" },
               ] as { v: Gewinnstufe; l: string; d: string }[]).map((o) => (
                 <OptionCard key={o.v} active={setup.gewinnstufe === o.v} onClick={() => setSetup({ ...setup, gewinnstufe: o.v })}>
                   <span className="block text-sm font-semibold tabular">{o.l}</span>
@@ -598,7 +598,7 @@ const GewerbeCheck = () => {
             { label: "§22 EStG Sonstige Einkünfte (Hobby/Liebhaberei)", url: "https://www.gesetze-im-internet.de/estg/__22.html" },
             { label: "IHK Gründung-Beratung", url: "https://www.ihk.de" },
           ]}
-          note="Decision-Tree ist Orientierung — finale Einordnung trifft das Finanzamt im Einzelfall. Bei Grenzfällen schriftliche FA-Anfrage stellen oder Erstgespräch beim Steuerberater. Status freiberuflich vs gewerblich kann vom FA jederzeit per Betriebsprüfung umgewidmet werden."
+          note="Decision-Tree ist Orientierung, finale Einordnung trifft das Finanzamt im Einzelfall. Bei Grenzfällen schriftliche FA-Anfrage stellen oder Erstgespräch beim Steuerberater. Status freiberuflich vs gewerblich kann vom FA jederzeit per Betriebsprüfung umgewidmet werden."
         />
       </div>
     </CockpitShell>
@@ -777,8 +777,8 @@ const Glossar = () => (
         { begriff: "Kleinunternehmer-Regelung (§19 UStG)", erklaerung: "Du musst keine Umsatzsteuer ausweisen, kannst aber auch keine Vorsteuer ziehen. 2026: Vorjahres-Umsatz bis 25.000 €, laufendes Jahr bis 100.000 € (bei Überschreiten sofortiger Wegfall); im Gründungsjahr bis 25.000 €. Maßgeblich ist der Umsatz, nicht der Gewinn. Vorteil: einfacher. Nachteil: keine VSt zurück (lohnt sich nicht wenn du viel investierst)." },
         { begriff: "Gewinnerzielungsabsicht", erklaerung: "Du willst auf Dauer einen Gewinn machen (auch wenn die ersten Jahre Verluste sind). Wichtig für die Abgrenzung zur 'Liebhaberei' (= Hobby, das nicht profitabel sein muss)." },
         { begriff: "Liebhaberei", erklaerung: "Das Finanzamt nimmt an, dass du KEINEN Gewinn erzielen willst (typisch: Pferdezucht, Künstler:in im Verlust seit 7+ Jahren). Folge für die Einkommensteuer: Verluste sind nicht abzugsfähig, Gewinne nicht steuerpflichtig. Umsatzsteuerlich kann trotzdem eine unternehmerische Tätigkeit vorliegen (§ 2 Abs. 1 S. 3 UStG)." },
-        { begriff: "Fragebogen zur steuerlichen Erfassung", erklaerung: "Pflichtformular nach jeder Gründung — du gibst dem Finanzamt deine voraussichtlichen Umsätze + Gewinne + Familienstand an. Daraus berechnet das FA deine Vorauszahlungen. Pflicht binnen 1 Monat via ELSTER." },
-        { begriff: "EÜR (Einnahmen-Überschuss-Rechnung)", erklaerung: "Vereinfachte Gewinnermittlung: Einnahmen minus Ausgaben = Gewinn. Für Gewerbetreibende erlaubt bis 800.000 € Jahresumsatz und 80.000 € Gewinn (§141 AO seit WJ 2024, sonst Bilanz-Pflicht); Freiberufler:innen dürfen immer die EÜR nutzen. Pflicht-Anlage zur Steuererklärung — elektronisch via ELSTER." },
+        { begriff: "Fragebogen zur steuerlichen Erfassung", erklaerung: "Pflichtformular nach jeder Gründung, du gibst dem Finanzamt deine voraussichtlichen Umsätze + Gewinne + Familienstand an. Daraus berechnet das FA deine Vorauszahlungen. Pflicht binnen 1 Monat via ELSTER." },
+        { begriff: "EÜR (Einnahmen-Überschuss-Rechnung)", erklaerung: "Vereinfachte Gewinnermittlung: Einnahmen minus Ausgaben = Gewinn. Für Gewerbetreibende erlaubt bis 800.000 € Jahresumsatz und 80.000 € Gewinn (§141 AO seit WJ 2024, sonst Bilanz-Pflicht); Freiberufler:innen dürfen immer die EÜR nutzen. Pflicht-Anlage zur Steuererklärung, elektronisch via ELSTER." },
         { begriff: "Anlage S vs Anlage G", erklaerung: "Anlage S: für Einkünfte aus selbstständiger Arbeit (Freiberufler). Anlage G: für Einkünfte aus Gewerbebetrieb. Beide brauchen zusätzlich die Anlage EÜR (Gewinn-Detail)." },
         { begriff: "Katalogberufe (§18 EStG)", erklaerung: "Eindeutig als freiberuflich anerkannte Berufe: Heilberufe, Rechts-/Steuerberatung, Ingenieur:innen, Architekt:innen, Journalist:innen u. a. Künstlerische, schriftstellerische und unterrichtende Arbeit sind keine Katalogberufe, sondern eigene freiberufliche Tätigkeiten im selben Absatz. 'Ähnliche Berufe' nur durch Einzelfall-Prüfung anerkannt." },
         { begriff: "IHK-Pflichtmitgliedschaft", erklaerung: "Alle Gewerbetreibenden in DE sind Pflichtmitglied der IHK (oder HWK bei Handwerk). Eine Befreiung von der Mitgliedschaft gibt es nicht. Grundbeitrag und Umlage legt jede IHK in ihrer Wirtschaftssatzung fest. Ohne Handelsregistereintrag zahlst du bis 5.200 € Gewerbeertrag keinen Beitrag. Gründer:innen ohne Selbstständigkeit in den 5 Jahren davor sind im Gründungs- und Folgejahr bis 25.000 € ganz befreit, im 3. und 4. Jahr nur von der Umlage (§ 3 Abs. 3 IHKG)." },

@@ -14,7 +14,7 @@
 /** Anzahl der Tools mit eigener Landing (LANDING_TOOLS in features.ts). */
 export const TOOL_COUNT = 90;
 /** Anzahl der Guides (GUIDE_LANDINGS in guides.ts). */
-export const GUIDE_COUNT = 80;
+export const GUIDE_COUNT = 81;
 
 /** Anzahl der Einträge in PROVIDERS (Anbieter-Vergleich). */
 export const ANBIETER_ANZAHL = 210;

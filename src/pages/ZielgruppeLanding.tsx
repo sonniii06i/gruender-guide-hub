@@ -104,7 +104,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
     ? [
         ...z.einwaende,
         {
-          q: "Noch ein Abo – was kostet das?",
+          q: "Noch ein Abo: Was kostet das?",
           a: `Der volle Zugang kostet ${MONAT} im Monat inklusive Umsatzsteuer und ist jederzeit zum Ende der laufenden Abrechnungsperiode kündbar. Neukunden starten mit ${START_ANGEBOT.tage} Tagen für ${START_ANGEBOT.preisText}; ohne Kündigung läuft danach der Monatszugang für ${MONAT} weiter. Die Gratis-Tools auf dieser Seite brauchen kein Konto.`,
         },
         { q: "Was ist nicht enthalten?", a: NOT_INCLUDED },
@@ -185,7 +185,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
         <TextMarquee label="Für die Stellen, mit denen du zu tun hast" items={STELLEN} />
 
         {z.tabelle && (
-          <section className="container max-w-6xl px-4 pt-16 md:pt20" aria-labelledby="pflichten">
+          <section className="container max-w-6xl px-4 pt-16 md:pt-20" aria-labelledby="pflichten">
             <SectionHead align="left" eyebrow="Reihenfolge" title={<span id="pflichten">{z.tabelle.titel}</span>} lead={z.tabelle.lead} />
             <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <table className="w-full text-left text-[15px]">
@@ -229,7 +229,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
           </section>
         )}
 
-        <section className="container max-w-6xl px-4 py-16 md:py20">
+        <section className="container max-w-6xl px-4 py-16 md:py-20">
           <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:gap-20">
             <div className="self-start lg:sticky lg:top-28">
               <SectionHead align="left" eyebrow="Warum jetzt" title={z.warumTitel} />
@@ -249,7 +249,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
         </section>
 
         {z.beispiel && (
-          <section className="container max-w-6xl px-4 pb-16 md:pb20" aria-labelledby="beispiel">
+          <section className="container max-w-6xl px-4 pb-16 md:pb-20" aria-labelledby="beispiel">
             <div className="grid gap-8 rounded-[1.5rem] border border-border bg-card p-6 shadow-card md:grid-cols-[1fr,1.1fr] md:gap-14 md:p-10">
               <div>
                 <p className="mb-2 text-[13px] font-semibold text-muted-foreground">Beispielrechnung</p>
@@ -277,7 +277,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
           </section>
         )}
 
-        <section className="border-y border-border/70 bg-secondary/30 py-16 md:py20">
+        <section className="border-y border-border/70 bg-secondary/30 py-16 md:py-20">
           <div className="container max-w-6xl px-4">
             <SectionHead
               eyebrow="Tools"
@@ -350,7 +350,7 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
                   So entsteht diese Seite: mit KI-Unterstützung recherchiert und geschrieben, die Rechtsgrundlagen am Gesetzestext geprüft, Stand{" "}
                   {z.stand.text}. Autor und verantwortlich für den Inhalt:{" "}
                   <Link to="/impressum" className="font-semibold text-foreground hover:underline">Sonni Buttke</Link>, Gründer von GründerX. Keine
-                  Steuer- oder Rechtsberatung – im Einzelfall Steuerberater fragen.
+                  Steuer- oder Rechtsberatung, im Einzelfall bitte Steuerberater fragen.
                 </span>
               </p>
             )}
@@ -358,8 +358,8 @@ const ZielgruppeLanding = ({ slug }: { slug: string }) => {
         </section>
 
         {einwaende.length > 0 && (
-          <section className="container max-w-6xl px-4 pb-16 md:pb20" aria-labelledby="einwaende">
-            <SectionHead align="left" eyebrow="Vor der Entscheidung" title={<span id="einwaende">Was dagegen spricht – und was wir dazu sagen</span>} />
+          <section className="container max-w-6xl px-4 pb-16 md:pb-20" aria-labelledby="einwaende">
+            <SectionHead align="left" eyebrow="Vor der Entscheidung" title={<span id="einwaende">Was dagegen spricht und was wir dazu sagen</span>} />
             <dl className="grid gap-4 md:grid-cols-2">
               {einwaende.map((e) => (
                 <div key={e.q} className="rounded-2xl bg-card p-5 ring-1 ring-border/70 md:p-6">

@@ -21,10 +21,19 @@ export const SCHRITT_FERTIG = 6;
 export interface OnbDaten {
   firstName: string;
   lastName: string;
+  ageGroup?: string;
   modelle: string[];
   phase: string;
   rechtsform: string;
 }
+
+export const ALTER_OPTIONEN: { id: string; titel: string; text: string }[] = [
+  { id: "12-17", titel: "12 bis 17 Jahre", text: "Schule / U18 (wir binden Eltern-Infos & § 112 BGB direkt mit ein)" },
+  { id: "18-25", titel: "18 bis 25 Jahre", text: "Studium, Ausbildung oder erster eigener Start" },
+  { id: "26-39", titel: "26 bis 39 Jahre", text: "Nebengewerbe, E-Commerce, Creator oder eigene Firma" },
+  { id: "40-54", titel: "40 bis 54 Jahre", text: "Neustart, GmbH, Holding oder internationales Setup" },
+  { id: "55-70", titel: "55 bis 70+ Jahre", text: "Erfahrung nutzen, Beratung, Freiberuf oder Hinzuverdienst" },
+];
 
 export const MODELL_OPTIONEN: { id: string; titel: string; text: string }[] = [
   { id: "amazon_fba", titel: "Amazon FBA / Seller", text: "Verkauf über Amazon, mit oder ohne eigene Marke" },

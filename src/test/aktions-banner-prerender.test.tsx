@@ -26,6 +26,8 @@ describe("Aktions-Banner", () => {
     delete w.__PRERENDER__;
     vi.unstubAllGlobals();
     sessionStorage.clear();
+    localStorage.clear();
+    window.history.replaceState({}, "", "/");
   });
 
   it("zeigt die aktive Aktion für echte Besucher", async () => {
@@ -34,6 +36,26 @@ describe("Aktions-Banner", () => {
     render(<AktionsBanner />);
     expect(await screen.findByRole("region", { name: "Aktuelle Aktion" })).toHaveTextContent("GXGRUENDEN50");
     expect(f).toHaveBeenCalledTimes(1);
+  });
+
+  it("zeigt auf Dashboard-/Cockpit-Seiten und für eingeloggte Nutzer kein Aktions-Banner", async () => {
+    const f = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(AKTION) });
+    vi.stubGlobal("fetch", f);
+    window.history.replaceState({}, "", "/dashboard");
+    const { container } = render(<AktionsBanner />);
+    await new Promise((r) => setTimeout(r, 20));
+    expect(f).not.toHaveBeenCalled();
+    expect(container.innerHTML).toBe("");
+  });
+
+  it("zeigt bei vorhandener Supabase-Sitzung auch auf öffentlichen Seiten kein Offer-Banner", async () => {
+    const f = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(AKTION) });
+    vi.stubGlobal("fetch", f);
+    localStorage.setItem("sb-rwrjuzemkfghlziretdj-auth-token", JSON.stringify({ access_token: "abc" }));
+    const { container } = render(<AktionsBanner />);
+    await new Promise((r) => setTimeout(r, 20));
+    expect(f).not.toHaveBeenCalled();
+    expect(container.innerHTML).toBe("");
   });
 
   it("ruft im Prerender nichts ab und schreibt kein Banner ins HTML", async () => {

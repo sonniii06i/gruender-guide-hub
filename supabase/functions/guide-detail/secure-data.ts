@@ -44,15 +44,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "IHK-Vorabprüfung ist KOSTENFREI und in 1–3 Werktagen zurück. Mach das BEVOR du den Notartermin buchst.",
+        "IHK-Vorabprüfung ist KOSTENFREI und in 1-3 Werktagen zurück. Mach das BEVOR du den Notartermin buchst.",
         "Marken-Recherche-Tipp: such nach phonetischen Ähnlichkeiten (z.B. \"Krea\" findet auch \"Kreya\", \"Crea\"), nicht nur exakter Match."
       ]
     },
     "satzung": {
       "checklist": [
         "Firmenname final (mit \"GmbH\"-Zusatz)",
-        "Sitz der Gesellschaft (Stadt – nicht ganze Adresse)",
-        "Geschäftsanschrift (Straße, PLZ, Ort) – muss tatsächliche Adresse sein, kein Postfach",
+        "Sitz der Gesellschaft (Stadt, nicht ganze Adresse)",
+        "Geschäftsanschrift (Straße, PLZ, Ort), muss tatsächliche Adresse sein, kein Postfach",
         "Geschäftsgegenstand (möglichst weit gefasst, aber nicht \"beliebige Tätigkeit\")",
         "Stammkapital (mind. 25.000 €, davon 12.500 € sofort einzuzahlen)",
         "Gesellschafter mit voller Namen, Geburtsdatum, Anschrift, Steuer-ID",
@@ -86,20 +86,20 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "notar-vorbereitung": {
       "checklist": [
-        "Personalausweis (Original, gültig) ODER gültiger Reisepass — jeder Gesellschafter persönlich!",
-        "Steuer-ID jeder Person (11-stellig, vom BZSt) — für das Transparenzregister",
+        "Personalausweis (Original, gültig) ODER gültiger Reisepass, jeder Gesellschafter persönlich!",
+        "Steuer-ID jeder Person (11-stellig, vom BZSt), für das Transparenzregister",
         "Bei ausländischen Gesellschaftern: Reisepass + ggf. Apostille / Übersetzung",
         "Vollmacht (notariell beglaubigt!) falls einer der Gesellschafter sich vertreten lässt",
         "Bei Sacheinlage: Sacheinlage-Vereinbarung + Werthaltigkeitsbescheinigung",
-        "Eheliche Güterstand-Erklärung NUR falls Gesellschafter \"Vermögen im Ganzen\" einbringt (§1365 BGB) — bei normaler Beteiligung NICHT nötig",
+        "Eheliche Güterstand-Erklärung NUR falls Gesellschafter \"Vermögen im Ganzen\" einbringt (§1365 BGB), bei normaler Beteiligung NICHT nötig",
         "Geschäftsanschrift schriftlich vorbereitet (Straße, PLZ, Ort)",
         "Geld für Notarkosten (i.d.R. Lastschrift / Überweisung im Nachgang, kein Bargeld)"
       ],
-      "warning": "Persönliches Erscheinen aller Gesellschafter ist Pflicht — eine Vollmacht funktioniert nur, wenn sie selbst notariell beglaubigt wurde (was ggf. einen Vor-Termin erfordert). Plane das ein, wenn ein Mitgesellschafter im Ausland sitzt.",
+      "warning": "Persönliches Erscheinen aller Gesellschafter ist Pflicht, eine Vollmacht funktioniert nur, wenn sie selbst notariell beglaubigt wurde (was ggf. einen Vor-Termin erfordert). Plane das ein, wenn ein Mitgesellschafter im Ausland sitzt.",
       "extendedNotes": [
-        "Notarkosten (Bargründung 25k Stammkapital, 1 Gesellschafter, 1 GF): typisch 800–1.200 € inkl. HR-Anmeldung. Mehrere Gesellschafter / Sacheinlage: 1.500–2.500 €.",
+        "Notarkosten (Bargründung 25k Stammkapital, 1 Gesellschafter, 1 GF): typisch 800-1.200 € inkl. HR-Anmeldung. Mehrere Gesellschafter / Sacheinlage: 1.500-2.500 €.",
         "Falls einer der Gesellschafter eine juristische Person ist: HR-Auszug + aktueller Gesellschaftsvertrag + Vertretungsbescheinigung dieser Gesellschaft mitbringen.",
-        "Manche Notare wollen zusätzlich eine Meldebescheinigung — meist reicht aber der Personalausweis. Vorab beim Notar kurz nachfragen."
+        "Manche Notare wollen zusätzlich eine Meldebescheinigung, meist reicht aber der Personalausweis. Vorab beim Notar kurz nachfragen."
       ]
     },
     "notar": {
@@ -121,9 +121,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Nach Beurkundung gilt deine Gesellschaft als \"GmbH i.G.\" (in Gründung). Du darfst Geschäfte machen, aber jede Vereinbarung haftet bis HR-Eintrag noch persönlich (Handelnden-Haftung §11 GmbHG).",
-        "Nimm im Termin sofort die Bank-Eröffnungsunterlagen mit (Notar-Bescheinigung, Beurkundung als PDF) — viele Banken brauchen das."
+        "Nimm im Termin sofort die Bank-Eröffnungsunterlagen mit (Notar-Bescheinigung, Beurkundung als PDF), viele Banken brauchen das."
       ],
-      "description": "Der Notar liest den Gesellschaftsvertrag vor (Pflicht, ca. 30–60 Min), du unterschreibst. Direkt anschließend reicht der Notar via beA-Postfach die Anmeldung beim Amtsgericht ein."
+      "description": "Der Notar liest den Gesellschaftsvertrag vor (Pflicht, ca. 30-60 Min), du unterschreibst. Direkt anschließend reicht der Notar via beA-Postfach die Anmeldung beim Amtsgericht ein."
     },
     "konto": {
       "checklist": [
@@ -142,9 +142,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Hausbanken (Sparkasse, Volksbank, Commerzbank) brauchen 2–4 Wochen für das Konto, bauen aber Kreditbeziehung auf. Neobanken (Finom, Qonto, Holvi) öffnen in 24–72h, sind aber für Bargründung & klassische Hausbankrolle weniger geeignet.",
-        "Achte darauf, dass die Bank explizit \"GmbH i.G.\"-Konten eröffnet — nicht alle Neobanken können das (Commerzbank Geschäftskonto, Postbank, Sparkassen ja; manche Neos nicht).",
-        "Du brauchst das KEIN reguläres Geschäftskonto — ein dezidiertes \"Treuhandkonto i.G.\" reicht zur Stammkapitaleinzahlung. Viele Banken bieten beides parallel."
+        "Hausbanken (Sparkasse, Volksbank, Commerzbank) brauchen 2-4 Wochen für das Konto, bauen aber Kreditbeziehung auf. Neobanken (Finom, Qonto, Holvi) öffnen in 24-72h, sind aber für Bargründung & klassische Hausbankrolle weniger geeignet.",
+        "Achte darauf, dass die Bank explizit \"GmbH i.G.\"-Konten eröffnet, nicht alle Neobanken können das (Commerzbank Geschäftskonto, Postbank, Sparkassen ja; manche Neos nicht).",
+        "Du brauchst das KEIN reguläres Geschäftskonto, ein dezidiertes \"Treuhandkonto i.G.\" reicht zur Stammkapitaleinzahlung. Viele Banken bieten beides parallel."
       ],
       "description": "Konto eröffnest du auf den Namen \"[Firma] i.G.\" (in Gründung). Sobald HR-Eintrag durch ist, wird das Konto auf den Endnamen umgestellt. Stammkapital wird hier eingezahlt."
     },
@@ -158,9 +158,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "warning": "Bis HR-Eintrag DARFST du das Stammkapital nicht ausgeben (außer für Gründungskosten gemäß Satzung). Sonst Strafe wegen verdeckter Einlagenrückgewähr (§30 GmbHG).",
       "extendedNotes": [
-        "Die restlichen 12.500 € der GmbH (Differenz zwischen Mindesteinzahlung und Stammkapital) müssen lt. Gesetz noch nicht eingezahlt sein — in der Praxis fast immer trotzdem komplett einzahlen, um Rest-Forderung zu vermeiden."
+        "Die restlichen 12.500 € der GmbH (Differenz zwischen Mindesteinzahlung und Stammkapital) müssen lt. Gesetz noch nicht eingezahlt sein, in der Praxis fast immer trotzdem komplett einzahlen, um Rest-Forderung zu vermeiden."
       ],
-      "description": "Nach Konto-Eröffnung mind. 12.500 € (50%) auf das GmbH-i.G.-Konto einzahlen. Bank bestätigt — diese Bestätigung braucht der Notar, BEVOR er die HR-Anmeldung abschickt."
+      "description": "Nach Konto-Eröffnung mind. 12.500 € (50%) auf das GmbH-i.G.-Konto einzahlen. Bank bestätigt, diese Bestätigung braucht der Notar, BEVOR er die HR-Anmeldung abschickt."
     },
     "hr": {
       "externalLinks": [
@@ -174,10 +174,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Tipp: Du kannst beim zuständigen Amtsgericht (i.d.R. Handelsregister beim Amtsgericht der Stadt) anrufen und nach dem Stand fragen — hilft bei Verzögerungen.",
-        "Sobald HR-Eintrag durch ist, fällt der Zusatz \"i.G.\" weg. Bestelle dann gleich einen kostenpflichtigen HR-Auszug (~5 €) bei handelsregister.de — du brauchst ihn für Bank, Gewerbeamt, Marken-Anmeldung."
+        "Tipp: Du kannst beim zuständigen Amtsgericht (i.d.R. Handelsregister beim Amtsgericht der Stadt) anrufen und nach dem Stand fragen, hilft bei Verzögerungen.",
+        "Sobald HR-Eintrag durch ist, fällt der Zusatz \"i.G.\" weg. Bestelle dann gleich einen kostenpflichtigen HR-Auszug (~5 €) bei handelsregister.de, du brauchst ihn für Bank, Gewerbeamt, Marken-Anmeldung."
       ],
-      "description": "Notar reicht via beA ein, Amtsgericht prüft Form (Sitz, Name, Stammkapital, Vertretungsregel). Dauert 1–3 Wochen, bei kompletten Unterlagen typisch 5–10 Werktage. Eintragungsgebühr ~150 € + Bekanntmachungs-Gebühr ~5 € (von Notar weiterberechnet)."
+      "description": "Notar reicht via beA ein, Amtsgericht prüft Form (Sitz, Name, Stammkapital, Vertretungsregel). Dauert 1-3 Wochen, bei kompletten Unterlagen typisch 5-10 Werktage. Eintragungsgebühr ~150 € + Bekanntmachungs-Gebühr ~5 € (von Notar weiterberechnet)."
     },
     "gewerbe": {
       "checklist": [
@@ -186,7 +186,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Geschäftsführer-Bestellungsbeschluss (kommt vom Notar)",
         "Bei nicht-EU-Geschäftsführer: Aufenthaltstitel mit Erlaubnis zur selbstständigen/unselbständigen Erwerbstätigkeit",
         "Bei reglementierten Tätigkeiten (Handwerk, Gastronomie, Finanzdienstleistung): zusätzliche Genehmigungen",
-        "20–60 € Gebühr (Bar / EC-Karte vor Ort, online Lastschrift)"
+        "20-60 € Gebühr (Bar / EC-Karte vor Ort, online Lastschrift)"
       ],
       "externalLinks": [
         {
@@ -218,19 +218,19 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Das Gewerbeamt informiert AUTOMATISCH: Finanzamt (für Steuernummer-Anschreiben), IHK, Berufsgenossenschaft. Du musst diese drei NICHT separat anmelden.",
         "Trotzdem: Du musst aktiv den ELSTER-Fragebogen ausfüllen (siehe nächster Schritt) und ggf. proaktiv die USt-ID beim BZSt beantragen."
       ],
-      "description": "Nach HR-Eintrag innerhalb 1 Woche beim örtlichen Gewerbeamt der Stadt anmelden. 20–60 € Gebühr. Online-Portale gibt's in den meisten Großstädten."
+      "description": "Nach HR-Eintrag innerhalb 1 Woche beim örtlichen Gewerbeamt der Stadt anmelden. 20-60 € Gebühr. Online-Portale gibt's in den meisten Großstädten."
     },
     "fa": {
       "checklist": [
-        "ELSTER-Konto erstellen (Zertifikat dauert 2–4 Wochen per Post — JETZT machen!)",
+        "ELSTER-Konto erstellen (Zertifikat dauert 2-4 Wochen per Post, JETZT machen!)",
         "Fragebogen FsE für juristische Personen ausfüllen",
-        "Geschätzter Umsatz Jahr 1 + Jahr 2 (realistisch — Finanzamt richtet danach Voranmeldungs-Pflichten ein)",
+        "Geschätzter Umsatz Jahr 1 + Jahr 2 (realistisch, Finanzamt richtet danach Voranmeldungs-Pflichten ein)",
         "Geschätzter Gewinn Jahr 1 (für KSt-Vorauszahlungen)",
         "Bankverbindung der GmbH",
         "Wahl: Ist-Versteuerung (USt erst bei Geldeingang, max 800k Vorjahresumsatz) vs. Soll-Versteuerung (USt sofort bei Rechnungstellung)",
         "Wahl: Monatliche oder quartalsweise USt-Voranmeldung (ab 7.500 € USt-Schuld monatlich Pflicht)",
         "USt-ID separat beim BZSt beantragen wenn EU-Geschäfte geplant",
-        "Kleinunternehmer-Wahl (§19 UStG) erwägen wenn Umsätze < 25k Vorjahr & < 100k laufend (Reform 2025 — siehe Kleinunternehmer-Playbook)"
+        "Kleinunternehmer-Wahl (§19 UStG) erwägen wenn Umsätze < 25k Vorjahr & < 100k laufend (Reform 2025, siehe Kleinunternehmer-Playbook)"
       ],
       "externalLinks": [
         {
@@ -249,7 +249,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Frist 1 Monat ab Tätigkeitsaufnahme = ab HR-Eintrag oder erstem Auftrag. Säumniszuschlag möglich.",
       "extendedNotes": [
         "Realistische Umsatzschätzung im FsE: zu hoch = hohe KSt-Vorauszahlungen die du jeden Quartal entrichtest. Zu niedrig = ggf. später Nachzahlung + Verzugszinsen. Sprich kurz mit StB.",
-        "Ist-Versteuerung lohnt fast immer (USt erst zahlen, wenn Geld da ist) — wähle das bei FsE wenn Vorjahresumsatz < 800k."
+        "Ist-Versteuerung lohnt fast immer (USt erst zahlen, wenn Geld da ist), wähle das bei FsE wenn Vorjahresumsatz < 800k."
       ],
       "description": "Pflicht innerhalb 1 Monat ab Aufnahme der Tätigkeit. Fragebogen zur steuerlichen Erfassung (FsE) → Finanzamt vergibt Steuernummer (für Rechnungen) und ggf. USt-ID (parallel). Ohne Steuernummer keine Rechnungen."
     },
@@ -289,13 +289,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Solo-Gründer mit Gewinn < 5.200 € im 1. Jahr sind oft beitragsbefreit (variabel je IHK). Frag direkt nach.",
         "Bei IHK-Mitgliedschaft kannst du kostenlose Beratung, Existenzgründungs-Seminare, Außenwirtschafts-Hilfe nutzen."
       ],
-      "description": "Automatische Pflichtmitgliedschaft ab Gewerbeanmeldung. Du musst nichts tun — die IHK kommt auf dich zu. Im 1. Jahr meist nur Grundbeitrag (50–300 €), ab Gewinn-Schwelle umlageabhängig."
+      "description": "Automatische Pflichtmitgliedschaft ab Gewerbeanmeldung. Du musst nichts tun, die IHK kommt auf dich zu. Im 1. Jahr meist nur Grundbeitrag (50-300 €), ab Gewinn-Schwelle umlageabhängig."
     },
     "sv-ag": {
       "checklist": [
         "Berufsgenossenschaft eintragen (binnen 1 Woche nach AN-Einstellung)",
         "Betriebsnummer bei Agentur für Arbeit beantragen (für Lohnsteuer-Anmeldung)",
-        "Bei Solo-GF mit ≥ 50 % Anteilen: meist sozialversicherungsfrei — aber freiwillige KV/RV erwägen",
+        "Bei Solo-GF mit ≥ 50 % Anteilen: meist sozialversicherungsfrei, aber freiwillige KV/RV erwägen",
         "Bei Solo-GF mit < 50 % Anteilen: Status-Feststellung bei DRV-Clearingstelle (Pflicht)",
         "Bei AG einstellen: Lohnsteuerabführung in ELSTER + KV/RV/AV/PV in DEÜV-Verfahren"
       ],
@@ -324,7 +324,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Handelsregister-Suche im Amtsgerichtsbezirk",
         "DPMA + EUIPO Marken-Recherche",
         "Domain-Verfügbarkeit (.de, .com, ggf. weitere TLDs)",
-        "IHK-Vorabprüfung (kostenfrei, 1–3 Werktage)"
+        "IHK-Vorabprüfung (kostenfrei, 1-3 Werktage)"
       ],
       "fields": [
         {
@@ -361,9 +361,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Mit 1 € UG sieht man dich nicht ernst (Banken, Kunden) — und Notarkosten / Bürokratie sind gleich. Praktischer Mindestbetrag: 500 €.",
+        "Mit 1 € UG sieht man dich nicht ernst (Banken, Kunden), und Notarkosten / Bürokratie sind gleich. Praktischer Mindestbetrag: 500 €.",
         "Bei 5.000 € Stammkapital: noch deutlich unter den 25.000 € einer GmbH, aber \"echtes Kapital\" für Banken-Onboarding und Lieferanten-Bonität.",
-        "Sacheinlage bei UG ist VERBOTEN (§5a Abs 2 GmbHG) — nur Bargeld möglich."
+        "Sacheinlage bei UG ist VERBOTEN (§5a Abs 2 GmbHG), nur Bargeld möglich."
       ]
     },
     "musterprotokoll": {
@@ -374,14 +374,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Notarkosten Musterprotokoll-UG (1 GF, 1 Gesellschafter, 500 € Stammkapital): ca. 200–300 € all-in.",
-        "Notarkosten Individualsatzung-UG (z.B. Vesting, mehrere Klassen): 600–1.200 €.",
-        "Wenn du später Investoren aufnehmen willst (Wandeldarlehen, SAFE), brauchst du fast immer Individualsatzung — Musterprotokoll lässt das nicht zu."
+        "Notarkosten Musterprotokoll-UG (1 GF, 1 Gesellschafter, 500 € Stammkapital): ca. 200-300 € all-in.",
+        "Notarkosten Individualsatzung-UG (z.B. Vesting, mehrere Klassen): 600-1.200 €.",
+        "Wenn du später Investoren aufnehmen willst (Wandeldarlehen, SAFE), brauchst du fast immer Individualsatzung, Musterprotokoll lässt das nicht zu."
       ]
     },
     "notar-vorbereitung": {
       "checklist": [
-        "Personalausweis (Original) ODER Reisepass jedes Gesellschafters — persönliches Erscheinen",
+        "Personalausweis (Original) ODER Reisepass jedes Gesellschafters, persönliches Erscheinen",
         "Steuer-ID jeder Person (für Transparenzregister)",
         "Geschäftsanschrift schriftlich",
         "Geschäftsgegenstand (möglichst weit fassen)",
@@ -409,7 +409,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "type": "number"
         }
       ],
-      "description": "Beurkundung + HR-Anmeldung. Bei Musterprotokoll: deutlich kürzer (15–30 Min)."
+      "description": "Beurkundung + HR-Anmeldung. Bei Musterprotokoll: deutlich kürzer (15-30 Min)."
     },
     "konto": {
       "checklist": [
@@ -435,7 +435,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.handelsregister.de/rp_web/welcome.xhtml"
         }
       ],
-      "description": "1–3 Wochen typisch. Bei Musterprotokoll oft schneller (5–7 Werktage)."
+      "description": "1-3 Wochen typisch. Bei Musterprotokoll oft schneller (5-7 Werktage)."
     },
     "gewerbe": {
       "externalLinks": [
@@ -456,7 +456,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://stadt.muenchen.de/service/info/gewerbeamt/10261550/"
         }
       ],
-      "description": "Wie GmbH. HR-Auszug + PA + 20–60 € beim Gewerbeamt. Online-Portale verfügbar."
+      "description": "Wie GmbH. HR-Auszug + PA + 20-60 € beim Gewerbeamt. Online-Portale verfügbar."
     },
     "elster": {
       "externalLinks": [
@@ -474,9 +474,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "UG kann auch Kleinunternehmer-Regelung nutzen — siehe Kleinunternehmer-Playbook."
+        "UG kann auch Kleinunternehmer-Regelung nutzen, siehe Kleinunternehmer-Playbook."
       ],
-      "description": "Fragebogen FsE für jur. Personen. Steuernummer + USt-ID parallel beantragen. ELSTER-Zertifikat 2–4 Wochen Postlaufzeit — direkt nach HR-Eintrag starten."
+      "description": "Fragebogen FsE für jur. Personen. Steuernummer + USt-ID parallel beantragen. ELSTER-Zertifikat 2-4 Wochen Postlaufzeit, direkt nach HR-Eintrag starten."
     },
     "transparenzregister": {
       "externalLinks": [
@@ -486,7 +486,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "warning": "Bußgelder bis 100.000 €, in schweren Fällen bis 1 Mio. € (§ 56 GwG), bei Versäumnis.",
-      "description": "Pflicht — wirtschaftlich Berechtigte eintragen. Wie GmbH."
+      "description": "Pflicht, wirtschaftlich Berechtigte eintragen. Wie GmbH."
     },
     "ruecklage": {
       "extendedNotes": [
@@ -494,7 +494,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Solange das Stammkapital unter 25.000 € liegt: Ausschüttungen nur aus dem Gewinnteil, der nach Bildung der Rücklage übrig bleibt.",
         "Die Rücklagenpflicht endet erst, wenn du das Stammkapital per notarieller Kapitalerhöhung (z. B. aus der Rücklage, § 57c GmbHG) auf mindestens 25.000 € erhöhst (§ 5a Abs. 5 GmbHG). Danach darfst du als GmbH firmieren. Notarkosten ~600 €."
       ],
-      "description": "UG-Spezifikum (§5a Abs 3 GmbHG): jährlich 25 % des Jahresgewinns als gesetzliche Rücklage bilden — so lange, bis das Stammkapital per Kapitalerhöhung auf 25.000 € angehoben ist (§ 5a Abs. 5 GmbHG). Automatisch wird die UG nicht zur GmbH."
+      "description": "UG-Spezifikum (§5a Abs 3 GmbHG): jährlich 25 % des Jahresgewinns als gesetzliche Rücklage bilden, so lange, bis das Stammkapital per Kapitalerhöhung auf 25.000 € angehoben ist (§ 5a Abs. 5 GmbHG). Automatisch wird die UG nicht zur GmbH."
     }
   },
   "einzelunternehmen-gruendung": {
@@ -515,16 +515,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Als Einzelunternehmer brauchst du KEINEN Firmennamen — du firmierst unter deinem eigenen Namen (z.B. \"Max Mustermann\"). Optional ist ein Geschäfts-Zusatz erlaubt (\"Max Mustermann · NaturKosmetik\").",
-        "Wenn du einen abweichenden Firmennamen führen willst, geht das nur über Eintragung als \"eingetragener Kaufmann\" (e.K.) im Handelsregister — Notar nötig, ~250 €.",
-        "Tipp: schreib die Tätigkeit so konkret wie möglich. \"Online-Handel\" reicht nicht — \"Online-Handel mit selbst hergestellten Naturkosmetik-Produkten via Etsy und Shopify\" ist Gewerbeamt-tauglich."
+        "Als Einzelunternehmer brauchst du KEINEN Firmennamen, du firmierst unter deinem eigenen Namen (z.B. \"Max Mustermann\"). Optional ist ein Geschäfts-Zusatz erlaubt (\"Max Mustermann · NaturKosmetik\").",
+        "Wenn du einen abweichenden Firmennamen führen willst, geht das nur über Eintragung als \"eingetragener Kaufmann\" (e.K.) im Handelsregister, Notar nötig, ~250 €.",
+        "Tipp: schreib die Tätigkeit so konkret wie möglich. \"Online-Handel\" reicht nicht, \"Online-Handel mit selbst hergestellten Naturkosmetik-Produkten via Etsy und Shopify\" ist Gewerbeamt-tauglich."
       ]
     },
     "freiberufler-check": {
       "extendedNotes": [
-        "Klassische Freiberufe (§18 EStG): Ärzte, Anwälte, Steuerberater, Architekten, Journalisten, Schriftsteller, Künstler, Dolmetscher, IT-Beratung (umstritten — oft Gewerbe).",
+        "Klassische Freiberufe (§18 EStG): Ärzte, Anwälte, Steuerberater, Architekten, Journalisten, Schriftsteller, Künstler, Dolmetscher, IT-Beratung (umstritten, oft Gewerbe).",
         "Klares Gewerbe: Online-Shop, Affiliate-Marketing, Print-on-Demand, Social-Media-Werbung, Coaching mit konkretem Methoden-Verkauf, Influencer-Brand-Deals.",
-        "Hybrid: viele Creator + Coaches haben sowohl-als-auch — dann meist beim Finanzamt klären lassen.",
+        "Hybrid: viele Creator + Coaches haben sowohl-als-auch, dann meist beim Finanzamt klären lassen.",
         "Vorteil Freiberuf: keine GewSt, keine IHK-Pflicht, kein Gewerbeamt-Termin."
       ]
     },
@@ -532,23 +532,23 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Ohne familiengerichtliche Genehmigung darf ein Minderjähriger KEIN Gewerbe selbständig betreiben (§112 BGB). Das Gewerbeamt prüft das Geburtsdatum und lehnt sonst ab.",
       "extendedNotes": [
         "Volljährig (≥18): überspringe den nächsten Schritt \"Familiengericht\".",
-        "U18 (auch wenn 17 + 11 Monate): du brauchst die Genehmigung. Das ist KEIN Beinbruch — viele Jugendliche bekommen sie problemlos. Aber 4–12 Wochen Bearbeitungszeit einplanen!",
+        "U18 (auch wenn 17 + 11 Monate): du brauchst die Genehmigung. Das ist KEIN Beinbruch, viele Jugendliche bekommen sie problemlos. Aber 4-12 Wochen Bearbeitungszeit einplanen!",
         "Eltern müssen den Antrag stellen (gesetzliche Vertreter), du selbst kannst nicht eigenständig beantragen."
       ]
     },
     "familiengericht": {
-      "warning": "Ohne diese Genehmigung verweigert das Gewerbeamt die Anmeldung. Plane 4–12 Wochen Bearbeitungszeit ein.",
+      "warning": "Ohne diese Genehmigung verweigert das Gewerbeamt die Anmeldung. Plane 4-12 Wochen Bearbeitungszeit ein.",
       "extendedNotes": [
-        "Bearbeitungszeit Familiengericht: 4–12 Wochen je nach Gericht-Auslastung.",
+        "Bearbeitungszeit Familiengericht: 4-12 Wochen je nach Gericht-Auslastung.",
         "Falls Eltern nicht beide unterschreiben können (geschieden, im Ausland): Sorgerechts-Beschluss / Vollmacht beilegen.",
-        "Die Genehmigung wirkt teilweise — das Kind ist nur im Geschäftsbereich beschränkt geschäftsfähig (§112 Abs 1 BGB). Außerhalb (z.B. Auto kaufen privat) brauchst du weiterhin Eltern-Zustimmung bis zum 18.",
+        "Die Genehmigung wirkt teilweise, das Kind ist nur im Geschäftsbereich beschränkt geschäftsfähig (§112 Abs 1 BGB). Außerhalb (z.B. Auto kaufen privat) brauchst du weiterhin Eltern-Zustimmung bis zum 18.",
         "Tipp: Der Antrag wird mit höherer Wahrscheinlichkeit genehmigt, wenn du Risiko-Begrenzungen reinschreibst (z.B. \"kein Wareneinkauf > 500 € ohne Eltern-Freigabe\", \"keine Kreditaufnahme\", \"kein Mietvertrag\")."
       ],
       "description": "Nur durchführen wenn du minderjährig bist. Antrag auf Genehmigung des selbständigen Erwerbsgeschäfts nach §112 BGB. Hier kannst du alle Daten erfassen → fertiger PDF-Antrag zum Ausdrucken + Unterschreiben + Einreichen."
     },
     "gewa1-pdf": {
       "extendedNotes": [
-        "Das Vorbereitungs-PDF ist KEIN offizielles Formular — es ist eine sortierte Datensammlung mit Mitbring-Liste, die du beim Online-Portal kopierst oder zum Termin mitbringst.",
+        "Das Vorbereitungs-PDF ist KEIN offizielles Formular, es ist eine sortierte Datensammlung mit Mitbring-Liste, die du beim Online-Portal kopierst oder zum Termin mitbringst.",
         "Wer einen abweichenden Firmen-Zusatz nutzen will (z.B. \"Max Mustermann · KreaShop\"), trägt das im Feld \"Familienname\" mit ein.",
         "Bei mehreren Tätigkeiten: alle in einem Satz mit Komma getrennt eintragen."
       ],
@@ -561,7 +561,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bei U18: familiengerichtliche Genehmigung (Original)",
         "Bei reglementierten Tätigkeiten: zusätzliche Erlaubnis (z.B. §34c GewO)",
         "Bei Handwerk: Handwerksrollen-Eintragung",
-        "20–60 € (Bar / EC-Karte / Online-Lastschrift)"
+        "20-60 € (Bar / EC-Karte / Online-Lastschrift)"
       ],
       "externalLinks": [
         {
@@ -589,11 +589,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://frankfurt.de/service-und-rathaus/online-services/gewerbeamt"
         }
       ],
-      "description": "Mit dem Vorbereitungs-PDF zum Gewerbeamt — entweder online (viele Großstädte) oder physisch. 20–60 € Gebühr."
+      "description": "Mit dem Vorbereitungs-PDF zum Gewerbeamt, entweder online (viele Großstädte) oder physisch. 20-60 € Gebühr."
     },
     "elster": {
       "checklist": [
-        "ELSTER-Konto erstellen (Zertifikat dauert 2–4 Wochen per Post — JETZT machen!)",
+        "ELSTER-Konto erstellen (Zertifikat dauert 2-4 Wochen per Post, JETZT machen!)",
         "Fragebogen FsE für natürliche Personen",
         "Geschätzter Umsatz Jahr 1 + 2 (realistisch)",
         "Geschätzter Gewinn Jahr 1 (für ESt-Vorauszahlungen)",
@@ -617,7 +617,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "warning": "Frist 1 Monat ab Tätigkeitsaufnahme. Säumniszuschlag möglich.",
-      "description": "Pflicht innerhalb 1 Monat ab Tätigkeitsaufnahme. ELSTER-Konto erstellen → Fragebogen FsE (natürliche Person) ausfüllen. Steuernummer kommt 2–6 Wochen später per Post."
+      "description": "Pflicht innerhalb 1 Monat ab Tätigkeitsaufnahme. ELSTER-Konto erstellen → Fragebogen FsE (natürliche Person) ausfüllen. Steuernummer kommt 2-6 Wochen später per Post."
     },
     "kleinunternehmer-check": {
       "externalLinks": [
@@ -629,7 +629,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Faustregel: B2C (Privatkunden) + niedriges Investitions-Bedarf → KU lohnt.",
         "B2B (Unternehmen kaufen) + hohe Eingangs-Rechnungen → Regelbesteuerung lohnt (Vorsteuerabzug).",
-        "Wahl bindet 5 Jahre — nicht jährlich umschwenken."
+        "Wahl bindet 5 Jahre, nicht jährlich umschwenken."
       ],
       "description": "Bis 25k €/Jahr Umsatz: keine USt → einfacher. Aber bei B2B-Kunden / großen Investitionen: oft NACHTEILIG. Quick-Check + Verlinkung zum Detail-Playbook."
     },
@@ -650,7 +650,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Einige Neobanken (z.B. Kontist) lehnen U18-Konten kategorisch ab. Holvi und Finom sind hier offener.",
         "Hausbank-Konto (Sparkasse, Volksbank): bei U18 zwingend mit Eltern-Mit-Unterschrift."
       ],
-      "description": "Auch als Einzelunternehmer wichtig — saubere Trennung privat/business. Holvi/Finom/Qonto/Kontist für schnellen Onboarding."
+      "description": "Auch als Einzelunternehmer wichtig, saubere Trennung privat/business. Holvi/Finom/Qonto/Kontist für schnellen Onboarding."
     },
     "buchhaltung": {
       "checklist": [
@@ -694,7 +694,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "anteile-einbringen": {
       "warning": "7-Jahres-Sperrfrist: Verkauf der eingebrachten Anteile innerhalb 7 Jahren = rückwirkende Versteuerung.",
-      "description": "Nach §21 UmwStG steuerneutral – aber 7 Jahre Sperrfrist beachten."
+      "description": "Nach §21 UmwStG steuerneutral, aber 7 Jahre Sperrfrist beachten."
     },
     "ausschuettung": {
       "checklist": [
@@ -735,7 +735,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Achtung: Wahl bindet 5 Jahre — du kannst nicht zwischen KU + Regelbesteuerung jährlich hin und her schalten.",
+        "Achtung: Wahl bindet 5 Jahre, du kannst nicht zwischen KU + Regelbesteuerung jährlich hin und her schalten.",
         "Falls du dich gegen KU entscheidest, gilt automatisch Regelbesteuerung."
       ]
     },
@@ -747,7 +747,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Im B2B: Kunden vorab informieren, dass keine Vorsteuer gezogen werden kann",
         "Eingangsrechnungen mit USt: USt zwar bezahlen, aber NICHT als Vorsteuer geltend machen (Buchung als Aufwand brutto)"
       ],
-      "warning": "Wenn du versehentlich USt auf einer Rechnung ausweist, schuldest du diese USt dem Finanzamt — auch als Kleinunternehmer (§14c UStG).",
+      "warning": "Wenn du versehentlich USt auf einer Rechnung ausweist, schuldest du diese USt dem Finanzamt, auch als Kleinunternehmer (§14c UStG).",
       "description": "Pflicht-Hinweis auf JEDER Rechnung: \"Gemäß §19 UStG wird keine Umsatzsteuer berechnet.\" Sonst Aberkennung möglich."
     },
     "vorsteuer-falle": {
@@ -760,9 +760,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "USt-Voranmeldung beim FA monatlich oder quartalsweise (je nach Umsatz)",
         "Kunden vorinformieren (\"ab nächstem Jahr +19 % auf Rechnungen\")",
         "Buchhaltungs-Tool umstellen (Lexoffice, sevDesk, etc.)",
-        "StB konsultieren — Wechsel kann komplex sein"
+        "StB konsultieren, Wechsel kann komplex sein"
       ],
-      "description": "Bei Überschreiten 25k Vorjahr ODER 100k erwartet im laufenden Jahr: ab Folgejahr USt-pflichtig. Frühzeitig vorbereiten — Buchhaltung muss umgestellt werden."
+      "description": "Bei Überschreiten 25k Vorjahr ODER 100k erwartet im laufenden Jahr: ab Folgejahr USt-pflichtig. Frühzeitig vorbereiten, Buchhaltung muss umgestellt werden."
     }
   },
   "marke-anmelden": {
@@ -794,18 +794,18 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "TMView ist das umfassendste EU-Tool — sucht parallel in DPMA, EUIPO und allen nationalen Registern. Unbedingt nutzen, nicht nur DPMA.",
-        "Suche nach phonetischen Ähnlichkeiten (z.B. \"Krea\" findet \"Kreya\", \"Crea\") — IDENTITÄTS-Recherche reicht nicht, ÄHNLICHKEITS-Recherche ist Pflicht für Risiko-Assessment."
+        "TMView ist das umfassendste EU-Tool, sucht parallel in DPMA, EUIPO und allen nationalen Registern. Unbedingt nutzen, nicht nur DPMA.",
+        "Suche nach phonetischen Ähnlichkeiten (z.B. \"Krea\" findet \"Kreya\", \"Crea\"), IDENTITÄTS-Recherche reicht nicht, ÄHNLICHKEITS-Recherche ist Pflicht für Risiko-Assessment."
       ]
     },
     "scope": {
       "extendedNotes": [
         "Faustregel: Wenn du nur DACH bedienst → DE-Marke + ggf. AT (110 €) / CH (550 CHF) separat. Wenn EU-weit → EU-Marke (deutlich günstiger pro Land). Wenn US/Asia geplant → Madrid-System (siehe eigener Step).",
-        "EU-Marke zählt als \"identische Marke\" in allen 27 EU-Ländern — bei Konflikt mit nur einer nationalen Marke (z.B. eine ältere FR-Marke) kann sie komplett scheitern (\"all-or-nothing\").",
+        "EU-Marke zählt als \"identische Marke\" in allen 27 EU-Ländern, bei Konflikt mit nur einer nationalen Marke (z.B. eine ältere FR-Marke) kann sie komplett scheitern (\"all-or-nothing\").",
         "Best-Practice für DACH-Brands ohne EU-Ambitionen: DE-Marke (290 €) + AT (110 € via Patentamt.at) + CH (550 CHF via IGE.ch) = ~950 € total, drei separate Marken statt einer EU-Marke mit Konflikt-Risiko.",
         "Bei späterem Ausbau: DE/EU-Marke kann jederzeit als Basis für Madrid-System dienen (5-Jahres-Abhängigkeit, siehe Madrid-Step).",
-        "Schweiz ist NICHT in EU-Marke enthalten — Pflicht-Anmeldung beim Eidgenössischen Institut für Geistiges Eigentum (IGE) separat.",
-        "UK ist seit Brexit NICHT mehr in EU-Marke — separate UK-Marke (UKIPO) ab £170 oder via Madrid."
+        "Schweiz ist NICHT in EU-Marke enthalten, Pflicht-Anmeldung beim Eidgenössischen Institut für Geistiges Eigentum (IGE) separat.",
+        "UK ist seit Brexit NICHT mehr in EU-Marke, separate UK-Marke (UKIPO) ab £170 oder via Madrid."
       ]
     },
     "marken-typ": {
@@ -817,10 +817,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Faustregel: Wortmarke IMMER ZUERST. Schützt den Namen unabhängig vom Logo. Logos können sich ändern, Namen typischerweise nicht.",
-        "Wenn Budget für nur eine Marke: Wortmarke gewinnt 9/10 mal — sie schützt am breitesten (jede grafische Variation deines Namens).",
+        "Wenn Budget für nur eine Marke: Wortmarke gewinnt 9/10 mal, sie schützt am breitesten (jede grafische Variation deines Namens).",
         "Wort-Bild-Marke ist GEFÄHRLICH: Schutz nur für die EXAKTE Kombi. Bei späterem Logo-Redesign → Schutz weg. Lieber 2 separate Anmeldungen (Wort + Bild).",
         "Bildmarke (nur Logo) wird gebraucht wenn Logo besonders einzigartig ist (z.B. Apple-Apfel, Nike-Swoosh) und Brand-Erkennung über das Visual läuft.",
-        "3D-Marken (Form, Verpackung) sind sehr schwer durchzubekommen — typisch nur ikonische Formen (Toblerone-Dreieck, Coca-Cola-Flasche). Scope: §3 MarkenG.",
+        "3D-Marken (Form, Verpackung) sind sehr schwer durchzubekommen, typisch nur ikonische Formen (Toblerone-Dreieck, Coca-Cola-Flasche). Scope: §3 MarkenG.",
         "Hörmarken: musikalische Notation (kein Audio-File!) muss eingereicht werden. Selten genutzt außer bei Audio-Brands.",
         "Position-/Bewegungs-/Multimedia-Marken: möglich seit 2019 (TM-Reform), in der Praxis kaum bei E-Commerce-Brands.",
         "Strategischer Stack für seriöse Brands: 1) Wortmarke (Name), 2) Bildmarke (Logo solo), 3) optional Wort-Bild für hauptsächliche Verwendung."
@@ -854,39 +854,39 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Die wichtigsten Klassen für E-Commerce-Brands (mit typischen Begriffen):",
-        "Klasse 3: Kosmetik, Hautpflege, Make-up, Düfte, Seifen, Zahnpflege, Reinigungsmittel — Beauty/Personal Care D2C",
-        "Klasse 5: Nahrungsergänzungsmittel, Pharmazeutika, Medizinprodukte, Pflaster, diätetische Erzeugnisse — Supplements/MedTech",
-        "Klasse 9: Elektronik, Software, Apps, Wearables, Brillen, Kopfhörer, Smart-Home — Tech/Electronics",
-        "Klasse 10: Medizinische Geräte (nicht-pharma), Massage-Geräte, Inkontinenz-Produkte — MedTech ohne Wirkstoff",
-        "Klasse 11: Lampen, Heiz-/Kühl-/Kochgeräte, Wasseraufbereitung — Household-Electronics",
-        "Klasse 14: Schmuck, Uhren, Edelmetalle — Jewelry-Brands",
-        "Klasse 18: Leder, Taschen, Koffer, Geldbörsen — Bags/Accessories",
-        "Klasse 20: Möbel, Spiegel, Bilderrahmen, Matratzen — Home-Furnishing",
-        "Klasse 21: Haushaltsgeräte, Geschirr, Glasware, Bürsten — Kitchenware",
-        "Klasse 24: Textilien, Bettwäsche, Tischtücher, Vorhänge — Home-Textiles",
-        "Klasse 25: Bekleidung, Schuhe, Kopfbedeckungen — Fashion",
-        "Klasse 28: Spiele, Spielzeug, Sportartikel, Fitness-Equipment — Sports/Toys",
-        "Klasse 29: Fleisch, Fisch, Milchprodukte, Eier, Speiseöle — Food (animal-origin)",
-        "Klasse 30: Kaffee, Tee, Backwaren, Süßwaren, Gewürze — Food (plant-origin/processed)",
-        "Klasse 32: Biere, alkoholfreie Getränke, Mineralwasser — Beverages-non-alcoholic",
-        "Klasse 33: Alkoholische Getränke außer Bier — Spirits/Wine",
-        "Klasse 35: Werbung, Online-Shop-Betrieb, Geschäftsführung, Marketing — Marketing-/Service-Brand",
+        "Klasse 3: Kosmetik, Hautpflege, Make-up, Düfte, Seifen, Zahnpflege, Reinigungsmittel, Beauty/Personal Care D2C",
+        "Klasse 5: Nahrungsergänzungsmittel, Pharmazeutika, Medizinprodukte, Pflaster, diätetische Erzeugnisse, Supplements/MedTech",
+        "Klasse 9: Elektronik, Software, Apps, Wearables, Brillen, Kopfhörer, Smart-Home, Tech/Electronics",
+        "Klasse 10: Medizinische Geräte (nicht-pharma), Massage-Geräte, Inkontinenz-Produkte, MedTech ohne Wirkstoff",
+        "Klasse 11: Lampen, Heiz-/Kühl-/Kochgeräte, Wasseraufbereitung, Household-Electronics",
+        "Klasse 14: Schmuck, Uhren, Edelmetalle, Jewelry-Brands",
+        "Klasse 18: Leder, Taschen, Koffer, Geldbörsen, Bags/Accessories",
+        "Klasse 20: Möbel, Spiegel, Bilderrahmen, Matratzen, Home-Furnishing",
+        "Klasse 21: Haushaltsgeräte, Geschirr, Glasware, Bürsten, Kitchenware",
+        "Klasse 24: Textilien, Bettwäsche, Tischtücher, Vorhänge, Home-Textiles",
+        "Klasse 25: Bekleidung, Schuhe, Kopfbedeckungen, Fashion",
+        "Klasse 28: Spiele, Spielzeug, Sportartikel, Fitness-Equipment, Sports/Toys",
+        "Klasse 29: Fleisch, Fisch, Milchprodukte, Eier, Speiseöle, Food (animal-origin)",
+        "Klasse 30: Kaffee, Tee, Backwaren, Süßwaren, Gewürze, Food (plant-origin/processed)",
+        "Klasse 32: Biere, alkoholfreie Getränke, Mineralwasser, Beverages-non-alcoholic",
+        "Klasse 33: Alkoholische Getränke außer Bier, Spirits/Wine",
+        "Klasse 35: Werbung, Online-Shop-Betrieb, Geschäftsführung, Marketing, Marketing-/Service-Brand",
         "Klasse 38: Telekommunikation, Streaming-Dienste",
-        "Klasse 41: Bildung, Coaching, Online-Kurse, Veröffentlichung — Coaches/Creators/EduTech",
-        "Klasse 42: Software-Entwicklung, IT-Beratung, SaaS, Web-Hosting — Tech-Services",
-        "Klasse 43: Verpflegung, Beherbergung — Hotels/Restaurants",
-        "Klasse 44: Schönheits-/Gesundheitspflege (Salon/Klinik), Tierpflege — Salon/Spa-Brands",
+        "Klasse 41: Bildung, Coaching, Online-Kurse, Veröffentlichung, Coaches/Creators/EduTech",
+        "Klasse 42: Software-Entwicklung, IT-Beratung, SaaS, Web-Hosting, Tech-Services",
+        "Klasse 43: Verpflegung, Beherbergung, Hotels/Restaurants",
+        "Klasse 44: Schönheits-/Gesundheitspflege (Salon/Klinik), Tierpflege, Salon/Spa-Brands",
         "Klasse 45: Rechtsberatung, Sicherheitsdienste, Online-Dating, Persönliche Dienste",
-        "REGEL: Bei E-Commerce IMMER Klasse 35 dazu (Werbung + Online-Shop) — wer das vergisst, hat keinen Schutz für die Online-Verkaufstätigkeit selbst.",
-        "REGEL: NICHT mehr Klassen als nötig — benutzungspflichtig nach 5 Jahren! Wenn du in einer Klasse 5 Jahre nicht aktiv bist, kann ein Wettbewerber Löschung beantragen (DPMA 100 € / EUIPO 630 € Antragsgebühr).",
+        "REGEL: Bei E-Commerce IMMER Klasse 35 dazu (Werbung + Online-Shop), wer das vergisst, hat keinen Schutz für die Online-Verkaufstätigkeit selbst.",
+        "REGEL: NICHT mehr Klassen als nötig, benutzungspflichtig nach 5 Jahren! Wenn du in einer Klasse 5 Jahre nicht aktiv bist, kann ein Wettbewerber Löschung beantragen (DPMA 100 € / EUIPO 630 € Antragsgebühr).",
         "REGEL: Konkret formulieren! 'Bekleidung' = unspezifisch, oft Beanstandung. Besser: 'T-Shirts, Hoodies, Caps, Jogginghosen'.",
-        "Nutze IMMER harmonisierte Begriffe aus TMclass (HDB-Liste) — beschleunigt Anmeldung, vermeidet Beanstandung."
+        "Nutze IMMER harmonisierte Begriffe aus TMclass (HDB-Liste), beschleunigt Anmeldung, vermeidet Beanstandung."
       ],
-      "description": "Marken werden für 1–45 Klassen registriert (Nizza-Klassifikation, 13. Edition / NCL 13-2026, in Kraft seit 1.1.2026). DPMA: Grundgebühr deckt 3 Klassen ab. EUIPO: Grundgebühr 1 Klasse, +50 € für 2., +150 € pro weitere."
+      "description": "Marken werden für 1-45 Klassen registriert (Nizza-Klassifikation, 13. Edition / NCL 13-2026, in Kraft seit 1.1.2026). DPMA: Grundgebühr deckt 3 Klassen ab. EUIPO: Grundgebühr 1 Klasse, +50 € für 2., +150 € pro weitere."
     },
     "logo-prep": {
       "checklist": [
-        "Logo als Vektor (AI/SVG) vorhanden — sonst nachvektorisieren lassen (Fiverr ~30 €)",
+        "Logo als Vektor (AI/SVG) vorhanden, sonst nachvektorisieren lassen (Fiverr ~30 €)",
         "PNG-Export 1.000 × 1.000 px, 300 dpi, Hintergrund transparent oder weiß",
         "Falls farbig: separate B/W-Version anlegen (für strategische Schutz-Wahl)",
         "Datei-Größe < 2 MB (DPMA) bzw. < 4 MB (EUIPO)",
@@ -906,24 +906,24 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "S/W vs. Farbe — strategische Wahl: S/W-Anmeldung GALT bis ~2017 als 'schützt alle Farben'. Seit EuGH-Urteil 'Specsavers' (2013) und neuer Praxis: nur eingeschränkt. Heute Best-Practice: in der Hauptverwendungsfarbe anmelden.",
+        "S/W vs. Farbe, strategische Wahl: S/W-Anmeldung GALT bis ~2017 als 'schützt alle Farben'. Seit EuGH-Urteil 'Specsavers' (2013) und neuer Praxis: nur eingeschränkt. Heute Best-Practice: in der Hauptverwendungsfarbe anmelden.",
         "Wenn Logo später leicht angepasst wird (Farb-Refresh, Schrift-Tweak): bestehende Marke gilt weiter solange Kerncharakter erhalten. Bei größerem Redesign → neu anmelden.",
         "Häufige Ablehnungsgründe: Logo enthält generische Begriffe ('Premium', 'Bio', 'Eco' isoliert), Logo zu ähnlich zu bestehender Marke (TMView!), beschreibender Charakter.",
         "Pro-Tipp: Vor Einreichung Logo durch DPMA-Praxis-Test: rein grafische Elemente werden eher akzeptiert als reine Schrift-Logos (die in Wortmarke gehören).",
-        "Wenn du Logo + Markennamen zusammen schützen willst: lieber 2 separate Anmeldungen (Wortmarke + Bildmarke) statt 1 Wort-Bild-Marke — mehr Flexibilität, kaum Mehrkosten bei DPMA (290 € + 290 €)."
+        "Wenn du Logo + Markennamen zusammen schützen willst: lieber 2 separate Anmeldungen (Wortmarke + Bildmarke) statt 1 Wort-Bild-Marke, mehr Flexibilität, kaum Mehrkosten bei DPMA (290 € + 290 €)."
       ],
-      "description": "DPMA: PNG/JPG/PDF, max 2 MB, mind. 300 dpi. EUIPO: PNG/JPG, max 4 MB. Dateiformat-Standards einhalten — sonst formelle Beanstandung + 4–8 Wochen Verzögerung."
+      "description": "DPMA: PNG/JPG/PDF, max 2 MB, mind. 300 dpi. EUIPO: PNG/JPG, max 4 MB. Dateiformat-Standards einhalten, sonst formelle Beanstandung + 4-8 Wochen Verzögerung."
     },
     "anmeldung": {
       "checklist": [
         "DPMA Schritt 1: 'Markenanmeldung' Formular wählen (W7005 / Online-Variante)",
-        "DPMA Schritt 2: Anmeldername + Adresse (Inhaber = Firma ODER natürliche Person — Wechsel später aufwendig)",
-        "DPMA Schritt 3: Markendarstellung — Wortmarke (Text-Eingabe) ODER Logo-Datei hochladen",
+        "DPMA Schritt 2: Anmeldername + Adresse (Inhaber = Firma ODER natürliche Person, Wechsel später aufwendig)",
+        "DPMA Schritt 3: Markendarstellung, Wortmarke (Text-Eingabe) ODER Logo-Datei hochladen",
         "DPMA Schritt 4: Markentyp wählen (Wort/Bild/Wort-Bild aus voriger Entscheidung)",
         "DPMA Schritt 5: Nizza-Klassen + Waren/Dienstleistungs-Liste eintragen (max 3 Klassen für Grundgebühr)",
         "DPMA Schritt 6: Erklärungen (Wahrheits-Checkboxen, Vertretung)",
         "DPMA Schritt 7: Optional: Beschleunigte Prüfung ankreuzen (+200 €, Halbierung Bearbeitungszeit)",
-        "DPMA Schritt 8: Zahlungs-Optionen — SEPA-Lastschriftmandat ODER Überweisung (Lastschrift schneller)",
+        "DPMA Schritt 8: Zahlungs-Optionen, SEPA-Lastschriftmandat ODER Überweisung (Lastschrift schneller)",
         "DPMA Schritt 9: Empfangsbestätigung + Aktenzeichen sicher speichern (PDF + Ordner-Backup)",
         "EUIPO Schritt 1: Account erstellen (separat von DPMA, gleicher Login funktioniert nicht)",
         "EUIPO Schritt 2: 'File a trade mark' → Fast-Track wählen (Voraussetzung: harmonisierte Klassen-Begriffe + Online-Zahlung)",
@@ -954,17 +954,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "DPMA Bearbeitungszeit Standard: 5–8 Monate. Mit beschleunigter Prüfung (+200 €): 2–4 Monate. Beschleunigt lohnt nur bei Konflikt-Risiko, Investoren-Druck oder Launch-Termin.",
-        "EUIPO Fast-Track: 4 Monate wenn Standard-Klassen + harmonisierte Begriffe + Online-Zahlung. Sonst 6–8 Monate.",
-        "EUIPO 'Pre-grant Search Report' (kostenfrei): zeigt ähnliche Marken in EU. UNBEDINGT vor Submit ansehen — wenn Konflikt sichtbar, nicht einreichen sondern Strategie überdenken.",
-        "Madrid-Anmeldung läuft NUR über deine Heim-Marke (DPMA/EUIPO als Office of Origin) — du musst zuerst DE/EU haben (oder zumindest in DE/EU angemeldet — Eintragung nicht zwingend).",
-        "Häufiger Anfänger-Fehler 1: Klassen-Beschreibung zu generisch ('Bekleidung'). Besser: konkret ('T-Shirts, Hoodies, Caps'). DPMA fordert sonst nach (Verzögerung 4–6 Wochen).",
+        "DPMA Bearbeitungszeit Standard: 5-8 Monate. Mit beschleunigter Prüfung (+200 €): 2-4 Monate. Beschleunigt lohnt nur bei Konflikt-Risiko, Investoren-Druck oder Launch-Termin.",
+        "EUIPO Fast-Track: 4 Monate wenn Standard-Klassen + harmonisierte Begriffe + Online-Zahlung. Sonst 6-8 Monate.",
+        "EUIPO 'Pre-grant Search Report' (kostenfrei): zeigt ähnliche Marken in EU. UNBEDINGT vor Submit ansehen, wenn Konflikt sichtbar, nicht einreichen sondern Strategie überdenken.",
+        "Madrid-Anmeldung läuft NUR über deine Heim-Marke (DPMA/EUIPO als Office of Origin), du musst zuerst DE/EU haben (oder zumindest in DE/EU angemeldet, Eintragung nicht zwingend).",
+        "Häufiger Anfänger-Fehler 1: Klassen-Beschreibung zu generisch ('Bekleidung'). Besser: konkret ('T-Shirts, Hoodies, Caps'). DPMA fordert sonst nach (Verzögerung 4-6 Wochen).",
         "Häufiger Anfänger-Fehler 2: Marke ist beschreibend ('Bio-Vitamine' für Vitamine = Ablehnung wegen §8 MarkenG / Art. 7 EUTMR). Lösung: Phantasie-Wort + Slogan separat.",
         "Häufiger Anfänger-Fehler 3: Anmelder ist falsch eingetragen (Privat statt GmbH bei B2B-Brand). Übertragung nachträglich = 100 € DPMA / 200 € EUIPO + Aufwand.",
-        "Pro-Tipp: vor Submit eine Test-Recherche bei TMView (https://www.tmdn.org/tmview) für DEIN Wunsch-Wort + ALLE Klassen — manchmal versteckter Konflikt in Klasse die du gar nicht prüfen wolltest.",
-        "Anwalts-Frage: Lohnt sich? Bei einfacher Wortmarke ohne Konflikt: nein, DIY reicht. Bei Bildmarke / Wort-Bild / mehrdeutigem Namen: 300–800 € Anwalts-Beratung sind günstige Versicherung."
+        "Pro-Tipp: vor Submit eine Test-Recherche bei TMView (https://www.tmdn.org/tmview) für DEIN Wunsch-Wort + ALLE Klassen, manchmal versteckter Konflikt in Klasse die du gar nicht prüfen wolltest.",
+        "Anwalts-Frage: Lohnt sich? Bei einfacher Wortmarke ohne Konflikt: nein, DIY reicht. Bei Bildmarke / Wort-Bild / mehrdeutigem Namen: 300-800 € Anwalts-Beratung sind günstige Versicherung."
       ],
-      "description": "DPMA: DPMAdirektWeb (online ohne Login für 1-Anmeldung möglich). EUIPO: User Area mit Login. WIPO Madrid: nur über DPMA/EUIPO als 'Office of Origin'. Bezahlung muss zuerst eingehen — Bearbeitung startet erst nach Geldeingang."
+      "description": "DPMA: DPMAdirektWeb (online ohne Login für 1-Anmeldung möglich). EUIPO: User Area mit Login. WIPO Madrid: nur über DPMA/EUIPO als 'Office of Origin'. Bezahlung muss zuerst eingehen, Bearbeitung startet erst nach Geldeingang."
     },
     "beanstandung": {
       "checklist": [
@@ -975,16 +975,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Stellungnahme schriftlich per DPMAdirekt / EUIPO-User-Area einreichen (nicht per Email!)",
         "Frist: Standard 2 Monate ab Bescheid-Datum (DPMA), 2 Monate (EUIPO)",
         "Bei komplexen Fällen (älterer Marken-Konflikt mit anderer Anmeldung): Anwalt für gewerblichen Rechtsschutz hinzuziehen",
-        "Backup-Plan: Marke umbenennen / Logo anpassen statt argumentieren — oft günstiger als Rechtsstreit"
+        "Backup-Plan: Marke umbenennen / Logo anpassen statt argumentieren, oft günstiger als Rechtsstreit"
       ],
-      "warning": "Frist NIE verstreichen lassen. Auch wenn du die Marke aufgeben willst, antworte schriftlich mit 'wir nehmen zurück' — sonst Verfall + neue Gebühr für Re-Filing.",
+      "warning": "Frist NIE verstreichen lassen. Auch wenn du die Marke aufgeben willst, antworte schriftlich mit 'wir nehmen zurück', sonst Verfall + neue Gebühr für Re-Filing.",
       "extendedNotes": [
         "Häufige Beanstandungs-Gründe: 1) Beschreibender Charakter (§8 MarkenG / Art. 7 EUTMR), 2) Fehlende Unterscheidungskraft, 3) Unzulässige Klassen-Begriffe, 4) Formelle Mängel.",
-        "Statistik: 30–40 % aller DPMA-Anmeldungen erhalten Beanstandung (meist formell, nicht inhaltlich) — kein Drama, einfach lösbar.",
-        "Bei materiellen Beanstandungen (z.B. 'beschreibend'): 50/50 Erfolgschance ohne Anwalt. Mit Anwalt 70–80 %.",
+        "Statistik: 30-40 % aller DPMA-Anmeldungen erhalten Beanstandung (meist formell, nicht inhaltlich), kein Drama, einfach lösbar.",
+        "Bei materiellen Beanstandungen (z.B. 'beschreibend'): 50/50 Erfolgschance ohne Anwalt. Mit Anwalt 70-80 %.",
         "Frist-Verlängerung: ein-malig 1 Monat zusätzlich auf Antrag möglich (formloses Schreiben)."
       ],
-      "description": "DPMA/EUIPO prüfen formell + materiell. Bei Mängeln (z.B. unzulässige Klassen, beschreibender Markenname, formelle Fehler): Beanstandung mit 1–2 Monaten Frist zur Stellungnahme. Wenn Frist verstreicht → Anmeldung gilt als zurückgenommen, Gebühr verfallen."
+      "description": "DPMA/EUIPO prüfen formell + materiell. Bei Mängeln (z.B. unzulässige Klassen, beschreibender Markenname, formelle Fehler): Beanstandung mit 1-2 Monaten Frist zur Stellungnahme. Wenn Frist verstreicht → Anmeldung gilt als zurückgenommen, Gebühr verfallen."
     },
     "widerspruch": {
       "externalLinks": [
@@ -1000,13 +1000,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Bei Widerspruch sofort Anwalt für gewerblichen Rechtsschutz konsultieren. Du hast typisch 2 Monate für Stellungnahme. Strategie hängt von Marken-Ähnlichkeit + Klassen-Überschneidung ab.",
       "extendedNotes": [
         "Widerspruchs-Strategien: 1) Stellungnahme + Argumentation (Marken sind doch verschieden), 2) Klassen-Einschränkung (Konflikt-Klassen rausnehmen), 3) Co-Existence-Vereinbarung (gegenseitige Nicht-Angriffs-Erklärung), 4) Aufgabe der Anmeldung + Re-Filing mit anderem Namen.",
-        "Co-Existence-Agreement: häufiger als gedacht. Beispiel: 'A nutzt Marke nur in D2C-Kosmetik, B nutzt Marke nur in B2B-Industrie' — oft akzeptiert, niedrigste Kosten (~500–1.500 € Anwalt für Vertrag).",
-        "Statistik: nur ~10–15 % der Widersprüche führen zu vollständiger Marken-Aufgabe. Meist Einigung oder Klassen-Einschränkung.",
+        "Co-Existence-Agreement: häufiger als gedacht. Beispiel: 'A nutzt Marke nur in D2C-Kosmetik, B nutzt Marke nur in B2B-Industrie', oft akzeptiert, niedrigste Kosten (~500-1.500 € Anwalt für Vertrag).",
+        "Statistik: nur ~10-15 % der Widersprüche führen zu vollständiger Marken-Aufgabe. Meist Einigung oder Klassen-Einschränkung.",
         "Cooling-Off-Period (EUIPO): 2 Monate ohne Verfahrens-Druck zum Verhandeln, kann verlängert werden auf bis zu 24 Monate. DPMA: keine offizielle Cooling-Off, aber faktisch ähnlich.",
         "Bei eigener Eintragung: Watch aktivieren (siehe nächster Step) um selbst rechtzeitig Widerspruch gegen jüngere kollidierende Marken einlegen zu können.",
-        "Frist-Versäumnis (3 Monate): final — danach kannst du zwar noch Löschung beantragen, aber das ist eigenes Verfahren mit höheren Kosten (300 € DPMA / 700 € EUIPO Antragsgebühr)."
+        "Frist-Versäumnis (3 Monate): final, danach kannst du zwar noch Löschung beantragen, aber das ist eigenes Verfahren mit höheren Kosten (300 € DPMA / 700 € EUIPO Antragsgebühr)."
       ],
-      "description": "Nach (vorläufiger) Eintragung wird Marke veröffentlicht — 3 Monate Widerspruchsfrist (DE und EU). Inhaber älterer ähnlicher Marken können widersprechen. Bei Widerspruch hast du strategische Optionen — nicht jeder Widerspruch ist ein Aus."
+      "description": "Nach (vorläufiger) Eintragung wird Marke veröffentlicht, 3 Monate Widerspruchsfrist (DE und EU). Inhaber älterer ähnlicher Marken können widersprechen. Bei Widerspruch hast du strategische Optionen, nicht jeder Widerspruch ist ein Aus."
     },
     "international": {
       "externalLinks": [
@@ -1031,32 +1031,32 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www3.wipo.int/branddb/en/"
         }
       ],
-      "warning": "Vor jeder Madrid-Designation: lokale Recherche per WIPO Global Brand Database + ggf. lokaler Anwalt. Office Actions in USA/CN/JP sind häufig — plane Budget-Puffer.",
+      "warning": "Vor jeder Madrid-Designation: lokale Recherche per WIPO Global Brand Database + ggf. lokaler Anwalt. Office Actions in USA/CN/JP sind häufig, plane Budget-Puffer.",
       "extendedNotes": [
         "Madrid-Mitglieder 2026: 130 Länder inkl. EU, USA, UK, China, Japan, Korea, Brasilien, Mexiko, Türkei, Indien, Australien, Neuseeland, Kanada, Russland (umstritten).",
-        "NICHT in Madrid: Saudi-Arabien, VAE, Hong Kong, Taiwan, Argentinien, Pakistan, Südafrika (teilweise) — direkte nationale Anmeldung mit lokalem Anwalt nötig.",
-        "Bearbeitungszeit pro Land: 12–24 Monate. Viele Länder können widersprechen → Office Action → Anwalt vor Ort nötig (1.500–5.000 € pro Land bei Widerspruch).",
+        "NICHT in Madrid: Saudi-Arabien, VAE, Hong Kong, Taiwan, Argentinien, Pakistan, Südafrika (teilweise), direkte nationale Anmeldung mit lokalem Anwalt nötig.",
+        "Bearbeitungszeit pro Land: 12-24 Monate. Viele Länder können widersprechen → Office Action → Anwalt vor Ort nötig (1.500-5.000 € pro Land bei Widerspruch).",
         "5-Jahres-Regel ('Central Attack'): in den ersten 5 Jahren ist die Madrid-Marke abhängig von der Heim-Marke. Wenn DE/EU-Stamm gelöscht wird, fallen alle Madrid-Anmeldungen weg. Nach 5 Jahren unabhängig.",
         "Beispiel-Kalkulation USA-Erweiterung: DE-Stamm + USA für 1 Klasse: 653 CHF + 460 CHF (USA Designation) + 180 € (DPMA) = ~1.140 € / 1.110 CHF.",
         "Beispiel-Kalkulation Mehrere Länder: DE-Stamm + USA + UK + CN + JP für 1 Klasse: 653 + 460 + 277 + 249 + 196 + 180 = ~2.015 CHF + Anwalts-Risiko bei Office Actions.",
         "Strategischer Tipp: Erstmal USA + UK als 2-Länder-Setup (häufigste Märkte für DACH-Brands). Weitere Länder bei nachweislichem Marktbedarf zubuchen ('Subsequent Designation', je 300 CHF + Designation Fee).",
-        "USA-Spezifikum: braucht 'Statement of Use' für endgültige Eintragung + 'Declaration of Use' nach 5+1 Jahren (sonst Verfall) — anders als DE/EU. Plane US-Anwalt ein (~1.500–3.000 € total).",
+        "USA-Spezifikum: braucht 'Statement of Use' für endgültige Eintragung + 'Declaration of Use' nach 5+1 Jahren (sonst Verfall), anders als DE/EU. Plane US-Anwalt ein (~1.500-3.000 € total).",
         "China-Spezifikum: 'First-to-File'-System → wenn Trademark-Squatter dir zuvorkommt, kannst du in China nicht mehr ohne weiteres anmelden. JETZT anmelden wenn China-Pläne bestehen.",
         "WICHTIG bei Madrid-Antrag: Klassen + Waren-Beschreibung muss IDENTISCH zu Heim-Marke sein. Nicht erweitern! Erweiterung = neue separate Madrid-Anmeldung."
       ],
-      "description": "Eine Anmeldung — Schutz in bis zu 130 Ländern. Voraussetzung: Heim-Marke (DPMA/EUIPO) als 'Stamm'. Anmeldung läuft über DPMA bzw. EUIPO als 'Office of Origin' (du gibst sie dort ein, leiten an WIPO weiter)."
+      "description": "Eine Anmeldung, Schutz in bis zu 130 Ländern. Voraussetzung: Heim-Marke (DPMA/EUIPO) als 'Stamm'. Anmeldung läuft über DPMA bzw. EUIPO als 'Office of Origin' (du gibst sie dort ein, leiten an WIPO weiter)."
     },
     "eintragung": {
       "checklist": [
         "Urkunde sicher aufbewahren (Original physisch + digitaler Scan in Cloud-Backup)",
         "Verlängerungs-Erinnerung 6 Monate vor Ablauf in Kalender setzen (10 Jahre nach Anmeldetag)",
-        "Markenüberwachung aktivieren — DPMA Watch (eigene Marken kostenlos via Online-Akte) ODER kommerzielle Tools für branchenweites Monitoring",
-        "Benutzungs-Aufzeichnungen führen — Rechnungen mit Marke, Werbung, Verpackung-Fotos (Beweis bei Löschungs-Antrag wegen Nichtbenutzung)",
-        "Bei Lizenzen: ins Register eintragen lassen (DPMA 100 € / EUIPO 200 €) — sonst nicht gegenüber Dritten wirksam",
+        "Markenüberwachung aktivieren, DPMA Watch (eigene Marken kostenlos via Online-Akte) ODER kommerzielle Tools für branchenweites Monitoring",
+        "Benutzungs-Aufzeichnungen führen, Rechnungen mit Marke, Werbung, Verpackung-Fotos (Beweis bei Löschungs-Antrag wegen Nichtbenutzung)",
+        "Bei Lizenzen: ins Register eintragen lassen (DPMA 100 € / EUIPO 200 €), sonst nicht gegenüber Dritten wirksam",
         "Bei Übertragung der Marke (Verkauf): Übertragungs-Vertrag + DPMA/EUIPO-Eintragung (sonst nicht wirksam)",
-        "® Symbol darf JETZT genutzt werden (vor Eintragung nur ™ — und das nur als Hinweis, nicht als Schutz)",
+        "® Symbol darf JETZT genutzt werden (vor Eintragung nur ™, und das nur als Hinweis, nicht als Schutz)",
         "Bei Internationalisierung-Plänen: Madrid-Antrag (siehe vorigen Step)",
-        "Versicherungs-Check: Marken-Rechtsschutz-Versicherung erwägen (Allianz, ARAG ab 200 €/Jahr) — deckt Anwalts-Kosten bei Verteidigung"
+        "Versicherungs-Check: Marken-Rechtsschutz-Versicherung erwägen (Allianz, ARAG ab 200 €/Jahr), deckt Anwalts-Kosten bei Verteidigung"
       ],
       "externalLinks": [
         {
@@ -1086,10 +1086,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "® Symbol: nur nach EINTRAGUNG nutzen. Vor Eintragung: ™ (US-Style, in DE rechtlich bedeutungslos aber nicht abmahnfähig). Falsche ®-Nutzung = wettbewerbsrechtlich abmahnbar (~1.000 € Risiko).",
         "Verlängerung: kann frühestens 12 Monate vor Ablauf, spätestens 6 Monate nach Ablauf (mit 50 % Strafzuschlag) eingereicht werden.",
         "Watch-Setup ist Pflicht für Verteidigung: ohne aktives Monitoring werden ähnliche jüngere Marken nicht entdeckt → 3-Monats-Widerspruchs-Frist verstreicht ungenutzt → später nur teures Löschungsverfahren möglich.",
-        "Pro-Tipp: nach Eintragung deine Marke + alle Schreibvarianten (Plural, mit/ohne Bindestrich) bei Watch-Service registrieren — Squatter nutzen oft minimal abweichende Schreibweisen.",
-        "Strategie für aktive Brands: jährlicher Marken-Audit mit Anwalt (300–500 €) — Status-Check aller Marken, Verlängerungs-Planung, Erweiterungs-Empfehlungen."
+        "Pro-Tipp: nach Eintragung deine Marke + alle Schreibvarianten (Plural, mit/ohne Bindestrich) bei Watch-Service registrieren, Squatter nutzen oft minimal abweichende Schreibweisen.",
+        "Strategie für aktive Brands: jährlicher Marken-Audit mit Anwalt (300-500 €), Status-Check aller Marken, Verlängerungs-Planung, Erweiterungs-Empfehlungen."
       ],
-      "description": "Marke wird im Register eingetragen, Urkunde kommt per Post oder PDF. Schutzdauer: 10 Jahre — danach Verlängerung. Aktive Pflichten: Benutzung dokumentieren, Watch einrichten, ggf. Lizenzen registrieren."
+      "description": "Marke wird im Register eingetragen, Urkunde kommt per Post oder PDF. Schutzdauer: 10 Jahre, danach Verlängerung. Aktive Pflichten: Benutzung dokumentieren, Watch einrichten, ggf. Lizenzen registrieren."
     }
   },
   "shopify-launch": {
@@ -1103,8 +1103,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "brand-domain": {
       "checklist": [
-        ".de Domain (typisch ~8–10 €/Jahr)",
-        ".com Domain (typisch ~12–15 €/Jahr)",
+        ".de Domain (typisch ~8-10 €/Jahr)",
+        ".com Domain (typisch ~12-15 €/Jahr)",
         ".shop oder .io optional (oft genutzt für Brand-Identität)",
         "Instagram-Handle gleicher Name",
         "TikTok-Handle gleicher Name",
@@ -1125,7 +1125,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "shopify-account": {
       "checklist": [
-        "Land: Deutschland (oder Österreich/Schweiz) — bei Trial-Start setzen, später unveränderbar",
+        "Land: Deutschland (oder Österreich/Schweiz), bei Trial-Start setzen, später unveränderbar",
         "Währung: EUR (für DACH)",
         "Sprache: Deutsch (kann später um EN/FR/IT erweitert werden)",
         "Subdomain: deine-marke.myshopify.com (später Custom-Domain davorpacken)",
@@ -1141,31 +1141,31 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Free-Trial-Strategie: erst Trial starten, dann KOMPLETTE Einrichtung (Theme, Produkte, Texte, Settings, Domain, Zahlungsanbieter, AGB/Impressum) machen, ERST DANN Plan auswählen.",
-        "Während Trial: Shop ist nur für dich sichtbar (Password-Schutz aktiv) — du kannst alles testen, ohne Live-Traffic.",
+        "Während Trial: Shop ist nur für dich sichtbar (Password-Schutz aktiv), du kannst alles testen, ohne Live-Traffic.",
         "Plan-Wechsel-Zeitpunkt: erst wenn der Shop launch-ready ist UND du Domain anschließen oder Verkäufe tatsächlich starten willst.",
-        "ACHTUNG: Bei Account-Erstellung Land + Währung korrekt setzen — nachträgliche Änderung KOMPLEX."
+        "ACHTUNG: Bei Account-Erstellung Land + Währung korrekt setzen, nachträgliche Änderung KOMPLEX."
       ]
     },
     "plan-wahl": {
       "extendedNotes": [
         "Plan-Wechsel-Timing: erst wenn Theme + Produkte + AGB/Impressum + Zahlungsanbieter + Versand fertig sind. Sonst zahlst du für eine leere Baustelle.",
-        "Pro-Tipp: Shopify bietet oft '1. Monat 1 €'-Promo direkt nach Trial. Wenn diese Option erscheint und du sicher launchen wirst — annehmen.",
+        "Pro-Tipp: Shopify bietet oft '1. Monat 1 €'-Promo direkt nach Trial. Wenn diese Option erscheint und du sicher launchen wirst, annehmen.",
         "Faustregel: Bei < 50k €/Mon Umsatz → Basic-Plan + Shopify Payments. Spart vs. Plus 70 €/Mon ohne nennenswerten Verlust.",
-        "Bei 50–200k €/Mon → Shopify-Plan ($105) — die 0,3 % weniger Transaktionsgebühr (2,6 % statt 2,9 %) zahlen sich ab ~25k €/Mon Umsatz aus.",
-        "Bei > 200k €/Mon → Advanced ($399) — 0,5 % weniger, plus erweiterte Reports.",
-        "Shopify Plus startet bei $2.300/Mon — meist erst sinnvoll ab 80M€+ Umsatz oder spezifische Anforderungen (Wholesale, Multi-Store).",
+        "Bei 50-200k €/Mon → Shopify-Plan ($105), die 0,3 % weniger Transaktionsgebühr (2,6 % statt 2,9 %) zahlen sich ab ~25k €/Mon Umsatz aus.",
+        "Bei > 200k €/Mon → Advanced ($399), 0,5 % weniger, plus erweiterte Reports.",
+        "Shopify Plus startet bei $2.300/Mon, meist erst sinnvoll ab 80M€+ Umsatz oder spezifische Anforderungen (Wholesale, Multi-Store).",
         "Wenn du KEIN Shopify Payments nutzt (z.B. nur Klarna direkt), zahlt Shopify zusätzliche \"Third-Party Transaction Fee\": 2 % (Basic), 1 % (Shopify), 0,5 % (Advanced). Bei 100k Mon-Umsatz: 2.000 € extra mit Basic. Lohnt fast nie."
       ],
-      "description": "Wichtig: NICHT direkt am Anfang einen Plan abschließen — die Free-Trial-Phase nutzen, um den Shop komplett aufzusetzen (Settings + Theme + Produkte + Pflicht-Texte). ERST danach Plan wählen. Basic 36$/Mon (2,9 % + 0,30 € Transaktionsgebühr) | Shopify 105$/Mon (2,6 %) | Advanced 399$/Mon (2,4 %). PLUS: Ohne Shopify Payments fallen ZUSÄTZLICH 0,5–2 % Transaction Fee an."
+      "description": "Wichtig: NICHT direkt am Anfang einen Plan abschließen, die Free-Trial-Phase nutzen, um den Shop komplett aufzusetzen (Settings + Theme + Produkte + Pflicht-Texte). ERST danach Plan wählen. Basic 36$/Mon (2,9 % + 0,30 € Transaktionsgebühr) | Shopify 105$/Mon (2,6 %) | Advanced 399$/Mon (2,4 %). PLUS: Ohne Shopify Payments fallen ZUSÄTZLICH 0,5-2 % Transaction Fee an."
     },
     "settings": {
       "checklist": [
-        "Settings → General: Firmenname, Adresse, USt-ID, Telefon — wird im Impressum verwendet",
-        "Settings → Taxes and duties → 'Basic Tax' verwenden (NICHT Shopify Tax aktivieren — kostet extra und ist US-only-Feature)",
+        "Settings → General: Firmenname, Adresse, USt-ID, Telefon, wird im Impressum verwendet",
+        "Settings → Taxes and duties → 'Basic Tax' verwenden (NICHT Shopify Tax aktivieren, kostet extra und ist US-only-Feature)",
         "Settings → Taxes and duties → Germany 'Manage': USt 19 % als Default, Product-Types für 7 %-Produkte konfigurieren",
         "Settings → Markets: EU-Länder einzeln aktivieren wenn du dort verkaufst (jedes Land separates USt-Setup)",
         "Settings → Shipping: Versand-Zonen (DACH, EU, Welt) + Versandkostentabelle",
-        "Settings → Customer accounts: \"Optional\" (nicht \"Required\") — sonst hohe Bounce-Rate",
+        "Settings → Customer accounts: \"Optional\" (nicht \"Required\"), sonst hohe Bounce-Rate",
         "Settings → Files: Logo, Favicon, Brand-Bilder hochladen",
         "Settings → Languages: Deutsch + ggf. EN/FR/IT für EU",
         "Settings → Notifications: Bestellbestätigung etc. auf Deutsch übersetzen",
@@ -1181,23 +1181,23 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.bzst.de/DE/Unternehmen/Umsatzsteuer/One-Stop-Shop_EU/one_stop_shop_EU_node.html"
         }
       ],
-      "warning": "NICHT 'Shopify Tax' aktivieren bei DACH-Verkäufen. Das ist ein kostenpflichtiges US-Feature (Sales-Tax-Calc + Filing-Help) und bringt für DE/EU NULL Mehrwert — du zahlst dann 0,35 % aller US-Bestellungen über $100k extra.",
+      "warning": "NICHT 'Shopify Tax' aktivieren bei DACH-Verkäufen. Das ist ein kostenpflichtiges US-Feature (Sales-Tax-Calc + Filing-Help) und bringt für DE/EU NULL Mehrwert, du zahlst dann 0,35 % aller US-Bestellungen über $100k extra.",
       "extendedNotes": [
-        "Basic Tax vs. Shopify Tax: Settings → Taxes and duties → Germany → 'Manage'. Hier siehst du oben einen Schalter 'Activate Shopify Tax' — NICHT klicken. Bleib bei Basic Tax (kostenlos, automatisch USt 19 %/7 % je Produkt-Kategorie). Shopify Tax ist eine US-Sales-Tax-Engine mit Rooftop-Accuracy + zusätzlichen Gebühren ab $100k US-Umsatz — für DACH/EU komplett unnötig und teuer.",
+        "Basic Tax vs. Shopify Tax: Settings → Taxes and duties → Germany → 'Manage'. Hier siehst du oben einen Schalter 'Activate Shopify Tax', NICHT klicken. Bleib bei Basic Tax (kostenlos, automatisch USt 19 %/7 % je Produkt-Kategorie). Shopify Tax ist eine US-Sales-Tax-Engine mit Rooftop-Accuracy + zusätzlichen Gebühren ab $100k US-Umsatz, für DACH/EU komplett unnötig und teuer.",
         "USt-Sätze: Standard 19 % für Produkte. 7 % nur für Bücher, Lebensmittel, einige Druckerzeugnisse (Product Type pro Produkt-Kategorie setzen, dann zieht Shopify den richtigen Satz automatisch).",
-        "Kleinunternehmer (§19 UStG): Falls du KU bist — 'Charge tax on this product' bei jedem Produkt DEAKTIVIEREN, im Impressum + auf jeder Rechnung den §19-Hinweis einfügen.",
-        "OSS-Schwelle: ab 10.000 € EU-B2C-Umsatz pro Jahr Pflicht zu OSS-Verfahren beim BZSt anmelden — Shopify lässt sich pro EU-Land separat konfigurieren, du meldest die USt aber zentral via OSS."
+        "Kleinunternehmer (§19 UStG): Falls du KU bist, 'Charge tax on this product' bei jedem Produkt DEAKTIVIEREN, im Impressum + auf jeder Rechnung den §19-Hinweis einfügen.",
+        "OSS-Schwelle: ab 10.000 € EU-B2C-Umsatz pro Jahr Pflicht zu OSS-Verfahren beim BZSt anmelden, Shopify lässt sich pro EU-Land separat konfigurieren, du meldest die USt aber zentral via OSS."
       ],
-      "description": "Alle DSGVO-Pflichten + Versand + Steuern + Locale. WICHTIG: Bei Steuern auf 'Basic Tax' bleiben — NICHT 'Shopify Tax' aktivieren (kostenpflichtige US-only-Sache, für DE/EU irrelevant)."
+      "description": "Alle DSGVO-Pflichten + Versand + Steuern + Locale. WICHTIG: Bei Steuern auf 'Basic Tax' bleiben, NICHT 'Shopify Tax' aktivieren (kostenpflichtige US-only-Sache, für DE/EU irrelevant)."
     },
     "theme-wahl": {
       "checklist": [
-        "Dawn (Default, schlicht, schnell) — Standard für 80 % der Brands",
-        "Sense (Beauty/Lifestyle) — für Skincare/Cosmetics",
-        "Studio (Editorial) — für Content-getriebene Brands",
-        "Refresh (Mode) — für Fashion/Apparel",
+        "Dawn (Default, schlicht, schnell), Standard für 80 % der Brands",
+        "Sense (Beauty/Lifestyle), für Skincare/Cosmetics",
+        "Studio (Editorial), für Content-getriebene Brands",
+        "Refresh (Mode), für Fashion/Apparel",
         "Premium nur bei: Mega-Menu, Lookbook, Quick-View, Custom-Filter",
-        "PageFly/Zipify NICHT in ersten 3 Monaten — erst Theme-Funktionen ausreizen"
+        "PageFly/Zipify NICHT in ersten 3 Monaten, erst Theme-Funktionen ausreizen"
       ],
       "externalLinks": [
         {
@@ -1230,7 +1230,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "USP-Bar: 3-4 Icons (Versand-frei ab, Retoure 30 Tage, Made in DE, etc.)",
         "Newsletter-Sign-Up-Section mit 10 % Discount-Lead-Magnet"
       ],
-      "description": "Homepage-Above-the-Fold — entscheidet über 60 % der Bounces. Hero + Featured-Products + Trust-Section."
+      "description": "Homepage-Above-the-Fold, entscheidet über 60 % der Bounces. Hero + Featured-Products + Trust-Section."
     },
     "theme-footer-mobile": {
       "checklist": [
@@ -1244,15 +1244,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Hamburger-Menu testen: alle Kategorien erreichbar?",
         "Mobile-Speed-Test mit PageSpeed Insights"
       ],
-      "warning": "Footer-Pflicht-Links können erst nach Rechtstexte-Step (eRecht24/IT-Recht-Kanzlei) final eingebunden werden — Platzhalter setzen.",
-      "description": "Footer mit Pflicht-Links + Mobile-Test. 60 % Traffic ist Mobile — wenn Mobile broken = halbe Sales verloren."
+      "warning": "Footer-Pflicht-Links können erst nach Rechtstexte-Step (eRecht24/IT-Recht-Kanzlei) final eingebunden werden, Platzhalter setzen.",
+      "description": "Footer mit Pflicht-Links + Mobile-Test. 60 % Traffic ist Mobile, wenn Mobile broken = halbe Sales verloren."
     },
     "produkte": {
       "checklist": [
-        "Title: Brand + Produkt + Variante (z.B. 'Acme — Recovery Cream — 50ml')",
+        "Title: Brand + Produkt + Variante (z.B. 'Acme, Recovery Cream, 50ml')",
         "Description: Hero-Sentence + Bullets (3-5 Vorteile) + Story + Inhaltsstoffe + Anwendung",
         "Bilder: Hero-Image (Lifestyle) + 4-6 Close-ups + Größenvergleich + Inhaltsstoff-Detail",
-        "Varianten: Farbe, Größe, Menge — Shopify auto-generiert SKU-Matrix",
+        "Varianten: Farbe, Größe, Menge, Shopify auto-generiert SKU-Matrix",
         "Preise: VK + 'Compare at price' für Streich-Preise",
         "Inventar: Track quantity + 'Continue selling when out of stock' deaktivieren",
         "SKU + Barcode pro Variante (Pflicht für FBA-Hybrid)",
@@ -1264,7 +1264,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Collection-Strategie: 'All Products' + 1-2 Theme-Collections (z.B. 'Bestseller', 'Neu') + Kategorie-Collections (z.B. 'Skincare', 'Bodycare')",
         "Bilder-SEO: Dateiname mit Keyword (acme-recovery-cream-50ml.jpg) + Alt-Text pro Bild",
-        "Beschreibungs-Hack: nutze ChatGPT/Claude für Bullet-Generierung aus Inhaltsstoffen, dann manuell überarbeiten"
+        "Praxis-Tipp für Beschreibungen: nutze ChatGPT/Claude für Bullet-Generierung aus Inhaltsstoffen, dann manuell überarbeiten"
       ],
       "description": "Bei <20 SKUs: manuell anlegen (Title, Description, Bilder, Varianten, Preise, Inventar). Bei 50+: CSV-Import. Pflicht-Felder: Title, Description, mindestens 1 Bild, Preis, SKU, Barcode (bei FBA), Gewicht (für Versand-Calc)."
     },
@@ -1280,31 +1280,31 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Bei Domain-Kauf direkt bei Shopify (Settings → Domains → Buy): Convenience, aber teurer als externer Provider und schwerer Migration.",
-        "Empfohlen: Domain bei IONOS/Cloudflare halten, nur DNS-Records umbiegen — bleibt portabel falls du Shopify später verlässt.",
-        "ACHTUNG: Domain anschließen ERST nach Plan-Abschluss — Custom-Domains funktionieren nicht in Free-Trial."
+        "Empfohlen: Domain bei IONOS/Cloudflare halten, nur DNS-Records umbiegen, bleibt portabel falls du Shopify später verlässt.",
+        "ACHTUNG: Domain anschließen ERST nach Plan-Abschluss, Custom-Domains funktionieren nicht in Free-Trial."
       ],
       "description": "Statt deine-marke.myshopify.com → deine-marke.de. DNS-Records bei deinem Domain-Provider auf Shopify umstellen. Plan-Wechsel-Voraussetzung: erst Plan abschließen, dann Domain anschließen (Custom-Domain ist nicht in Trial)."
     },
     "zahlung": {
       "checklist": [
         "Shopify Payments aktivieren (USt-ID + Bankverbindung + ggf. Geschäftsführer-PA-Kopie)",
-        "Klarna integrieren (Sofortüberweisung, Rechnung, Raten — separater Vertrag mit Klarna)",
+        "Klarna integrieren (Sofortüberweisung, Rechnung, Raten, separater Vertrag mit Klarna)",
         "PayPal Express Checkout (Schalter im PayPal-Geschäftskonto)",
         "Apple Pay + Google Pay (automatisch aktiv mit Shopify Payments)",
         "ggf. SEPA-Lastschrift via Mollie / Stripe (zusätzliche Conversion-Lift bei DACH)"
       ],
       "extendedNotes": [
-        "Shopify Payments verlangt: USt-ID, HR-Auszug (bei juristischer Person), GF-Personalausweis, Bankverbindung. Verifikation 1–7 Werktage.",
-        "Klarna braucht separaten Vertrag — Conditional bei Ablehnung (\"Newcomer-Quote\") nochmal nachreichen mit Umsatz-Nachweisen.",
-        "Zwei Tipps die Geld sparen: Pause \"Manual Capture\" — Stripe/Shopify Payments authorisiert immer 7 Tage, auch bei Stornos. Auto-Capture vermeidet stornoabhängige Fees."
+        "Shopify Payments verlangt: USt-ID, HR-Auszug (bei juristischer Person), GF-Personalausweis, Bankverbindung. Verifikation 1-7 Werktage.",
+        "Klarna braucht separaten Vertrag, Conditional bei Ablehnung (\"Newcomer-Quote\") nochmal nachreichen mit Umsatz-Nachweisen.",
+        "Zwei Tipps die Geld sparen: Pause \"Manual Capture\", Stripe/Shopify Payments authorisiert immer 7 Tage, auch bei Stornos. Auto-Capture vermeidet stornoabhängige Fees."
       ],
-      "description": "Standard für DACH: Shopify Payments (Karten + Apple/Google Pay) + Klarna (Sofort, Rechnung, Raten) + PayPal Express. Ohne PayPal verliert man 15–25 % Conversion in DACH."
+      "description": "Standard für DACH: Shopify Payments (Karten + Apple/Google Pay) + Klarna (Sofort, Rechnung, Raten) + PayPal Express. Ohne PayPal verliert man 15-25 % Conversion in DACH."
     },
     "rechtstexte": {
       "checklist": [
         "Impressum (mit USt-ID, GF, HR-Nummer, Sitz, Kontakt)",
         "AGB (für E-Commerce mit Verbrauchern)",
-        "Widerrufsbelehrung (Pflicht bei B2C — Online-Verträge)",
+        "Widerrufsbelehrung (Pflicht bei B2C, Online-Verträge)",
         "Datenschutzerklärung (DSGVO-konform, mit allen genutzten Tracking-Tools)",
         "Versand- und Lieferbedingungen",
         "Zahlungsbedingungen",
@@ -1325,7 +1325,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "warning": "Selbstverfasste Texte sind FAST IMMER abmahnfähig. 50 € Tools wie eRecht24 sparen 1.500 € Abmahn-Kosten. Investier hier nicht.",
-      "description": "Impressum, AGB, Widerruf, Datenschutz, Versand, Zahlung. Ohne diese 6 Pflichttexte: Abmahnung garantiert."
+      "description": "Impressum, AGB, Widerruf, Datenschutz, Versand, Zahlung. Ohne diese 6 Pflichttexte: hohes Abmahnrisiko."
     },
     "lucid": {
       "externalLinks": [
@@ -1350,7 +1350,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Phase-1 Self-Ship** (< 100 Orders/Mon): DHL Geschäftskunden + Sendcloud (Multi-Carrier-Sync). Etiketten-Druck + Versand aus Garage/Büro",
         "**Phase-2 3PL** (100-1.000 Orders/Mon): byrd / Hive (DACH), ShipBob (EU/US), Sevensenders (Cross-EU). Cost 6-12 € pro Order, spart Founder-Zeit",
         "**Phase-3 Multi-Warehouse / Skalierung**: Shopify Fulfillment Network (US-only), oder dedizierte Warehouses in DE+UK+US. Cost 5-10 € pro Order bei Skalierung",
-        "**Tracking-Mails**: AfterShip / Shopify Native Tracking — Customer-Experience-Boost + senkt 'Where is my Order?' Tickets 30-50 %",
+        "**Tracking-Mails**: AfterShip / Shopify Native Tracking, Customer-Experience-Boost + senkt 'Where is my Order?' Tickets 30-50 %",
         "**International Shipping**: Sendcloud + DHL Express / UPS / FedEx für USA-Versand. Sevensenders für Cross-EU-Optimization",
         "**Returns-Logistics**: Loop Returns / AfterShip Returns mit 3PL-Integration für Restocking-Workflow",
         "**Versand-Versicherung**: ab 100 € Warenwert sinnvoll (DHL Premium / private Versicherung)"
@@ -1406,16 +1406,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "**3PL-Schwelle**: ab 100 Orders/Mon lohnt 3PL — Founder-Stunde (50-100 €/h) verlangsamt sonst Marketing/Strategie. byrd/Hive sind DACH-Sweet-Spot (DSGVO-konform, deutsche Kommunikation).",
+        "**3PL-Schwelle**: ab 100 Orders/Mon lohnt 3PL, Founder-Stunde (50-100 €/h) verlangsamt sonst Marketing/Strategie. byrd/Hive sind DACH-Sweet-Spot (DSGVO-konform, deutsche Kommunikation).",
         "**ShipBob für US-Markt**: bei US-Skalierung ShipBob als 3PL setzt Inventar in 5-10 US-Warehouses → 2-Day-Shipping ohne FBA. Lohnt ab 50k $/Mon US-Sales.",
-        "**Sevensenders-Hack**: Cross-EU-Shipping über deutsche Adresse — vermeidet lokale Carrier-Kontrakte in 7+ Ländern. ROI ab 50+ Cross-EU-Orders/Mon."
+        "**Sevensenders-Tipp**: Cross-EU-Shipping über deutsche Adresse, vermeidet lokale Carrier-Kontrakte in 7+ Ländern. ROI ab 50+ Cross-EU-Orders/Mon."
       ],
       "description": "Phase-1 Self-Ship via DHL+Sendcloud (< 100 Orders/Mon). Phase-2 3PL outsourcen (100-1.000 Orders/Mon). Phase-3 Multi-Warehouse / Shopify Fulfillment Network (skalieren)."
     },
     "tracking": {
       "checklist": [
         "Cookie-Banner DSGVO-konform (Cookiebot, CCM19, Borlabs)",
-        "Meta Pixel + Conversion API (CAPI) — wichtig wegen iOS 14+",
+        "Meta Pixel + Conversion API (CAPI), wichtig wegen iOS 14+",
         "GA4 mit Consent Mode v2",
         "TikTok Pixel + Events API",
         "Klaviyo / Brevo Tracking für Email-Flows",
@@ -1479,16 +1479,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Email/SMS-Pflicht**: Klaviyo (150-750 €/Mon, Standard) ODER Brevo (günstiger DACH-Alternative ab 25 €/Mon) ODER ActiveCampaign",
         "**Trusted Shops** (DACH-Pflicht): Käufersiegel + Reviews + Käuferschutz. Conversion +15-25 % nachweislich. 49-149 €/Mon je Plan",
         "**Reviews-Stack-Vergleich**: Judge.me (günstig, 10-30 €/Mon), Loox (UGC-Bilder, 10-50 €/Mon), Yotpo (Premium-All-in-One, 50-200 €/Mon), Stamped (Reviews+Loyalty, 25-150 €/Mon)",
-        "**CRO-Apps** (Conversion-Boost): ReConvert (Post-Purchase-Upsell, 10-200 €/Mon), AfterCart/Slide Cart (Cart-Upsells), VITALS (All-in-1: Pop-ups, Trust-Badges, Currency — 30 €/Mon ersetzt 5+ Apps)",
+        "**CRO-Apps** (Conversion-Boost): ReConvert (Post-Purchase-Upsell, 10-200 €/Mon), AfterCart/Slide Cart (Cart-Upsells), VITALS (All-in-1: Pop-ups, Trust-Badges, Currency, 30 €/Mon ersetzt 5+ Apps)",
         "**Customer-Support-Stack**: Gorgias (E-Commerce-Standard, 50-300 €/Mon), Tidio (Live-Chat + AI-Bot, 30-200 €/Mon), Zendesk (Enterprise), Intercom (Premium)",
         "**Returns-Management**: Loop Returns (Premium, 90-500 €/Mon), AfterShip Returns (Mid-Market), Returnly. Reduziert Customer-Support-Tickets 30-50 %",
         "**Loyalty + Referral**: Smile.io (Standard, 30-200 €/Mon), LoyaltyLion (Mid-Market), ReferralCandy (Referrals, 50-200 €/Mon), Friendbuy (Enterprise)",
-        "**PageFly / Zipify / GemPages**: Custom Pages / Funnels — nur wenn Theme-Limits sprengen",
+        "**PageFly / Zipify / GemPages**: Custom Pages / Funnels, nur wenn Theme-Limits sprengen",
         "**Subscriptions**: Recharge (Standard, ab 99 $/Mon), Bold Subscriptions, Loop Subscriptions",
         "**Quiz-Funnel**: Octane AI (Personalization-Quiz, 50-300 €/Mon), Tolstoy (Video-Quiz)",
         "**Wishlist**: Wishlist Plus, Smart Wishlist (kostenlos bis günstig)",
         "**Fraud-Protection**: Shopify Fraud Analysis (eingebaut), NoFraud, Riskified (für Enterprise)",
-        "**Affiliate-Programm**: Refersion, GoAffPro, UpPromote — wenn Influencer-Marketing skaliert",
+        "**Affiliate-Programm**: Refersion, GoAffPro, UpPromote, wenn Influencer-Marketing skaliert",
         "WAS DU NICHT BRAUCHST: Bezahlte Theme-Apps (kostenlose wie Dawn sind für 95 % gut), Bezahlte Currency-Apps (Shopify Markets eingebaut)"
       ],
       "externalLinks": [
@@ -1563,22 +1563,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "**Cost-Trap**: Apps mit Usage-Pricing skalieren explosionsartig. Klaviyo bei 50k Subs: 750 €/Mon. Cap-Pricing-Apps (VITALS, Brevo) sind oft günstiger ab Skalierung.",
-        "**Trusted Shops ROI**: 49-149 €/Mon für Käufersiegel. Bei 30k €/Mon Revenue → +15 % Conversion = +4.500 € — pure Investition.",
+        "**Trusted Shops ROI**: 49-149 €/Mon für Käufersiegel. Bei 30k €/Mon Revenue → +15 % Conversion = +4.500 €, pure Investition.",
         "**Stack-Konsolidierung**: VITALS (30 €/Mon) ersetzt Pop-Up-App + Currency-App + Trust-Badges + Reviews-Lite + Wishlist. Sweet-Spot für Bootstrap-Brands.",
         "**Yotpo vs. Judge.me**: Judge.me (10 €/Mon) reicht für Bootstrap. Yotpo (50+ €/Mon) ab 100k Revenue (UGC-Bilder + Loyalty + SMS-Integration).",
         "**Gorgias-ROI**: 1 Customer-Support-Person Cost spart 5-10 Tickets/h vs. Email-Inbox. Lohnt ab 30+ Tickets/Tag."
       ],
-      "description": "Shopify-App-Kosten summieren sich schnell auf 200–800 €/Mon. Filter: Was bringt direkten ROI? DACH-Brands brauchen zusätzlich Trusted Shops als Trust-Signal (Conversion +15-25 %)."
+      "description": "Shopify-App-Kosten summieren sich schnell auf 200-800 €/Mon. Filter: Was bringt direkten ROI? DACH-Brands brauchen zusätzlich Trusted Shops als Trust-Signal (Conversion +15-25 %)."
     },
     "cro-international-buchhaltung": {
       "checklist": [
         "**A/B-Testing-Stack**: Shoplift (Shopify-nativ, einfach, ab 79 $/Mon), Intelligems (A/B + Dynamic Pricing, 100-500 $/Mon), Convert.com (klassisch), VWO (Premium UX-Suite). Sweet-Spot Shoplift für DTC-Brands < 1M",
-        "**Heatmaps + Session-Replay**: Hotjar (ab 39 €/Mon), Microsoft Clarity (kostenlos!) — beide identisch in Funktionalität, Clarity reicht für 95 % der Cases",
+        "**Heatmaps + Session-Replay**: Hotjar (ab 39 €/Mon), Microsoft Clarity (kostenlos!), beide identisch in Funktionalität, Clarity reicht für 95 % der Cases",
         "**Conversion-Optimization-Routine**: monatlich 2-3 Tests laufen lassen (Hauptbild, Bullets, Pricing-Display, Cart-Reminder). Median-Lift pro winning Test: 8-15 %",
         "**Shopify Markets** (eingebaut, kostenlos): Multi-Country-Pricing + Tax-Auto + Currency-Switch + lokale Domains. Ersatz für externe Multi-Currency-Apps",
         "**Translation-Stack**: Shopify Translate & Adapt (kostenlos, AI-basiert, basic), Weglot (Premium, 30-300 €/Mon, 100+ Sprachen), Langify (Shopify-fokussiert, 17-50 €/Mon)",
         "**Buchhaltungs-Sync DACH**: Lexoffice + Shopify-Integration (kostenlos), sevDesk-Sync (kostenlos), Easybill mit DATEV-Export, BillBee als Bridge-Lösung. Spart 10-30 Stunden/Mon manuelle Buchung",
-        "**DATEV-Export für Steuerberater**: BillBee oder Easybill exportieren DATEV-konform — Steuerberater-Stunden 50-70 % günstiger",
+        "**DATEV-Export für Steuerberater**: BillBee oder Easybill exportieren DATEV-konform, Steuerberater-Stunden 50-70 % günstiger",
         "**Speed-Performance**: TinyIMG / Crush Pics für Auto-Image-Compression (Page-Speed +20-40 %), Theme-Performance via PageSpeed Insights audit, JavaScript-Apps reduzieren (jede App-Installation -2-5 % Speed)",
         "**Google Core Web Vitals**: LCP < 2,5s, FID < 100ms, CLS < 0,1. Wer das verfehlt verliert SEO-Ranking + 5-10 % Conversion",
         "**Multi-Currency-Strategie**: Shopify Markets für 90 % der Use-Cases. Bold Multi-Currency nur bei Sonderfällen (Pre-Markets-Era)",
@@ -1680,22 +1680,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bogus-Karte 2: Bestell-Ablehnung-Flow",
         "Bestellbestätigungs-Email kontrolliert ankommen (Inbox + Spam)",
         "Versand-Email + Tracking-Number kontrolliert ankommen",
-        "Echte Test-Bestellung mit Shopify Payments (1 € Test-Produkt anlegen) — Auszahlung kontrollieren",
+        "Echte Test-Bestellung mit Shopify Payments (1 € Test-Produkt anlegen), Auszahlung kontrollieren",
         "Echte Test-Bestellung mit Klarna Sofort (falls aktiv)",
         "Echte Test-Bestellung mit PayPal",
         "Stornierung + Rückerstattung testen (1-Klick im Order-Detail)",
         "Mobile-Checkout testen (60 % Traffic ist Mobile)",
-        "Bogus Gateway nach Tests WIEDER DEAKTIVIEREN — sonst können echte Kunden ohne Zahlung bestellen"
+        "Bogus Gateway nach Tests WIEDER DEAKTIVIEREN, sonst können echte Kunden ohne Zahlung bestellen"
       ],
       "warning": "Bogus Gateway nach Tests SOFORT deaktivieren. Wer das vergisst, hat einen 'Gratis-Shop' bis es jemand entdeckt.",
-      "description": "Bevor du Live-Traffic auf den Shop schickst: kompletten Bestell-Flow durchspielen. Shopify hat einen 'Bogus Gateway' — testet ohne echte Bezahlung. Plus: Eine ECHTE Mini-Bestellung (z.B. 1 €) mit Shopify Payments + Klarna + PayPal — sichert dass die Auszahlung läuft."
+      "description": "Bevor du Live-Traffic auf den Shop schickst: kompletten Bestell-Flow durchspielen. Shopify hat einen 'Bogus Gateway', testet ohne echte Bezahlung. Plus: Eine ECHTE Mini-Bestellung (z.B. 1 €) mit Shopify Payments + Klarna + PayPal, sichert dass die Auszahlung läuft."
     },
     "launch": {
       "checklist": [
-        "10–20 Soft-Launch-Bestellungen über Familie/Friends — Real-Tests aller Flows",
-        "Meta Ads: Engagement-Test 100–200 € → Conversion-Test 500–1.000 € → Skalierung",
+        "10-20 Soft-Launch-Bestellungen über Familie/Friends, Real-Tests aller Flows",
+        "Meta Ads: Engagement-Test 100-200 € → Conversion-Test 500-1.000 € → Skalierung",
         "TikTok Ads (vor allem für jüngere Targets) parallel",
-        "Influencer-Seeding: 10–30 Micro-Influencer mit Gratis-Produkt"
+        "Influencer-Seeding: 10-30 Micro-Influencer mit Gratis-Produkt"
       ],
       "description": "Erste Bestellungen über Familie/Friends + Ads-Tests Meta/TikTok mit kleinem Budget."
     }
@@ -1703,8 +1703,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "amazon-fba-launch": {
     "product-research": {
       "checklist": [
-        "Keepa Chrome-Extension installieren (kostenlos): zeigt Preis-/BSR-/Verkäufer-Verlauf bei jedem ASIN — KRITISCH für Trend-Validierung (Saisonalität, Decline, Peaks, Hijacker-History)",
-        "Helium10 'Black Box' / Jungle Scout 'Product Database' nach Kriterien filtern: Reviews < 500, Preis 20–80 €, BSR Top 10.000 in Hauptkategorie",
+        "Keepa Chrome-Extension installieren (kostenlos): zeigt Preis-/BSR-/Verkäufer-Verlauf bei jedem ASIN, KRITISCH für Trend-Validierung (Saisonalität, Decline, Peaks, Hijacker-History)",
+        "Helium10 'Black Box' / Jungle Scout 'Product Database' nach Kriterien filtern: Reviews < 500, Preis 20-80 €, BSR Top 10.000 in Hauptkategorie",
         "Keepa-Charts gegenchecken: BSR stabil/wachsend (Trend), Preis-Stabilität (kein Race-to-Bottom), Verkäufer-Anzahl (zu viele = gesättigt)",
         "X-Ray pro Top-10-Listing der gewählten Keyword-Suche → Estimated Sales/Mon prüfen",
         "Mindestens 3 verschiedene Konkurrent-Listings pro Idee analysieren (Reviews, Bilder, Bullet Points)",
@@ -1715,7 +1715,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "Keepa (Pflicht — Preis/BSR-History, Chrome-Extension free)",
+          "label": "Keepa (Pflicht, Preis/BSR-History, Chrome-Extension free)",
           "url": "https://keepa.com"
         },
         {
@@ -1743,11 +1743,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.amazon.de/bestsellers"
         }
       ],
-      "warning": "Häufiger Anfänger-Killer: emotional verliebt in Produkt-Idee ohne Daten-Validierung. Kosten dann: 8.000–15.000 € verbrannt in Inventory das niemand kauft.",
+      "warning": "Häufiger Anfänger-Killer: emotional verliebt in Produkt-Idee ohne Daten-Validierung. Kosten dann: 8.000-15.000 € verbrannt in Inventory das niemand kauft.",
       "extendedNotes": [
-        "Sweet-Spot 2026: 30–60 € VK-Preis, einfache Verpackung, < 500g Versandgewicht (FBA-Fee ~3–5 €), kein Compliance-Albtraum (kein Strom, keine Lebensmittel, keine Kosmetik wenn Anfänger).",
+        "Sweet-Spot 2026: 30-60 € VK-Preis, einfache Verpackung, < 500g Versandgewicht (FBA-Fee ~3-5 €), kein Compliance-Albtraum (kein Strom, keine Lebensmittel, keine Kosmetik wenn Anfänger).",
         "Vermeiden: gesättigte Kategorien (Yoga-Matten, Bluetooth-Kopfhörer, Standard-Wasserflaschen), Saison-Produkte (außer du planst Inventory dafür), Patent-belastete Kategorien (manche Kitchen-Gadgets).",
-        "Differenzierungs-Trick: 'Bundle' aus Hauptprodukt + Zubehör — höhere Wahrnehmung, weniger direkte Konkurrenz.",
+        "Differenzierungs-Trick: 'Bundle' aus Hauptprodukt + Zubehör, höhere Wahrnehmung, weniger direkte Konkurrenz.",
         "Helium10 Cerebro: Reverse-ASIN-Lookup → welche Keywords ranken die Top-Konkurrenten? Daraus Listing-Strategie ableiten.",
         "Critical: 'Product-Market-Fit'-Validierung BEVOR Bestellung. Kein Sample = kein Bauchgefühl-Sale."
       ]
@@ -1779,15 +1779,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "sourcing": {
       "checklist": [
-        "5–10 Lieferanten kontaktieren — niemals nur einen!",
+        "5-10 Lieferanten kontaktieren, niemals nur einen!",
         "Kriterien: Verified Supplier (gold/diamond), Trade Assurance, ≥ 3 Jahre auf Alibaba, Response-Rate ≥ 80 %, Response-Time < 24h",
         "Ersten Kontakt: kurze Nachricht mit Produkt-Specs (Materialien, Maße, Verpackung, MOQ-Anfrage, FOB Shenzhen/Yiwu Preis)",
-        "Sample bestellen: 30–100 $ pro Sample, Lieferzeit 2–4 Wochen DHL/FedEx",
+        "Sample bestellen: 30-100 $ pro Sample, Lieferzeit 2-4 Wochen DHL/FedEx",
         "Sample-Test: physisch prüfen, Funktion testen, Verpackung bewerten, Maße messen",
         "Bei Mängeln: detailliertes Feedback + Re-Sample (oder Lieferant ablehnen)",
         "Verhandlung: 10-30 % Rabatt auf Erstbestellung typisch verhandelbar",
         "Verträge: PI (Proforma Invoice) + Trade Assurance Order (NIE per Western Union / Bitcoin / persönliche Bank-Konten zahlen!)",
-        "Custom-Branding klären: Logo auf Produkt + Verpackung + Polybag (typisch +0,10–0,50 $/Stk)",
+        "Custom-Branding klären: Logo auf Produkt + Verpackung + Polybag (typisch +0,10-0,50 $/Stk)",
         "Karton-Specs definieren: Master-Karton-Größe, Inner-Box-Anzahl, Polybag-Pflicht (Amazon-Anforderung)"
       ],
       "externalLinks": [
@@ -1843,8 +1843,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Zahlungsmodalitäten: 30 % Anzahlung bei Order + 70 % nach Inspection (vor Versand) ist Standard. Wenn Lieferant 100 % vorab will: Red Flag.",
         "Sourcing-Agent: Pingpong, ChinaImportal etc. nehmen 5-8 % Provision aber sind oft Geld wert (Sprache, Verhandlung, vor-Ort-QC). Für Anfänger empfohlen.",
         "1688-Trick: ChineseSourcing.com / DAIGOU-Plattformen erlauben 1688-Käufe mit englischem Interface + Bezahlung in USD/EUR. Preise oft 30-50 % unter Alibaba.",
-        "Pro-Tipp: gleiches Produkt bei 3 Lieferanten parallel sampeln — vergleichen, dann Bulk-Order beim besten.",
-        "**ImportYeti / Panjiva Hack**: zeigt welche US/EU-Brands welche China-Lieferanten nutzen (basiert auf öffentlichen Zoll-Daten). Konkurrent-Lieferant finden = oft 30-50 % günstiger als Erst-Sourcing-Versuch.",
+        "Pro-Tipp: gleiches Produkt bei 3 Lieferanten parallel sampeln, vergleichen, dann Bulk-Order beim besten.",
+        "**ImportYeti / Panjiva Tipp**: zeigt welche US/EU-Brands welche China-Lieferanten nutzen (basiert auf öffentlichen Zoll-Daten). Konkurrent-Lieferant finden = oft 30-50 % günstiger als Erst-Sourcing-Versuch.",
         "**Yiwugo + 52WMB**: Yiwu-Markt-Direktverkauf (kleine Mengen, sehr günstig für Accessoires/Home-Goods). 52WMB für tieferes China-Trade-Daten-Mining.",
         "**Sourcing-Agent-Tier**: Junior-Agent 200-500 $/Mon (Übersetzung + Order-Management), Senior-Agent 500-2k $/Mon (Qualitäts-Audit + Verhandlung + Factory-Visits). ROI ab 50k+ Order-Volumen klar positiv."
       ],
@@ -1904,17 +1904,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Häufiger Anfänger-Fehler: 6.000 Stk bestellen 'für 6 Monate' aber nur 50 % verkaufen → Lager-Fee bei Amazon 9 €/m³/Mon explodiert + Cashflow blockiert.",
         "Faustregel Cashflow: Plane für 3-fache Initial-Investition Liquidität. Bestellung 8.000 € → halt 25.000 € Buffer für Re-Order + Werbung + Lebenshaltung.",
         "Sea LCL ist Sweet-Spot bei 50-200 kg / 0,5-2 m³ Sendungen. Air Freight nur bei < 50 kg ODER Zeit-Druck.",
-        "HS-Code (Zolltarif-Nummer) korrekt bestimmen — falsche HS-Code = Zollkontrolle + Strafzahlung. Tool: zolltarifnummern.de oder zoll.de TARIC-Suche.",
+        "HS-Code (Zolltarif-Nummer) korrekt bestimmen, falsche HS-Code = Zollkontrolle + Strafzahlung. Tool: zolltarifnummern.de oder zoll.de TARIC-Suche.",
         "Re-Order-Timing: bei 30-Tage-Versand-Vorlauf + 90-Tage-Inventory: Re-Order spätestens bei 50 Tage Restbestand."
       ],
-      "description": "MOQ (Minimum Order Quantity) typisch 500–2.000 Stk je nach Produkt. Erstbestellung sollte 60–90 Tage Verkauf abdecken — nicht mehr (Cashflow), nicht weniger (Stock-Out-Risiko vor Re-Order-Lieferzeit)."
+      "description": "MOQ (Minimum Order Quantity) typisch 500-2.000 Stk je nach Produkt. Erstbestellung sollte 60-90 Tage Verkauf abdecken, nicht mehr (Cashflow), nicht weniger (Stock-Out-Risiko vor Re-Order-Lieferzeit)."
     },
     "inspection": {
       "checklist": [
-        "Inspection beauftragen 5–10 Tage VOR geplantem Versand",
+        "Inspection beauftragen 5-10 Tage VOR geplantem Versand",
         "AQL-Level wählen: AQL 2.5 = Standard (1-2 % Major Defects acceptable), AQL 1.5 = strikter (Premium-Brands)",
         "Inspection-Reports anfordern: Visual + Functional + Packaging + Labeling Tests",
-        "Bei Failed Inspection: Lieferant zur Nachbesserung zwingen (vor Endzahlung — daher 30/70 % Modell)",
+        "Bei Failed Inspection: Lieferant zur Nachbesserung zwingen (vor Endzahlung, daher 30/70 % Modell)",
         "Foto-Beweise + Mess-Daten dokumentiert ins Brand-Quality-Manual",
         "Bei wiederholten Failed Inspections: Lieferant wechseln (kosten meist mehr als 1 fester Lieferant über Zeit)"
       ],
@@ -1936,16 +1936,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.tuvsud.com"
         }
       ],
-      "warning": "Lieferant + QC-Firma müssen UNABHÄNGIG sein. NIE Inspection vom Lieferanten selbst organisieren lassen — Interessenkonflikt.",
+      "warning": "Lieferant + QC-Firma müssen UNABHÄNGIG sein. NIE Inspection vom Lieferanten selbst organisieren lassen, Interessenkonflikt.",
       "extendedNotes": [
         "AQL = Acceptance Quality Limit (ISO 2859). Statistik-basierte Stichproben-Prüfung. Z.B. bei 10.000 Stk → 200 Stk geprüft, max. 5 Major-Defects bei AQL 2.5 für 'Pass'.",
         "Pre-Production Inspection: vor Massen-Produktion sample-Run mit ~10 Stk prüfen. Verhindert dass die ganze Charge Mängel hat.",
-        "During Production: 30-50 % der Bestellung produziert, Stichprobe — letzte Chance für Korrektur ohne komplette Reproduktion.",
+        "During Production: 30-50 % der Bestellung produziert, Stichprobe, letzte Chance für Korrektur ohne komplette Reproduktion.",
         "Final Random Inspection (FRI): direkt vor Versand, 100 % Charge produziert. Standard-Inspection.",
         "Container Loading Check: Versand-Kontrolle, vermeidet 'short shipment' (weniger Karton als bezahlt).",
-        "Trick: erste 1-2 Bestellungen IMMER inspecten — danach bei bekanntem zuverlässigem Lieferant nur noch stichprobenartig."
+        "Trick: erste 1-2 Bestellungen IMMER inspecten, danach bei bekanntem zuverlässigem Lieferant nur noch stichprobenartig."
       ],
-      "description": "Bevor Lieferant verschickt: 3rd-Party-QC vor Ort in China. Kostet 200–400 $ pro Inspection, spart 5.000-15.000 € Schaden bei Defekt-Charge. AQL 2.5 = Industrie-Standard."
+      "description": "Bevor Lieferant verschickt: 3rd-Party-QC vor Ort in China. Kostet 200-400 $ pro Inspection, spart 5.000-15.000 € Schaden bei Defekt-Charge. AQL 2.5 = Industrie-Standard."
     },
     "seller-account": {
       "checklist": [
@@ -1953,7 +1953,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Firmen-Daten (HR-Auszug, Geschäftsadresse, USt-ID)",
         "Personalausweis + Reisepass des wirtschaftlich Berechtigten",
         "Bankverbindung",
-        "Kreditkarte (wird belastet bei Erstanmeldung — Plan-Gebühr 39 €/Mon ab Monat 1)",
+        "Kreditkarte (wird belastet bei Erstanmeldung, Plan-Gebühr 39 €/Mon ab Monat 1)",
         "Steuerinformations-Interview (USt-ID, Steuernummer, OSS-Status)"
       ],
       "externalLinks": [
@@ -1977,12 +1977,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Stabile Internet-Verbindung + ruhiger Hintergrund",
         "Englisch oder Deutsch im Call (deine Wahl)"
       ],
-      "warning": "Bei Ablehnung 2x: Account 3 Monate gesperrt. Bereite ALLE Dokumente perfekt vor — keine Hochladen-Fehler.",
-      "description": "Video-Call mit Amazon-Mitarbeiter + Dokumenten-Upload. Dauert 2–6 Wochen. Bereite Pass + HR-Auszug + Adressnachweis (Stromrechnung etc.) vor."
+      "warning": "Bei Ablehnung 2x: Account 3 Monate gesperrt. Bereite ALLE Dokumente perfekt vor, keine Hochladen-Fehler.",
+      "description": "Video-Call mit Amazon-Mitarbeiter + Dokumenten-Upload. Dauert 2-6 Wochen. Bereite Pass + HR-Auszug + Adressnachweis (Stromrechnung etc.) vor."
     },
     "brand-registry": {
       "checklist": [
-        "Voraussetzung 1: Marke beim DPMA/EUIPO eingetragen (nicht nur angemeldet — eingetragen)",
+        "Voraussetzung 1: Marke beim DPMA/EUIPO eingetragen (nicht nur angemeldet, eingetragen)",
         "Voraussetzung 2: Marken-Registrierungsnummer + Schutzländer parat",
         "Voraussetzung 3: Bilder der Marke auf Produkt + Verpackung (Foto-Nachweis)",
         "brandservices.amazon.de → 'Apply for enrollment'",
@@ -2012,26 +2012,26 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbook/marke-anmelden"
         }
       ],
-      "warning": "Markenanmeldung ALLEIN reicht NICHT — Marke muss EINGETRAGEN sein. Bearbeitung beim DPMA dauert 6-8 Monate. Plane das ein vor Amazon-Launch.",
+      "warning": "Markenanmeldung ALLEIN reicht NICHT, Marke muss EINGETRAGEN sein. Bearbeitung beim DPMA dauert 6-8 Monate. Plane das ein vor Amazon-Launch.",
       "extendedNotes": [
-        "**Brand Registry vs IP Accelerator**: ohne eingetragene Marke kann man via Amazon IP Accelerator (kostenpflichtig, ~1.500 $) verkürztes Verfahren starten — Marke-Anmeldung über Amazon-Partner-Anwälte, parallel Brand Registry. Lohnt bei Zeitdruck.",
+        "**Brand Registry vs IP Accelerator**: ohne eingetragene Marke kann man via Amazon IP Accelerator (kostenpflichtig, ~1.500 $) verkürztes Verfahren starten, Marke-Anmeldung über Amazon-Partner-Anwälte, parallel Brand Registry. Lohnt bei Zeitdruck.",
         "**Verifikations-Code-Falle**: Amazon kontaktiert die Adresse der eingetragenen Marken-Person (NICHT deine Seller-Adresse). Bei DPMA-Eintragung muss der eingetragene Vertreter den Code an dich weitergeben. Häufige Verzögerungs-Ursache.",
-        "**A+ Content nach Freischaltung**: 7 Module Standard (Hero + Features + Comparison + etc.). Premium A+ ab Brand-Registry mit 6+ Monaten Aktivität — bis zu 14 Module + Video. Conversion +5-15 %.",
+        "**A+ Content nach Freischaltung**: 7 Module Standard (Hero + Features + Comparison + etc.). Premium A+ ab Brand-Registry mit 6+ Monaten Aktivität, bis zu 14 Module + Video. Conversion +5-15 %.",
         "**Storefront-Aufbau**: Mini-Website auf Amazon mit eigener URL (amazon.de/brandX). Multi-Page-Hierarchie. Kostenlos via Brand Registry. Cross-Selling + Brand-Story-Hub."
       ],
       "description": "Pflicht-Step für Brand-Owner: Brand Registry schaltet A+ Content, Storefront, Vine, Project Zero, Transparency frei. Kostenlos, aber Marken-Eintragung Pflicht."
     },
     "compliance-pflicht-basics": {
       "checklist": [
-        "EORI-Nummer beim Bundeszollamt beantragen (kostenlos, 1-2 Wochen) — Pflicht für China-Import",
-        "EAN/GTIN bei GS1 Germany kaufen (~250 €/Jahr für 10 Codes) — pro ASIN eigener EAN",
+        "EORI-Nummer beim Bundeszollamt beantragen (kostenlos, 1-2 Wochen), Pflicht für China-Import",
+        "EAN/GTIN bei GS1 Germany kaufen (~250 €/Jahr für 10 Codes), pro ASIN eigener EAN",
         "LUCID-Account bei Stiftung Zentrale Stelle Verpackungsregister anlegen (kostenlos)",
         "Marken-Registrierung in LUCID + verwendete Verpackungsmaterialien angeben",
-        "Systembeteiligung beim dualen System abschließen (Interseroh / Reclay / Landbell — ab 30 €/Jahr)",
+        "Systembeteiligung beim dualen System abschließen (Interseroh / Reclay / Landbell, ab 30 €/Jahr)",
         "Jährliche Mengen-Meldung in LUCID + bei System (Verpackungsgewichte)",
         "GPSR-Risk-Assessment pro Produkt erstellen (Risikoanalyse + Hersteller-Adresse + Foto)",
         "GPSR-Responsible-Person mit EU-Adresse benennen (eigene Adresse bei EU-Seller, sonst Service)",
-        "Non-EU-Seller (UK/US/CN/HK): EU Responsible Person via Service-Provider (eurp.eu, ars-eu.com, Belysse) buchen — 30-80 €/Mon",
+        "Non-EU-Seller (UK/US/CN/HK): EU Responsible Person via Service-Provider (eurp.eu, ars-eu.com, Belysse) buchen, 30-80 €/Mon",
         "Konformitätserklärung (DoC) erstellen + im Listing-Backend hinterlegen",
         "Bedienungsanleitung in Deutsch + weitere Verkaufs-Sprachen (EU-Vorschrift)"
       ],
@@ -2065,17 +2065,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://eurp.eu"
         }
       ],
-      "warning": "GPSR seit 13.12.2024 SCHARF — Amazon prüft + sperrt Listings ohne Responsible Person. EORI vor Erstbestellung beantragen (1-2 Wochen) — sonst Container hängt im Hamburg-Hafen mit Storage-Fees.",
+      "warning": "GPSR seit 13.12.2024 SCHARF, Amazon prüft + sperrt Listings ohne Responsible Person. EORI vor Erstbestellung beantragen (1-2 Wochen), sonst Container hängt im Hamburg-Hafen mit Storage-Fees.",
       "extendedNotes": [
         "**LUCID-Falle**: Bagatell-Mengen erlauben theoretisch 0 € System-Beteiligung, aber dann KEIN gültiger Compliance-Nachweis. Fast immer trotzdem Pflicht via Mindest-Lizenzgebühr (~30 €/Jahr).",
         "**EORI-Trick**: VOR der Erstbestellung beantragen. Bei Container-Ankunft ohne EORI: Lagergebühren 30-80 €/Tag im Hamburg-Hafen + Verzögerung 2-4 Wochen.",
-        "**GPSR-Realität für Non-EU-Seller**: kein 'einmal Setup' — Service-Vertrag läuft 12 Monate, verlängert sich. Bei Service-Wechsel: alle Listings müssen aktualisiert werden (Pflicht-Adresse ändert sich)."
+        "**GPSR-Realität für Non-EU-Seller**: kein 'einmal Setup', Service-Vertrag läuft 12 Monate, verlängert sich. Bei Service-Wechsel: alle Listings müssen aktualisiert werden (Pflicht-Adresse ändert sich)."
       ],
       "description": "Pflicht-Setup für jeden Amazon-Seller, unabhängig von Produkt-Kategorie. EORI für Import, EAN pro SKU, LUCID für Verpackung, GPSR seit 13.12.2024 für alle Produkte."
     },
     "compliance-kategorie-spezifisch": {
       "checklist": [
-        "**Elektronik** (Stecker/Akku): WEEE/EAR-Registrierung bei stiftung-ear.de — Marke-pro-Marke separat",
+        "**Elektronik** (Stecker/Akku): WEEE/EAR-Registrierung bei stiftung-ear.de, Marke-pro-Marke separat",
         "**Elektronik**: CE-Zeichen + EMV/Niederspannungs-Konformität + DoC",
         "**Batterien** (Produkt oder mitgeliefert): BattDG-Registrierung bei der stiftung ear",
         "**Kosmetik**: CPNP-Notifikation (EU-Verordnung 1223/2009)",
@@ -2086,7 +2086,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Spielzeug**: REACH-Konformität (Chemikalien-Verordnung)",
         "**Lebensmittel / NEM**: Anmeldung beim BVL oder Landeslebensmittel-Überwachung",
         "**Lebensmittel**: Health-Claims-Compliance (nur zugelassene Aussagen)",
-        "**Lebensmittel**: LMIV (Lebensmittel-Informations-Verordnung) — Nährwert-Tabelle + Allergen-Kennzeichnung",
+        "**Lebensmittel**: LMIV (Lebensmittel-Informations-Verordnung), Nährwert-Tabelle + Allergen-Kennzeichnung",
         "**Textilien**: Textilkennzeichnung (Material + Pflege + Herkunft)"
       ],
       "externalLinks": [
@@ -2122,7 +2122,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Spielzeug-Tests**: TÜV/SGS-Labore 500-3.000 € pro Produkt-Variante. Bei Bundle-Produkten alle Komponenten testen. Vorlauf 4-8 Wochen.",
         "**Lebensmittel-Komplexität**: nicht DIY-fähig. Steuerberater + Lebensmittel-Rechtsanwalt vor Markteintritt konsultieren (1.500-5.000 € einmalig)."
       ],
-      "description": "Zusätzliche Compliance je nach Produkt-Kategorie. Nur relevant wenn du eine dieser Kategorien verkaufst — nicht alle gleichzeitig nötig."
+      "description": "Zusätzliche Compliance je nach Produkt-Kategorie. Nur relevant wenn du eine dieser Kategorien verkaufst, nicht alle gleichzeitig nötig."
     },
     "produkt": {
       "checklist": [
@@ -2132,7 +2132,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bild 4: Maße + Vergleichsobjekt (Hand, Münze, Smartphone)",
         "Bild 5: Verpackung + 'What's in the box' Setup-Shot",
         "Bild 6: USPs als Infografik (3-5 Key-Benefits visuell)",
-        "Bild 7: Brand-Story / Vergleich zu Konkurrent (rechtlich vorsichtig — keine Marken-Nennung)",
+        "Bild 7: Brand-Story / Vergleich zu Konkurrent (rechtlich vorsichtig, keine Marken-Nennung)",
         "Optional Video: 30-60s Lifestyle + Demo, Mobil-First-Format (1:1 oder 9:16)",
         "Titel-Formel: [Marke] [Produktname] - [USP1] [USP2] [Größe/Variante] (180-200 Zeichen, alle wichtigen Keywords vorne)",
         "Bullet 1: HAUPT-USP / Pain-Point-Solution",
@@ -2140,7 +2140,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bullet 3: Anwendungs-Vielfalt / Multi-Use",
         "Bullet 4: Sicherheit / Garantie / Support",
         "Bullet 5: Garantie + Brand-Vertrauen + CTA",
-        "Backend Keywords: 250 Bytes (Suchbegriffe-Feld) — KEINE Wiederholung von Titel-Wörtern, nur ergänzende Keywords",
+        "Backend Keywords: 250 Bytes (Suchbegriffe-Feld), KEINE Wiederholung von Titel-Wörtern, nur ergänzende Keywords",
         "A+ Content Module 1: Hero-Image + Markentitel + Tagline (Branding)",
         "A+ Content Module 2: 4-Image-Grid mit USPs (Visuell + Text)",
         "A+ Content Module 3: Comparison-Table eigene Produktlinie (Cross-Selling!)",
@@ -2211,18 +2211,18 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Hauptbild-Test mit Pickfu: 50 $ für 50 Tester-Votes vs. Top-3-Konkurrenten — VOR Launch absolute Pflicht.",
-        "A+ Content nutzt 'Premium A+ Content' (gratis seit 2023 für Brand Registry) — Module bis zu 14 statt 7, höhere Bildqualität, Video-Module.",
+        "Hauptbild-Test mit Pickfu: 50 $ für 50 Tester-Votes vs. Top-3-Konkurrenten, VOR Launch absolute Pflicht.",
+        "A+ Content nutzt 'Premium A+ Content' (gratis seit 2023 für Brand Registry), Module bis zu 14 statt 7, höhere Bildqualität, Video-Module.",
         "Mobile-First: 70-80 % der Amazon-Käufer auf Mobilgerät. JEDES Bild auf 600 × 600 px Vorschau testen (Lesbarkeit).",
-        "Backend-Keywords-Hack: Synonyme + Schreibvarianten + englische Begriffe (für Touristen-Suchen). Konkurrent-Markennamen NICHT nutzen (Verstoß).",
-        "Listing-Score in Helium10 / Datadive: 'Health Score' > 80 % anstreben — Hinweise auf fehlende Felder.",
+        "Backend-Keywords-Tipp: Synonyme + Schreibvarianten + englische Begriffe (für Touristen-Suchen). Konkurrent-Markennamen NICHT nutzen (Verstoß).",
+        "Listing-Score in Helium10 / Datadive: 'Health Score' > 80 % anstreben, Hinweise auf fehlende Felder.",
         "Listing nach 30 Tagen: Reviews + Sales-Data analysieren → Bullets optimieren basierend auf Customer-Q&A + häufigen Reviews.",
-        "**AI-Listing-Tools 2026**: Helium10 Listing Builder + CopyMonkey + BeatSteller (DACH) generieren Bullets/Title aus Keyword-Liste. Output IMMER manuell editieren — AI-Listings ohne Polish konvertieren 30-50% schlechter.",
+        "**AI-Listing-Tools 2026**: Helium10 Listing Builder + CopyMonkey + BeatSteller (DACH) generieren Bullets/Title aus Keyword-Liste. Output IMMER manuell editieren, AI-Listings ohne Polish konvertieren 30-50% schlechter.",
         "**AI-Bild-Tools**: Claid.ai (Background-Replace + Upscaling), Photoroom (Hintergrund + Lifestyle-Compositing), Pebblely (Produkt-in-Szene-AI). Sweet-Spot für Bild 2-7, Hauptbild bleibt Profi-Foto.",
-        "**Profi-Photography DACH**: ProductPhotographer.de (München, 50-150 €/Bild), LovePics (Berlin, Lifestyle-Spezialist), Studio-DACH-Marketplace via Fotograf.de — Hauptbild + 3 Hero-Bilder beim Profi, Rest mit AI/DIY.",
+        "**Profi-Photography DACH**: ProductPhotographer.de (München, 50-150 €/Bild), LovePics (Berlin, Lifestyle-Spezialist), Studio-DACH-Marketplace via Fotograf.de, Hauptbild + 3 Hero-Bilder beim Profi, Rest mit AI/DIY.",
         "**Listing-Texter-Senior**: Upwork (DACH-Specialists 200-800 €/Listing) > Fiverr (50-200 €) bei Premium-Brands. Native German + Amazon-SEO-Erfahrung sind Pflicht-Filter."
       ],
-      "description": "Listing besteht aus: Hauptbild + 6 Sekundär-Bilder + Titel + 5 Bullets + Description + A+ Content (7 Module) + Backend-Keywords. Conversion-Rate >15 % (Mobil) ist Ziel — alles drunter = PPC-Geld verbrennen."
+      "description": "Listing besteht aus: Hauptbild + 6 Sekundär-Bilder + Titel + 5 Bullets + Description + A+ Content (7 Module) + Backend-Keywords. Conversion-Rate >15 % (Mobil) ist Ziel, alles drunter = PPC-Geld verbrennen."
     },
     "fba-shipment": {
       "checklist": [
@@ -2241,14 +2241,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "PHASE 1 Tag 0-7 (Indexierung): Auto-Kampagne 20 €/Tag (Amazon entdeckt Keywords) + Manual Broad 20 €/Tag (10-20 Top-Keywords aus Helium10)",
         "PHASE 1 Tag 0-7: Niedriges Gebot starten (CPC 0,30-0,50 €), tägliche Bid-Adjustment um +20 % bis Impressions kommen",
-        "PHASE 2 Tag 8-30 (Aggressive): Manual Exact für Top-5-Keywords mit hohem Bid (2-3x Auto-CPC) — Ranking-Push",
+        "PHASE 2 Tag 8-30 (Aggressive): Manual Exact für Top-5-Keywords mit hohem Bid (2-3x Auto-CPC), Ranking-Push",
         "PHASE 2 Tag 8-30: Sponsored Brands für Brand-Defense (eigener Markenname-Suche) + Headline-Search (15-25 €/Tag)",
-        "PHASE 2 Tag 8-30: ACoS-Ziel 60-100 % (Marge wird verbrannt für Reviews + BSR-Aufstieg) — Investition, nicht Profit",
+        "PHASE 2 Tag 8-30: ACoS-Ziel 60-100 % (Marge wird verbrannt für Reviews + BSR-Aufstieg), Investition, nicht Profit",
         "PHASE 3 Tag 31-60 (Optimierung): Negative Keywords aus Search-Term-Report ziehen (Spending ohne Sale = Negative)",
-        "PHASE 3 Tag 31-60: Keyword-Bidding nach Conversion-Rate optimieren — Top-Performer pushen, schlechte pausieren",
-        "PHASE 3 Tag 31-60: Sponsored Display Retargeting starten (View-Remarketing) — typisch profitabelster Kampagnen-Typ",
+        "PHASE 3 Tag 31-60: Keyword-Bidding nach Conversion-Rate optimieren, Top-Performer pushen, schlechte pausieren",
+        "PHASE 3 Tag 31-60: Sponsored Display Retargeting starten (View-Remarketing), typisch profitabelster Kampagnen-Typ",
         "PHASE 4 Tag 61-90 (Skalierung): Day-Parting (Werbung nur in Conversion-Stunden), Placement-Multiplier (Top-of-Search +50-100 %)",
-        "PHASE 4 Tag 61-90: TACoS < 15 % erreichen (Werbe-Ausgabe / Total Sales — inkl. organischer Sales)",
+        "PHASE 4 Tag 61-90: TACoS < 15 % erreichen (Werbe-Ausgabe / Total Sales, inkl. organischer Sales)",
         "Wöchentlich: Search-Term-Report auswerten, Negative Keywords pflegen, Bids anpassen",
         "Monatlich: ASIN-Targeting prüfen (Sponsored Display auf Konkurrent-Listings)"
       ],
@@ -2294,14 +2294,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://sellerboard.com"
         }
       ],
-      "warning": "PPC ohne CR-Optimierung (siehe Listing-Step) verbrennt Geld. Erst Listing > 12 % CR machen, DANN PPC skalieren — sonst Skalierung von negativem Profit.",
+      "warning": "PPC ohne CR-Optimierung (siehe Listing-Step) verbrennt Geld. Erst Listing > 12 % CR machen, DANN PPC skalieren, sonst Skalierung von negativem Profit.",
       "extendedNotes": [
-        "Launch-Realität: erste 30 Tage SUBVENTIONIEREN den Launch — typisch 50-70 % der Marge wird in PPC + Vine + Promotion gepumpt für BSR-Aufstieg.",
+        "Launch-Realität: erste 30 Tage SUBVENTIONIEREN den Launch, typisch 50-70 % der Marge wird in PPC + Vine + Promotion gepumpt für BSR-Aufstieg.",
         "BSR-Rank-Math: Top-1.000 BSR braucht 5-15 Sales/Tag (kategorienabhängig). Top-100 BSR: 30-100 Sales/Tag.",
-        "ACoS vs. TACoS: ACoS = Werbung / Werbe-Sales. TACoS = Werbung / Total-Sales. TACoS sinkt mit organischem Anteil — KPI für Skalierung.",
-        "Bid-Strategie 'Dynamic Bids — Down Only' im Launch (Amazon senkt Gebot wenn Conversion unwahrscheinlich) → 'Dynamic Bids — Up & Down' nach 30 Tagen (mehr Skalierung).",
+        "ACoS vs. TACoS: ACoS = Werbung / Werbe-Sales. TACoS = Werbung / Total-Sales. TACoS sinkt mit organischem Anteil, KPI für Skalierung.",
+        "Bid-Strategie 'Dynamic Bids, Down Only' im Launch (Amazon senkt Gebot wenn Conversion unwahrscheinlich) → 'Dynamic Bids, Up & Down' nach 30 Tagen (mehr Skalierung).",
         "Tools-Vergleich: Helium10 Adtomic ($249/Mon, All-in-One-Plattform-User), Perpetua (Mid-Enterprise), Ad Badger (Mid-Market, regelbasiert), Sponsored Profit (DACH-Tool mit DE-Marketplace-Fokus), M19 (AI-fokussiert, premium), Pacvue (Enterprise + DSP-Integration), Trellis (AI-PPC + Dynamic-Pricing-Combo), Quartile (AI-PPC für Mid-Market). Sellerboard (19 €/Mon) parallel als Profit-Tracker.",
-        "Kritischer KPI: 'Profit per Click' — nicht ACoS allein. ACoS 80 % bei VK 50 € + 30 € Marge = 26 € Profit/Click. ACoS 20 % bei VK 15 € + 5 € Marge = 4 € Profit/Click. ACoS-Ziel hängt vom AOV ab."
+        "Kritischer KPI: 'Profit per Click', nicht ACoS allein. ACoS 80 % bei VK 50 € + 30 € Marge = 26 € Profit/Click. ACoS 20 % bei VK 15 € + 5 € Marge = 4 € Profit/Click. ACoS-Ziel hängt vom AOV ab."
       ],
       "description": "Strategie nach Tagen: 0-7 = Indexierung, 8-30 = Aggressive Ausgabe für BSR + Reviews, 31-60 = ACoS-Optimierung, 61-90 = Skalierung profitabler Keywords. Ziel: TACoS (Total ACoS) < 15 % nach 90 Tagen."
     },
@@ -2310,17 +2310,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Pre-Launch (4-8 Wochen vor Listing-Live)**: Email-Liste über Brand-Website / Insert-Cards / Social-Media aufbauen. Ziel: 500-2.000 warme Leads für Day-1-Push",
         "**Pre-Launch-Audience-Build**: ManyChat-Bot auf Insta/Facebook für DM-basiertes Lead-Capture, Beehiiv/ConvertKit für Email-Liste, Brand-Discord/Telegram-Channel",
         "**Day-1-Launch-Push**: Email-Blast an Warm-Leads + Off-Amazon-Traffic via Amazon-Attribution-Links (10 % Brand-Referral-Bonus + BSR-Boost)",
-        "**Honeymoon-Period (Tag 0-30)**: Amazon boosted neue Listings organisch — aggressive PPC + Vine + Promotions in dieser Phase = 3-6 Monate Vorsprung",
-        "**Coupon-Stack (kontinuierlich)**: 5 % / 7 % / 10 % parallel auf verschiedenen ASINs — Click-Rate-Boost durch grünes Coupon-Badge im Listing (selbst ohne Conversion-Coupon-Use)",
+        "**Honeymoon-Period (Tag 0-30)**: Amazon boosted neue Listings organisch, aggressive PPC + Vine + Promotions in dieser Phase = 3-6 Monate Vorsprung",
+        "**Coupon-Stack (kontinuierlich)**: 5 % / 7 % / 10 % parallel auf verschiedenen ASINs, Click-Rate-Boost durch grünes Coupon-Badge im Listing (selbst ohne Conversion-Coupon-Use)",
         "**Lightning Deal** (150 $ Gebühr, 4-12h Promotion): qualifiziert sich nach 5+ Reviews + 3,5 Sterne. Sweet-Spot Tag 30-60 für BSR-Push-Phase 2",
         "**7-Day Deal** (500 $ Gebühr, 7 Tage): Premium-Promotion-Slot. Lohnt bei Q4 / Prime Day / Black Friday + bei geplanter Launch-Skalierung",
         "**Prime Exclusive Discount**: Mindest 10 % Rabatt für Prime-Member, Standard-Conversion-Boost ohne Gebühr (nur Marge-Verlust)",
         "**Subscribe & Save aktivieren** (für Verbrauchsgüter): 5-15 % Discount für Auto-Reorder. Repeat-Customer-Rate steigt 30-50 %, LTV explodiert",
-        "**Brand-Posts** (kostenlos via Brand Registry): Lifestyle-Posts mit eigenen Produkt-Tags — organische Reach in Amazon-Brand-Feed",
+        "**Brand-Posts** (kostenlos via Brand Registry): Lifestyle-Posts mit eigenen Produkt-Tags, organische Reach in Amazon-Brand-Feed",
         "**Brand-Story** auf Listing (kostenlos via Brand Registry): persönliche Founder-Story + Werte → Conversion +5-10 % bei mid-AOV-Produkten",
-        "**Bundle-Strategie**: Multipack-Variante als zusätzliche ASIN — höherer AOV + besserer Margen-Hebel + weniger PPC-Konkurrenz",
+        "**Bundle-Strategie**: Multipack-Variante als zusätzliche ASIN, höherer AOV + besserer Margen-Hebel + weniger PPC-Konkurrenz",
         "**Q4-Launch-Strategy** (Sept-Nov-Launches profitieren von Holiday-Volumen): Inventar 2-3x normal stocken, Coupon-Aggression bei Black Friday/Cyber Monday",
-        "**Launch-Konkurrenz-Angriff**: Sponsored Display auf Top-3-Konkurrent-ASINs (Targeting-Strategie) — Buy-Box-Konkurrenz direkt in deren Listing"
+        "**Launch-Konkurrenz-Angriff**: Sponsored Display auf Top-3-Konkurrent-ASINs (Targeting-Strategie), Buy-Box-Konkurrenz direkt in deren Listing"
       ],
       "externalLinks": [
         {
@@ -2357,14 +2357,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Brand-Referral-Bonus**: 10 % Bonus auf Sales aus Off-Amazon-Traffic via Amazon Attribution. Beantragen sobald Brand-Registry aktiv. Direkter Cashflow-Hebel bei TikTok/Insta-Ads.",
         "**Vine-Timing**: Tag 0 nach Inventory-Eingang Vine-Anmeldung. 30 Tage später kommen Reviews. Perfekt timing für Honeymoon-Phase 2."
       ],
-      "description": "Amazon gibt neuen Listings einen 'Honeymoon-Period'-Boost in den ersten 30 Tagen — wer das richtig nutzt, etabliert BSR-Position für 6-12 Monate. Promotion-Stack (Coupons, Deals, Subscribe & Save) maximiert Velocity in dieser Phase."
+      "description": "Amazon gibt neuen Listings einen 'Honeymoon-Period'-Boost in den ersten 30 Tagen, wer das richtig nutzt, etabliert BSR-Position für 6-12 Monate. Promotion-Stack (Coupons, Deals, Subscribe & Save) maximiert Velocity in dieser Phase."
     },
     "vine-reviews": {
       "checklist": [
         "Vine-Voraussetzung: Brand Registry + min. 30 Stk Inventory + 0 vorhandene Reviews",
-        "Erstmal 10 Vine-Einheiten anbieten — wenn Bewertung > 4,3 Sterne, später 20-30 nachlegen",
+        "Erstmal 10 Vine-Einheiten anbieten, wenn Bewertung > 4,3 Sterne, später 20-30 nachlegen",
         "Vine-Anmeldung: Seller Central → Brand Registry → Vine Voice Program",
-        "Amazon Email-Flow aktivieren (Request a Review) — manuell pro Bestellung ODER automatisch via Tool",
+        "Amazon Email-Flow aktivieren (Request a Review), manuell pro Bestellung ODER automatisch via Tool",
         "FeedbackWhiz/Aura: automatischer Email nach Lieferung + Erinnerungs-Email nach 7 Tagen",
         "Email-Inhalt: NUR neutral fragen ('Wie ist deine Erfahrung?'), KEINE Anreize ('5-Sterne für Geschenk' = Account-Sperrung)",
         "Bei negativem Review: Customer-Service-Outreach (Lösung anbieten) → oft Update zu 5-Sterne",
@@ -2406,12 +2406,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "warning": "Amazon-Reviewing-Policy ist STRENG. Auch unschuldige 'request feedback' Tools können bei Verstoß Account sperren. Lieber langsamer + sauber wachsen als schnell + risikoreich.",
       "extendedNotes": [
-        "Vine-Reviewer dürfen alles bewerten — auch negativ. Ihre Reviews sind 'verified' + sehr glaubwürdig (oft mit Foto/Video).",
+        "Vine-Reviewer dürfen alles bewerten, auch negativ. Ihre Reviews sind 'verified' + sehr glaubwürdig (oft mit Foto/Video).",
         "Statistik: Vine-Reviews durchschnittlich 0,3-0,5 Sterne unter normalen organischen Reviews (kritischere Reviewer). Plane das ein.",
-        "Alternative-Hack: 'Inserts' in Verpackung mit QR-Code zu Brand-Email-List + nach Email-Sammlung zu Review-Anfrage. Rechtlich sauber wenn KEINE Bewertung im Tausch versprochen wird.",
+        "Praxis-Alternative: 'Inserts' in Verpackung mit QR-Code zu Brand-Email-List + nach Email-Sammlung zu Review-Anfrage. Rechtlich sauber wenn KEINE Bewertung im Tausch versprochen wird.",
         "Verbotene Praktiken (Suspension-Risiko): Bezahlte Reviews, Family/Friends-Reviews, Buy-Off-Service, Anreize für 5-Sterne, Fake-Reviewers.",
         "Pro-Tipp: bei 30+ Reviews + 4,2+ Sterne kann man PPC-Skalierung starten ohne Geld zu verbrennen. Davor: Vine + organische Reviews aufbauen.",
-        "**Vine-Alternativen — TOS-Warnung**: Vipon, Get Reviewed, Tomoson, Snagshout bieten 'Discount-in-Exchange-für-Review'. Amazon-TOS-Risiko: jegliche Verknüpfung Discount↔Review = Suspension. Nur nutzen wenn Discount KEINE Review-Bedingung hat (rein Audience-Building).",
+        "**Vine-Alternativen, TOS-Warnung**: Vipon, Get Reviewed, Tomoson, Snagshout bieten 'Discount-in-Exchange-für-Review'. Amazon-TOS-Risiko: jegliche Verknüpfung Discount↔Review = Suspension. Nur nutzen wenn Discount KEINE Review-Bedingung hat (rein Audience-Building).",
         "**Customer-Service-Stack**: ManageByStats (All-in-One, 30-200 €/Mon), eDesk (Multi-Channel, 60-300 €/Mon), Replyco (Marketplace-fokussiert, 30-200 €/Mon), ZonGuru (Amazon-only Suite). Reduziert Customer-Response-Time → Account-Health-KPI.",
         "**Insert-Cards-Strategie** (TOS-konform): Mini-Karte in Verpackung mit QR-Code → Brand-Email-Liste. KEINE 'Bewerten gegen Geschenk'-Klausel, NUR 'Sign-up für Updates / Garantie-Verlängerung'. Email-Liste später für Reviews fragen (neutral, ohne Anreiz).",
         "**Brand-Insert-Idee**: Setup-Manual + FAQ-Karte + 'Reach out before bad review' Direkt-Kontakt-Email. Reduziert negative Reviews um 30-50 %, da Customers erst Support kontaktieren statt 1-Sterne-Review zu hinterlassen."
@@ -2421,15 +2421,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "amazon-power-tooling": {
       "checklist": [
         "Keepa Pro (19 €/Mon): API-Zugriff für Helium10/JS-Integration + Tracking + Drop-Alerts. Foundation-Tool für ernsthafte Skalierung",
-        "Reimbursement-Tools (GETIDA / Refully / Helium10 Refund Genie): Amazon schuldet dir typisch Geld für: verlorenen Inventar (Lost), beschädigt im Lager (Damaged), Customer-Returns nicht zurückgegeben (Customer Returns Not Refunded), FBA-Fee-Überberechnung. 1-3 % vom Revenue typisch wiedererhältlich — meist 25 % Provision auf Recovery",
+        "Reimbursement-Tools (GETIDA / Refully / Helium10 Refund Genie): Amazon schuldet dir typisch Geld für: verlorenen Inventar (Lost), beschädigt im Lager (Damaged), Customer-Returns nicht zurückgegeben (Customer Returns Not Refunded), FBA-Fee-Überberechnung. 1-3 % vom Revenue typisch wiedererhältlich, meist 25 % Provision auf Recovery",
         "Inventory-Forecasting (SoStocked, Restock.Pro, Helium10 IM, InventoryLab): vermeidet Stockouts (= BSR-Crash + organischer Rank-Verlust 2-3 Monate Recovery) + Über-Lagerung (= Long-Term-Storage-Fees ab 365 Tage). Pflicht ab 5+ aktiven SKUs",
-        "FBA-Tax-Automation (hellotax / Taxdoo / Avalara): bei Pan-EU-FBA Pflicht — automatisierte USt-Registrierung in 7 EU-Ländern + Quartals-Meldungen + Intrastat. Eigene Verwaltung praktisch unmöglich, Steuerberater wäre 500-2k €/Mon",
-        "Brand Analytics nativ (Seller Central, kostenlos für Brand-Registered): Search-Query-Performance, Demographics, Repeat-Buy-Behavior, Top-Search-Terms — wertvollste Daten gratis, oft komplett ignoriert",
-        "Search-Query-Performance-Report konkret: zeigt für DEINE Marke welche Suchbegriffe Klicks bringen + Conversion-Rate vs. Wettbewerb — direkter PPC-Bid-Optimierungs-Hebel",
+        "FBA-Tax-Automation (hellotax / Taxdoo / Avalara): bei Pan-EU-FBA Pflicht, automatisierte USt-Registrierung in 7 EU-Ländern + Quartals-Meldungen + Intrastat. Eigene Verwaltung praktisch unmöglich, Steuerberater wäre 500-2k €/Mon",
+        "Brand Analytics nativ (Seller Central, kostenlos für Brand-Registered): Search-Query-Performance, Demographics, Repeat-Buy-Behavior, Top-Search-Terms, wertvollste Daten gratis, oft komplett ignoriert",
+        "Search-Query-Performance-Report konkret: zeigt für DEINE Marke welche Suchbegriffe Klicks bringen + Conversion-Rate vs. Wettbewerb, direkter PPC-Bid-Optimierungs-Hebel",
         "Amazon DSP (Display-Werbung): Cross-Marketplace-Targeting, Off-Amazon-Reach (CTV, Audio, Display-Network), Audience-Buying. Skalierungs-Hebel jenseits Sponsored Products. Mindest-Budget meist 5k €/Mon, lohnt ab ~50k €/Mon Revenue",
-        "Storefront / Brand-Store (kostenlos via Brand Registry): Mini-Website auf Amazon mit eigener URL — Branded-Traffic-Destination, Cross-Selling, Story-Telling, Multi-Page-Hierarchie",
+        "Storefront / Brand-Store (kostenlos via Brand Registry): Mini-Website auf Amazon mit eigener URL, Branded-Traffic-Destination, Cross-Selling, Story-Telling, Multi-Page-Hierarchie",
         "Amazon Attribution: Off-Amazon-Traffic (Meta-Ads, Google-Ads, Influencer) zu Amazon tracken → BSR-Boost durch externen Traffic + Brand-Referral-Bonus 10 %",
-        "Pickfu für Bilder-A/B-Test vor Listing-Updates (50 Tester, 50 $) — saving 1.000 € PPC bei schlechtem Hauptbild",
+        "Pickfu für Bilder-A/B-Test vor Listing-Updates (50 Tester, 50 $), saving 1.000 € PPC bei schlechtem Hauptbild",
         "DataDive als Premium-Helium10-Alternative für Reverse-ASIN-Forschung + Niche-Hunting + Profitabilitäts-Forecasting"
       ],
       "externalLinks": [
@@ -2510,12 +2510,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://datadive.tools"
         }
       ],
-      "warning": "Reimbursement-Recovery + Tax-Automation + Inventory-Forecasting werden oft erst nach 12-24 Monaten implementiert — verbrennt 5-stellige Beträge. Setup VOR Skalierung.",
+      "warning": "Reimbursement-Recovery + Tax-Automation + Inventory-Forecasting werden oft erst nach 12-24 Monaten implementiert, verbrennt 5-stellige Beträge. Setup VOR Skalierung.",
       "extendedNotes": [
-        "**ROI-Realität Reimbursement**: Brand mit 500k €/Jahr Amazon-Revenue bekommt typisch 5-15k €/Jahr via GETIDA wieder — Setup einmalig (1-2h), danach automatisiert.",
+        "**ROI-Realität Reimbursement**: Brand mit 500k €/Jahr Amazon-Revenue bekommt typisch 5-15k €/Jahr via GETIDA wieder, Setup einmalig (1-2h), danach automatisiert.",
         "**Stockout-Killer**: 14 Tage out-of-stock → BSR fällt 5-10x, organischer Rank-Verlust = 2-3 Monate Recovery. Inventory-Forecasting verhindert das, Cost 99-499 $/Mon vs. 5-stelliger Sales-Verlust.",
-        "**Pan-EU-FBA-Tax-Fallen**: Lokale USt-Registrierung in 7 EU-Ländern + Intrastat-Meldungen. hellotax/Taxdoo automatisieren Steuerberater-Aufgaben gegen 79-279 €/Mon — Steuerberater wäre 500-2k €/Mon plus oft fehlerhaft bei FBA-Spezifika.",
-        "**Brand Analytics Search-Query-Performance**: zeigt für Marken-Owner welche Suchbegriffe Klicks bringen + Conversion-Rate vs. Wettbewerb — direkter PPC-Optimierungs-Hebel, kostenlos. 80 % der Brand-Owner ignorieren das.",
+        "**Pan-EU-FBA-Tax-Fallen**: Lokale USt-Registrierung in 7 EU-Ländern + Intrastat-Meldungen. hellotax/Taxdoo automatisieren Steuerberater-Aufgaben gegen 79-279 €/Mon, Steuerberater wäre 500-2k €/Mon plus oft fehlerhaft bei FBA-Spezifika.",
+        "**Brand Analytics Search-Query-Performance**: zeigt für Marken-Owner welche Suchbegriffe Klicks bringen + Conversion-Rate vs. Wettbewerb, direkter PPC-Optimierungs-Hebel, kostenlos. 80 % der Brand-Owner ignorieren das.",
         "**Amazon DSP-Schwelle**: lohnt erst ab ~50k €/Mon Revenue. Mindest-Budget 5k €/Mon. Self-Service oder Managed-Service via Agency (Perpetua, Ad Badger, Sponsored Profit).",
         "**Brand-Referral-Bonus**: 10 % Bonus auf Sales die durch Amazon Attribution-Links generiert werden (von Off-Amazon-Traffic). Direkt in Brand-Registry beantragen."
       ],
@@ -2527,11 +2527,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Multi-Channel-Strategie für Brand-Owner**: gleicher Listing auf eigenem Shop (Shopify) + Amazon + eBay + Kaufland + idealo via Feed-Tool. Spreitet Risiko + maximiert Reichweite",
         "**Pan-EU-FBA-Multi-Marketplace**: gleicher Listing in DE/UK/FR/IT/ES für 5x Reach. Helium10 Magnet pro Marketplace für Keyword-Recherche (jedes Land hat andere Top-Keywords)",
         "**Amazon Attribution Setup**: Tracking-Links für Meta-Ads, Google-Ads, TikTok, Influencer → zeigt welche Off-Amazon-Channels echten Amazon-Sales generieren",
-        "**Brand-Referral-Bonus aktivieren**: 10 % Bonus auf Sales die über Attribution-Links generiert werden — direkter Cashflow-Hebel bei externer Werbung. Beantragen via Brand Registry",
+        "**Brand-Referral-Bonus aktivieren**: 10 % Bonus auf Sales die über Attribution-Links generiert werden, direkter Cashflow-Hebel bei externer Werbung. Beantragen via Brand Registry",
         "**TikTok/Insta-zu-Amazon-Strategie**: organisches Content + ManyChat-Bot für DM-basierte Amazon-Link-Verteilung. Linktree/Stan.store als Bio-Link-Hub mit Tracking",
         "**Influencer-Marketing zu Amazon**: SourceKnowledge / Aspire / Tribe für Influencer-Discovery, Amazon Attribution für Tracking. Top-Skalierungs-Hebel ab 100k+ Revenue",
-        "**TikTok-Shop parallel**: ab 2024 in DE verfügbar — eigener Channel mit gleichem Listing-Asset. Geringe Inkrementalität von Amazon, aber zusätzlicher Sales-Channel",
-        "**Returns-Reduction durch Insert-Cards**: Setup-Manual mit Foto-Anleitung in jeder Verpackung — reduziert Returns 20-40 % bei Tech/Setup-intensive Produkten",
+        "**TikTok-Shop parallel**: ab 2024 in DE verfügbar, eigener Channel mit gleichem Listing-Asset. Geringe Inkrementalität von Amazon, aber zusätzlicher Sales-Channel",
+        "**Returns-Reduction durch Insert-Cards**: Setup-Manual mit Foto-Anleitung in jeder Verpackung, reduziert Returns 20-40 % bei Tech/Setup-intensive Produkten",
         "**FAQ-Karte 'Häufige Probleme'**: 5-10 häufigste Customer-Fragen mit Lösung in Verpackung. Reduziert sowohl Returns als auch negative Reviews",
         "**'Reach Out Before Bad Review'-Karte**: direkter Founder-Email mit Versprechen 'Wir lösen es in 24h'. Reduziert 1-Sterne-Reviews 30-50 %",
         "**Quality-Cards / Origin-Story**: Zertifikate (Bio, Fair-Trade, Made-in-X) + Brand-Story-Postcard → erhöht Brand-Loyalty + Repeat-Purchase",
@@ -2587,7 +2587,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Multi-Channel-ROI**: gleiches Inventar auf 5 Channels = 30-100 % Revenue-Boost ohne Inventory-Verdopplung. Channable-Cost amortisiert sich ab 30k €/Mon Multi-Channel-Revenue.",
         "**Brand-Referral-Bonus konkret**: bei 50k €/Mon Off-Amazon-Sales (via Meta-Ads) zu Amazon-Listing = 5k € pure Bonus-Auszahlung quartalsweise. Niemand sollte das ignorieren.",
-        "**TikTok-Influencer-zu-Amazon**: 2026-Sweet-Spot — Micro-Influencer (10-100k Follower) mit UGC-Content + Amazon-Attribution-Link. CPA oft 30-50 % unter Meta-Ads in DACH.",
+        "**TikTok-Influencer-zu-Amazon**: 2026-Sweet-Spot, Micro-Influencer (10-100k Follower) mit UGC-Content + Amazon-Attribution-Link. CPA oft 30-50 % unter Meta-Ads in DACH.",
         "**Returns-Math**: 1 % Returns-Reduktion bei 500k €/Mon Revenue = 5k € + niedrigere Account-Health-Risiko. Insert-Cards (50 ct/Stk) amortisieren sich nach 1-2 Monaten.",
         "**TikTok-Shop-vs-Amazon**: TikTok-Shop hat geringere Marge (10-23 % Plattform-Fee + Versand-Subvention) aber unique Audience. NICHT Amazon-Ersatz, sondern Inkrementell."
       ],
@@ -2596,13 +2596,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "account-health": {
       "checklist": [
         "Wöchentlich: Account Health Dashboard prüfen (Notifications + Performance Metrics)",
-        "Bei A-to-Z-Claim: SOFORT mit Kunde Kontakt (Refund/Replace) — Claim selbst beilegen, bevor Amazon entscheidet",
+        "Bei A-to-Z-Claim: SOFORT mit Kunde Kontakt (Refund/Replace), Claim selbst beilegen, bevor Amazon entscheidet",
         "Customer-Messages binnen 24h beantworten (Amazon-KPI: Response Time)",
         "Negative Reviews unter 2 Sterne: höflicher Customer-Outreach + Lösung anbieten + Update-Bitte",
-        "Bei Listing-Suspension (Policy-Violation): Plan of Action (POA) schreiben — Ursache + Fix + Prevention, 500-2.000 Wörter, faktenbasiert",
+        "Bei Listing-Suspension (Policy-Violation): Plan of Action (POA) schreiben, Ursache + Fix + Prevention, 500-2.000 Wörter, faktenbasiert",
         "Bei Account-Suspension: 17-Tage-Frist beachten, ggf. Anwalt mit Amazon-Erfahrung (Riggio Legal, EcommerceAttorney) konsultieren",
         "POA-Struktur: 'Root Cause Analysis' + 'Immediate Corrective Actions' + 'Long-Term Preventive Measures'",
-        "Backup-Plan: Stock auf Amazon EU-Marketplaces verteilen (UK, FR, IT, ES) — single-account-suspension stoppt nicht alle",
+        "Backup-Plan: Stock auf Amazon EU-Marketplaces verteilen (UK, FR, IT, ES), single-account-suspension stoppt nicht alle",
         "Customer-Service-Excellence-Setup: SLA für Antwort-Zeiten, Eskalations-Plan, Refund-Threshold (z.B. < 5 € automatisch refunden)",
         "Insurance prüfen: Amazon Pro Account ab Q4-2024 verlangt Produkthaftpflicht-Versicherung ab 10.000 $/Mon Sales (z.B. Hiscox, ProSight ab 30 €/Mon)"
       ],
@@ -2667,7 +2667,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "POA-Quality: AI-generiert oder Template = automatische Ablehnung. Echte Root-Cause-Analyse + spezifische Maßnahmen = 70 % Erfolgsrate beim ersten Versuch.",
         "Pro-Tipp: ZSR (Brand Registry) Tickets haben höhere Priorität als normale Seller-Tickets. Bei dringenden Issues: über Brand Registry-Support gehen.",
         "Versicherungs-Pflicht ab $10k/Mon: gilt seit 2021, oft übersehen. Hiscox/ProSight/Insureon bieten Amazon-konforme Policen ab 30 €/Mon.",
-        "Eskalations-Hack: bei festgefahrenen Cases 'jeff@amazon.com' (Bezos-Email) — landet bei Executive Customer Relations, oft schnellere Lösung. Aber sparsam einsetzen.",
+        "Eskalations-Weg: bei festgefahrenen Cases 'jeff@amazon.com' (Bezos-Email), landet bei Executive Customer Relations, oft schnellere Lösung. Aber sparsam einsetzen.",
         "**Insurance-Stack-Vergleich 2026**: Hiscox (DACH-Standard, 30-100 €/Mon), ProSight Specialty (US-zentriert, Amazon-konform), Insureon (Marketplace mit US-Quotes), baseline-insurance (DACH Online-Händler-Spezialist). Mindest-Deckung 1M $ Produkthaftpflicht (Amazon-Pflicht ab 10k $/Mon Sales).",
         "**Brand-Protection-Stack** (für Brand-Owner mit Plagiats-Risiko): Red Points (Enterprise, 500-3k €/Mon, automatisierte Takedowns), BrandShield (Mid-Market), TrademarkVault (DPMA/EUIPO-Monitoring), Tracer (AI-basierte Counterfeit-Detection). ROI: Brand mit 1M+ Revenue verliert typisch 5-15 % an Plagiate ohne Brand-Protection.",
         "**Anwalts-Pool für Suspension-Defense**: Riggio Legal (US-Top-Tier, 500-2k $ pro POA), Ecommerce Attorneys (DACH-Spezialist), Suspension-Hero, Thompson-Burton. Bei komplexer Suspension lohnt 1-3k € Anwalt vs. 30-90 Tage Sales-Loss.",
@@ -2690,13 +2690,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "konditionen": {
       "extendedNotes": [
-        "Provisions-Tabelle 2026 (Auszug): Mode/Schuhe/Taschen 11–14 % · Beauty/Kosmetik 11 % · Schmuck/Uhren 11 % · Möbel 9–11 % · Kinderbedarf/Spielzeug 9–11 % · Sport 8–10 % · Lebensmittel 7–8 % · Elektronik 6–8 % · Computer/Laptops 6 % · Bücher/Medien 8 %",
+        "Provisions-Tabelle 2026 (Auszug): Mode/Schuhe/Taschen 11-14 % · Beauty/Kosmetik 11 % · Schmuck/Uhren 11 % · Möbel 9-11 % · Kinderbedarf/Spielzeug 9-11 % · Sport 8-10 % · Lebensmittel 7-8 % · Elektronik 6-8 % · Computer/Laptops 6 % · Bücher/Medien 8 %",
         "Auszahlungs-Rhythmus: wöchentlich (Mittwochs) für angekommene Lieferungen + Retoure-Frist abgelaufen (14 Tage). Cashflow-Lag: ~3-4 Wochen vom Verkauf bis Auszahlung.",
-        "Bestseller-Boost: Kaufland pusht aktiv Newcomer in den ersten 90 Tagen — gute Chance auf Top-Sichtbarkeit.",
+        "Bestseller-Boost: Kaufland pusht aktiv Newcomer in den ersten 90 Tagen, gute Chance auf Top-Sichtbarkeit.",
         "Im Vergleich zu Amazon: kleinere Konkurrenz (Kaufland ~60M Listings vs. Amazon DE ~500M), aber auch kleineres Volumen (3-5M MAU vs. 50M+ Amazon DE).",
         "Vorteile vs. Amazon: niedrigere Provision (6-14 % vs. 15 %), kein FBA-Zwang, faires Buy-Box-System (siehe nächster Step), kein 'Inauthentic'-Schreckgespenst.",
         "Nachteile vs. Amazon: kein Prime-Programm, geringere Conversion-Rate (~3-5 % vs. 12-15 % bei Amazon), kleineres Trust-Branding bei Endkunden.",
-        "Mehrwert für DACH-Brands: Kaufland Global Marketplace deckt seit 2023 auch CZ/SK/PL ab — eine Anmeldung, mehrere Märkte (siehe expansion-Step)."
+        "Mehrwert für DACH-Brands: Kaufland Global Marketplace deckt seit 2023 auch CZ/SK/PL ab, eine Anmeldung, mehrere Märkte (siehe expansion-Step)."
       ]
     },
     "registrierung": {
@@ -2726,8 +2726,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "produktdaten": {
       "checklist": [
         "EAN/GTIN für jedes Produkt (GS1 Germany, ~250 € für 10 Codes/Jahr)",
-        "Produkttitel: 80–150 Zeichen, Marke + Produktname + Hauptmerkmal (z.B. 'Marke X Yogamatte 6mm rutschfest 183cm')",
-        "Beschreibung: 200–500 Wörter, max. 5 HTML-Tags (h2, p, ul, li, strong), kein div/script/iframe",
+        "Produkttitel: 80-150 Zeichen, Marke + Produktname + Hauptmerkmal (z.B. 'Marke X Yogamatte 6mm rutschfest 183cm')",
+        "Beschreibung: 200-500 Wörter, max. 5 HTML-Tags (h2, p, ul, li, strong), kein div/script/iframe",
         "Hauptbild: 1500 × 1500 px, weißer Hintergrund #FFFFFF, Produkt füllt 80% des Frames",
         "4 weitere Bilder: Lifestyle, Detail, Verpackung, Größenvergleich",
         "Bilder-URL ODER Direkt-Upload (max. 8 MB pro Bild, JPG/PNG)",
@@ -2737,7 +2737,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Versandgruppe (DHL Standard, DHL Sperrgut, Paketdienst-Express, etc.)",
         "Lieferzeit in Werktagen (z.B. '1-3 Werktage')",
         "Hersteller-Angaben: Name + Adresse + Kontakt (Pflicht ab GPSR 12-2024)",
-        "Kategorie-Zuordnung (Kaufland-Taxonomie 5-stufig — Tool 'Kategorie-Suche' nutzen)",
+        "Kategorie-Zuordnung (Kaufland-Taxonomie 5-stufig, Tool 'Kategorie-Suche' nutzen)",
         "Variantengruppen: Eltern-Produkt + Kinder pro Größe/Farbe, gleiche EAN bei reinen Mengenvarianten erlaubt",
         "Optional: Eigenschaften (Farbe, Größe, Material) für Filter-Indexierung",
         "Optional: SEO-Tags + Schlagwörter für interne Suche"
@@ -2761,8 +2761,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Kaufland-CSV-Format hat 50+ Spalten — händisch ist Zeitverschwendung. Connector-Tools (siehe nächster Step) sparen 80% Aufwand.",
-        "Konsolidiertes Listing-Prinzip: Wenn ein anderer Verkäufer dein Produkt schon listet, ANDOCKEN per EAN-Match — du erscheinst auf bestehender Listing-Seite + bietest deinen Preis (siehe Buy-Box-Step).",
+        "Kaufland-CSV-Format hat 50+ Spalten, händisch ist Zeitverschwendung. Connector-Tools (siehe nächster Step) sparen 80% Aufwand.",
+        "Konsolidiertes Listing-Prinzip: Wenn ein anderer Verkäufer dein Produkt schon listet, ANDOCKEN per EAN-Match, du erscheinst auf bestehender Listing-Seite + bietest deinen Preis (siehe Buy-Box-Step).",
         "Bilder-Trick: Kaufland nutzt erste Bild für Such-Thumbnail. Hauptbild MUSS auf reinweißem Hintergrund + Produkt-Crop sein (sonst geringere Sichtbarkeit).",
         "Variantengruppen-Fehler: zu wenig Varianten = jedes Produkt eigene SKU = unübersichtliche Listings. Idealfall: 1 Eltern-Produkt mit 5-15 Kindern."
       ],
@@ -2775,7 +2775,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Connector mit API-Schlüssel verbinden (typisch via Plugin-Settings)",
         "Mapping-Tabelle erstellen: eigene Kategorien → Kaufland-Kategorien (1x Setup)",
         "Mapping: eigene Attribute (Farbe, Größe, Material) → Kaufland-Attribute",
-        "Test-Sync: 5-10 Produkte als Pilot — manuell prüfen, dann Bulk-Import",
+        "Test-Sync: 5-10 Produkte als Pilot, manuell prüfen, dann Bulk-Import",
         "Bestand-Sync-Frequenz: 15 min (Standard) bis 1 min (bei hoher Out-of-Stock-Frequenz)",
         "Bestellungs-Pull: alle 5-15 min (Connector zieht neue Bestellungen aus Kaufland)",
         "Tracking-Push: nach Versand-Eintrag im Connector → automatisch zu Kaufland",
@@ -2811,20 +2811,20 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Direkter manueller Upload: möglich aber bei > 50 SKUs unrealistisch. Bei < 50 SKUs + niedriger Update-Frequenz: CSV-Upload reicht (gratis).",
         "Plentymarkets vs. Shopware: Plenty wenn Multi-Marketplace (Amazon + Kaufland + eBay + eigener Shop) zentral. Shopware wenn primärer eigener Shop, Marketplaces als Add-On.",
-        "JTL eazyAuction ist DE-Standard für viele kleine Händler — günstig + alle Marktplätze (eBay, Amazon, Kaufland, Otto, Hood, Real, Idealo) inkludiert.",
-        "Tradebyte ist Premium-Connector für Fashion/Lifestyle-Brands — PIM + Multichannel + EDI in einem, ab ~79 €/Mon.",
+        "JTL eazyAuction ist DE-Standard für viele kleine Händler, günstig + alle Marktplätze (eBay, Amazon, Kaufland, Otto, Hood, Real, Idealo) inkludiert.",
+        "Tradebyte ist Premium-Connector für Fashion/Lifestyle-Brands, PIM + Multichannel + EDI in einem, ab ~79 €/Mon.",
         "Channable ist Feed-Management-Tool: ideal für Listing-Optimierung + Multi-Marketplace-Push, weniger für Bestellungs-Sync.",
-        "Bestand-Hack: gleiche Lager-Quelle für Amazon + Kaufland + Shop → automatisches Multi-Channel-Stock-Management. Vermeidet Out-of-Stock-Strafen bei Kaufland."
+        "Bestands-Tipp: gleiche Lager-Quelle für Amazon + Kaufland + Shop → automatisches Multi-Channel-Stock-Management. Vermeidet Out-of-Stock-Strafen bei Kaufland."
       ],
-      "description": "Kaufland läuft auf Mirakl. Direkter API-Zugang über Mirakl Connect. Connector-Tools (Plentymarkets, Shopware, JTL, Tradebyte, Channable) automatisieren Produkt-Sync, Bestand, Bestellungen, Tracking-Updates — sonst manueller CSV-Upload."
+      "description": "Kaufland läuft auf Mirakl. Direkter API-Zugang über Mirakl Connect. Connector-Tools (Plentymarkets, Shopware, JTL, Tradebyte, Channable) automatisieren Produkt-Sync, Bestand, Bestellungen, Tracking-Updates, sonst manueller CSV-Upload."
     },
     "buy-box": {
       "checklist": [
-        "Konkurrenz auf bestehenden Kaufland-Listings analysieren — Preise + Lieferzeit + Bewertung",
+        "Konkurrenz auf bestehenden Kaufland-Listings analysieren, Preise + Lieferzeit + Bewertung",
         "Repricer-Tool einrichten: Min-Preis (= Marge ≥ 15%), Max-Preis (= UVP), Strategie (Match Lowest, Beat Lowest, etc.)",
-        "Performance-Score über 95% halten (siehe performance-Step) — schlägt Preis bei knappem Buy-Box-Race",
-        "Lieferzeit auf 1-2 Werktage halten — kürzere Lieferzeit = Buy-Box-Vorteil",
-        "Bestand niemals unter 5 Stk fallen lassen — Out-of-Stock = automatischer Buy-Box-Verlust",
+        "Performance-Score über 95% halten (siehe performance-Step), schlägt Preis bei knappem Buy-Box-Race",
+        "Lieferzeit auf 1-2 Werktage halten, kürzere Lieferzeit = Buy-Box-Vorteil",
+        "Bestand niemals unter 5 Stk fallen lassen, Out-of-Stock = automatischer Buy-Box-Verlust",
         "Bei dünnen Margen: höherer Preis + bessere Lieferzeit beats Lowest-Preis",
         "Eigene Listings (Solo-Verkäufer) = automatische Buy-Box, keine Konkurrenz"
       ],
@@ -2844,10 +2844,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Buy-Box-Algorithmus ist NICHT öffentlich, aber Kaufland-eigenes Whitepaper bestätigt: Preis nicht alleiniger Faktor (Hervorhebung von Performance + Lieferzeit).",
-        "Solo-Verkäufer-Strategie: eigene SKUs ohne Mitbewerb (Bundle, Brand-USPs) — keine Buy-Box-Konkurrenz, eigene Marge schützen.",
+        "Solo-Verkäufer-Strategie: eigene SKUs ohne Mitbewerb (Bundle, Brand-USPs), keine Buy-Box-Konkurrenz, eigene Marge schützen.",
         "Konsolidierter-Listing-Strategie: andocken auf bestehenden hochfrequenten Listings → Volumen mit niedrigerer Marge, aber höhere Sichtbarkeit.",
         "Repricing-Modi: 'Match Lowest' (gleicher Preis wie günstigster), 'Beat Lowest' (1 Cent unter günstigstem), 'Velocity' (Preis-Optimierung nach Verkaufs-Geschwindigkeit).",
-        "Trick: Repricer lässt sich pausieren wenn alle Konkurrenten Out-of-Stock — dann kannst du Preis hochsetzen ohne Buy-Box zu verlieren."
+        "Trick: Repricer lässt sich pausieren wenn alle Konkurrenten Out-of-Stock, dann kannst du Preis hochsetzen ohne Buy-Box zu verlieren."
       ],
       "description": "Kaufland-Buy-Box (= Verkäufer mit 'Jetzt kaufen'-Button) wird vergeben nach: Preis (50%), Lieferzeit (20%), Performance-Score (20%), Bestand (10%). Bei mehreren Anbietern auf gleicher Listing-Seite."
     },
@@ -2870,7 +2870,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.stiftung-ear.de"
         }
       ],
-      "description": "Wie Amazon: LUCID, WEEE, BattDG, CPNP — Kaufland prüft bei Onboarding und kann Account sperren."
+      "description": "Wie Amazon: LUCID, WEEE, BattDG, CPNP, Kaufland prüft bei Onboarding und kann Account sperren."
     },
     "versand": {
       "checklist": [
@@ -2878,7 +2878,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "DHL Geschäftskunden / Hermes / DPD anbinden",
         "Sendcloud-Integration (Multi-Carrier + automatische Tracking-Updates)",
         "Tracking-Pflicht: Nummer in Seller Center binnen 2 Tagen eintragen",
-        "Optional: Kaufland Fulfillment (KFS) — Lager + Versand durch Kaufland"
+        "Optional: Kaufland Fulfillment (KFS), Lager + Versand durch Kaufland"
       ],
       "externalLinks": [
         {
@@ -2917,10 +2917,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Auto-Kampagne starten: 10-15 €/Tag, Amazon-ähnlich entdeckt Kaufland Keywords automatisch",
         "Search-Term-Report nach 7 Tagen analysieren: gut konvertierende Begriffe in Manual-Kampagne übernehmen",
         "Manual-Kampagne: Top-10-Keywords aus Helium10/Sellerboard mit höherem Bid (CPC 0,30-0,80 €)",
-        "Sponsored Brands (Logo + 3-Produkte oben in der Suche): 10-20 €/Tag — Brand-Awareness-Push",
+        "Sponsored Brands (Logo + 3-Produkte oben in der Suche): 10-20 €/Tag, Brand-Awareness-Push",
         "Negative Keywords pflegen wöchentlich (Klicks ohne Sale aussortieren)",
         "Listing-SEO: Titel mit Top-Keyword vorne, Bullet Points mit Long-Tail-Keywords, Beschreibung mit semantischen Verwandten",
-        "Kategorie-Page-Sichtbarkeit: in 'Top-Verkauft'-Filter erscheinen — Verkäufe + Reviews + Performance-Score treiben Ranking",
+        "Kategorie-Page-Sichtbarkeit: in 'Top-Verkauft'-Filter erscheinen, Verkäufe + Reviews + Performance-Score treiben Ranking",
         "Conversion-Optimierung: A/B-Test Hauptbild (mit Kaufland-Tool oder manuell)"
       ],
       "externalLinks": [
@@ -2953,9 +2953,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Customer-Service-Tools**: eDesk (Multi-Marketplace-Helpdesk inkl. Kaufland, 60-300 €/Mon), Replyco (DACH-fokussiert, 30-200 €/Mon), Gorgias (E-Commerce-Standard, 50-300 €/Mon). Pflicht für SLA < 24h",
         "**Multi-Marketplace-Sync** (Amazon + Kaufland + eBay + Idealo + Otto + eigener Shop): Channable (Mid-Market, 39-1.000 €/Mon), Lengow (Enterprise), Tradebyte (Fashion-Spezialist), JTL eazyAuction (DACH-Klassiker)",
         "**Repricer für Multi-Marketplace**: Sellerlogic (DACH-Standard, regelbasiert für Kaufland + Amazon), BqoolEU (KI-basiert), RepricerExpress (günstig)",
-        "**Returns-Management**: Loop Returns oder AfterShip Returns mit Multi-Marketplace-Support — automatisiert Refund-Workflow + Restocking",
-        "**Performance-Boost**: Kaufland gibt Sellers mit täglichen Bestand-Updates Sichtbarkeits-Boost — automatisierter Sync via Connector ist nicht optional",
-        "**Account-Manager-Beziehung**: ab > 5.000 €/Mon Revenue Kaufland-Account-Manager kontaktieren (Email an Onboarding-Team) — direkter Support für Issues"
+        "**Returns-Management**: Loop Returns oder AfterShip Returns mit Multi-Marketplace-Support, automatisiert Refund-Workflow + Restocking",
+        "**Performance-Boost**: Kaufland gibt Sellers mit täglichen Bestand-Updates Sichtbarkeits-Boost, automatisierter Sync via Connector ist nicht optional",
+        "**Account-Manager-Beziehung**: ab > 5.000 €/Mon Revenue Kaufland-Account-Manager kontaktieren (Email an Onboarding-Team), direkter Support für Issues"
       ],
       "externalLinks": [
         {
@@ -3013,16 +3013,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "expansion": {
       "checklist": [
-        "Im Seller Center: 'Global Marketplace' aktivieren — Pflicht-Update zu USt-Daten + Versand-Settings",
-        "OSS-Anmeldung beim BZSt (kostenlos, 1-2 Wochen Bearbeitung) — Pflicht ab 10.000 € EU-Verkäufen/Jahr",
+        "Im Seller Center: 'Global Marketplace' aktivieren, Pflicht-Update zu USt-Daten + Versand-Settings",
+        "OSS-Anmeldung beim BZSt (kostenlos, 1-2 Wochen Bearbeitung), Pflicht ab 10.000 € EU-Verkäufen/Jahr",
         "Listing-Übersetzungen: AT (DE-Version reicht), CZ (Tschechisch), SK (Slowakisch), PL (Polnisch)",
-        "Kategorien + Attribute pro Marktplatz validieren — leichte Unterschiede in Klassifikation",
+        "Kategorien + Attribute pro Marktplatz validieren, leichte Unterschiede in Klassifikation",
         "Versand-Tarife setzen: AT (DHL Standard ~5,99 €), CZ/SK (Zásilkovna/PPL ~6,99 €), PL (InPost/DPD ~7,99 €)",
         "Lieferzeit kommunizieren: AT 2-4 Werktage, CZ/SK 3-5, PL 3-5",
         "Retouren-Adresse je Land klären (oder zentrale Adresse mit Retouren-Service wie ReBOUND/Returnista)",
         "USt-Sätze in Listing-Backend pro Land: AT 20%, CZ 21%, SK 20%, PL 23% (Standard)",
         "OSS-Quartals-Meldung in DE einrichten (alle EU-Verkäufe gesammelt deklarieren)",
-        "Kundenservice mehrsprachig (Englisch reicht für CZ/SK/PL — lokale Sprachen optional aber Conversion-treibend)"
+        "Kundenservice mehrsprachig (Englisch reicht für CZ/SK/PL, lokale Sprachen optional aber Conversion-treibend)"
       ],
       "externalLinks": [
         {
@@ -3079,10 +3079,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Performance-Score-Formel 2026: Lieferzeit 40 % + Stornorate 25 % + Reklamations-/Retoure-Quote 20 % + Antwortzeit 15 %.",
         "Lieferzeit ist KEY-Faktor: Versand-Lag > 2 Werktage drückt Score signifikant. Sendcloud-Tracking-Auto-Sync ist Pflicht.",
-        "Stornorate-Hack: Bestand mit 5 Stk Sicherheits-Puffer fahren — vermeidet Out-of-Stock-Stornos die mehrfach Score belasten.",
+        "Stornorate-Tipp: Bestand mit 5 Stk Sicherheits-Puffer fahren, vermeidet Out-of-Stock-Stornos die mehrfach Score belasten.",
         "Reklamations-Quote-Reduktion: Listing-Klarheit (richtige Maße/Material), Verpackung-Schutz (Bruch vermeiden), realistische Bilder (Erwartungs-Management).",
         "Bei Suspension: schneller als bei Amazon (typisch 5-14 Tage Recovery), aber Inventory-Lock-In bei KFS-Lager (siehe versand-Step).",
-        "Pro-Tipp: Kaufland-Account-Manager ab > 5.000 €/Mon Umsatz — direkter Kontakt für Issues, deutlich schnellere Suspension-Recovery."
+        "Pro-Tipp: Kaufland-Account-Manager ab > 5.000 €/Mon Umsatz, direkter Kontakt für Issues, deutlich schnellere Suspension-Recovery."
       ],
       "description": "Kaufland-Performance-Score (0-100): Lieferzeit-Einhaltung (40%), Stornierungsrate (25%), Reklamationsquote (20%), Antwortzeit (15%). Unter 80 % → Account-Warnung, unter 70 % → Suspension."
     }
@@ -3092,14 +3092,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Freiberufler: keine GewSt, keine Pflicht zur EÜR/Bilanz, keine IHK-Mitgliedschaft.",
         "Gewerbe: GewSt ab 24.500 € Gewinn, EÜR / Buchhaltung Pflicht, IHK-Mitgliedschaft.",
-        "Bei \"journalistischer Tätigkeit\" (z.B. eigener Blog mit redaktionellen Artikeln) kannst du argumentieren — aber Affiliate-Links / Brand-Deals = Gewerbe.",
+        "Bei \"journalistischer Tätigkeit\" (z.B. eigener Blog mit redaktionellen Artikeln) kannst du argumentieren, aber Affiliate-Links / Brand-Deals = Gewerbe.",
         "Reine Sponsored Posts → Gewerbe. Redaktionelle Inhalte ohne Werbung → Freiberuf möglich."
       ]
     },
     "anmeldung": {
       "checklist": [
-        "Bei Gewerbe: Personalausweis + 20–60 € Gebühr beim Gewerbeamt",
-        "ELSTER-Konto erstellen (Zertifikat 2–4 Wochen)",
+        "Bei Gewerbe: Personalausweis + 20-60 € Gebühr beim Gewerbeamt",
+        "ELSTER-Konto erstellen (Zertifikat 2-4 Wochen)",
         "Fragebogen FsE komplett ausfüllen",
         "Ist-Versteuerung wählen (USt erst bei Geldeingang)",
         "Ggf. Kleinunternehmer-Regel ankreuzen (siehe nächster Schritt)"
@@ -3123,7 +3123,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Wenn deine Hauptkunden Brands (B2B) sind: KU oft NACHTEILIG — sie wollen Vorsteuer ziehen, dein Preis wirkt teurer.",
+        "Wenn deine Hauptkunden Brands (B2B) sind: KU oft NACHTEILIG, sie wollen Vorsteuer ziehen, dein Preis wirkt teurer.",
         "Wenn du hauptsächlich von Affiliate / AdSense / TikTok-Creator-Fund lebst: KU okay, weil Plattformen B2B Reverse-Charge eh anders behandeln."
       ]
     },
@@ -3134,7 +3134,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/anbieter#banking-de"
         }
       ],
-      "description": "Auch als Einzelunternehmer wichtig — saubere Trennung privat/business. Holvi / Finom / Qonto / Kontist (außer für GmbH)."
+      "description": "Auch als Einzelunternehmer wichtig, saubere Trennung privat/business. Holvi / Finom / Qonto / Kontist (außer für GmbH)."
     },
     "plattform-monetization": {
       "checklist": [
@@ -3143,12 +3143,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "TikTok-Auszahlung: typisch 0,02-0,05 € pro 1.000 Views (variiert stark nach Region/Nische)",
         "YouTube Partner Program: 1.000 Subscribers + 4.000 Watch-Hours (lange Videos) ODER 1.000 Subs + 10M Shorts-Views (90 Tage)",
         "YouTube AdSense-Konto verbinden, Steuer-Info (W-8BEN für non-US) + Bankverbindung",
-        "YouTube-Auszahlung: typisch 1-5 € per 1.000 Views (RPM nach Nische — Finance hoch, Gaming niedrig)",
+        "YouTube-Auszahlung: typisch 1-5 € per 1.000 Views (RPM nach Nische, Finance hoch, Gaming niedrig)",
         "Meta Performance Bonus (Insta + FB): einladungsbasiert, basierend auf Reels-Performance",
         "Meta-In-Stream-Ads: 600.000+ Minuten Watch-Time in 60 Tagen (für Video-Ads-Monetisierung)",
         "Twitch Affiliate: 50 Follower + 500 Total Minutes Streamed + 8 Stream Days → später Twitch Partner",
         "X (Twitter) Revenue Sharing: 500+ Follower + 5M Impressions in 90 Tagen + Premium-Abo + verifiziert",
-        "Plattform-übergreifend: Steuerformular W-8BEN ausfüllen (für US-Plattformen) — verhindert 30 % Steuerabzug, du zahlst nur DE-Steuer",
+        "Plattform-übergreifend: Steuerformular W-8BEN ausfüllen (für US-Plattformen), verhindert 30 % Steuerabzug, du zahlst nur DE-Steuer",
         "Auszahlungs-Setup: PayPal / Wise / SEPA-Konto je Plattform",
         "Quartalsweise Auszahlungs-Übersicht in Buchhaltung übertragen (Lexoffice/sevDesk)"
       ],
@@ -3179,10 +3179,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "TikTok Creativity Program (Vorgänger 'Creator Fund') wurde Ende 2024 in vielen Märkten zu 'Creator Rewards Program' (CRP). Update folgend — aktuelle Voraussetzungen direkt in der App prüfen.",
-        "TikTok-Realität DACH: 100k Follower bringen typisch 100-500 €/Mon allein durch CRP — kein Hauptverdienst, sondern Bonus zu Brand-Deals.",
+        "TikTok Creativity Program (Vorgänger 'Creator Fund') wurde Ende 2024 in vielen Märkten zu 'Creator Rewards Program' (CRP). Update folgend, aktuelle Voraussetzungen direkt in der App prüfen.",
+        "TikTok-Realität DACH: 100k Follower bringen typisch 100-500 €/Mon allein durch CRP, kein Hauptverdienst, sondern Bonus zu Brand-Deals.",
         "YouTube ist beste Plattform für PASSIVE Einnahmen (Long-Form-Videos verdienen auch nach 1 Jahr noch).",
-        "Meta-Reels-Bonus oft 200-2.000 €/Mon für aktive Reels-Creators (15-50k Follower) — einladungsbasiert, antrag in Insta-App.",
+        "Meta-Reels-Bonus oft 200-2.000 €/Mon für aktive Reels-Creators (15-50k Follower), einladungsbasiert, antrag in Insta-App.",
         "W-8BEN-Trick: typisch via Plattform-eigenes Steuerformular einzureichen. Nutze deine USt-ID + Steuernummer, deutsche Adresse. DBA-Anrechnung kommt automatisch.",
         "Plattform-Diversifikation ist Pflicht: einzige Einkommensquelle = einzige Plattform-Sperrung killt komplettes Geschäft. Mind. 3 Plattformen aktiv halten."
       ],
@@ -3194,9 +3194,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Affiliate-Setup: in TikTok-App → 'Profil → TikTok Shop' → 'Werde Affiliate' → Identitätsverifikation",
         "Affiliate-Modus: 'Open Plan' (alle Produkte verfügbar) ODER 'Targeted Plan' (nur eingeladene Brands)",
         "Affiliate-Auszahlung: 14 Tage nach Lieferung, monatlich auf Bankkonto",
-        "Brand-Seller-Voraussetzung: HR-Eintrag (UG/GmbH) ODER e.K. — KEIN Privat-Account akzeptiert",
+        "Brand-Seller-Voraussetzung: HR-Eintrag (UG/GmbH) ODER e.K., KEIN Privat-Account akzeptiert",
         "Brand-Seller-Setup: TikTok Shop Seller Center → Konto mit USt-ID + HR-Auszug + Bank registrieren",
-        "Brand-Seller: Produkte hochladen mit EAN, Bildern, Beschreibung — ähnlich Amazon/Kaufland",
+        "Brand-Seller: Produkte hochladen mit EAN, Bildern, Beschreibung, ähnlich Amazon/Kaufland",
         "Brand-Seller-Versand: Tracking-Pflicht binnen 2 Werktagen, eigene Logistik ODER 'TikTok Shop Fulfillment'",
         "Live-Shopping einrichten: Live-Streams mit Produkt-Tags → direkter Kauf-Button im Stream",
         "Werbekennzeichnung: TikTok-eigene 'Paid Partnership'-Toggle nutzen + 'Werbung' im Caption"
@@ -3218,7 +3218,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "TikTok Shop ist in Deutschland seit März 2025 live. Laut TikTok (24.03.2026) über 25.000 Verkäufer:innen; im Schnitt kommen 60 % ihres Umsatzes über shoppable Videos und Live-Shopping.",
         "Mindestalter für TikTok Shop: 18 Jahre.",
-        "Affiliate-Provisionen legt die jeweilige Brand fest – die Sätze siehst du im Affiliate Center beim Produkt.",
+        "Affiliate-Provisionen legt die jeweilige Brand fest, die Sätze siehst du im Affiliate Center beim Produkt.",
         "Steuerlich: Affiliate-Provisionen sind Betriebseinnahmen; Samples, die du nach der Werbung behältst, zählen mit dem üblichen Endpreis abzüglich üblicher Rabatte (Finanzamt Hessen, Leitfaden Juni 2026).",
         "Wer selbst verkaufen will: ohne Handelsregister Registrierung als gewerbliche:r Verkäufer:in mit Steuernummer; e.K. und GbR brauchen zusätzlich eine USt-IdNr (TikTok Seller University). Ablauf im Guide „TikTok Shop starten“."
       ],
@@ -3229,7 +3229,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Amazon PartnerNet: Account + Webseite/Social-Account + 3 qualifizierte Verkäufe in 180 Tagen → Approval",
         "Amazon-Provisionen 2026: 1-12 % je Kategorie (Beauty 7%, Mode 10%, Elektronik 1-3%, Books 5%)",
         "Amazon-Cookie: 24h Standard-Cookie (jeder Klick zählt 24h für ALLE Käufe in der Session)",
-        "Awin: Anmeldung mit 5 € Deposit (rückzahlbar), 1.700+ Programme — fast jede DACH-Brand",
+        "Awin: Anmeldung mit 5 € Deposit (rückzahlbar), 1.700+ Programme, fast jede DACH-Brand",
         "TradeTracker: ähnlich Awin, andere Brand-Auswahl, kein Deposit",
         "impact.com: Premium-Brands (Sephora, Adidas, Apple-Affiliate-via-Partner)",
         "Belboon: DACH-Fokus, gute Beauty/Health/Finance-Brands",
@@ -3275,11 +3275,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Amazon PartnerNet ist Standard für Tech-/Home-/Book-Creators. Trotz niedriger Provision: 24h-Cookie + alle Käufe = oft profitabelste Single-Source.",
-        "Awin/TradeTracker-Strategie: 'Set-and-Forget' — 50 Brands in einem Setup, dann nur Top-10 aktiv pflegen.",
-        "Stylink-Hack für Insta-Mode-Creators: einfachstes Setup, automatische Story-Stickers, ~1-15 % Provision auf Mode-Käufe.",
-        "Reachbird/HelloBody/Beauty-Brands haben oft direkte Affiliate-Programme (HelloBody, MyProtein, About You) mit 10-30 % Provision — direkter Kontakt ohne Netzwerk.",
+        "Awin/TradeTracker-Strategie: 'Set-and-Forget', 50 Brands in einem Setup, dann nur Top-10 aktiv pflegen.",
+        "Stylink-Tipp für Insta-Mode-Creators: einfachstes Setup, automatische Story-Stickers, ~1-15 % Provision auf Mode-Käufe.",
+        "Reachbird/HelloBody/Beauty-Brands haben oft direkte Affiliate-Programme (HelloBody, MyProtein, About You) mit 10-30 % Provision, direkter Kontakt ohne Netzwerk.",
         "Pro-Tipp: Brands mit den meisten Verkäufen über deine Links identifizieren → direkt ansprechen und eine höhere Rate verhandeln.",
-        "Steuerlich: Affiliate-Provisionen sind Betriebseinnahmen (Finanzamt Hessen, Leitfaden Juni 2026) – ab dem ersten Euro aufzeichnen."
+        "Steuerlich: Affiliate-Provisionen sind Betriebseinnahmen (Finanzamt Hessen, Leitfaden Juni 2026), ab dem ersten Euro aufzeichnen."
       ],
       "description": "Affiliate-Provisionen sind oft 50-80 % vom Einkommen großer Creators. Mehr Plattformen = mehr Brands = mehr Optionen. Standard-Setup: Amazon PartnerNet + Awin + TradeTracker + impact.com."
     },
@@ -3327,18 +3327,18 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Reachbird ist DACH-Marktführer — fast jede DACH-Brand hat dort Account. Pflicht-Plattform für DE-Creators.",
-        "Plattform-Provision-Modell: 'Brand zahlt X €, Creator bekommt Y €' — Differenz ist Plattform-Cut. Bei Reachbird typisch 10-15 %.",
+        "Reachbird ist DACH-Marktführer, fast jede DACH-Brand hat dort Account. Pflicht-Plattform für DE-Creators.",
+        "Plattform-Provision-Modell: 'Brand zahlt X €, Creator bekommt Y €', Differenz ist Plattform-Cut. Bei Reachbird typisch 10-15 %.",
         "Direct-Outreach + Plattform: nicht entweder/oder. Plattform für Volume + Cold-Discovery, Direct für Premium-Deals + Long-Term-Partnerships.",
-        "Marken-Diversifikation: nie mehr als 30 % Income aus einer Brand — Single-Brand-Risiko.",
-        "Plattform-Fee-Hack: bei Reachbird/eqolot kann nach 2-3 erfolgreichen Deals oft direkter Brand-Kontakt etabliert werden → nächste Deals direkt ohne Plattform-Fee."
+        "Marken-Diversifikation: nie mehr als 30 % Income aus einer Brand, Single-Brand-Risiko.",
+        "Plattform-Fee-Tipp: bei Reachbird/eqolot kann nach 2-3 erfolgreichen Deals oft direkter Brand-Kontakt etabliert werden → nächste Deals direkt ohne Plattform-Fee."
       ],
       "description": "Plattformen wie Reachbird (DACH), eqolot, Influencer.com, Storyclash bringen Creator + Brand zusammen. Statt Cold-Outreach an Brands: Profil pflegen, Kampagnen-Einladungen erhalten, automatische Vertragsabwicklung."
     },
     "mediakit-pricing": {
       "checklist": [
         "Mediakit Seite 1: Foto + Name + Bio + Plattformen + Tagline ('Beauty-Creator für Naturkosmetik')",
-        "Mediakit Seite 2: Stats — Follower, ER, Reach, Demografie (Alter/Geschlecht/Region)",
+        "Mediakit Seite 2: Stats, Follower, ER, Reach, Demografie (Alter/Geschlecht/Region)",
         "Mediakit Seite 3: Best-Performing-Posts mit Screenshots + KPIs",
         "Mediakit Seite 4: Brand-Liste (mit denen du gearbeitet hast) + Testimonials",
         "Mediakit Seite 5: Leistungs-Pakete + Pricing (siehe Tabelle in extendedNotes)",
@@ -3373,17 +3373,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Niedrige Rates: Lifestyle/Travel (oft Übersättigung), Gaming (außer hochkarätig).",
         "Whitelisting-Klausel: separate Pricing! Brand bewirbt deinen organischen Post als Ad → +10-30 % auf Basis-Pricing.",
         "Usage-Rights: Standard 6 Monate. +50 % für 'unbefristet'. +30 % für 'andere Kanäle (TV/OOH/Print)'.",
-        "Tipp: nicht zu billig anfangen — Pricing nach oben verhandeln ist viel schwerer als nach unten. Lieber 30 % weniger Deals zu Premium-Rate als 100 % zu Dumping-Rate."
+        "Tipp: nicht zu billig anfangen, Pricing nach oben verhandeln ist viel schwerer als nach unten. Lieber 30 % weniger Deals zu Premium-Rate als 100 % zu Dumping-Rate."
       ],
       "description": "Mediakit ist das Visiten-Karten-PDF für Brand-Outreach: Bio + Stats + Beispiel-Content + Pricing. Pricing nach Follower-Range standardisieren. Realistische DACH-Pricing-Tabelle 2026 unten."
     },
     "vertraege": {
       "checklist": [
-        "Leistungs-Specs (Anzahl Posts, Stories, Reels, Videos — pro Plattform)",
+        "Leistungs-Specs (Anzahl Posts, Stories, Reels, Videos, pro Plattform)",
         "Nutzungsrechte ZEITLICH begrenzen (z.B. \"6 Monate Nutzung\")",
         "Nutzungsrechte RÄUMLICH begrenzen (DACH only? Weltweit? +50 % Aufschlag)",
-        "Whitelisting-Klausel (= Brand kann deinen Content als Ad bewerben — extra Gebühr 10–30 %)",
-        "Exklusivitäts-Klausel (Konkurrenz-Verbot — wie lange? Ganze Kategorie oder einzelne Brand?)",
+        "Whitelisting-Klausel (= Brand kann deinen Content als Ad bewerben, extra Gebühr 10-30 %)",
+        "Exklusivitäts-Klausel (Konkurrenz-Verbot, wie lange? Ganze Kategorie oder einzelne Brand?)",
         "Zahlungsziel max. 30 Tage netto (sonst Verzugszinsen)",
         "Ausfall-Klausel (was wenn Krankheit / höhere Gewalt?)",
         "Anti-Boycott-Klausel (Brand darf dich nicht für Zukunft sperren wegen Kritik)"
@@ -3396,12 +3396,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Position: am Anfang der Caption oder als Story-Sticker",
         "Nicht in den Kommentaren / nicht versteckt nach \"Mehr lesen\"",
         "Auch bei Affiliate-Links: Hinweis pflicht (\"Affiliate-Link\" oder \"Werbung\")",
-        "Auch bei PR-Samples: ja, \"Werbung\" — Gratisprodukt = Gegenleistung",
-        "Bei Live-Streams: regelmäßig (alle 5–10 Min) auch verbal erwähnen",
+        "Auch bei PR-Samples: ja, \"Werbung\", Gratisprodukt = Gegenleistung",
+        "Bei Live-Streams: regelmäßig (alle 5-10 Min) auch verbal erwähnen",
         "Mehr-Sprachen: jede Sprache muss Hinweis haben (EN-Caption + DE-Hashtag reicht NICHT)"
       ],
-      "warning": "BGH-Urteil 2021 (I ZR 90/20): \"Eigenwerbung\" für deinen eigenen Account braucht KEIN \"Werbung\" — aber sobald Brand involviert: PFLICHT.",
-      "description": "\"Werbung\" / \"Anzeige\" bei JEDER Form von Gegenleistung — egal ob Geld, Gratisprodukt oder Affiliate-Provision. Bei Verstoß: Abmahnungen durch Wettbewerbszentrale (1.000–3.000 € Erstkosten)."
+      "warning": "BGH-Urteil 2021 (I ZR 90/20): \"Eigenwerbung\" für deinen eigenen Account braucht KEIN \"Werbung\", aber sobald Brand involviert: PFLICHT.",
+      "description": "\"Werbung\" / \"Anzeige\" bei JEDER Form von Gegenleistung, egal ob Geld, Gratisprodukt oder Affiliate-Provision. Bei Verstoß: Abmahnungen durch Wettbewerbszentrale (1.000-3.000 € Erstkosten)."
     },
     "ksk": {
       "externalLinks": [
@@ -3412,11 +3412,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Anspruch: Künstlerische / publizistische Tätigkeit (Foto, Schreiben, Musik, Design, ggf. Content-Creation)",
-        "Mind. 3.900 €/Jahr Gewinn — sonst kein Anspruch (außer Ausnahmen für Berufsanfänger)",
+        "Mind. 3.900 €/Jahr Gewinn, sonst kein Anspruch (außer Ausnahmen für Berufsanfänger)",
         "KSK-Beitrag: ~5 % auf Gewinn (statt ~14 % freiwillige KV)",
-        "Antragsbearbeitung: 3–9 Monate (geduldig sein) — rückwirkende Anrechnung möglich"
+        "Antragsbearbeitung: 3-9 Monate (geduldig sein), rückwirkende Anrechnung möglich"
       ],
-      "description": "Künstlersozialkasse: Pflicht-KV/RV/PV mit Arbeitnehmer-Anteil. Du zahlst HALB so viel wie als Selbstständiger — wenn du Anspruch hast."
+      "description": "Künstlersozialkasse: Pflicht-KV/RV/PV mit Arbeitnehmer-Anteil. Du zahlst HALB so viel wie als Selbstständiger, wenn du Anspruch hast."
     },
     "steuer-ruecklage": {
       "checklist": [
@@ -3426,7 +3426,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Belege digital sammeln (Lexoffice / sevDesk / Drive-Ordner)",
         "Bei Wachstum > 50k €/Jahr: monatliche Buchhaltung + StB"
       ],
-      "description": "Pauschal 30 % jedes Einkommens auf separates Konto — deckt ESt + GewSt + ggf. USt."
+      "description": "Pauschal 30 % jedes Einkommens auf separates Konto, deckt ESt + GewSt + ggf. USt."
     }
   },
   "us-llc": {
@@ -3445,7 +3445,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Wyoming: $100 Initial Filing, $60 Annual Report. Beste Privatsphäre (keine Member-Disclosure). Empfohlen für Solo-LLCs.",
         "Delaware: $110 Initial (aktuelle Certificate-of-Formation-Gebühr), $300/Jahr Franchise Tax (Pflicht-Mindestbetrag, auch bei 0 Umsatz). Empfohlen wenn Investoren / VCs geplant.",
-        "New Mexico: $50 Initial, KEIN Annual Report, KEINE Privacy-Schwächung. Günstigster Staat lifecycle — aber rare bei US-Banken.",
+        "New Mexico: $50 Initial, KEIN Annual Report, KEINE Privacy-Schwächung. Günstigster Staat lifecycle, aber rare bei US-Banken.",
         "Texas, Nevada, Florida: möglich aber meist teurer / strengere Annual-Pflichten."
       ]
     },
@@ -3494,7 +3494,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.wyomingregisteredagent.com"
         },
         {
-          "label": "Wyoming Registered Agent — Client-Login",
+          "label": "Wyoming Registered Agent, Client-Login",
           "url": "https://www.wyomingregisteredagent.com/client-login/"
         },
         {
@@ -3511,12 +3511,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Wyoming Registered Agent (wyomingregisteredagent.com): $25/Jahr Registered Agent in Wyoming + optionaler Business-Mailing-Address-/Mail-Forwarding-Service. Diese zugewiesene US-Adresse kannst du als Geschäfts-/Postanschrift der LLC verwenden — z.B. in den Articles of Organization, auf Form SS-4 (EIN), im BOI-Report und bei der Bank-Eröffnung. Bestehende Kunden verwalten Mail-Scans & Filings im Client-Login (wyomingregisteredagent.com/client-login).",
-        "WICHTIG Unterschied: Der Registered Agent ist die gesetzlich vorgeschriebene Zustell-Adresse für Behörden/Klagen im Staat. Die Mailing-/Business-Address ist die optionale Post-Anschrift, die du auf Formularen und gegenüber Geschäftspartnern angibst — beim selben Anbieter oft im Paket, aber zwei getrennte Dinge.",
+        "Wyoming Registered Agent (wyomingregisteredagent.com): $25/Jahr Registered Agent in Wyoming + optionaler Business-Mailing-Address-/Mail-Forwarding-Service. Diese zugewiesene US-Adresse kannst du als Geschäfts-/Postanschrift der LLC verwenden, z.B. in den Articles of Organization, auf Form SS-4 (EIN), im BOI-Report und bei der Bank-Eröffnung. Bestehende Kunden verwalten Mail-Scans & Filings im Client-Login (wyomingregisteredagent.com/client-login).",
+        "WICHTIG Unterschied: Der Registered Agent ist die gesetzlich vorgeschriebene Zustell-Adresse für Behörden/Klagen im Staat. Die Mailing-/Business-Address ist die optionale Post-Anschrift, die du auf Formularen und gegenüber Geschäftspartnern angibst, beim selben Anbieter oft im Paket, aber zwei getrennte Dinge.",
         "Northwest: $125/Jahr, sehr seriös, kostenlose Mail-Forwarding.",
         "Harbor Compliance: $89/Jahr.",
         "Cloud Peak Law: ab $350/Jahr inkl. Trust-/Privacy-Setup für Wyoming.",
-        "WICHTIG: Alle sind seriös — KEIN \"Cheap LegalZoom\" wählen, die schlampen oft mit Annual Reports."
+        "WICHTIG: Alle sind seriös, KEIN \"Cheap LegalZoom\" wählen, die schlampen oft mit Annual Reports."
       ],
       "description": "JEDER Staat verlangt einen Registered Agent mit physischer Adresse im Staat. Viele Anbieter (z.B. Wyoming Registered Agent, Northwest) bündeln dazu eine US-Mailing-/Business-Adresse, die du als Post-Anschrift der LLC für SS-4, BOI, Bank & Articles nutzt."
     },
@@ -3534,15 +3534,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "Wyoming SOS — Online Business Services (Initial Filing)",
+          "label": "Wyoming SOS, Online Business Services (Initial Filing)",
           "url": "https://sos.wyo.gov/Business/OnlineBusinessServices.aspx"
         },
         {
-          "label": "Wyoming WyoBiz — New Business Entity Wizard (online filen)",
+          "label": "Wyoming WyoBiz, New Business Entity Wizard (online filen)",
           "url": "https://wyobiz.wyo.gov/Business/RegistrationType.aspx"
         },
         {
-          "label": "Wyoming SOS — Articles of Organization (PDF, Papierweg)",
+          "label": "Wyoming SOS, Articles of Organization (PDF, Papierweg)",
           "url": "https://sos.wyo.gov/forms/business/llc/llc-articlesorganization.pdf"
         },
         {
@@ -3555,13 +3555,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "WYOMING — Offizielles Initial Filing direkt beim Secretary of State: Online über das WyoBiz-Portal (sos.wyo.gov → Online Business Services → New Business Entity Wizard). Gebühr $100, Zahlung mit Visa/MasterCard, online-Bestätigung typisch in wenigen Werktagen. Das ist der direkte Behördenweg OHNE Service-Anbieter.",
+        "WYOMING, Offizielles Initial Filing direkt beim Secretary of State: Online über das WyoBiz-Portal (sos.wyo.gov → Online Business Services → New Business Entity Wizard). Gebühr $100, Zahlung mit Visa/MasterCard, online-Bestätigung typisch in wenigen Werktagen. Das ist der direkte Behördenweg OHNE Service-Anbieter.",
         "Pflichtangaben in den Wyoming Articles: LLC-Name (mit Endung), Principal Office Address, Registered-Agent-Name + Adresse (in Wyoming), Organizer-Name + Unterschrift. Als Principal/Mailing Address kannst du die vom Registered Agent (z.B. Wyoming Registered Agent) zugewiesene US-Adresse eintragen.",
         "Papierweg Wyoming (langsamer): Articles-of-Organization-PDF ausfüllen + per Post mit Scheck/Money-Order an: Wyoming Secretary of State, Herschler Building East, 122 W 25th St, Suite 101, Cheyenne, WY 82002-0020, USA.",
-        "Tipp: Northwest, Harbor, Cloud Peak Law oder Wyoming Registered Agent machen das Filing für dich — kostet $39–125 zusätzlich, spart aber mind. 1h Bürokratie. Direkt beim SOS sparst du diese Service-Gebühr.",
-        "Du bekommst (online sofort, per Post 2–4 Wochen) ein Stamped PDF / Certificate of Organization — DAS ist dein Beweis-Dokument für Bank, IRS etc."
+        "Tipp: Northwest, Harbor, Cloud Peak Law oder Wyoming Registered Agent machen das Filing für dich, kostet $39-125 zusätzlich, spart aber mind. 1h Bürokratie. Direkt beim SOS sparst du diese Service-Gebühr.",
+        "Du bekommst (online sofort, per Post 2-4 Wochen) ein Stamped PDF / Certificate of Organization, DAS ist dein Beweis-Dokument für Bank, IRS etc."
       ],
-      "description": "Gründungsdokument (Initial Filing) direkt beim Secretary of State des gewählten Staats einreichen — Wyoming online via WyoBiz-Portal des Wyoming SOS. Bestätigung 1–10 Werktage online, 2–4 Wochen per Brief."
+      "description": "Gründungsdokument (Initial Filing) direkt beim Secretary of State des gewählten Staats einreichen, Wyoming online via WyoBiz-Portal des Wyoming SOS. Bestätigung 1-10 Werktage online, 2-4 Wochen per Brief."
     },
     "ein": {
       "fields": [
@@ -3588,20 +3588,20 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Häufiger Fehler: Zeile 7b mit \"N/A\" oder \"0\" zu füllen → Antrag wird zurückgeschickt. Lass das Feld KOMPLETT leer.",
       "extendedNotes": [
         "Postanschrift (für Brief, dauert 8+ Wochen): Internal Revenue Service, Attn: EIN International Operation, Cincinnati, OH 45999, USA",
-        "Fax-Nummer (international, dauert 4–6 Wochen): +1-855-641-6935",
+        "Fax-Nummer (international, dauert 4-6 Wochen): +1-855-641-6935",
         "Fax-Nummer (US-intern, falls jemand mit US-Telefon): +1-304-707-9471",
         "WICHTIG SS-4 Zeile 7b: Bei non-US Founder ohne SSN/ITIN das Feld FREI lassen UND in Zeile 9a \"LLC\" + Zeile 10 \"Banking purposes\" ankreuzen.",
         "WICHTIG SS-4 Zeile 11 (Closing month): typisch \"December\" für Kalenderjahr.",
-        "Falls du einen US-Steuerberater (CPA) hast, kann er als \"Authorized Representative\" via Form SS-4 + Form 8821 dein EIN in 1–2 Werktagen beantragen ($150–300 Service)."
+        "Falls du einen US-Steuerberater (CPA) hast, kann er als \"Authorized Representative\" via Form SS-4 + Form 8821 dein EIN in 1-2 Werktagen beantragen ($150-300 Service)."
       ],
-      "description": "Tax-ID via Form SS-4 (für non-US Founder ohne SSN: Fax oder Brief — KEIN Online-Antrag möglich!). Dauert 4–6 Wochen per Fax, 8+ Wochen per Brief."
+      "description": "Tax-ID via Form SS-4 (für non-US Founder ohne SSN: Fax oder Brief, KEIN Online-Antrag möglich!). Dauert 4-6 Wochen per Fax, 8+ Wochen per Brief."
     },
     "operating-agreement": {
       "checklist": [
         "Member-Struktur (Single oder Multi)",
         "Gewinnverteilung (bei Single: 100 % an dich)",
         "Management (Member-managed vs. Manager-managed)",
-        "Capital Contributions (was hast du eingezahlt — typisch $0–100 für Gründung)",
+        "Capital Contributions (was hast du eingezahlt, typisch $0-100 für Gründung)",
         "Distribution Policy (wann darf ausgeschüttet werden)",
         "Auflösung / Dissolution-Klausel",
         "Tax Election (default: Disregarded Entity bei Single-Member)"
@@ -3639,14 +3639,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "warning": "Bußgeld bis $591/Tag bei Versäumnis (CTA 2024 Update). Im schlimmsten Fall: bis 2 Jahre Haft.",
       "extendedNotes": [
-        "Postanschrift (NICHT für BOI — BOI ist ONLINE-only!): nicht nötig",
-        "Ein Service-Anbieter (z.B. Cloud Peak Law, Harbor) erledigt BOI für $50–150 mit. Empfohlen, weil Pflicht-Wechsel oft."
+        "Postanschrift (NICHT für BOI, BOI ist ONLINE-only!): nicht nötig",
+        "Ein Service-Anbieter (z.B. Cloud Peak Law, Harbor) erledigt BOI für $50-150 mit. Empfohlen, weil Pflicht-Wechsel oft."
       ],
-      "description": "Beneficial Ownership Information Report — Pflicht für ALLE neu gegründeten LLCs seit 2024. Frist: 30 Tage nach Gründung."
+      "description": "Beneficial Ownership Information Report, Pflicht für ALLE neu gegründeten LLCs seit 2024. Frist: 30 Tage nach Gründung."
     },
     "bank": {
       "checklist": [
-        "EIN (Bestätigungsbrief vom IRS — CP575)",
+        "EIN (Bestätigungsbrief vom IRS, CP575)",
         "Articles of Organization (Stamped PDF vom SOS)",
         "Operating Agreement",
         "Pass des wirtschaftlich Berechtigten",
@@ -3680,9 +3680,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Mercury: 100 % remote, akzeptiert non-US Founder von 200+ Ländern. Ablehnungsgrund: bestimmte Hochrisiko-Geschäftsmodelle (Crypto, Adult, Cannabis).",
-        "Wise Business: kein dezidiertes US-Bankkonto, aber USD-IBAN + ACH-Routing — funktioniert für die meisten Use Cases.",
+        "Wise Business: kein dezidiertes US-Bankkonto, aber USD-IBAN + ACH-Routing, funktioniert für die meisten Use Cases.",
         "Relay: gut wenn du Business-Buchhaltung mit Tools wie QuickBooks integrieren willst.",
-        "HSBC, Citibank, Chase: VERLANGEN persönliche Vorstellung in einer US-Filiale — nicht remote möglich."
+        "HSBC, Citibank, Chase: VERLANGEN persönliche Vorstellung in einer US-Filiale, nicht remote möglich."
       ],
       "description": "Mercury (für Tech-/Online-Brands optimiert), Wise Business (Multi-Currency, kein USD-Konto im klassischen Sinn), Relay (gut für Buchhaltung-Integration)."
     },
@@ -3690,7 +3690,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Tool wählen: QuickBooks (Standard, beste Bank-Integrationen, US-CPA-Kompatibilität) ODER Xero (international, günstiger) ODER Wave (Single-Member, kein Payroll)",
         "Account anlegen mit LLC-EIN + Mercury/Relay/Wise-Bank verknüpfen (Auto-Sync alle Transaktionen)",
-        "Chart of Accounts (Kontorahmen) anlegen — Standard-Vorlage 'Single-Member LLC' nutzen",
+        "Chart of Accounts (Kontorahmen) anlegen, Standard-Vorlage 'Single-Member LLC' nutzen",
         "Income-Kategorien: Sales/Services/Affiliate/Royalties + State (für Sales-Tax-Tracking)",
         "Expense-Kategorien: Cost of Goods Sold, Marketing, Software, Travel, Legal/Professional, Office, Bank-Fees",
         "Owner's Draw Konto: für Auszahlungen aus LLC ans Privat-Konto (kein Salary bei Single-Member!)",
@@ -3723,23 +3723,23 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "warning": "Buchhaltung NICHT erst zum Year-End anfangen. CPA-Stundensatz für 'Catch-up Bookkeeping': 100-300 $/Stunde. Monatliche Reconciliation = Pflicht.",
       "extendedNotes": [
-        "QuickBooks ist US-Standard — fast jeder US-CPA nutzt es. Wenn du US-CPA für 5472 hast: QuickBooks erspart Stunden Reibung.",
-        "Xero ist global — wenn dein DE-Steuerberater bereits Xero nutzt, kann er ggf. parallel reinschauen (sparsamer Workflow).",
+        "QuickBooks ist US-Standard, fast jeder US-CPA nutzt es. Wenn du US-CPA für 5472 hast: QuickBooks erspart Stunden Reibung.",
+        "Xero ist global, wenn dein DE-Steuerberater bereits Xero nutzt, kann er ggf. parallel reinschauen (sparsamer Workflow).",
         "Wave: 100 % kostenlos für Buchhaltung. Payroll-Add-On kostenpflichtig (~20-40 $/Mon, nur falls US-Mitarbeiter).",
-        "Managed-Bookkeeping (Bench/Pilot): 200-500 $/Mon — sie machen Reconciliation + Reports für dich. Lohnt ab ~5k $/Mon Umsatz wenn dein Zeit-Wert hoch ist.",
+        "Managed-Bookkeeping (Bench/Pilot): 200-500 $/Mon, sie machen Reconciliation + Reports für dich. Lohnt ab ~5k $/Mon Umsatz wenn dein Zeit-Wert hoch ist.",
         "Owner's Draw vs. Salary: Single-Member-Disregarded-Entity = kein Salary möglich (du zahlst dich selbst per Owner's Draw, das ist KEINE deductible expense).",
         "5472-Reporting kommt direkt aus Bookkeeping-Daten: 'Reportable Transactions' = alle Owner's Draws / Capital Contributions / Inter-Company-Transfers."
       ],
-      "description": "LLC braucht saubere Buchhaltung — getrennt von DE-Buchhaltung — für 5472-Reporting + Bank-Accounting. Standard: QuickBooks Online (US-Standard), Xero (international, etwas günstiger), Wave (kostenlos für Single-Owner ohne Payroll)."
+      "description": "LLC braucht saubere Buchhaltung, getrennt von DE-Buchhaltung, für 5472-Reporting + Bank-Accounting. Standard: QuickBooks Online (US-Standard), Xero (international, etwas günstiger), Wave (kostenlos für Single-Owner ohne Payroll)."
     },
     "sales-tax-nexus": {
       "checklist": [
-        "Geschäftsmodell prüfen: B2C-Verkäufe in USA = Sales-Tax-relevant. B2B oft Resale-Cert (steuerfrei). SaaS uneinheitlich je Bundesstaat.",
-        "Nexus-Tracking: Avalara/TaxJar/Anrok integrieren — automatisches Monitoring aller 50 Staaten + Threshold-Alerts",
+        "Geschäftsmodell prüfen: B2C-Verkäufe in USA = Sales-Tax-relevant. B2B oft Resale-Cert (ohne Sales-Tax-Ausweis). SaaS uneinheitlich je Bundesstaat.",
+        "Nexus-Tracking: Avalara/TaxJar/Anrok integrieren, automatisches Monitoring aller 50 Staaten + Threshold-Alerts",
         "Bei Threshold-Überschreitung (typisch 100k $ ODER 200 Transactions): Sales-Tax-Permit beim Bundesstaat beantragen (online, kostenlos in den meisten States)",
         "Sales-Tax in Stripe/Shopify/Amazon-Settings korrekt konfigurieren (automatische Berechnung pro Lieferadresse)",
         "Monatliche/Quartalsweise Filing pro Bundesstaat (Frequenz hängt vom Sales-Volumen ab)",
-        "Marketplace-Facilitator-Regeln: Amazon/Etsy/eBay sammeln + remitten Sales-Tax automatisch in den meisten Staaten — du musst nur Filing einreichen mit '0' für Marketplace-Sales",
+        "Marketplace-Facilitator-Regeln: Amazon/Etsy/eBay sammeln + remitten Sales-Tax automatisch in den meisten Staaten, du musst nur Filing einreichen mit '0' für Marketplace-Sales",
         "DIY vs. Service: bis 3-5 Staaten DIY möglich, ab 10+ Staaten Avalara/TaxJar fast unverzichtbar"
       ],
       "externalLinks": [
@@ -3764,15 +3764,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.streamlinedsalestax.org"
         }
       ],
-      "warning": "Sales-Tax-Nexus ist NICHT optional. Bei aktiver US-Customer-Base ist Compliance Pflicht. Strafzahlungen + Audits können Existenz bedrohen — JETZT korrekt aufsetzen.",
+      "warning": "Sales-Tax-Nexus ist NICHT optional. Bei aktiver US-Customer-Base ist Compliance Pflicht. Strafzahlungen + Audits können Existenz bedrohen, JETZT korrekt aufsetzen.",
       "extendedNotes": [
-        "Wayfair-Decision (South Dakota v. Wayfair, 2018): Bundesstaaten dürfen Sales-Tax von Out-of-State-Sellers verlangen ohne physical presence — economic nexus reicht.",
+        "Wayfair-Decision (South Dakota v. Wayfair, 2018): Bundesstaaten dürfen Sales-Tax von Out-of-State-Sellers verlangen ohne physical presence, economic nexus reicht.",
         "Threshold-Beispiele 2026: California 500k $, Texas 500k $, New York 500k $/100 Transactions, Florida 100k $, Pennsylvania 100k $. Jedes State eigene Regeln.",
-        "Marketplace-Facilitator-Laws: Amazon/Etsy/eBay etc. ziehen Sales-Tax automatisch ein und remitten — DU musst aber trotzdem in jedem Bundesstaat Filing einreichen (auch wenn 0 $ direkt-Sale).",
+        "Marketplace-Facilitator-Laws: Amazon/Etsy/eBay etc. ziehen Sales-Tax automatisch ein und remitten, DU musst aber trotzdem in jedem Bundesstaat Filing einreichen (auch wenn 0 $ direkt-Sale).",
         "DTC vs. Marketplace: bei reinem Amazon-Selling oft 0-Filing-Pflicht. Bei eigenem Shopify-Shop: jeder Bundesstaat selbst.",
         "Compliance-Risiko: Strafen bis 50 % der nicht abgeführten Steuer + Zinsen. Bei Audit (typisch 3-6 Jahre rückwirkend) schnell 5-stellig.",
         "TaxJar AutoFile: 30-50 $/Bundesstaat/Mon, automatisches Filing. Sweet-Spot für DTC-Brands mit 5-15 aktiven States.",
-        "Anrok: speziell für SaaS — kennt die SaaS-Sales-Tax-Regeln (NY, OH, TX besteuern SaaS, CA nicht)."
+        "Anrok: speziell für SaaS, kennt die SaaS-Sales-Tax-Regeln (NY, OH, TX besteuern SaaS, CA nicht)."
       ],
       "description": "Seit Wayfair-Decision 2018: jeder US-Bundesstaat verlangt Sales-Tax bei Online-Verkäufen ab Schwellenwert (Economic Nexus). Typisch 100k $ Umsatz ODER 200 Transactions pro Bundesstaat. Pflicht-Registrierung + Filing pro Bundesstaat einzeln."
     },
@@ -3806,11 +3806,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "warning": "Bei US-Source-Income IGNORIEREN: ITIN-/EIN-Audit-Trigger. IRS hat seit 2020 verschärft. Mit US-CPA jährlich klären, NICHT raten.",
       "extendedNotes": [
-        "Häufiger Irrtum: 'LLC zahlt Steuer' — NEIN. Single-Member-LLC ist transparent, der Owner zahlt. Multi-Member-LLC: Partnership-Tax (Form 1065).",
+        "Häufiger Irrtum: 'LLC zahlt Steuer', NEIN. Single-Member-LLC ist transparent, der Owner zahlt. Multi-Member-LLC: Partnership-Tax (Form 1065).",
         "Effectively Connected Income (ECI) vs. FDAP: ECI = aktive Geschäftstätigkeit in USA → 25-37 % Steuer (graduated). FDAP = passive Einkünfte (Royalties, Interest, Dividends) → 30 % Withholding (oft via DBA reduziert).",
-        "DBA Deutschland-USA: deutsche Steuern auf US-Income sind in DE als ausländische Steuer ANRECHENBAR (§34c EStG) — keine Doppelbesteuerung wenn korrekt deklariert.",
+        "DBA Deutschland-USA: deutsche Steuern auf US-Income sind in DE als ausländische Steuer ANRECHENBAR (§34c EStG), keine Doppelbesteuerung wenn korrekt deklariert.",
         "Bei reinem Online-Business OHNE US-Mitarbeiter / US-Lager / US-Marketing: oft KEIN US-Source-Income → kein 1040-ES nötig (nur 5472).",
-        "Bei US-Lager (FBA-Inventory): wird zunehmend als 'effectively connected' gewertet — IRS-Auslegung ist im Wandel, mit US-CPA klären.",
+        "Bei US-Lager (FBA-Inventory): wird zunehmend als 'effectively connected' gewertet, IRS-Auslegung ist im Wandel, mit US-CPA klären.",
         "Penalties bei Versäumnis: 0,5 % pro Monat unbezahlt, bis 25 % der unbezahlten Steuer. Plus Underpayment-Penalty (~5-10 %)."
       ],
       "description": "Single-Member-LLC ist 'Disregarded Entity' → Profite werden auf Owner's Tax Return reportiert. Bei US-Source-Income (z.B. US-Mitarbeiter, US-Inventory) muss Owner Estimated Tax quarterly einreichen via Form 1040-ES (für ITIN-Inhaber) bzw. 1040-NR-ES (für Non-Resident-Aliens)."
@@ -3832,9 +3832,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Postanschrift Form W-7: Internal Revenue Service, ITIN Operation, P.O. Box 149342, Austin, TX 78714-9342, USA",
-        "Pass-Kopie muss von einem \"Certified Acceptance Agent\" (CAA) oder einer US-Botschaft beglaubigt werden — KEINE Notar-Beglaubigung in DE akzeptiert!",
-        "Bearbeitungszeit: 7–11 Wochen. Plane das ein.",
-        "Bei Single-Member-LLC mit Disregarded-Entity-Status brauchst du KEIN ITIN — nur EIN."
+        "Pass-Kopie muss von einem \"Certified Acceptance Agent\" (CAA) oder einer US-Botschaft beglaubigt werden, KEINE Notar-Beglaubigung in DE akzeptiert!",
+        "Bearbeitungszeit: 7-11 Wochen. Plane das ein.",
+        "Bei Single-Member-LLC mit Disregarded-Entity-Status brauchst du KEIN ITIN, nur EIN."
       ],
       "description": "Nur falls du persönlich US-Steuern zahlen musst (z.B. Multi-Member-LLC mit Pass-Through-Steuer in DE-DBA-Sonderfall). Form W-7 mit beglaubigter Pass-Kopie."
     },
@@ -3853,22 +3853,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.irs.gov/pub/irs-pdf/i5472.pdf"
         }
       ],
-      "warning": "$25.000 Strafe bei Versäumnis ODER fehlerhafter Filing — kein Spielraum. UNBEDINGT mit US-CPA klären.",
+      "warning": "$25.000 Strafe bei Versäumnis ODER fehlerhafter Filing, kein Spielraum. UNBEDINGT mit US-CPA klären.",
       "extendedNotes": [
         "Postanschrift Form 5472 + Pro-Forma 1120: Internal Revenue Service, 1973 Rulon White Blvd., M/S 6112, Attn: PIN Unit, Ogden, UT 84201, USA",
         "Frist: 15. April des Folgejahres (kann via Form 7004 um 6 Monate verlängert werden)",
         "Pro-Forma 1120 = leere 1120 mit nur Header-Daten + 5472 als Anlage",
-        "Reportable Transactions: ALLE Geld-Transfers zwischen dir und der LLC — auch wenn Transfer = $0 (z.B. wenn LLC keine Aktivität hatte)",
-        "Empfehlung: US-CPA beauftragen ($300–800 für Year-End Filing) — Risiko zu hoch für DIY."
+        "Reportable Transactions: ALLE Geld-Transfers zwischen dir und der LLC, auch wenn Transfer = $0 (z.B. wenn LLC keine Aktivität hatte)",
+        "Empfehlung: US-CPA beauftragen ($300-800 für Year-End Filing), Risiko zu hoch für DIY."
       ],
-      "description": "Pflicht für Single-Member-LLC mit ausländischem Owner — JÄHRLICH, auch ohne Umsatz. Strafe $25.000 bei Versäumnis."
+      "description": "Pflicht für Single-Member-LLC mit ausländischem Owner, JÄHRLICH, auch ohne Umsatz. Strafe $25.000 bei Versäumnis."
     },
     "annual-report": {
       "extendedNotes": [
         "Wyoming Annual Report: fällig zum Anniversary-Date der Gründung. $60 Mindestbetrag, kann höher sein basierend auf Wyoming-Vermögen (in der Praxis fast nie).",
         "Delaware Franchise Tax: fällig 1. Juni. $300 Mindestbetrag.",
-        "Bei Versäumnis: $200–500 Late-Fee + Risiko, dass LLC \"nicht in good standing\" ist (Banken-Probleme).",
-        "Tipp: Registered Agent macht das automatisch, wenn du den Service aktivierst (+$50–100/Jahr)."
+        "Bei Versäumnis: $200-500 Late-Fee + Risiko, dass LLC \"nicht in good standing\" ist (Banken-Probleme).",
+        "Tipp: Registered Agent macht das automatisch, wenn du den Service aktivierst (+$50-100/Jahr)."
       ],
       "description": "Wyoming: $60 + Filing. Delaware: $300 Franchise Tax. New Mexico: KEIN Annual Report (großer Vorteil)."
     },
@@ -3876,7 +3876,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Mit deutschem StB sprechen (LLC-spezialisiert!)",
         "DBA-Anrechnung dokumentieren (jährlich)",
-        "Hinzurechnungsbesteuerung (CFC) §7-14 AStG prüfen — bei passiven Einkünften gilt 25 % deutsche Besteuerung auf LLC-Gewinne",
+        "Hinzurechnungsbesteuerung (CFC) §7-14 AStG prüfen, bei passiven Einkünften gilt 25 % deutsche Besteuerung auf LLC-Gewinne",
         "Substanzanforderungen erfüllen (echte Geschäftstätigkeit, kein Mailbox-Setup)",
         "Bei Multi-Member-LLC: Cash-Box-Risiko prüfen"
       ],
@@ -3887,14 +3887,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Schritt 1: alle offenen Verbindlichkeiten begleichen (Lieferanten, Steuern, Bank-Gebühren)",
         "Schritt 2: alle Vermögenswerte auszahlen (Final Owner's Draw aus Bank-Konto)",
-        "Schritt 3: Bank-Konto schließen (Mercury/Relay/Wise — Online-Closure)",
+        "Schritt 3: Bank-Konto schließen (Mercury/Relay/Wise, Online-Closure)",
         "Schritt 4: Articles of Dissolution / Cancellation beim Secretary of State einreichen (Wyoming Filing 60 $, Delaware 200 $, NM 25 $)",
         "Schritt 5: Final Annual Report einreichen (typisch 'Final' ankreuzen)",
         "Schritt 6: BOI-Update bei FinCEN (LLC dissolved)",
         "Schritt 7: Final 5472 + Pro-Forma 1120 markiert als 'Final Return' für letztes Geschäftsjahr",
-        "Schritt 8: EIN beim IRS schließen — formloser Brief an: Internal Revenue Service, Cincinnati, OH 45999, USA mit 'EIN Cancellation Request' + EIN + Begründung + LLC-Daten",
+        "Schritt 8: EIN beim IRS schließen, formloser Brief an: Internal Revenue Service, Cincinnati, OH 45999, USA mit 'EIN Cancellation Request' + EIN + Begründung + LLC-Daten",
         "Schritt 9: Registered Agent kündigen (sonst läuft Jahresgebühr weiter)",
-        "Schritt 10: DE-Steuerberater informieren — letzter §34c-Anrechnungs-Bezug + ggf. Aufgabegewinn deklarieren",
+        "Schritt 10: DE-Steuerberater informieren, letzter §34c-Anrechnungs-Bezug + ggf. Aufgabegewinn deklarieren",
         "Schritt 11: alle Dokumente 7 Jahre archivieren (IRS-Aufbewahrungsfrist)"
       ],
       "externalLinks": [
@@ -3915,16 +3915,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.irs.gov/businesses/small-businesses-self-employed/canceling-an-ein-closing-your-account"
         }
       ],
-      "warning": "Dissolution-Vergessen kostet langfristig mehr als Setup-Kosten. JETZT auflösen wenn LLC nicht mehr gebraucht — nicht 'irgendwann später'.",
+      "warning": "Dissolution-Vergessen kostet langfristig mehr als Setup-Kosten. JETZT auflösen wenn LLC nicht mehr gebraucht, nicht 'irgendwann später'.",
       "extendedNotes": [
         "WICHTIG: zuerst ALLE Steuer-Filings final, DANN Dissolution beim State. Reihenfolge umgekehrt = Probleme bei Tax-Filing ohne LLC-Status.",
         "EIN-Closure-Brief MUSS ASCII-Standard-Brief sein, nicht via Online-Form möglich. Postanschrift: Internal Revenue Service, Cincinnati, OH 45999, USA. Inhalt: 'EIN Cancellation Request', EIN, LLC Legal Name, Filing Address, Reason (e.g., 'Business closed').",
-        "Falsche Annahme: 'LLC einfach nicht mehr nutzen reicht'. NEIN — bis zur formellen Dissolution laufen Annual-Report-Pflichten + Strafgebühren + 5472-Pflicht weiter.",
+        "Falsche Annahme: 'LLC einfach nicht mehr nutzen reicht'. NEIN, bis zur formellen Dissolution laufen Annual-Report-Pflichten + Strafgebühren + 5472-Pflicht weiter.",
         "Bei Inactive-LLC ohne Dissolution: Wyoming/Delaware/NM kassieren weiter Annual-Fees + Late-Fees → nach 2-3 Jahren ist die Schuld 500-1.500 $ + automatic 'forfeiture' (LLC verliert Good-Standing-Status, kann nicht mehr verklagt oder verteidigt werden).",
-        "Service-Tipp: Northwest Registered Agent / Harbor Compliance bieten 'Complete Dissolution Service' für 200-500 $ — übernehmen Filing + IRS-Closure + Annual-Report-Final.",
-        "Final 5472 + 1120 nicht vergessen! Auch bei dissolved LLC für letztes Jahr Pflicht — sonst $25.000 Strafe trotz Auflösung."
+        "Service-Tipp: Northwest Registered Agent / Harbor Compliance bieten 'Complete Dissolution Service' für 200-500 $, übernehmen Filing + IRS-Closure + Annual-Report-Final.",
+        "Final 5472 + 1120 nicht vergessen! Auch bei dissolved LLC für letztes Jahr Pflicht, sonst $25.000 Strafe trotz Auflösung."
       ],
-      "description": "Falls LLC nicht mehr gebraucht: NICHT einfach laufen lassen — sonst weiterhin Annual Reports + Steuern + 25k$ 5472-Strafrisiko. Saubere Auflösung in 3 Schritten: Articles of Dissolution + Final-Tax-Return + EIN-Closure."
+      "description": "Falls LLC nicht mehr gebraucht: NICHT einfach laufen lassen, sonst weiterhin Annual Reports + Steuern + 25k$ 5472-Strafrisiko. Saubere Auflösung in 3 Schritten: Articles of Dissolution + Final-Tax-Return + EIN-Closure."
     }
   },
   "hk-limited": {
@@ -3970,8 +3970,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Sleek + Osome bieten All-in-1-Pakete (CS + Reg. Address + Compliance + ggf. Buchhaltung) ab ~$500–1.500/Jahr.",
-        "Statrys hat ein Banking-Konto + CS-Paket inkludiert — sinnvoll wenn du beides brauchst."
+        "Sleek + Osome bieten All-in-1-Pakete (CS + Reg. Address + Compliance + ggf. Buchhaltung) ab ~$500-1.500/Jahr.",
+        "Statrys hat ein Banking-Konto + CS-Paket inkludiert, sinnvoll wenn du beides brauchst."
       ]
     },
     "incorporate": {
@@ -3994,7 +3994,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Online-Filing: HKD 1.720 (Standard) / HKD 1.420 (mit Form NNC1G für \"guaranteed\" Limited).",
         "Director: mind. 1 natürliche Person (jede Nationalität, kein HK-Resident-Status nötig).",
         "Shareholder: mind. 1, max. 50 (für \"private limited\").",
-        "Share Capital: typisch HKD 10.000 (1.000 Shares à HKD 10) — kein Mindestbetrag im Gesetz."
+        "Share Capital: typisch HKD 10.000 (1.000 Shares à HKD 10), kein Mindestbetrag im Gesetz."
       ],
       "description": "Form NNC1 (für Limited mit Share Capital) + Articles of Association bei Companies Registry. Online-Filing über e-Registry-Portal in ~1 Werktag."
     },
@@ -4018,10 +4018,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.cr.gov.hk/en/publications/forms.htm"
         }
       ],
-      "warning": "Bei Anfrage durch Authorities + Nicht-Vorlage in 30 Min: bis HKD 25.000 Strafe + tägliche Strafgebühr bei Versäumnis. Wird selten geprüft — aber wenn, dann hart.",
+      "warning": "Bei Anfrage durch Authorities + Nicht-Vorlage in 30 Min: bis HKD 25.000 Strafe + tägliche Strafgebühr bei Versäumnis. Wird selten geprüft, aber wenn, dann hart.",
       "extendedNotes": [
-        "SCR-Compliance ist KEIN Public-Register — anders als BOI bei US-LLC. Nur Authorities haben Zugriff bei berechtigtem Interesse (Geldwäsche-Verdacht, Steuer-Audit).",
-        "Pflicht-Inhalt: 'Required Particulars' nach Companies Ordinance §653Z — wenn unvollständig: Strafgebühr.",
+        "SCR-Compliance ist KEIN Public-Register, anders als BOI bei US-LLC. Nur Authorities haben Zugriff bei berechtigtem Interesse (Geldwäsche-Verdacht, Steuer-Audit).",
+        "Pflicht-Inhalt: 'Required Particulars' nach Companies Ordinance §653Z, wenn unvollständig: Strafgebühr.",
         "Service-Anbieter Sleek/Osome/Hawksford führen SCR automatisch im Paket (ab ~$300/Jahr).",
         "Bei DIY-CS-Setup: Vorlage via Companies Registry herunterladen, ausfüllen, am Reg.-Address halten."
       ],
@@ -4036,7 +4036,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Postanschrift IRD: Inland Revenue Department, GPO Box 132, Hong Kong",
-        "BR-Certificate kommt 1–2 Wochen nach Incorporation per Brief — mit 1.-Jahres-Pflichtgebühr (HKD 250)."
+        "BR-Certificate kommt 1-2 Wochen nach Incorporation per Brief, mit 1.-Jahres-Pflichtgebühr (HKD 250)."
       ],
       "description": "Pflicht-Anmeldung beim Inland Revenue Department (IRD). Gilt 1 Jahr (HKD 250) oder 3 Jahre (HKD 3.950)."
     },
@@ -4067,12 +4067,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "tax-regime": {
       "checklist": [
-        "STANDARD WEG (Two-Tiered): keine Antrag-Pflicht, automatisch — 8,25 % auf erste HKD 2 Mio. Profit, 16,5 % darüber",
+        "STANDARD WEG (Two-Tiered): keine Antrag-Pflicht, automatisch, 8,25 % auf erste HKD 2 Mio. Profit, 16,5 % darüber",
         "Two-Tiered-Voraussetzung: keine Connected-Entity hat schon Two-Tiered angemeldet (gilt nur für eine Group-Entity)",
-        "OFFSHORE-WEG: alle 4 Kriterien erfüllen — Vertrags-Unterschrift außerhalb HK, Customer/Supplier außerhalb HK, Operativer Decision-Making außerhalb HK, kein HK-Standort/Personal involved",
+        "OFFSHORE-WEG: alle 4 Kriterien erfüllen, Vertrags-Unterschrift außerhalb HK, Customer/Supplier außerhalb HK, Operativer Decision-Making außerhalb HK, kein HK-Standort/Personal involved",
         "Offshore-Antrag: gleichzeitig mit erster Profits Tax Return einreichen (binnen 18 Monaten nach Gründung)",
         "Substanz-Dokumentation: alle Verträge mit Datum + Ort unterschrieben, Customer-Verträge mit non-HK-Fixierung, Logistik-Belege",
-        "FSIE-Regime ab 2023: passive Einkünfte (Dividenden, Royalties, IP-Erträge, Disposal Gains) sind automatic gross — Befreiung nur mit ausreichender Substanz",
+        "FSIE-Regime ab 2023: passive Einkünfte (Dividenden, Royalties, IP-Erträge, Disposal Gains) sind automatic gross, Befreiung nur mit ausreichender Substanz",
         "FSIE-Substanz: mind. 'adequate number' qualifizierte Mitarbeiter + 'adequate operating expenditure' in HK ODER 'outsourced' an HK-Service-Provider",
         "Bei Wahl Offshore: kein Two-Tiered möglich (nicht kombinierbar)"
       ],
@@ -4094,7 +4094,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Two-Tiered ist FAST IMMER der praktische Standard. Profite-Tax-Effekt: bei HKD 2M (~230k €) Profit zahlst du 8,25 % = HKD 165k (~19k €). Bei HKD 5M Profit: HKD 165k + (HKD 3M × 16,5 %) = HKD 660k (~76k €).",
         "Offshore-Status-Realität: SEHR schwer durchzubekommen seit IRD-Verschärfung 2018. Bearbeitungszeit 12-24 Monate. Bei Ablehnung: rückwirkend Standard-Steuersatz + ggf. Strafzahlung.",
-        "FSIE-Regime ist SCHARF: passive Einkünfte (z.B. EU-/US-Dividenden) sind ohne 'Substantial Activity' (Mitarbeiter + Office in HK) zu 16,5 % besteuert — selbst wenn Source außerhalb HK.",
+        "FSIE-Regime ist SCHARF: passive Einkünfte (z.B. EU-/US-Dividenden) sind ohne 'Substantial Activity' (Mitarbeiter + Office in HK) zu 16,5 % besteuert, selbst wenn Source außerhalb HK.",
         "Substantial Activity FSIE: 'adequate' = abhängig von Aktivität-Größe. Trading-Company mit HKD 100M Sales: typisch 5+ Mitarbeiter. Holding-Company: 1-2 Mitarbeiter + Reg-Office reicht oft.",
         "Beispiel-Scenario aktive E-Commerce-Brand: Customers in DE/EU + Lieferung von China direkt → potenziell offshore. Praxis: schwer bei Audit-Skepsis durchzubekommen, lieber Two-Tiered nutzen.",
         "Beispiel-Scenario passive Holding: HK-Ltd hält Anteile an US-LLC → Dividenden via FSIE besteuerbar in HK ohne Substanz. Mit Substanz (1 HK-Mitarbeiter, Office): 0 % möglich.",
@@ -4106,9 +4106,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Audit deckt: Profit & Loss, Balance Sheet, Cashflow, Notes",
         "Audit-Frist: jährlich, vor Profits Tax Filing",
-        "Sleek / Osome / Hawksford bieten Audit-Services im Paket — ~HKD 8.000–15.000/Jahr für inaktive / kleine Firma"
+        "Sleek / Osome / Hawksford bieten Audit-Services im Paket, ~HKD 8.000-15.000/Jahr für inaktive / kleine Firma"
       ],
-      "description": "Pflicht jährlich für ALLE HK-Limiteds — durch HK-zertifizierten Auditor (CPA, Practising Certificate). Budget: HKD 12.000–25.000 für kleine Firmen, HKD 30.000+ für aktive Trading-Firmen."
+      "description": "Pflicht jährlich für ALLE HK-Limiteds, durch HK-zertifizierten Auditor (CPA, Practising Certificate). Budget: HKD 12.000-25.000 für kleine Firmen, HKD 30.000+ für aktive Trading-Firmen."
     },
     "annual-return": {
       "externalLinks": [
@@ -4119,16 +4119,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Frist: 42 Tage nach Anniversary-Date (sonst Strafgebühren bis HKD 8.700).",
-        "CS macht das automatisch wenn aktiv — selbst-Filing nur wenn kein CS engagiert."
+        "CS macht das automatisch wenn aktiv, selbst-Filing nur wenn kein CS engagiert."
       ],
       "description": "Form NAR1 jährlich beim Companies Registry. Mit Anniversary-Date + Update Director/Shareholder/Address. HKD 105 Filing-Fee."
     },
     "director-salary": {
       "checklist": [
-        "Decision: Director-Salary vs. Dividende — Salary erlaubt Pension-Beiträge + Personal Allowances, Dividende ist 0 % Tax",
+        "Decision: Director-Salary vs. Dividende, Salary erlaubt Pension-Beiträge + Personal Allowances, Dividende ist 0 % Tax",
         "Salary-Setup: Employment Contract zwischen HK-Ltd und Director (ja, Self-Contracts in HK erlaubt)",
         "Salary-Höhe: marktüblich für Director-Position (~HKD 30k-100k/Mon = ~3.500-12.000 €/Mon je nach Substanz)",
-        "Form IR56B: Employer's Return jährlich bis 1. April einreichen — Detail aller Mitarbeiter (auch Director) mit Salary-Daten",
+        "Form IR56B: Employer's Return jährlich bis 1. April einreichen, Detail aller Mitarbeiter (auch Director) mit Salary-Daten",
         "Form BIR60: Director's Personal Tax Return jährlich (typisch Mai-Juli verschickt vom IRD)",
         "Personal Allowances 2026: Basic Allowance HKD 132k + Married Allowance HKD 264k + Child Allowance HKD 130k/Kind",
         "Salaries-Tax-Berechnung: Salary minus Allowances = Net Chargeable Income → 2-17 % progressiv (oder 15 % Standard Rate, je nachdem was niedriger ist)",
@@ -4153,11 +4153,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Director-Salary-Hack: HKD 360k Jahres-Salary minus Basic Allowance 132k = 228k chargeable. Berechnung: 50k × 2 % + 50k × 6 % + 50k × 10 % + 78k × 14 % = 1k + 3k + 5k + 10,9k = ~20k HKD = ~9 % effektiv (~2.300 €/Jahr).",
+        "Director-Salary-Rechnung: HKD 360k Jahres-Salary minus Basic Allowance 132k = 228k chargeable. Berechnung: 50k × 2 % + 50k × 6 % + 50k × 10 % + 78k × 14 % = 1k + 3k + 5k + 10,9k = ~20k HKD = ~9 % effektiv (~2.300 €/Jahr).",
         "Vergleich Dividende: 0 % Tax in HK + voll besteuert in DE als Kapitaleinkünfte (~26,375 % bei Abgeltungssteuer ODER Halbeinkünfte-Verfahren bei Holding).",
         "Salary > Dividende-Strategie: niedrige HK-Steuer (9 % effektiv) + DE-Anrechnung auf Lohn (ESt ~30-45 %) → Netto-Effekt deutlich günstiger als Dividende mit voller DE-KapErtragsteuer.",
         "MPF-Pflicht (Mandatory Provident Fund): bei HK-Resident-Director ab HKD 30k/Mon Pflicht-Beiträge (siehe MPF-Step). Bei non-Resident-Director typisch Befreiung beantragbar.",
-        "Form IR56B Frist: 1. April jährlich (für vorangegangenes Jahr 1. April-31. März — HK Tax Year). Bei Versäumnis HKD 10k Strafe."
+        "Form IR56B Frist: 1. April jährlich (für vorangegangenes Jahr 1. April-31. März, HK Tax Year). Bei Versäumnis HKD 10k Strafe."
       ],
       "description": "Falls Director Gehalt aus HK-Ltd zieht: Salaries Tax (max. 17 %, oft niedriger durch Allowances). Director-Salary aus DE-Sicht ist günstiger als Dividende, weil HK-Salaries-Tax niedrig + DE-Anrechnung möglich. Form IR56B (Employer-Filing) jährlich Pflicht."
     },
@@ -4165,12 +4165,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Voraussetzung prüfen: HK-Resident-Mitarbeiter ≥ 18 Jahre + ≥ 60 Tage angestellt + Salary > HKD 30k/Jahr → MPF-Pflicht",
         "Bei non-HK-Resident-Director: typisch BEFREIT (Form MPF-S(P) für Anmeldung der Befreiung)",
-        "MPF-Provider wählen — Manulife (Marktführer), AIA, HSBC, Sun Life. Vergleichen: Service Fee, Fund-Auswahl",
+        "MPF-Provider wählen, Manulife (Marktführer), AIA, HSBC, Sun Life. Vergleichen: Service Fee, Fund-Auswahl",
         "Employer registrieren: einmalige Anmeldung beim gewählten Provider",
         "Mitarbeiter-Setup: pro Mitarbeiter Konto eröffnen + Investment-Auswahl (typisch 5-15 Funds zur Wahl)",
         "Monatliche Beiträge: 5 % Employer + 5 % Employee, automatic Lastschrift",
         "Cap: max HKD 1.500/Mon Beitrag pro Seite (auf HKD 30k Salary-Cap)",
-        "Bei Mitarbeiter-Austritt: MPF-Account bleibt — wird zu 'preserved account' bei MPFA",
+        "Bei Mitarbeiter-Austritt: MPF-Account bleibt, wird zu 'preserved account' bei MPFA",
         "Annual Reporting: Provider sendet Statements an Mitarbeiter + Employer"
       ],
       "externalLinks": [
@@ -4196,7 +4196,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Tax-Vorteil: MPF-Employer-Beiträge sind Profits-Tax-deductible (mindert HK-Tax). MPF-Employee-Beiträge sind Salaries-Tax-deductible (mindert Personal Tax).",
         "Bei realer HK-Substanz (z.B. 1-2 HK-Mitarbeiter für FSIE): MPF wird Pflicht → kalkuliere ~10 % Salary als zusätzliche Compliance-Kosten.",
         "Voluntary Contributions: über Pflicht-Beträge hinaus möglich, aber nicht Tax-deductible über bestimmte Schwelle.",
-        "MPFA hat strenge Kontrollen — verspätete Beiträge: 5 % Strafzahlung pro Tag bis max. 25 %."
+        "MPFA hat strenge Kontrollen, verspätete Beiträge: 5 % Strafzahlung pro Tag bis max. 25 %."
       ],
       "description": "Pflicht-Pension-Beitrag wenn HK-Resident-Mitarbeiter (inkl. Director) > HKD 30k Jahres-Salary haben. Beitrag: 5 % Employer + 5 % Employee, jeweils auf max. HKD 30k/Mon Salary (= max HKD 1.500/Mon Beitrag pro Seite). Provider: Manulife, AIA, HSBC, Sun Life."
     },
@@ -4205,7 +4205,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Mit deutschem StB sprechen (HK-/Asien-Erfahrung Pflicht)",
         "Substanz dokumentieren: Mitarbeiter, Büro, Geschäftsentscheidungen vor Ort",
         "Nicht-Mailbox-Status sichern",
-        "DBA Deutschland-HK existiert seit 2011 — Einkünfte werden meist in HK besteuert + DE-Anrechnung möglich",
+        "DBA Deutschland-HK existiert seit 2011, Einkünfte werden meist in HK besteuert + DE-Anrechnung möglich",
         "Bei Holding-Strukturen: kompliziert, unbedingt mit StB",
         "AStG §8 prüfen: aktive Tätigkeit (Handel, Dienstleistung) = grundsätzlich keine Hinzurechnung",
         "AStG §7-14 prüfen: passive Einkünfte (Lizenz-Einnahmen, Zinsen) = Hinzurechnung wenn HK-Steuer < 25 %",
@@ -4218,13 +4218,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Voraussetzung: keine offenen Verbindlichkeiten + alle Mitglieder einverstanden + nicht in Auflösung-Verfahren",
         "Schritt 1: alle Vermögenswerte verteilen (Final Director Salary / Dividende)",
-        "Schritt 2: Bank-Konto schließen (Statrys/Airwallex/HSBC — typisch 1-2 Wochen)",
+        "Schritt 2: Bank-Konto schließen (Statrys/Airwallex/HSBC, typisch 1-2 Wochen)",
         "Schritt 3: Final Audited Accounts vom CPA erstellen (Pflicht für IRD-Approval)",
         "Schritt 4: Final Profits Tax Return einreichen + alle offenen Steuern bezahlen",
         "Schritt 5: 'Notice of No Objection' beim IRD beantragen (HKD 270, 4-6 Wochen Bearbeitung)",
-        "Schritt 6: Form NDR1 (Application for Deregistration) bei Companies Registry einreichen — HKD 420",
-        "Schritt 7: Companies Registry veröffentlicht im 'HK Government Gazette' — 3 Monate Einspruchs-Frist",
-        "Schritt 8: nach 3 Monaten ohne Einspruch: Deregistration wird wirksam — Companies Registry sendet Bestätigung",
+        "Schritt 6: Form NDR1 (Application for Deregistration) bei Companies Registry einreichen, HKD 420",
+        "Schritt 7: Companies Registry veröffentlicht im 'HK Government Gazette', 3 Monate Einspruchs-Frist",
+        "Schritt 8: nach 3 Monaten ohne Einspruch: Deregistration wird wirksam, Companies Registry sendet Bestätigung",
         "Schritt 9: alle Dokumente 7 Jahre archivieren (HK-Compliance + DE-Aufbewahrungsfrist)",
         "Schritt 10: Company Secretary kündigen, Reg-Address abmelden, MPF schließen falls aktiv"
       ],
@@ -4242,16 +4242,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.ird.gov.hk/eng/tax/bus_pft.htm"
         }
       ],
-      "warning": "HK-Ltd nicht 'einfach liegen lassen'. Bei Inactive-LLC ohne Deregistration laufen Audit-Pflicht (HKD 8-25k/Jahr) + Annual Return (HKD 105+) + BR-Renewal (HKD 250) weiter — und CS-Service wenn aktiv.",
+      "warning": "HK-Ltd nicht 'einfach liegen lassen'. Bei Inactive-LLC ohne Deregistration laufen Audit-Pflicht (HKD 8-25k/Jahr) + Annual Return (HKD 105+) + BR-Renewal (HKD 250) weiter, und CS-Service wenn aktiv.",
       "extendedNotes": [
         "Total-Timeline Deregistration: ~6-10 Monate (Audit + IRD-Approval + 3-Monats-Gazette-Period).",
         "Deregistration vs. Striking Off: 'Strike Off' ist behördlicher Akt (Companies Registry leitet ein bei Versäumnis). 'Deregistration' ist freiwillig vom Director initiiert. Deregistration ist die saubere Methode.",
-        "Members' Voluntary Winding Up: nur bei aktiven Firmen mit komplexen Assets/Verbindlichkeiten — kostet HKD 30k-100k Anwalt + Liquidator. Nicht für 'Closed Shell-Firma'.",
-        "Häufiger Fehler: 'Firma einfach nicht mehr nutzen reicht'. Companies Registry strikes off nach 2-3 Jahren Inactivity automatisch — aber Director bleibt für rückwirkende Schulden haftbar.",
-        "Nach Deregistration: 20 Jahre kann Companies Registry Firma 'restore' lassen wenn Schulden auftauchen — Director ist nicht 'frei'.",
+        "Members' Voluntary Winding Up: nur bei aktiven Firmen mit komplexen Assets/Verbindlichkeiten, kostet HKD 30k-100k Anwalt + Liquidator. Nicht für 'Closed Shell-Firma'.",
+        "Häufiger Fehler: 'Firma einfach nicht mehr nutzen reicht'. Companies Registry strikes off nach 2-3 Jahren Inactivity automatisch, aber Director bleibt für rückwirkende Schulden haftbar.",
+        "Nach Deregistration: 20 Jahre kann Companies Registry Firma 'restore' lassen wenn Schulden auftauchen, Director ist nicht 'frei'.",
         "Pro-Tipp: Sleek/Osome/Hawksford bieten Komplett-Deregistration-Service ab HKD 5.000-10.000 (~600-1.200 €) inkl. Audit-Koordination."
       ],
-      "description": "Falls HK-Ltd nicht mehr gebraucht: NICHT einfach laufen lassen — Annual-Report-Pflicht + Audit-Pflicht + BR-Renewal laufen sonst weiter. Zwei Wege: 'Deregistration' (schneller, billiger) ODER 'Members' Voluntary Winding Up' (formell, für aktive Firmen)."
+      "description": "Falls HK-Ltd nicht mehr gebraucht: NICHT einfach laufen lassen, Annual-Report-Pflicht + Audit-Pflicht + BR-Renewal laufen sonst weiter. Zwei Wege: 'Deregistration' (schneller, billiger) ODER 'Members' Voluntary Winding Up' (formell, für aktive Firmen)."
     }
   },
   "dsgvo-shop": {
@@ -4275,7 +4275,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Handelsregister + HRB-Nummer + Registergericht",
         "USt-ID (sobald vorhanden)",
         "Bei Freiberufler: Berufsbezeichnung + Kammer + Berufshaftpflicht",
-        "Inhaltlich Verantwortlicher (V.i.S.d.P.) — typisch Geschäftsführer",
+        "Inhaltlich Verantwortlicher (V.i.S.d.P.), typisch Geschäftsführer",
         "Online-Streitbeilegung-Link (EU-OS-Plattform): https://ec.europa.eu/consumers/odr/",
         "Hinweis Verbraucherstreitbeilegung: nicht teilnahmebereit ODER teilnahmebereit + Schlichter angeben"
       ],
@@ -4294,7 +4294,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Pflicht-Position: 'gut sichtbar, jederzeit erreichbar, leicht erkennbar' — IMMER im Footer + 1-Klick-Link von jeder Seite.",
+        "Pflicht-Position: 'gut sichtbar, jederzeit erreichbar, leicht erkennbar', IMMER im Footer + 1-Klick-Link von jeder Seite.",
         "Häufiger Abmahn-Grund: fehlende oder unleserliche USt-ID, fehlende Rechtsform-Angabe ('XYZ' statt 'XYZ GmbH').",
         "Bei mehreren Marken/Shops gleicher Firma: 1 Impressum reicht, aber jeder Shop muss sein eigenes verlinken."
       ]
@@ -4308,7 +4308,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Datenübertragung in Drittländer (USA-Cookies → EU-US Data Privacy Framework Hinweis)",
         "Betroffenen-Rechte (Auskunft, Löschung, Widerspruch, Beschwerde)",
         "Cookie-Banner mit 3 Auswahl-Buttons: 'Alle akzeptieren' / 'Nur essentiell' / 'Auswahl' (kein Dark Pattern)",
-        "Cookie-Setzung NUR nach Opt-In — Pre-Checked Boxes verboten (EuGH 2019)",
+        "Cookie-Setzung NUR nach Opt-In, Pre-Checked Boxes verboten (EuGH 2019)",
         "Tracking-Tools (Meta-Pixel, GA4, TikTok-Pixel) müssen Consent-gated sein",
         "Newsletter: Double-Opt-In Pflicht + Bestätigungs-Email mit Bestätigungs-Link"
       ],
@@ -4366,14 +4366,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Trusted Shops AGB-Service hat Update-Garantie: bei Gesetzes-Änderung automatische Anpassung. Bei Custom-Anwalts-AGB Pflicht zur jährlichen Review (~300-500 €).",
         "Häufige unwirksame Klauseln: 'Eigentum nach voller Bezahlung' (OK) vs. 'Verfallklausel bei verspäteter Zahlung' (oft unwirksam) vs. 'Garantieausschluss B2C' (UNWIRKSAM)."
       ],
-      "description": "Nicht gesetzlich vorgeschrieben aber dringend empfohlen — regelt Vertragsschluss, Lieferung, Zahlung, Mängelhaftung, Datenschutz-Verweis. Bei B2C zusätzlich strenge AGB-Kontrolle (§§307-309 BGB)."
+      "description": "Nicht gesetzlich vorgeschrieben aber dringend empfohlen, regelt Vertragsschluss, Lieferung, Zahlung, Mängelhaftung, Datenschutz-Verweis. Bei B2C zusätzlich strenge AGB-Kontrolle (§§307-309 BGB)."
     },
     "widerruf": {
       "checklist": [
         "Korrekte gesetzliche Muster-Widerrufsbelehrung (Anlage 2 EGBGB) verwenden",
         "Frist 14 Tage ab Erhalt der Ware (bei mehreren Teil-Lieferungen: ab letztem Paket)",
         "Belehrung muss in Textform vor/spätestens bei Vertragsabschluss + nochmal nach Bestellung per Email",
-        "Muster-Widerrufsformular (Anlage 2B EGBGB) — Pflicht-Beilage",
+        "Muster-Widerrufsformular (Anlage 2B EGBGB), Pflicht-Beilage",
         "Wertersatz-Klausel: Verlust durch Nutzung über Prüfungsumfang hinaus",
         "Ausnahmen ankreuzen: Hygiene-Artikel (entsiegelt), individuell angefertigt, schnell verderblich",
         "Bei Dienstleistungen: Sonder-Klauseln Beginn vor Frist-Ablauf"
@@ -4389,7 +4389,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "warning": "Falsche / fehlende Widerrufsbelehrung: Frist verlängert sich auf 12 Monate + 14 Tage. Plus Abmahn-Risiko 1.000-2.500 €.",
-      "description": "§312g BGB — 14 Tage Widerrufsrecht für B2C-Fernabsatz. Pflicht: rechtzeitige + korrekte Belehrung VOR Vertragsabschluss + Muster-Widerrufsformular."
+      "description": "§312g BGB, 14 Tage Widerrufsrecht für B2C-Fernabsatz. Pflicht: rechtzeitige + korrekte Belehrung VOR Vertragsabschluss + Muster-Widerrufsformular."
     },
     "avv": {
       "checklist": [
@@ -4422,11 +4422,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://stripe.com/legal/dpa"
         }
       ],
-      "description": "Für JEDEN Drittanbieter, der personenbezogene Daten verarbeitet (Hosting, Email, Analytics, Ads, Payment, CRM, etc.) — Pflicht-AVV mit dem Anbieter."
+      "description": "Für JEDEN Drittanbieter, der personenbezogene Daten verarbeitet (Hosting, Email, Analytics, Ads, Payment, CRM, etc.), Pflicht-AVV mit dem Anbieter."
     },
     "abmahn-vermeidung": {
       "checklist": [
-        "Mitgliedschaft in Schutz-Verband (Trusted Shops / Händlerbund) — bekommen automatische Updates + Anwalt im Falle einer Abmahnung",
+        "Mitgliedschaft in Schutz-Verband (Trusted Shops / Händlerbund), bekommen automatische Updates + Anwalt im Falle einer Abmahnung",
         "Jährlicher Self-Audit (Checkliste durch alle Pflicht-Texte)",
         "Newsletter-Subscription bei eRecht24 / IT-Recht Kanzlei (Updates zu neuen Pflichten)",
         "Pre-Submission Test mit DSGVO-Scanner (z.B. Trusted-Shops-Check, GDPR-Check.de)",
@@ -4459,7 +4459,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Verbraucher-Produkt? Ja → GPSR. (B2B-only mit 'professional use' Hinweis = ggf. nicht)",
         "EU-Markt? Verkauf an EU-Verbraucher = ja, auch von außerhalb",
         "Kategorie ausgenommen? Lebensmittel/Pharma/Tiere/Pflanzen → eigene Verordnungen, nicht GPSR",
-        "Andere CE-Verordnung relevant? (z.B. CE-Spielzeug 2009/48, EMV 2014/30, RED 2014/53) — GPSR gilt PARALLEL als 'Catch-all'",
+        "Andere CE-Verordnung relevant? (z.B. CE-Spielzeug 2009/48, EMV 2014/30, RED 2014/53), GPSR gilt PARALLEL als 'Catch-all'",
         "Alle Verkaufs-Kanäle prüfen: eigener Shop + Amazon + Kaufland + eBay + Etsy + soziale Plattformen"
       ],
       "externalLinks": [
@@ -4476,7 +4476,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "responsible-person": {
       "checklist": [
-        "Als EU-Hersteller: du selbst bist Responsible Person — keine externe nötig",
+        "Als EU-Hersteller: du selbst bist Responsible Person, keine externe nötig",
         "Als EU-Importeur: dein EU-Firmensitz reicht",
         "Als Non-EU-Seller (UK/US/HK/CN): Pflicht-Bestellung externe Responsible Person",
         "Service-Auswahl: Vergleich Pricing + Sprachen + Marketplace-Coverage",
@@ -4503,7 +4503,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Service-Pricing 2026: eurp.eu ~30 €/Mon flat, ARS-EU ~50 €/Mon, Belysse 80-120 €/Mon (Premium-Service mit Recall-Hilfe), Avask ~60 €/Mon.",
-        "Eine Responsible Person kann mehrere Hersteller/Marken vertreten — kostenoptimierung möglich.",
+        "Eine Responsible Person kann mehrere Hersteller/Marken vertreten, kostenoptimierung möglich.",
         "Marketplace-Trick: Amazon/eBay/Kaufland akzeptieren Responsible Person nur wenn sie im EU-Verifizierten-Verzeichnis hinterlegt ist. Vor Auswahl prüfen."
       ]
     },
@@ -4512,7 +4512,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Produkt-Beschreibung + Identifikation (Modell-Nummer, Bilder, Materialien)",
         "Risk Assessment (Risiko-Kategorie + Vermeidungs-Maßnahmen + Restrisiken)",
         "Anwendung relevanter EU-Normen (z.B. EN 71 für Spielzeug, EN 60598 für Leuchten)",
-        "Test-Berichte vom Labor (wenn anwendbar — z.B. CE-EMV-Test bei Elektronik)",
+        "Test-Berichte vom Labor (wenn anwendbar, z.B. CE-EMV-Test bei Elektronik)",
         "Konformitätserklärung (DoC) mit Verweis auf alle Normen",
         "Bedienungsanleitung in DE + Sprache des Verkaufs-Markts",
         "Warn-Hinweise + Sicherheits-Symbole",
@@ -4550,12 +4550,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "recall-system": {
       "checklist": [
-        "Customer-Datenbank für Tracking (wer hat welches Produkt + Charge gekauft) — typisch via Email/Order-DB",
+        "Customer-Datenbank für Tracking (wer hat welches Produkt + Charge gekauft), typisch via Email/Order-DB",
         "Charge-/Seriennummern-System einrichten (Pflicht bei vielen Produkten ab 2024)",
         "Recall-Communication-Template (Email + Webseiten-Banner + Marketplace-Buyer-Notification)",
         "Behörden-Meldung-Pfad: BAuA / Safety-Gate-EU-Portal Account vorbereiten",
         "Refund/Replacement-Logistik (Retoure-Adresse, Erstattungs-Prozess)",
-        "Recall-Versicherung evaluieren — typisch 200-500 €/Jahr für mittlere D2C-Brands",
+        "Recall-Versicherung evaluieren, typisch 200-500 €/Jahr für mittlere D2C-Brands",
         "Erste 24h Krisenplan: Wer informiert wen? Eskalations-Pfad?"
       ],
       "externalLinks": [
@@ -4570,17 +4570,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Frist Behörden-Meldung: 2 Werktage nach Kenntnis (Art. 20 GPSR). Bei Verspätung: Bußgeld zusätzlich zur Recall-Pflicht.",
-        "Recall-Häufigkeit DACH 2024: ~3.500 Produkt-Recalls/Jahr (BAuA-Statistik) — deutlich gestiegen seit GPSR.",
-        "Pro-Tipp: jährlicher 'Recall-Drill' (Test-Szenario) — wer macht was, wie lange dauert es, fehlen Daten? Zeigt Lücken auf vor dem Ernstfall."
+        "Recall-Häufigkeit DACH 2024: ~3.500 Produkt-Recalls/Jahr (BAuA-Statistik), deutlich gestiegen seit GPSR.",
+        "Pro-Tipp: jährlicher 'Recall-Drill' (Test-Szenario), wer macht was, wie lange dauert es, fehlen Daten? Zeigt Lücken auf vor dem Ernstfall."
       ],
       "description": "Art. 14 GPSR: bei Sicherheits-Mangel Pflicht zur Korrektur-Maßnahme + Behörden-Meldung binnen 2 Werktagen. Recall-Plan vorbereiten BEVOR ein Vorfall eintritt."
     },
     "marketplace-implications": {
       "checklist": [
-        "Amazon: 'Compliance Reference Section' im Listing-Backend ausfüllen — Responsible Person + EU-Adresse",
+        "Amazon: 'Compliance Reference Section' im Listing-Backend ausfüllen, Responsible Person + EU-Adresse",
         "Kaufland: Hersteller-Daten vollständig + Responsible Person via Mirakl-Connector setzen",
         "eBay: 'Produktinformationen' → 'Hersteller'-Feld + EU-Verantwortlichen-Adresse",
-        "Etsy: 'Listing-Compliance' Bereich seit 2024 — Responsible Person Pflicht für EU-Versand",
+        "Etsy: 'Listing-Compliance' Bereich seit 2024, Responsible Person Pflicht für EU-Versand",
         "Bilder + Hauptbild prüfen: Warnhinweise auf Verpackung sichtbar?",
         "Listing-Beschreibung: Sicherheitshinweise + Anwendungs-Beschränkungen integriert?",
         "DoC (Konformitätserklärung) als PDF-Anhang oder Link zu eigener Seite mit DoC"
@@ -4608,11 +4608,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "EU-grenzüberschreitende B2C-Verkäufe pro Jahr berechnen (kumuliert)",
         "Schwellenwert 10.000 € überschritten? Pflicht zur Anmeldung im Folge-Quartal",
-        "Unter 10.000 €: Wahlrecht — DE-USt anwenden ODER OSS freiwillig",
+        "Unter 10.000 €: Wahlrecht, DE-USt anwenden ODER OSS freiwillig",
         "Marketplace-Verkäufe (Amazon/Kaufland) separat behandeln (Marketplace-Facilitator-Rule)",
         "B2B-Verkäufe NICHT OSS-relevant (Reverse-Charge anwenden)",
-        "Digitale Dienstleistungen (SaaS, eBooks) — OSS-Schema separat (One-Stop-Shop-Union OSS)",
-        "Drittländer-Verkäufe (CH, UK, US, etc.): NICHT OSS — separate Behandlung"
+        "Digitale Dienstleistungen (SaaS, eBooks), OSS-Schema separat (One-Stop-Shop-Union OSS)",
+        "Drittländer-Verkäufe (CH, UK, US, etc.): NICHT OSS, separate Behandlung"
       ],
       "externalLinks": [
         {
@@ -4648,7 +4648,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Kein nachträglicher Wechsel innerhalb des Jahres möglich — wenn du OSS aktivierst, gilt es für das ganze Quartal in dem es aktiviert wurde + alle Folgequartale.",
+        "Kein nachträglicher Wechsel innerhalb des Jahres möglich, wenn du OSS aktivierst, gilt es für das ganze Quartal in dem es aktiviert wurde + alle Folgequartale.",
         "Bei Falsch-Anmeldung: BZSt schickt Korrektur-Aufforderung. Korrekturfrist 14 Tage, dann automatische Strafgebühr."
       ]
     },
@@ -4675,7 +4675,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "marketplace-rolle": {
       "checklist": [
         "Amazon: Steuer-Behandlung im Settings → 'Marketplace Tax Collection' aktiv → Amazon zieht USt ein",
-        "Kaufland: ebenfalls Marketplace-Facilitator seit 2021 — du bekommst NETTO-Auszahlung",
+        "Kaufland: ebenfalls Marketplace-Facilitator seit 2021, du bekommst NETTO-Auszahlung",
         "eBay: Marketplace-Facilitator nur für USA (seit 2019). EU: Verkäufer behält USt-Verantwortung → muss in OSS deklariert werden",
         "Etsy: Marketplace-Facilitator für EU seit 2021",
         "Buchhaltung: Marketplace-Verkäufe in eigener BWA-Position 'Marketplace-Facilitator-Sales' getrennt",
@@ -4704,7 +4704,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "OSS-Filing-Tools: Lexoffice + Easybill haben automatische OSS-Reports. sevDesk seit 2024 ebenfalls. Reduziert manuelle Aufwand auf 15 min pro Quartal.",
-        "Auf Anfrage des Auslands-Finanzamts: BZSt leitet die OSS-Daten an die jeweilige nationale Behörde weiter — du musst nicht direkt mit denen kommunizieren."
+        "Auf Anfrage des Auslands-Finanzamts: BZSt leitet die OSS-Daten an die jeweilige nationale Behörde weiter, du musst nicht direkt mit denen kommunizieren."
       ],
       "description": "OSS-Meldung ist quartalsweise: 30.04. (Q1), 31.07. (Q2), 31.10. (Q3), 31.01. (Q4 Folgejahr). Online im BZSt-Portal mit zugleich-Zahlung."
     },
@@ -4727,7 +4727,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Problem 3: B2B-Verkäufe in OSS gemeldet → falsch (sollte Reverse-Charge mit XI-Nummer-Validierung). Lösung: B2B vom OSS ausschließen, Reverse-Charge-Workflow.",
         "Problem 4: Schwellen-Überschreitung verspätet bemerkt. Lösung: monatliches Tracking mit Alert ab 8.000 € (80 %).",
         "Problem 5: Drittländer-Verkäufe (CH/UK) versehentlich in OSS. Lösung: nur EU-27 in OSS, separate USt-Behandlung pro Drittland (CH-MwSt-Pflicht ab 100k CHF, UK-VAT-Reg ab £85k).",
-        "Problem 6: Kein OSS-konformes Tool. Lösung: Lexoffice / Easybill / sevDesk OSS-Modul aktivieren — Kosten 0–10 €/Mon zusätzlich."
+        "Problem 6: Kein OSS-konformes Tool. Lösung: Lexoffice / Easybill / sevDesk OSS-Modul aktivieren, Kosten 0-10 €/Mon zusätzlich."
       ],
       "description": "Pitfalls bei OSS-Setup + häufige BZSt-Korrektur-Aufforderungen."
     }
@@ -4751,7 +4751,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Pan-EU: Amazon verteilt Inventory automatisch auf 7 Länder (DE/UK/FR/IT/ES/NL/PL). Vorteil: Prime-Versand in alle Länder + 25 % niedrigere FBA-Fees. Nachteil: USt-Registrierung in 6 zusätzlichen Ländern Pflicht.",
         "CEE (DE+PL+CZ): Mid-Tier-Option. USt-Reg nur DE + PL + CZ. Schnellerer EU-Versand als EFN, weniger komplex als Pan-EU.",
         "Sweet-Spot: bei < 500k € EU-Umsatz/Jahr → EFN + OSS. Bei 500k-2M € → CEE. Ab 2M € → Pan-EU.",
-        "Brexit-Auswirkung: UK ist NICHT mehr in Pan-EU enthalten — separate Pflicht-Registrierung + Setup für Amazon UK."
+        "Brexit-Auswirkung: UK ist NICHT mehr in Pan-EU enthalten, separate Pflicht-Registrierung + Setup für Amazon UK."
       ]
     },
     "ust-registrierungen": {
@@ -4795,7 +4795,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Im Seller Central: 'Inventory → Pan-European FBA → Aktivieren'",
         "Bestätigung der USt-IDs in allen 6 Pan-EU-Ländern",
-        "Inventory-Placement-Service (IPS) optional buchen — Amazon optimiert Lager-Standorte",
+        "Inventory-Placement-Service (IPS) optional buchen, Amazon optimiert Lager-Standorte",
         "Erste FBA-Sendung an DE-Lager senden → Amazon verteilt automatisch",
         "Bei spezifischen Produkten: 'NIE in Land X' (z.B. NL bei diätetischen Lebensmitteln) → Block-Setting",
         "Inventory-Verteilung via 'Stranded Inventory Report' überwachen",
@@ -4814,7 +4814,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Keyword-Recherche pro Sprache mit Helium10 Magnet (jedes Land hat andere Top-Keywords!)",
         "Title + 5 Bullet Points + Description + Backend-Keywords pro Sprache anpassen",
         "A+ Content auf Englisch (universal) + lokale Anpassung wenn Brand-spezifische Begriffe",
-        "Lokale Maße: cm/inch, Gewicht in kg/lbs, Spannung 230V/120V — pro Land anpassen",
+        "Lokale Maße: cm/inch, Gewicht in kg/lbs, Spannung 230V/120V, pro Land anpassen",
         "Local Pricing: lokale Wettbewerber-Analyse, Kaufkraft-Anpassung"
       ],
       "externalLinks": [
@@ -4840,7 +4840,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "compliance-pro-land": {
       "checklist": [
         "DE: LUCID + duales System ✓ (schon aktiv)",
-        "FR: Citeo (Eco-Emballage) — 0,1-1 €/kg Verpackung/Jahr",
+        "FR: Citeo (Eco-Emballage), 0,1-1 €/kg Verpackung/Jahr",
         "IT: CONAI (Consorzio Nazionale Imballaggi) ähnlich LUCID",
         "ES: Ecoembes Verpackungs-Reg",
         "UK: Producer Responsibility Obligations (Packaging Waste) seit Brexit",
@@ -4898,11 +4898,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "tiktok-shop-launch": {
     "voraussetzungen": {
       "checklist": [
-        "Gewerbe angemeldet – ohne Handelsregister als „gewerbliche:r Verkäufer:in“ (Steuernummer, Geschäftsadresse, Ausweis), als e.K. oder GbR zusätzlich USt-IdNr, als UG/GmbH Handelsregisternummer",
+        "Gewerbe angemeldet, ohne Handelsregister als „gewerbliche:r Verkäufer:in“ (Steuernummer, Geschäftsadresse, Ausweis), als e.K. oder GbR zusätzlich USt-IdNr, als UG/GmbH Handelsregisternummer",
         "Steuernummer aktiv (bei e.K./GbR plus USt-IdNr)",
         "EU-Geschäftskonto (kein Privatkonto)",
         "EU-Lager-Adresse (Versand aus EU bevorzugt)",
-        "Eingetragene Marke (DPMA/EUIPO) für Brand Registry — STARK empfohlen",
+        "Eingetragene Marke (DPMA/EUIPO) für Brand Registry, STARK empfohlen",
         "Mind. 5 Produkte für Initial-Listing (TikTok bevorzugt aktive Sortimente)",
         "TikTok-Account mit > 1.000 Followern hilft bei Genehmigung (nicht Pflicht)"
       ],
@@ -4932,7 +4932,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Häufiger Ablehnungsgrund: unvollständige HR-Auszüge oder Adresse weicht zwischen HR und Seller-Account ab. Konsistenz prüfen.",
-        "Beauty/Health/Supplements: zusätzliche Genehmigung Pflicht — Produkt-Sicherheits-Dokumentation + Test-Berichte einreichen."
+        "Beauty/Health/Supplements: zusätzliche Genehmigung Pflicht, Produkt-Sicherheits-Dokumentation + Test-Berichte einreichen."
       ]
     },
     "produkt-upload": {
@@ -4957,8 +4957,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bio: 80 Zeichen, Brand-Mission + USP + Link zur Webseite",
         "Profil-Link: Linktree / Beacons / Webseite",
         "Highlight-Reels mit Top-Produkten + Kunden-Reviews",
-        "Shop-Tab im Profil sichtbar nach Genehmigung — Produkte nach Kategorie sortiert",
-        "Verifikations-Antrag (blue Checkmark) — empfohlen ab 10k Followern"
+        "Shop-Tab im Profil sichtbar nach Genehmigung, Produkte nach Kategorie sortiert",
+        "Verifikations-Antrag (blue Checkmark), empfohlen ab 10k Followern"
       ],
       "description": "TikTok-Profil bekommt automatisch 'Shop'-Tab nach Genehmigung. Profil + Shop-Tab müssen Brand-konsistent sein."
     },
@@ -4966,13 +4966,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Equipment: Smartphone (Stativ) + LED-Ringlight + externes Mikrofon",
         "Beleuchtung: weiches Licht von vorn, kein Rückenlicht",
-        "Hintergrund: Brand-konsistent (Logo / Produkt-Display) — kein zerwühltes Zimmer",
+        "Hintergrund: Brand-konsistent (Logo / Produkt-Display), kein zerwühltes Zimmer",
         "Live-Plan: Intro (2 min) → Produkt-Demo (10-15 min) → Q&A (5-10 min) → Promo-CTA (5 min)",
         "Live-Frequenz: 2-3x/Woche, immer gleiche Zeit (Routine für Follower)",
         "Beste Zeiten DE: 19:00-22:00 wochentags, 14:00-22:00 Wochenende",
         "Produkt-Tags im Live: nach links wischen → Karussell mit Produkten zum direkten Kauf",
         "Promo-Codes für Live-Zuschauer (10-23 % Rabatt) für Conversion-Boost",
-        "Replay aktivieren — Video bleibt 30 Tage als VOD verfügbar",
+        "Replay aktivieren, Video bleibt 30 Tage als VOD verfügbar",
         "Analytics: Concurrent-Viewers, Add-to-Cart, Sales während Live"
       ],
       "externalLinks": [
@@ -5004,10 +5004,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Affiliate-Network ist DER Conversion-Treiber für neue Brands — eigene Reichweite erst aufbauen dauert. Mit 10-20 aktiven Creators kommt schnell Traffic.",
+        "Affiliate-Network ist DER Conversion-Treiber für neue Brands, eigene Reichweite erst aufbauen dauert. Mit 10-20 aktiven Creators kommt schnell Traffic.",
         "Provisions-Sweet-Spot: 15-23 % macht Creators motiviert ohne deine Marge zu killen."
       ],
-      "description": "TikTok Shop Affiliate-Network — Creators bewerben deine Produkte gegen Provision. Self-Service 'Open Plan' (alle Creator) oder 'Targeted Plan' (eingeladen)."
+      "description": "TikTok Shop Affiliate-Network, Creators bewerben deine Produkte gegen Provision. Self-Service 'Open Plan' (alle Creator) oder 'Targeted Plan' (eingeladen)."
     },
     "ads-skalierung": {
       "checklist": [
@@ -5038,14 +5038,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Multi-Streaming-Strategie**: Live-Stream parallel auf TikTok + Instagram Live + YouTube Live = 3x Reach. Restream-Setup einmal, dann reine Operational",
         "**Equipment-Upgrade**: Phone + Ringlight reicht für Start. Skalierungs-Stack: Sony A7C + 24mm + Studio-Beleuchtung (Aputure 120D) + RØDE-Mikrofon (3-5k € Setup, sieht 10x professioneller aus)",
         "**Compliance Pflicht** (auch TikTok Shop, oft vergessen): LUCID Verpackungsregister, GPSR Responsible Person ab 13.12.2024, WEEE für Elektronik, BattDG für Batterien, CPNP für Kosmetik. Identische Anforderungen wie Amazon",
-        "**EU Responsible Person für non-EU-Seller**: Service-Provider (eurp.eu, ars-eu.com) ab 30-80 €/Mon — Pflicht ab GPSR",
+        "**EU Responsible Person für non-EU-Seller**: Service-Provider (eurp.eu, ars-eu.com) ab 30-80 €/Mon, Pflicht ab GPSR",
         "**Creator-Marketplace-Tools jenseits TikTok**: Insense (UGC + Paid Posts, 200-1k €/Mon), Aspire (Influencer-Discovery), Tribe (UGC-Network), Modash (TikTok-Influencer-Search-Engine)",
         "**Customer-Service-Stack**: TikTok Seller Center hat eingebaute Messages, aber bei > 50 Tickets/Tag → eDesk (Multi-Channel inkl. TikTok), Gorgias (E-Commerce-Standard). SLA < 24h Pflicht",
         "**TikTok Shop Analytics-Routine**: Seller Center Dashboards wöchentlich prüfen (Live-Performance, Affiliate-Performance, Search-Traffic, Sales-by-Source)",
         "**Returns-Workflow**: 14-Tage-Widerrufsrecht für DACH-Käufer. Returns-Adresse muss in EU sein (sonst Pflicht-Setup von EU-Adresse)",
         "**Ads-Tracking-Pixel + TikTok Events API**: Server-Side-Tracking via Stape für iOS-14.5-Schutz (gleiches Setup wie Meta CAPI)",
         "**Brand-Sicherheit**: TikTok Brand-Registry-Setup (ähnlich Amazon), schützt vor Hijacking durch Affiliates die deine Marken-Bilder nutzen",
-        "**Top-Creator-Strategie**: Top 5-10 Creators in deiner Niche manuell anschreiben (höhere Custom-Provision 25-30 % + Free-Sample + persönliche Beziehung) — bringt 70 % der Affiliate-Sales"
+        "**Top-Creator-Strategie**: Top 5-10 Creators in deiner Niche manuell anschreiben (höhere Custom-Provision 25-30 % + Free-Sample + persönliche Beziehung), bringt 70 % der Affiliate-Sales"
       ],
       "externalLinks": [
         {
@@ -5109,10 +5109,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.gorgias.com"
         }
       ],
-      "warning": "TikTok Shop hat ALLE EU-Compliance-Pflichten wie Amazon — LUCID + GPSR + WEEE sind nicht optional. Setup vor erstem Verkauf, sonst Listing-Sperre + Bußgeld.",
+      "warning": "TikTok Shop hat ALLE EU-Compliance-Pflichten wie Amazon, LUCID + GPSR + WEEE sind nicht optional. Setup vor erstem Verkauf, sonst Listing-Sperre + Bußgeld.",
       "extendedNotes": [
         "**Multi-Streaming-ROI**: 3x Reach ohne 3x Aufwand = direkter Hebel. Restream-Cost 20-40 $/Mon vs. zusätzliche Insta+YouTube-Reach.",
-        "**Compliance TikTok Shop**: Für Produkte gelten dieselben Pflichten wie in jedem Online-Shop (LUCID, bei Elektro WEEE, GPSR). Setup VOR dem ersten Listing – Ablauf im Guide „TikTok Shop starten“.",
+        "**Compliance TikTok Shop**: Für Produkte gelten dieselben Pflichten wie in jedem Online-Shop (LUCID, bei Elektro WEEE, GPSR). Setup VOR dem ersten Listing, Ablauf im Guide „TikTok Shop starten“.",
         "**Creator-Provisions-Math**: durchschnittliche Affiliate-Conversion 2-5 %. Creator mit 50k Followern × 2 % Engagement × 3 % Conversion × 50 € AOV = 1.500 € Sales, davon 20 % = 300 € Provision pro Aktion.",
         "**Ads-vs-Organic-Mix**: TikTok bevorzugt Mix von 70 % organisch + 30 % ad-boosted (Spark Ads). Pure-Ad-Brands haben niedrigere organische Reach (Algorithmus-Penalty)."
       ],
@@ -5126,7 +5126,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Integration mit Shop-System prüfen (Shopify, WooCommerce, Amazon, Kaufland)",
         "Pricing-Curve für deine Skalierung kalkulieren (Sweet-Spot bei deiner Größe)",
         "Free-Trial mit Pilot-Flow testen (1-2 Wochen)",
-        "Entscheidung treffen — Migration später teuer"
+        "Entscheidung treffen, Migration später teuer"
       ],
       "externalLinks": [
         {
@@ -5151,7 +5151,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "MailerLite: 1k Kontakte gratis (Free-Plan), ab 9 €/Mon bis 1k. Sweet-Spot für Brands < 5k Käufer.",
         "Brevo: 300 Emails/Tag gratis. SMS-Integration kommt mit. Gut für Multi-Channel.",
         "ActiveCampaign: Premium-Automation (CRM-ähnlich), 15-159 €/Mon je nach Plan. Nur sinnvoll bei komplexen Customer-Journeys.",
-        "Migration zwischen Tools schmerzhaft (Templates + Flows neu bauen) — Tool-Wahl gut überlegen."
+        "Migration zwischen Tools schmerzhaft (Templates + Flows neu bauen), Tool-Wahl gut überlegen."
       ]
     },
     "shop-integration": {
@@ -5188,7 +5188,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "welcome-flow-email1": {
       "checklist": [
-        "Subject: 'Willkommen — hier ist dein 10 % Code' (Open-Rate-Hebel)",
+        "Subject: 'Willkommen, hier ist dein 10 % Code' (Open-Rate-Hebel)",
         "Pre-Header-Text: USP + Urgency (z.B. 'Code gilt nur 14 Tage')",
         "Hero-Bild: Brand-Hauptbild oder Lifestyle-Shot",
         "Headline: 'Willkommen bei [Brand]!'",
@@ -5205,8 +5205,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Email 2 (+1 Tag): Subject 'Diese Produkte lieben unsere Kunden'",
         "Email 2 Content: Top-3-Bestseller + Customer-Reviews (mit Sternen)",
         "Email 3 (+3 Tage): Subject '[Founder]: Wie wir [Brand] gestartet haben'",
-        "Email 3 Content: Founder-Story (warum + wie + wohin) — Trust-Hebel",
-        "Email 4 (+5 Tage): Subject 'Letzte Erinnerung — dein Code läuft bald ab'",
+        "Email 3 Content: Founder-Story (warum + wie + wohin), Trust-Hebel",
+        "Email 4 (+5 Tage): Subject 'Letzte Erinnerung, dein Code läuft bald ab'",
         "Email 4 Content: Discount-Reminder + Top-Produkte + 7 Tage Restzeit",
         "Jede Email: 1 klare CTA (nicht 5 verschiedene)",
         "Jede Email: DSGVO-Footer + Mobile-First"
@@ -5219,7 +5219,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Email 5 Content: Anwendungs-Tipps + UGC-Bilder + Video",
         "Email 6 (+14 Tage): Subject 'Spar mit unseren Bundles'",
         "Email 6 Content: Bundle-Empfehlung + Cross-Sell + Letzter Reminder",
-        "Email 7 (+21 Tage): Subject 'Bleib dran — das kommt nächste Woche'",
+        "Email 7 (+21 Tage): Subject 'Bleib dran, das kommt nächste Woche'",
         "Email 7 Content: Newsletter-Übergang (regelmäßiger Content-Plan)",
         "Tagging: Subscribers die nicht gekauft haben → separate Nurture-Liste",
         "Tagging: Käufer → in Post-Purchase-Flow überleiten"
@@ -5229,7 +5229,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "welcome-flow-test": {
       "checklist": [
         "Test-Sign-Up via Pop-Up auf eigener Webseite",
-        "Email 1 in Inbox prüfen (NICHT Spam) — Mail-Tester-Score > 8/10",
+        "Email 1 in Inbox prüfen (NICHT Spam), Mail-Tester-Score > 8/10",
         "Discount-Code testen: funktioniert beim Checkout?",
         "Email-Rendering in Gmail + Outlook + Apple Mail prüfen",
         "Mobile-Rendering testen (Gmail-App, Apple Mail)",
@@ -5248,7 +5248,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.litmus.com"
         }
       ],
-      "warning": "Spam-Score < 8/10 = 30-50 % der Emails landen im Spam. VOR Go-Live optimieren — danach Sender-Reputation schwer zu reparieren.",
+      "warning": "Spam-Score < 8/10 = 30-50 % der Emails landen im Spam. VOR Go-Live optimieren, danach Sender-Reputation schwer zu reparieren.",
       "description": "Vor Aktivierung: kompletter Flow durchspielen + Email-Rendering testen."
     },
     "cart-recovery": {
@@ -5293,7 +5293,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "deliverability": {
       "checklist": [
-        "DKIM (DomainKeys Identified Mail) konfigurieren — Pflicht für Gmail/Outlook seit 2024",
+        "DKIM (DomainKeys Identified Mail) konfigurieren, Pflicht für Gmail/Outlook seit 2024",
         "SPF (Sender Policy Framework) DNS-Eintrag",
         "DMARC-Policy mit p=none (Monitoring) → später p=reject",
         "Eigene Sender-Domain (newsletter@deinedomain.de statt notifications@klaviyo.com)",
@@ -5406,7 +5406,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "tool-wahl": {
       "checklist": [
         "Aktuelles System inventarisieren (Excel? Papier? Andere Software?)",
-        "StB-Vorgabe prüfen — viele DE-StB nutzen NUR DATEV",
+        "StB-Vorgabe prüfen, viele DE-StB nutzen NUR DATEV",
         "Anzahl Rechnungen/Mon + Komplexität (Marketplace, Multi-Country) bewerten",
         "Free-Trial mit eigenen Daten testen (1-2 Wochen)",
         "Tool-Wahl treffen + Vertragsabschluss"
@@ -5432,9 +5432,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Lexoffice (Lexware): Marktführer DACH-KMU. Cloud, einfache UX, Multi-Marketplace-Integrationen (Amazon/Shopify/Stripe). Pricing 11-55 €/Mon. Sweet-Spot für Online-Brands.",
         "sevDesk: Lexoffice-Alternative, ähnliche UX, oft etwas günstiger. Pricing 9-55 €/Mon. Stark in Rechnungs-Workflows.",
-        "DATEV Unternehmen Online: Standard für jeden StB. Komplex aber mächtig — wenn dein StB DATEV nutzt, ist es Pflicht-Tool. Pricing 25-100 €/Mon.",
+        "DATEV Unternehmen Online: Standard für jeden StB. Komplex aber mächtig, wenn dein StB DATEV nutzt, ist es Pflicht-Tool. Pricing 25-100 €/Mon.",
         "Buchhaltungsbutler: günstige Alternative für Selbstständige (KU). Weniger Features, ab 9 €/Mon.",
-        "Migration zwischen Tools schmerzhaft — Tool-Wahl gut überlegen. Wechsel typisch nur am Jahres-Anfang sinnvoll."
+        "Migration zwischen Tools schmerzhaft, Tool-Wahl gut überlegen. Wechsel typisch nur am Jahres-Anfang sinnvoll."
       ]
     },
     "bank-sync": {
@@ -5503,7 +5503,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "StB-Auswahl: bevorzugt mit DATEV-Erfahrung (90 % der DE-StB)",
         "Tool → DATEV-Export-Format (CSV oder Stapel-Format)",
         "Monatliches/quartalsweises Hand-off via DATEV-Cloud oder Email",
-        "Belegtransfer: Lexoffice/sevDesk → StB-Mandanten-Account",
+        "Belegtransfer: Lexoffice/sevDesk → Steuerberater-Zugang",
         "Quartals-Review-Termin mit StB (digital/Telefon, ~1-2h)",
         "Year-End: Jahresabschluss + Steuer-Erklärung durch StB",
         "GoBD-Compliance bestätigt durch StB-Verzeichnis"
@@ -5553,8 +5553,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Beteiligung an DE-/Auslands-GmbH ≥ 1 % (auch indirekt via Holding)?",
         "Wohnsitz-Status: 7 Jahre in 12 Jahren in DE = §6 AStG greift",
-        "Wegzug ins Zielland geplant — EU/EWR oder Drittland?",
-        "Anteils-Wert (Verkehrswert minus Anschaffungskosten) — Basis für Steuer-Berechnung",
+        "Wegzug ins Zielland geplant, EU/EWR oder Drittland?",
+        "Anteils-Wert (Verkehrswert minus Anschaffungskosten), Basis für Steuer-Berechnung",
         "Anteile in Privatvermögen (typisch) oder Betriebsvermögen?",
         "Bei Familien-Pool: alle Familienmitglieder mit ≥ 1 % betroffen"
       ],
@@ -5580,13 +5580,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Plus Soli 5,5 % auf ESt-Anteil = +29.330 €",
         "TOTAL ohne Stundung: 562.580 € sofort fällig"
       ],
-      "warning": "Bei Wegzug ohne Vorbereitung wird die Steuer SOFORT fällig — kann Wegzug finanziell unmöglich machen."
+      "warning": "Bei Wegzug ohne Vorbereitung wird die Steuer SOFORT fällig, kann Wegzug finanziell unmöglich machen."
     },
     "stundung-eu": {
       "checklist": [
         "Wegzugs-Termin festlegen + Vorlauf 6-12 Monate",
         "Antrag auf Ratenzahlung (§6 Abs. 4 AStG) beim Wohnsitz-FA",
-        "7 gleiche Jahresraten, zinslos — i.d.R. nur gegen Sicherheitsleistung (Bankbürgschaft/Verpfändung)",
+        "7 gleiche Jahresraten, zinslos, i.d.R. nur gegen Sicherheitsleistung (Bankbürgschaft/Verpfändung)",
         "Gilt für wesentliche Beteiligungen ≥ 1 % (§17 EStG); betrifft EU/EWR UND Drittland (USA/CH/HK) gleichermaßen",
         "Bei Veräußerung der Anteile: offener Restbetrag sofort fällig + Anrechnung lokaler Steuer",
         "Rückkehrerregelung: bei Rückzug nach DE binnen 7 Jahren (auf Antrag bis 12) entfällt die Steuer rückwirkend (§6 Abs. 3 AStG)"
@@ -5599,7 +5599,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Top-Wegzug-Länder EU/EWR: Portugal (NHR endet 2024, neue Optionen), Italien (Impatriati), Zypern (Non-Dom), Malta (Non-Dom), Niederlande (30 %-Ruling).",
-        "Substanz im Zielland Pflicht: Wohnsitz, Sozialleben, Geschäftsentscheidungen — keine Mailbox-Anmeldung."
+        "Substanz im Zielland Pflicht: Wohnsitz, Sozialleben, Geschäftsentscheidungen, keine Mailbox-Anmeldung."
       ]
     },
     "stundung-drittland": {
@@ -5619,12 +5619,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Holding-GmbH gründen (typisch DE, da DE-Holding bei DE-Op günstig)",
         "Op-GmbH-Anteile in Holding einbringen via §21 UmwStG (steuerneutral)",
         "7-Jahres-Sperrfrist beachten (steuerpflichtige Veräußerung wenn früher verkauft)",
-        "Holding kann Op-GmbH später § 8b KStG-steuerbegünstigt verkaufen (95 % steuerfrei)",
+        "Holding kann Op-GmbH später § 8b KStG-steuerbegünstigt verkaufen (95 % steuerbegünstigt)",
         "Bei Wegzug: nur Holding-Anteile auf §6 AStG geprüft (oft niedrigerer Verkehrswert wenn frisch gegründet)",
-        "Alternative: Holding im Zielland (z.B. Zypern Limited) — komplex, Substanz-Pflicht"
+        "Alternative: Holding im Zielland (z.B. Zypern Limited), komplex, Substanz-Pflicht"
       ],
       "extendedNotes": [
-        "Variante: Familien-Pool-GmbH (FPG) statt einzelnen Anteilen — teilt Wegzug-Steuer auf mehrere Familienmitglieder.",
+        "Variante: Familien-Pool-GmbH (FPG) statt einzelnen Anteilen, teilt Wegzug-Steuer auf mehrere Familienmitglieder.",
         "Bei aktiver Op-GmbH-Tätigkeit + DE-Holding: Op-GmbH bleibt operativ in DE, du wohnst woanders. Gewinn-Verlagerung über Holding-Ausschüttung möglich."
       ],
       "description": "Strategie 1: Holding-GmbH gründen + Op-GmbH-Anteile einbringen (§21 UmwStG, 7-Jahres-Sperrfrist). Bei Wegzug: nur Holding-Anteile betroffen, Op-GmbH bleibt steuerlich unverändert."
@@ -5680,7 +5680,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "VSOP (Virtual Stock Options): Mitarbeiter bekommt KEIN Anteil, sondern Bonus-Versprechen bei Exit. Vorteil: einfach, keine Notar-Kosten, kein Cap-Table-Eintrag. Nachteil: Mitarbeiter ist nicht emotional 'Mitgesellschafter'.",
         "ESOP (Employee Stock Option Plan): Optionen auf echte GmbH-Anteile, Ausübung typisch bei Exit oder Vesting-Erfüllung. Mehr Aufwand (Anwalt + Notar), aber 'echtes Eigentum' = höhere Bindung.",
         "Echte Anteile (Hurdle Shares / Sweat Equity): direkt GmbH-Anteile übertragen. Sofort Mitgesellschafter mit Stimmrecht. Hohes Commitment-Signal, aber komplexe Strukturen bei mehreren Mitarbeitern.",
-        "Zukunftsfinanzierungsgesetz seit 2024 (§19a EStG): nachgelagerte Besteuerung für ESOP — Steuer erst bei Verkauf statt bei Übertragung. GAME-CHANGER für DE-Startups.",
+        "Zukunftsfinanzierungsgesetz seit 2024 (§19a EStG): nachgelagerte Besteuerung für ESOP, Steuer erst bei Verkauf statt bei Übertragung. GAME-CHANGER für DE-Startups.",
         "Sweet-Spot 2026: VSOP für ersten 5-10 Mitarbeiter (einfach), ESOP ab 10+ Mitarbeitern (skalierbar) mit Zukunftsfinanzierungsgesetz-Vorteil."
       ]
     },
@@ -5852,12 +5852,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "exit-szenarien": {
       "checklist": [
-        "Drag-Along: bei Mehrheits-Beschluss (>75 %) für Verkauf können Minderheits-Founder zum Mitverkauf gezwungen werden — Voraussetzung für Exit-Fähigkeit",
+        "Drag-Along: bei Mehrheits-Beschluss (>75 %) für Verkauf können Minderheits-Founder zum Mitverkauf gezwungen werden, Voraussetzung für Exit-Fähigkeit",
         "Tag-Along: wenn Mehrheits-Founder verkauft, dürfen Minderheit zu gleichen Konditionen mitverkaufen",
         "Right of First Refusal (RoFR): bei Anteils-Verkauf eines Founders haben anderen Vorkaufsrecht zu gleichen Konditionen",
         "Lock-Up-Period: Founder dürfen Anteile in den ersten 3-5 Jahren nicht verkaufen ohne Konsens",
         "IPO/Trade-Sale-Klausel: bei Liquidity-Event automatische Anteils-Verteilung nach Cap-Table",
-        "Liquidations-Präferenz: Investoren bekommen ihren Investment vor Founders zurück (1x, 2x oder mehr — Verhandlungsfrage)"
+        "Liquidations-Präferenz: Investoren bekommen ihren Investment vor Founders zurück (1x, 2x oder mehr, Verhandlungsfrage)"
       ],
       "description": "Pflicht-Klauseln: Drag-Along (Mehrheit kann Minderheit zum Verkauf zwingen), Tag-Along (Minderheit darf bei Mehrheits-Verkauf mitverkaufen), Right-of-First-Refusal (Co-Founder hat Vorkaufsrecht)."
     },
@@ -5865,8 +5865,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Stufe 1: Direkt-Gespräch (Pflicht 14 Tage Frist)",
         "Stufe 2: Externer Mediator (typisch 200-400 €/Std, 1-3 Sitzungen)",
-        "Stufe 3: Schiedsgericht (DIS-Schiedsklausel im Vertrag) — vertraulich, schneller als Gericht",
-        "Stufe 4: Ordentliches Gericht (letztes Mittel — vermeiden!)",
+        "Stufe 3: Schiedsgericht (DIS-Schiedsklausel im Vertrag), vertraulich, schneller als Gericht",
+        "Stufe 4: Ordentliches Gericht (letztes Mittel, vermeiden!)",
         "Buy-Out-Mechanismus: ein Founder kann den anderen zum Buy-Out zwingen, wenn unauflösbar (Russian-Roulette / Texas-Shoot-Out)",
         "Russian-Roulette: A bietet Preis pro Anteil, B kann zu diesem Preis kaufen ODER verkaufen",
         "Texas Shoot-Out: beide bieten verdeckt einen Preis, höchster Bieter kauft",
@@ -5888,21 +5888,21 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "ip-und-confidentiality": {
       "checklist": [
         "Alle IP der Founders (vor + während Firmen-Tätigkeit) wird automatisch der GmbH zugeordnet",
-        "Patente, Marken, Software-Code, Designs — alle assigned",
+        "Patente, Marken, Software-Code, Designs, alle assigned",
         "Externe Auftrags-Arbeiten: Founder kann keine konkurrierende Tätigkeit für Dritte ohne Zustimmung",
-        "Confidentiality: Pflicht-Verschwiegenheit über Geschäfts-Geheimnisse — bleibt 5 Jahre nach Austritt",
+        "Confidentiality: Pflicht-Verschwiegenheit über Geschäfts-Geheimnisse, bleibt 5 Jahre nach Austritt",
         "Non-Compete: 12-24 Monate nach Austritt kein Aufbau eines direkten Wettbewerbers (in DE: muss bezahlt werden, ~50 % letzter Vergütung pro Jahr)",
         "Non-Solicitation: 12-24 Monate kein Abwerben von Kunden + Mitarbeitern"
       ],
-      "description": "Founder-IP (Code, Designs, Patente) MUSS auf die GmbH übertragen werden — sonst kann ein Founder bei Streit IP zurückziehen + Firma killen."
+      "description": "Founder-IP (Code, Designs, Patente) MUSS auf die GmbH übertragen werden, sonst kann ein Founder bei Streit IP zurückziehen + Firma killen."
     },
     "anwalt-doku": {
       "checklist": [
-        "Anwalt mit Startup-Erfahrung (nicht General-Anwalt) — 2.000-5.000 € pro Custom-Vertrag",
+        "Anwalt mit Startup-Erfahrung (nicht General-Anwalt), 2.000-5.000 € pro Custom-Vertrag",
         "Mediations-Klausel + DIS-Schiedsklausel einbauen",
         "Vesting-Mechanismus über Treuhand oder Verfallklausel (Notar-Pflicht!)",
         "Cap-Table-Tool wie Carta / Ledgy von Tag 1 nutzen (vermeidet spätere Recht-Streitigkeiten)",
-        "Jährlicher Review-Termin (Founder + Anwalt) — Anpassung an Wachstum",
+        "Jährlicher Review-Termin (Founder + Anwalt), Anpassung an Wachstum",
         "Bei VC-Runde: SHA (Shareholders Agreement) ersetzt Founder-Agreement teilweise"
       ],
       "externalLinks": [
@@ -5946,14 +5946,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "exist-stipendium": {
       "checklist": [
         "Voraussetzung: bis 5 Jahre nach Hochschul-Abschluss (oder noch im Studium)",
-        "Tech-Bezug + Innovations-Charakter (KEIN reines E-Commerce — muss Tech-IP haben)",
+        "Tech-Bezug + Innovations-Charakter (KEIN reines E-Commerce, muss Tech-IP haben)",
         "Hochschul-Anbindung suchen (Mentor-Professor oder Gründer-Center der Uni)",
         "Antrag-Inhalt: Idee + Markt + Team + Meilensteine + Finanzplan 12 Monate",
         "Lebensunterhalt: 3.000 €/Monat (Promovierte 3.500 €), 12 Monate",
         "Coaching: 5.000 € Jahres-Budget für externe Berater",
         "Sachmittel: 30.000 € pro Team (Tech-Equipment, Software-Lizenzen)",
         "Antragsbearbeitung: 8-16 Wochen via Hochschul-Gründer-Center",
-        "Erfolgsquote: ~30 % der Anträge — qualitäts-fokussierter Antrag entscheidend"
+        "Erfolgsquote: ~30 % der Anträge, qualitäts-fokussierter Antrag entscheidend"
       ],
       "externalLinks": [
         {
@@ -5993,7 +5993,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Hausbank-Wahl wichtig: nicht jede Bank ist KfW-affin. Kontist, FYRST, Holvi, Genossenschaftsbanken sind oft entgegenkommender als Großbanken.",
-        "Bei Ablehnung Hausbank: andere Bank fragen — KfW-Förderung ist nicht ausgeschlossen, nur weil eine Bank ablehnt."
+        "Bei Ablehnung Hausbank: andere Bank fragen, KfW-Förderung ist nicht ausgeschlossen, nur weil eine Bank ablehnt."
       ]
     },
     "invest-bafa": {
@@ -6055,7 +6055,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "HTGF-Voraussetzung: TGFS-Bewertung + Tech-Innovation + skalierbares Business",
         "EIC Accelerator: 0,5-2,5 Mio Grant + bis 15 Mio Equity, EU-weit",
         "EIC-Voraussetzung: Innovations-Charakter, Marktreife in 12-24 Mon, EU-Bezug",
-        "EIC-Antrags-Erfolgsquote: ~5-10 % — extrem kompetitiv, aber lebensverändernd bei Erfolg",
+        "EIC-Antrags-Erfolgsquote: ~5-10 %, extrem kompetitiv, aber lebensverändernd bei Erfolg",
         "Kombinations-Strategie: EXIST → HTGF Pre-Seed → EIC Accelerator (typischer DACH-Tech-Path)"
       ],
       "externalLinks": [
@@ -6079,7 +6079,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Antrags-Quality > Quantity: 1 hochwertiger EXIST-Antrag schlägt 3 mittelmäßige.",
-        "Markt-Größe quantifizieren: TAM/SAM/SOM mit Quellen — kein Bauchgefühl.",
+        "Markt-Größe quantifizieren: TAM/SAM/SOM mit Quellen, kein Bauchgefühl.",
         "Team-Komplementarität zeigen: tech-CTO + business-CEO ist Standard. Single-Founder-Team wird oft abgelehnt.",
         "Meilensteine quantifizieren: 'in 6 Monaten 100 Beta-Kunden' statt 'wir wollen wachsen'.",
         "Finanzplan realistisch: kein Hockey-Stick-Forecast ohne Begründung.",
@@ -6102,7 +6102,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Seed (Pre-Product-Market-Fit): Ticket 500k-2M, Bewertung 3-10M Pre-Money, Lead = Pre-Seed-VCs (Cherry, Earlybird, Atlantic Labs, Capital, Project A)",
         "Series A (Post-PMF + Skalierung): Ticket 2-10M, Bewertung 10-50M, Lead = Tier-1 VCs (Insight, Index, Atomico, Lightspeed)",
         "Series B+ (Scaling): Ticket 10-50M+, Bewertung 50-500M, Growth-VCs",
-        "Convertible Loans / SAFE: Bridge zwischen Runden (bis 1-2M, ohne Bewertung jetzt — bei nächster Runde Conversion)",
+        "Convertible Loans / SAFE: Bridge zwischen Runden (bis 1-2M, ohne Bewertung jetzt, bei nächster Runde Conversion)",
         "Sweet-Spot 2026 DACH: Pre-Seed bei 300-700k @ 3-5M Pre-Money. Seed bei 1-3M @ 6-12M Pre-Money."
       ]
     },
@@ -6122,7 +6122,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Slide 12: Ask (Round-Größe + Bewertung + Closing-Datum)",
         "Anhang: detaillierte Financials, Tech-Architecture, IP-Status",
         "Format: PDF (max 20MB) für Email-Versand + Editierbar (Notion/Pitch.com)",
-        "Lesedauer-Test: VCs lesen Deck in 3-5 Min — jeder Slide muss in 20 Sek wirken"
+        "Lesedauer-Test: VCs lesen Deck in 3-5 Min, jeder Slide muss in 20 Sek wirken"
       ],
       "externalLinks": [
         {
@@ -6223,7 +6223,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://vcstack.io"
         }
       ],
-      "description": "100+ relevante VCs identifizieren, priorisieren, dann sequentiell + warm-intro outreachen. Kalt-Email funktioniert — aber Warm-Intros 5-10x höhere Conversion."
+      "description": "100+ relevante VCs identifizieren, priorisieren, dann sequentiell + warm-intro outreachen. Kalt-Email funktioniert, aber Warm-Intros 5-10x höhere Conversion."
     },
     "term-sheet": {
       "externalLinks": [
@@ -6244,13 +6244,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bewertung: nicht alleine entscheidend! 5M @ Standard-Terms ist besser als 8M @ 2x participating.",
         "Liquidations-Präferenz: 1x non-participating ist Standard. 2x participating = Investor bekommt 2x Investment + danach noch sein Anteil = TÖDLICH für Founder bei kleinen Exits.",
         "Anti-Dilution: Weighted-Average ist fair. Full-Ratchet ist gefährlich (Investor wird bei Down-Round NICHT verwässert, alle anderen brutal).",
-        "Pool-Refresh: 'pre-money pool refresh' verwässert NUR Founder, 'post-money refresh' verwässert auch Investoren — versuche letzteres.",
+        "Pool-Refresh: 'pre-money pool refresh' verwässert NUR Founder, 'post-money refresh' verwässert auch Investoren, versuche letzteres.",
         "Board-Seats: 1 Investor-Seat bei Seed-A typisch. Founder kontrollieren typisch 2 von 3 Seats bei Seed.",
-        "Vesting-Refresh: Investoren wollen oft Founder-Re-Vesting (4 Jahre neu) — verhandle mit bestehenden Vesting anrechnen.",
-        "Drag-Along: Standard 75 % Schwelle. Vorsicht bei niedrigerer Schwelle (50 %) — Investoren können dich zu Exit zwingen.",
-        "Information Rights: monatliche/quartalsweise Reports — Standard.",
+        "Vesting-Refresh: Investoren wollen oft Founder-Re-Vesting (4 Jahre neu), verhandle mit bestehenden Vesting anrechnen.",
+        "Drag-Along: Standard 75 % Schwelle. Vorsicht bei niedrigerer Schwelle (50 %), Investoren können dich zu Exit zwingen.",
+        "Information Rights: monatliche/quartalsweise Reports, Standard.",
         "Most-Favored-Nation: bei zukünftigen Runden bekommt dieser Investor automatisch beste Konditionen.",
-        "Approval Rights: was darf das Board verbieten? Hire/Fire CEO, Budget > X €, M&A — typisch."
+        "Approval Rights: was darf das Board verbieten? Hire/Fire CEO, Budget > X €, M&A, typisch."
       ],
       "description": "Term-Sheet = nicht-bindendes Agreement der Schlüssel-Konditionen. Wichtigste Punkte: Bewertung, Liquidations-Präferenzen, Pool-Refresh, Anti-Dilution, Board-Seats."
     },
@@ -6279,7 +6279,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Custom Audiences + Lookalike-Audiences vorbereiten",
         "TikTok Business Center analog Setup",
         "Google Ads + GA4-Property + Search Console verlinken",
-        "Pflicht: Zugriff via Business-Manager statt persönliches Profil — sonst Account-Sperre bei Personal-Profil-Issues",
+        "Pflicht: Zugriff via Business-Manager statt persönliches Profil, sonst Account-Sperre bei Personal-Profil-Issues",
         "Backup-Admin: 2 Founders mit Business-Manager-Admin-Rechten",
         "2FA aktivieren (Pflicht ab 2024 für Business-Accounts)"
       ],
@@ -6357,7 +6357,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "pixel-phase4-capi": {
       "checklist": [
-        "Shopify-Brands: CAPI ist über Meta-App automatisch aktiv — fertig!",
+        "Shopify-Brands: CAPI ist über Meta-App automatisch aktiv, fertig!",
         "Non-Shopify: Stape.io Account anlegen + sGTM-Container hosten",
         "GTM Web-Container + Server-Container parallel aufsetzen",
         "Conversions API Gateway in Stape konfigurieren",
@@ -6393,7 +6393,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**EMQ-ROI**: Score 4 → 7 verbessert Targeting + Attribution um 20-40 %. Direkter Impact auf ROAS.",
         "**Häufiger Fehler**: Email NICHT gehasht, NICHT lowercase → Match-Rate fällt drastisch."
       ],
-      "description": "EMQ-Score > 6.0 anstreben — höherer Match = bessere Attribution + günstigeres Targeting. Email/Phone/IP/UA hashen."
+      "description": "EMQ-Score > 6.0 anstreben, höherer Match = bessere Attribution + günstigeres Targeting. Email/Phone/IP/UA hashen."
     },
     "pixel-phase6-test": {
       "checklist": [
@@ -6460,7 +6460,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://analytics.google.com"
         }
       ],
-      "description": "Foundation: GA4-Property + Data Stream. UA ist seit 1.7.2023 deaktiviert — GA4 ist Standard."
+      "description": "Foundation: GA4-Property + Data Stream. UA ist seit 1.7.2023 deaktiviert, GA4 ist Standard."
     },
     "ga4-phase2-gtm": {
       "checklist": [
@@ -6491,7 +6491,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "add_to_cart (Warenkorb-hinzufügen)",
         "begin_checkout (Checkout-Start)",
         "add_payment_info (Zahlungs-Methode gewählt)",
-        "purchase (Bestellung abgeschlossen) — KEY-Event",
+        "purchase (Bestellung abgeschlossen), KEY-Event",
         "Pflicht-Parameter bei purchase: transaction_id, value, currency, items[]",
         "GA4 → 'DebugView' → Events live verifizieren"
       ],
@@ -6567,7 +6567,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Tool-Auswahl basierend auf MRR + Channel-Mix",
         "Shopify + Ad-Accounts + Email-Tool (Klaviyo) verbinden",
-        "Post-Purchase-Survey (PPS) aktivieren — Kunde sagt selbst 'wo bin ich auf euch gestoßen'",
+        "Post-Purchase-Survey (PPS) aktivieren, Kunde sagt selbst 'wo bin ich auf euch gestoßen'",
         "Daily-Dashboard: Channel-ROAS, MER (Marketing Efficiency Ratio = Revenue / Ad-Spend), nCAC (Net New CAC)",
         "Wöchentliche Channel-Allocation-Review basierend auf MTA-Daten"
       ],
@@ -6590,7 +6590,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Northbeam: Enterprise-Attribution (Shopify + DTC + B2B). Pricing ab 1.500 $/Mon, lohnt ab 1M+ MRR.",
         "Polar Analytics: EU-fokussiert, GDPR-friendlier. Mid-Tier-Pricing 250-1.500 €/Mon.",
         "Built-in Shopify-Reports + GA4 + Triple-Whale = Sweet-Spot bis ~500k MRR.",
-        "Pixel-only-Attribution überschätzt Channels: Meta sagt ROAS 4x, GA4 sagt 2x, Triple-Whale sagt 2,5x — Wahrheit liegt meist näher bei Triple-Whale."
+        "Pixel-only-Attribution überschätzt Channels: Meta sagt ROAS 4x, GA4 sagt 2x, Triple-Whale sagt 2,5x, Wahrheit liegt meist näher bei Triple-Whale."
       ],
       "description": "Multi-Touch-Attribution über alle Channels (Meta/TikTok/Google/Email/Organic). Standard-Pixel-Attribution überzählt jeden Channel um 50-200 %."
     },
@@ -6636,21 +6636,21 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Creative-Frequenz: Meta 3-5 neue Creatives/Woche, TikTok 5-10/Woche (höhere Burn-Rate), Google 1-3 neue Creatives/Woche.",
         "UGC ist Top-Performer: Authentizität schlägt Studio-Production bei Cold-Audience. 60-80 % der Top-Performer sind UGC.",
         "AI-Tools (Pencil, Adcreative.ai) für schnelle Iterationen + A/B-Tests.",
-        "Whitelist-Ads (Spark Ads bei TikTok, Branded Content bei Meta): Creator-Posting wird als Ad genutzt — höhere Authentizität + CR."
+        "Whitelist-Ads (Spark Ads bei TikTok, Branded Content bei Meta): Creator-Posting wird als Ad genutzt, höhere Authentizität + CR."
       ],
       "description": "Performance-Marketing braucht 5-15 neue Creatives pro Woche. Ohne Pipeline (UGC + Studio + AI) = Ad-Fatigue + ROAS-Verlust."
     },
     "google-ads-search-shopping": {
       "checklist": [
         "**Brand-Defense-Kampagne** (Pflicht): eigener Brand-Name + Misspellings als Exact-Match",
-        "Brand-Defense-CPC 0,05-0,30 €, ROAS 10-50x — verhindert Konkurrent-Bidding",
+        "Brand-Defense-CPC 0,05-0,30 €, ROAS 10-50x, verhindert Konkurrent-Bidding",
         "**Non-Brand-Search-Kampagne**: Top-Conversion-Keywords transaktional ('produkt kaufen', 'produkt-test')",
         "Match-Types: Exact + Phrase + Broad-Match-Modifier",
         "Negative-Keyword-Liste anlegen (Junk-Begriffe ausschließen)",
         "**Merchant Center** anlegen + Produkt-Feed via Shopify-App oder XML",
         "Pflicht-Feed-Felder: GTIN + Brand + Price + Availability + Image",
         "Feed-Disapprovals fixen (Merchant Center zeigt Errors)",
-        "**Standard Shopping deprecated** — direkt zu PMax (siehe nächster Step)",
+        "**Standard Shopping deprecated**, direkt zu PMax (siehe nächster Step)",
         "Bidding für Search: 'Maximize Conversion Value' nach 30+ Conversions",
         "Microsoft (Bing) Ads parallel: 30-50 % günstigere CPCs in DACH"
       ],
@@ -6701,7 +6701,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "warning": "Asset Groups NICHT mit Produkten mixen (z.B. nicht Yogamatten + Supplements in 1 Group). AI optimiert sonst gemittelt = niedrigere Performance.",
-      "description": "PMax als Haupt-Channel — AI allokiert über alle Google-Inventories. Grundgerüst: Kampagne anlegen, Asset Groups strukturieren, Audience Signals geben."
+      "description": "PMax als Haupt-Channel, AI allokiert über alle Google-Inventories. Grundgerüst: Kampagne anlegen, Asset Groups strukturieren, Audience Signals geben."
     },
     "google-ads-pmax-optimierung": {
       "checklist": [
@@ -6714,7 +6714,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "ROAS-Ziel realistisch: Start 200 %, nach 30 Tagen Anpassung an Account-Average",
         "Wöchentlicher Search-Term-Insight-Report: welche Begriffe konvertieren?",
         "Auto-zugewiesene Junk-Keywords als Account-Level-Negatives hinzufügen",
-        "**Asset-Performance** prüfen: 'Low / Good / Best' Rating pro Asset — Low ersetzen",
+        "**Asset-Performance** prüfen: 'Low / Good / Best' Rating pro Asset, Low ersetzen",
         "Conversion-Tracking: Google Tag (gtag.js) + Enhanced Conversions (Email-Hash) für iOS-14.5",
         "**Demand Gen Kampagne** parallel: Image+Carousel auf YouTube/Discover/Gmail (Mid-Funnel)",
         "**YouTube-Ads** für Awareness: Skippable + Bumper-Ads, CPV 0,02-0,15 €"
@@ -6735,7 +6735,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "**Brand-Kannibalisierung-Realität**: PMax ohne Brand-Exclusion claimed bis zu 30 % aller Brand-Search-Sales als 'PMax-Conversions' → ROAS sieht künstlich hoch aus, echte Incrementality niedriger. Pflicht-Setting.",
-        "**Search-Themes vs. Audience-Signals**: Themes steuern WAS für Suchen, Signals steuern WER. Beides nötig — Signals allein zu vage.",
+        "**Search-Themes vs. Audience-Signals**: Themes steuern WAS für Suchen, Signals steuern WER. Beides nötig, Signals allein zu vage.",
         "**Asset-Quality-Hebel**: Best-rated Assets bekommen 5-10x mehr Impressions. 'Low' rating ersetzen statt am Budget drehen.",
         "**Tools Sweet-Spots**: Optmyzr (Premium-Optimization, 50-500 $/Mon) ab 30k €/Mon Ad-Spend, Adalysis (Audit) ad-hoc, Google Ads Editor (Bulk-Editing) für > 50 Kampagnen."
       ],
@@ -6744,16 +6744,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "alt-channels": {
       "checklist": [
         "**Pinterest** für Beauty/Fashion/Home/DIY: 100M+ EU-Nutzer, niedriger CPC (0,30-1 €), Female-Heavy (70 %). Idea Pins + Shopping-Pins für Brand-Discovery. Sweet-Spot für aesthetic-Brands",
-        "**Reddit** für Tech/Gaming/Niche-Communities: r/SkincareAddiction (3M Members), r/MaleGrooming, r/coolguides — präzise Subreddit-Targeting + niedrige CPC. Authentic-Content > Hard-Sell",
+        "**Reddit** für Tech/Gaming/Niche-Communities: r/SkincareAddiction (3M Members), r/MaleGrooming, r/coolguides, präzise Subreddit-Targeting + niedrige CPC. Authentic-Content > Hard-Sell",
         "**LinkedIn** für B2B/Premium-Brands: Job-Title + Industry-Targeting, hohe CPC (5-15 €) aber höchste Quality. Sweet-Spot für Software/Coaching/Consulting",
         "**Snapchat** für Gen-Z (US-zentriert, weniger DACH): AR-Lenses für Beauty + Apparel. Lohnt nur bei Gen-Z-fokussierten DTC-Brands",
-        "**X (Twitter) Ads** seit Elon-Übernahme volatil — niedrige Quality, aber Trends-Newsjacking-Möglichkeiten. Nicht primärer Channel, eher Brand-Awareness",
+        "**X (Twitter) Ads** seit Elon-Übernahme volatil, niedrige Quality, aber Trends-Newsjacking-Möglichkeiten. Nicht primärer Channel, eher Brand-Awareness",
         "**Native-Ads (Outbrain / Taboola)**: erscheinen 'als Content' auf Premium-News-Sites. Goldmine für Storytelling-Ads + Long-Form-Content. CPC 0,30-1 €",
         "**CTV (Connected TV / Streaming)**: Roku, Samsung Ads, Disney+ Ads, Netflix Ads. CPM 25-50 € hoch, aber Premium-Audience + Brand-Awareness-Hebel. Sweet-Spot ab 1M+ Revenue",
         "**Spotify Audio Ads**: Audio-Spots im Free-Tier. Niche-Targeting, niedriger CPM (5-15 €). Lohnt für Brand-Awareness im Hintergrund",
         "**Manychat Click-to-Messenger-Ads**: Meta-Ad → Messenger-Bot statt Landing-Page. Conversion-Rate +30-50 % bei Quiz-/Personalization-Funnels",
         "**Channel-Mix-Strategie**: 60-70 % Hauptchannel (Meta/TikTok), 20-30 % Google, 10-23 % Alternative-Mix (Diversifikation gegen Algorithmus-Risiko)",
-        "**iOS-14.5-Resilienz**: alle alt-Channels haben weniger ATT-Impact als Meta — Performance robuster bei iOS-Audience-Heavy-Brands"
+        "**iOS-14.5-Resilienz**: alle alt-Channels haben weniger ATT-Impact als Meta, Performance robuster bei iOS-Audience-Heavy-Brands"
       ],
       "externalLinks": [
         {
@@ -6798,7 +6798,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "**Pinterest-ROI**: für Beauty-Brands oft 3-8x ROAS (vs. 1,5-3x bei Meta-DTC) — niedrigere Konkurrenz, höhere Intent-Quality. Massiv unterschätzter Channel.",
+        "**Pinterest-ROI**: für Beauty-Brands oft 3-8x ROAS (vs. 1,5-3x bei Meta-DTC), niedrigere Konkurrenz, höhere Intent-Quality. Massiv unterschätzter Channel.",
         "**Reddit-Strategie**: keine direkten Sales-Ads, sondern AMA (Ask Me Anything) + Native-Posts mit Brand-Storyline. Reddit-User detect-en Sales-Ads sofort und downvoten.",
         "**LinkedIn-CPC-Math**: 10 € CPC × 2 % Conversion = 500 € CAC. Lohnt nur bei AOV > 1.500 € (B2B/Premium-Coaching/Consulting/SaaS).",
         "**Native-Ads-Killer**: erscheint 'organic' aber ist klar als 'Sponsored' markiert. Funktioniert nur bei langem Storytelling-Content (Long-Form-Article-Ad), nicht bei klassischen Display-Banner-Ads.",
@@ -6811,11 +6811,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "rolle-definieren": {
       "checklist": [
         "Outcome definieren: 'Was muss in 90 Tagen erreicht sein?' (NICHT 'Tasks')",
-        "Top-3-Verantwortlichkeiten (max — sonst zu unfocussiert)",
+        "Top-3-Verantwortlichkeiten (max, sonst zu unfocussiert)",
         "Must-Have vs. Nice-to-Have Skills trennen",
         "Senior/Mid/Junior-Tier definieren (Berufserfahrung Jahre + Verantwortungs-Tier)",
         "Salary-Range festlegen (Marktforschung via kununu, Glassdoor, levels.fyi)",
-        "Remote / Hybrid / On-Site? — Pool-Größe vs. Kultur-Trade-Off",
+        "Remote / Hybrid / On-Site?, Pool-Größe vs. Kultur-Trade-Off",
         "Stellenanzeige Header: klarer Job-Title + Company + Location",
         "Stellenanzeige Body: Mission der Firma + Rolle + Erfolg-Definition + Pakets",
         "Diversity-Statement (in DE seit AGG Pflicht-Formulierung achten)",
@@ -6865,7 +6865,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Wellfound (Ex-AngelList): Standard für Tech-Startups. Founder-fokussiert.",
         "Honeypot: Reverse-Marketplace für Tech (Developers bewerben sich bei Firmen). Premium-Pool.",
         "Active Sourcing via LinkedIn Recruiter: Senior-Roles + Spezialisten. Personal-Outreach 5-10x höhere Conversion.",
-        "Employee-Referrals: 30-50 % Conversion + Bonus von 1.000-3.000 € pro Hire — günstigster Channel."
+        "Employee-Referrals: 30-50 % Conversion + Bonus von 1.000-3.000 € pro Hire, günstigster Channel."
       ]
     },
     "ats": {
@@ -6899,7 +6899,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "interview-prozess": {
       "checklist": [
-        "Stage 1 (Screening, 30 min): Background, Motivation, Salary-Range — typisch HR/Recruiter",
+        "Stage 1 (Screening, 30 min): Background, Motivation, Salary-Range, typisch HR/Recruiter",
         "Stage 2 (Skill-Test, 60-120 min): rollen-relevant, NICHT 8h Take-Home für Junior!",
         "Stage 3 (Hiring-Manager, 60 min): vertieft Skills + erste Kultur-Fit-Fragen",
         "Stage 4 (Team-Interview, 60 min): zukünftige Kollegen + Kultur",
@@ -6907,7 +6907,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Strukturierte Scorecards: jeder Interviewer bewertet gleiche Kriterien (1-5)",
         "Decision-Meeting nach allen Interviews: Hire / No-Hire / Re-Interview",
         "AGG-Konform: keine Fragen zu Religion, Familie, Politik, Schwangerschaft",
-        "Total-Prozess max 2-3 Wochen — länger und Top-Bewerber ist weg"
+        "Total-Prozess max 2-3 Wochen, länger und Top-Bewerber ist weg"
       ],
       "warning": "Häufiger Fehler: Take-Home-Tests > 4h erwartet. Top-Bewerber haben mehrere Angebote, akzeptieren keine endlos-Tests.",
       "description": "Strukturiertes Interview-Setup: Screening → Skill-Test → Kultur-Fit → Founder-Final. AGG-konform, ohne Diskriminierungs-Risiko."
@@ -6922,7 +6922,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Krankheit: 6 Wochen Lohnfortzahlung Pflicht (kann nicht reduziert werden)",
         "Kündigungsfrist nach Probezeit: 4 Wochen zum 15. oder Monatsende (gesetzlich)",
         "Vertraulichkeit + Verschwiegenheit",
-        "Wettbewerbsverbot: nur mit 50 % letzter Vergütung pro Jahr — sonst unwirksam!",
+        "Wettbewerbsverbot: nur mit 50 % letzter Vergütung pro Jahr, sonst unwirksam!",
         "Nebenbeschäftigung: Genehmigungs-Pflicht NUR wenn Konflikt drohend",
         "ESOP-/VSOP-Klausel mit Verweis auf Programm-Bedingungen",
         "Datenschutz: Mitarbeiter-Daten + Geschäfts-Geheimnisse",
@@ -6938,7 +6938,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.personio.de"
         }
       ],
-      "warning": "Wettbewerbsverbot ohne Karenzentschädigung (50 % letzte Vergütung) ist UNWIRKSAM. Häufiger Fehler — Klausel hilft Firma null wenn unwirksam formuliert.",
+      "warning": "Wettbewerbsverbot ohne Karenzentschädigung (50 % letzte Vergütung) ist UNWIRKSAM. Häufiger Fehler, Klausel hilft Firma null wenn unwirksam formuliert.",
       "description": "DE-Arbeitsrecht ist arbeitnehmer-freundlich. Standard-Templates + Anwalt-Review für Custom-Klauseln. Falsche Klauseln = unwirksam + Klage-Risiko."
     },
     "probezeit": {
@@ -6948,9 +6948,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Nach Probezeit: gesetzliche Frist 4 Wochen zum 15./Monatsende",
         "Verlängerte Fristen je Beschäftigungsdauer (§622 BGB)",
         "Kündigungsschutz §1 KSchG ab 11 Mitarbeitern (Vollzeit-Äquivalent)",
-        "Personenbedingt / Verhaltensbedingt / Betriebsbedingt — nur diese 3 Gründe akzeptiert",
+        "Personenbedingt / Verhaltensbedingt / Betriebsbedingt, nur diese 3 Gründe akzeptiert",
         "Schwerbehinderten-Schutz, Schwangeren-Schutz, Eltern-Schutz, Betriebsräte-Schutz",
-        "Aufhebungsvertrag als Alternative zu Kündigung — typisch 0,5-1 Monatsgehalt pro Beschäftigungsjahr Abfindung",
+        "Aufhebungsvertrag als Alternative zu Kündigung, typisch 0,5-1 Monatsgehalt pro Beschäftigungsjahr Abfindung",
         "Probezeit-Trennung: dokumentiere Performance-Issues schriftlich (Feedback-Gespräche)"
       ],
       "warning": "Trennung nach Probezeit ist KOMPLEX. Pre-Probezeit klare Performance-Indikatoren setzen + monatliche 1:1s mit dokumentierten Feedback-Notes.",
@@ -6962,9 +6962,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Day 1: Welcome + Founder-Coffee + Team-Intro + Tools-Setup",
         "Week 1: Kontext-Sessions (Mission, Markt, Konkurrenz, Roadmap)",
         "Week 2: Stakeholder-1:1s (alle Cross-funktionalen Partner)",
-        "Day 30: 30-Tage-Review mit Manager — Erste Eindrücke + Hindernisse",
-        "Day 60: 60-Tage-Review — erste Outputs + Direction-Setting",
-        "Day 90: 90-Tage-Review — Probezeit-Bestätigung oder Trennung",
+        "Day 30: 30-Tage-Review mit Manager, Erste Eindrücke + Hindernisse",
+        "Day 60: 60-Tage-Review, erste Outputs + Direction-Setting",
+        "Day 90: 90-Tage-Review, Probezeit-Bestätigung oder Trennung",
         "Buddy-System: Junior-MA bekommen Senior-Buddy (kein Manager) für Fragen",
         "Onboarding-Doku: Tool-Setup-Guide, Org-Chart, Process-Wiki",
         "Erste 90 Tage: kleine Projekte mit klaren Outcomes für Quick-Wins"
@@ -7006,7 +7006,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Spreadsheet-Vorlage: Zeilen-Struktur 1) Sales Receipts pro Channel, 2) Other Inflows, 3) TOTAL INFLOWS, 4) Salaries + SV, 5) Marketing Spend, 6) Inventory, 7) Software/Tools, 8) Rent + Office, 9) Steuer-VZ, 10) Tilgungen, 11) Other Outflows, 12) TOTAL OUTFLOWS, 13) NET CASHFLOW, 14) BANK ENDING.",
-        "Tools wie Pry/Causal automatisieren Daten-Sync mit Bank + Buchhaltung — spart 60-90 % der manuellen Pflege."
+        "Tools wie Pry/Causal automatisieren Daten-Sync mit Bank + Buchhaltung, spart 60-90 % der manuellen Pflege."
       ]
     },
     "burn-rate": {
@@ -7039,7 +7039,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Wöchentliche Runway-Tracking im Cashflow-Sheet",
         "Investor-Update inkl. aktueller Runway (transparente Kommunikation)"
       ],
-      "warning": "Runway < 6 Monate ohne aktive Round = ROTE FLAGGE. Sofort Maßnahmen + Investoren informieren. Versuch nicht zu verstecken — Investor-Vertrauen bricht bei Überraschungen."
+      "warning": "Runway < 6 Monate ohne aktive Round = ROTE FLAGGE. Sofort Maßnahmen + Investoren informieren. Versuch nicht zu verstecken, Investor-Vertrauen bricht bei Überraschungen."
     },
     "scenarios": {
       "checklist": [
@@ -7055,9 +7055,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "cost-levers": {
       "checklist": [
-        "Tier 1 (Soforthilfe, ohne Geschäftsschäden): Software-Lizenzen kündigen, Reise-Budgets stoppen, Discretionary Spend stop — Effekt 5-10 % Burn-Reduktion",
-        "Tier 2 (mittlere Eingriffe): Marketing-Budget halbieren, Hiring-Freeze, Tool-Konsolidierung — Effekt 15-30 %",
-        "Tier 3 (schmerzhaft): Salary-Cuts (Founder zuerst, dann Senior-MA), Layoffs (last in/first out OR performance-based), Office-Down-Sizing — Effekt 30-50 %",
+        "Tier 1 (Soforthilfe, ohne Geschäftsschäden): Software-Lizenzen kündigen, Reise-Budgets stoppen, Discretionary Spend stop, Effekt 5-10 % Burn-Reduktion",
+        "Tier 2 (mittlere Eingriffe): Marketing-Budget halbieren, Hiring-Freeze, Tool-Konsolidierung, Effekt 15-30 %",
+        "Tier 3 (schmerzhaft): Salary-Cuts (Founder zuerst, dann Senior-MA), Layoffs (last in/first out OR performance-based), Office-Down-Sizing, Effekt 30-50 %",
         "Tier 4 (existenziell): Asset-Verkauf, Crowdfunding, Bridge-Loan, Insolvenz-Anwalt",
         "Pro Tier: Auswirkungen quantifizieren (€/Mon Ersparnis, Zeit-Aufwand, Geschäfts-Impact)",
         "Decision-Tree: bei welchem Runway welcher Tier auslösen",
@@ -7067,7 +7067,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Pro-Tipp: 'Half-the-Burn-Plan' fertig haben. Bei plötzlicher Krise: in 48h umsetzbar = 50 % weniger Burn = 2x Runway.",
         "Layoffs-Reality: schmerzhaft aber notwendig. Lieber 25 % Layoffs früh als 100 % Insolvenz später. Severance fair (1-2 Mon-Gehalt)."
       ],
-      "description": "Bei Cash-Crunch: Liste aller Cost-Levers vorbereitet — schnelle Entscheidungen wenn Krise eintritt. NICHT erst bei Krise nachdenken."
+      "description": "Bei Cash-Crunch: Liste aller Cost-Levers vorbereitet, schnelle Entscheidungen wenn Krise eintritt. NICHT erst bei Krise nachdenken."
     },
     "investor-reporting": {
       "checklist": [
@@ -7101,10 +7101,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Deckungssumme 1-5 Mio € je nach Produkt-Risiko",
         "Geltungs-Bereich: DACH minimum, EU empfohlen, USA bei Amazon-US-Verkäufen Pflicht",
         "Versicherte Risiken: Personenschäden + Sachschäden + Vermögensfolgeschäden",
-        "Recall-Cost-Versicherung als Add-On (200-500 €/Jahr) — deckt Rückruf-Aktionen",
+        "Recall-Cost-Versicherung als Add-On (200-500 €/Jahr), deckt Rückruf-Aktionen",
         "Erweiterungen: GPSR-Compliance-Schäden, Kosmetik-/Lebensmittel-Pflichten",
         "Selbstbehalt: typisch 250-1.000 € pro Schadensfall",
-        "Amazon-Anforderung: Pro-Account ab 10k$/Mon Sales — Versicherungs-Nachweis hochladen",
+        "Amazon-Anforderung: Pro-Account ab 10k$/Mon Sales, Versicherungs-Nachweis hochladen",
         "Bei Lieferanten-Schäden: Regress-Klausel an Lieferanten weiterleiten"
       ],
       "externalLinks": [
@@ -7130,7 +7130,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "DSGVO-Bußgeld-Deckung Pflicht-Add-On (typisch im Premium-Tarif)",
         "Selbstbehalt: 1.000-10.000 € (höher = günstigere Prämie)",
         "Voraussetzung: dokumentierte IT-Sicherheit (Firewall + Backup + 2FA)",
-        "Crisis-Hotline 24/7 — bei Hack sofortige Reaktion",
+        "Notfall-Hotline im Schadenfall, bei Cyberangriffen schnelle Reaktion",
         "Reputations-Schaden-Deckung als Add-On"
       ],
       "externalLinks": [
@@ -7187,7 +7187,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "bu-private": {
       "checklist": [
         "Antrag früh stellen (jünger = günstiger + leichter Abschluss-Test)",
-        "Gesundheits-Prüfung: Wahrheits-Pflicht ist STRENG — falsche Angaben = Vertrag-Anfechtung",
+        "Gesundheits-Prüfung: Wahrheits-Pflicht ist STRENG, falsche Angaben = Vertrag-Anfechtung",
         "Rente-Höhe: ~70-80 % vom aktuellen Brutto (typisch 2.000-3.500 €/Mon)",
         "Laufzeit: bis Renten-Eintritt 67 (max). Längere Laufzeit = höhere Prämie.",
         "Rückwirkende Leistung: bei nachträglicher BU-Diagnose 6-Monats-Rückwirkungs-Zeit",
@@ -7213,7 +7213,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Deckungssumme: 500k € (Beratung) bis 3 Mio € (IT-Dienstleister mit Großkunden)",
         "Versicherte Risiken: Falsch-Beratung, Verschwiegenheits-Verletzung, IT-Fehler bei Programmierung",
         "Erweiterungen: Cyber-Komponente (Datenleck bei Kunden), Internationale Geltung",
-        "Bei B2B-SaaS: Kunden-Verträge prüfen — oft mind. 1 Mio € Versicherung Pflicht",
+        "Bei B2B-SaaS: Kunden-Verträge prüfen, oft mind. 1 Mio € Versicherung Pflicht",
         "Selbstbehalt: 250-1.000 €"
       ],
       "externalLinks": [
@@ -7229,9 +7229,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Inventory-Wert berechnen (Büro-Möbel + Tech + Waren-Lager)",
         "Versicherungs-Summe: 100-500k € typisch für Mid-Tier-Brand",
         "Versicherte Risiken: Brand, Wasser, Einbruch, Diebstahl, Vandalismus",
-        "Optional: Elementar-Schäden (Hochwasser, Sturm) — bei Risikolage Pflicht",
+        "Optional: Elementar-Schäden (Hochwasser, Sturm), bei Risikolage Pflicht",
         "Lager-Coverage: separate Polize wenn großes Inventory (>50k Wert)",
-        "Bei 3PL: Ware oft durch 3PL-Versicherung gedeckt — vor Doppel-Versicherung prüfen"
+        "Bei 3PL: Ware oft durch 3PL-Versicherung gedeckt, vor Doppel-Versicherung prüfen"
       ],
       "description": "Versichert Büro-Equipment, Inventory, Lager-Bestände gegen Brand, Wasserschaden, Einbruch, Diebstahl. Pflicht bei eigenem Lager + Office."
     },
@@ -7263,10 +7263,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Broker-Provision: typisch 5-15 % der Prämie. Wird vom Versicherer bezahlt — du zahlst nichts extra.",
-        "Direkt-Versicherer (Allianz, AXA) sind oft 10-23 % teurer als Broker-Tarife — Broker hat Verhandlungs-Macht."
+        "Broker-Provision: typisch 5-15 % der Prämie. Wird vom Versicherer bezahlt, du zahlst nichts extra.",
+        "Direkt-Versicherer (Allianz, AXA) sind oft 10-23 % teurer als Broker-Tarife, Broker hat Verhandlungs-Macht."
       ],
-      "description": "Broker (Hiscox, Howden, Marsh, GettSure) vergleichen Anbieter + verhandeln. Provision durch Versicherer bezahlt — kostet dich nichts. Oft 20-40 % günstigere Polizen."
+      "description": "Broker (Hiscox, Howden, Marsh, GettSure) vergleichen Anbieter + verhandeln. Provision durch Versicherer bezahlt, kostet dich nichts. Oft 20-40 % günstigere Polizen."
     }
   },
   "logistik-3pl": {
@@ -7343,7 +7343,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "byrd: DACH-Standard für E-Commerce, Sweet-Spot 200-2k Bestellungen/Mon. Pricing transparent online.",
         "Salesupply: EU-weit aufgestellt, gut für Multi-Country-Brands. Premium-Pricing.",
         "Bergler & Müller: spezialisiert auf D2C-Beauty/Health, Hygiene-Standards.",
-        "FBA als Alternative: Amazon FBA als 3PL für eigenen Shop nutzen (MCF — Multi-Channel Fulfillment). Pricing 3-8 €/Versand, gut für DE+EU+UK."
+        "FBA als Alternative: Amazon FBA als 3PL für eigenen Shop nutzen (MCF, Multi-Channel Fulfillment). Pricing 3-8 €/Versand, gut für DE+EU+UK."
       ]
     },
     "internationaler-versand": {
@@ -7351,9 +7351,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "EORI-Nummer beantragen (Zoll-Pflicht für EU-Importe + Drittland-Versand)",
         "IOSS (Import One-Stop-Shop) für Bestellungen < 150 € in EU (USt-Vereinfachung)",
         "UK seit Brexit: HMRC VAT-Reg ab £85k Umsatz + UK-EORI",
-        "Versand UK: DDP (Delivered Duty Paid) für Customer-Convenience — du zahlst Zoll/USt",
+        "Versand UK: DDP (Delivered Duty Paid) für Customer-Convenience, du zahlst Zoll/USt",
         "USA-Strategie: kleine Mengen via DHL Express (3-5 Tage, 25-50 $/Paket) ODER 3PL in USA (lokale Lieferung)",
-        "USA-3PL: ShipBob, Flowspace, ShipMonk — Sweet-Spot ab 500-1k Bestellungen/Mon US",
+        "USA-3PL: ShipBob, Flowspace, ShipMonk, Sweet-Spot ab 500-1k Bestellungen/Mon US",
         "Zoll-Tarif HS-Codes pro Produkt korrekt setzen (Tools: TARIC EU + USITC für US)"
       ],
       "externalLinks": [
@@ -7380,7 +7380,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Refund-Workflow: Retoure-Eingang → 24h Quality-Check → Refund-Trigger automatisch",
         "Retoure-Quote-Tracking pro SKU: Top-Retoure-Produkte für Quality-Improvement identifizieren",
         "Refurbishment-Strategie: leicht beschädigte Ware als 'B-Ware' verkaufen (10-30 % Discount)",
-        "EU-Widerrufs-Recht: 14 Tage gesetzlich, ohne Begründung — kein Umgehen möglich",
+        "EU-Widerrufs-Recht: 14 Tage gesetzlich, ohne Begründung, kein Umgehen möglich",
         "Retoure-Insights für Produkt-Verbesserung (Größen-Tabelle, Bilder, Bedienungsanleitung)"
       ],
       "externalLinks": [
@@ -7478,7 +7478,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "keyword-research": {
       "checklist": [
         "Seed-Keywords definieren (5-10 core terms)",
-        "Keyword-Recherche mit Ahrefs/SEMrush — Volume + Difficulty + Intent",
+        "Keyword-Recherche mit Ahrefs/SEMrush, Volume + Difficulty + Intent",
         "Buyer-Intent-Keywords priorisieren (Money-Keywords): 'kaufen', 'beste', 'vergleich', 'günstig'",
         "Informational-Keywords für Content-Marketing: 'wie', 'was ist', 'warum'",
         "Long-Tail-Strategie: 4-6-Wort-Keywords ranken schneller (geringere Konkurrenz)",
@@ -7540,7 +7540,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "content-creation": {
       "checklist": [
-        "Pillar-Article: 3.000-5.000 Wörter, ALLES zu einem Topic (z.B. 'Yogamatte kaufen — der ultimative Guide')",
+        "Pillar-Article: 3.000-5.000 Wörter, ALLES zu einem Topic (z.B. 'Yogamatte kaufen, der ultimative Guide')",
         "Cluster-Articles: 1.000-2.000 Wörter, je ein Detail (z.B. 'Yogamatte für Anfänger', 'Yogamatte aus Naturkautschuk')",
         "Internal Linking: jeder Cluster → Pillar, Pillar → alle Cluster",
         "Frequenz: 2-4 Artikel/Mon im ersten Jahr, 4-8/Mon nach SEO-Reife",
@@ -7572,7 +7572,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Digital-PR: spannende Studien/Reports erstellen → Journalisten zitieren",
         "Broken-Link-Building: defekte Links bei Wettbewerbern finden → eigenen Content als Replacement vorschlagen",
         "Guest-Posts in branchen-relevanten Blogs (DA > 30, traffic > 5k/Mon)",
-        "HARO (Help A Reporter Out) — Journalisten suchen Quotes",
+        "HARO (Help A Reporter Out), Journalisten suchen Quotes",
         "Resource-Page-Links: 'best of'-Listen anstreben",
         "Brand-Mentions ohne Link in Backlinks umwandeln (Outreach an Autor)",
         "Skyscraper-Strategie: viralen Content erstellen + outreachen",
@@ -7600,7 +7600,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Google Business Profile (lokal): vollständig, Öffnungszeiten, Fotos, regelmäßige Posts",
         "Local-Citations: Yelp, Yellow Pages, branchenspezifische Verzeichnisse",
-        "International-Strategie: 1) Subdirs (deinedomain.de/en/) — easier für SEO, 2) Subdomains (en.deinedomain.de), 3) ccTLDs (deinedomain.com + deinedomain.fr) — höchste Local-Relevance aber teuer",
+        "International-Strategie: 1) Subdirs (deinedomain.de/en/), easier für SEO, 2) Subdomains (en.deinedomain.de), 3) ccTLDs (deinedomain.com + deinedomain.fr), höchste Local-Relevance aber teuer",
         "hreflang-Tags für Multi-Sprach-/Country-Versionen",
         "Lokale Keywords pro Land (DeepL für Erst-Übersetzung, Native-Editor für SEO-Anpassung)",
         "Country-spezifische Backlinks aufbauen (.fr-Links für FR-Version)",
@@ -7612,10 +7612,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "**E-E-A-T-Optimierung** (Experience, Expertise, Authoritativeness, Trustworthiness): Author-Bios mit Credentials, Founder-Story-Page, Trust-Signals (Zertifikate, Awards, Pressespiegel), Reviews-Aggregation (Trusted Shops + Trustpilot)",
         "**Author-Schema + Personal-Branding**: jeder Blog-Artikel hat Author-Markup mit verifizierter LinkedIn/Twitter/Google-Profile-Verlinkung. Steigert E-E-A-T-Score deutlich seit 2024",
-        "**GEO (Generative Engine Optimization)** — neuer SEO-Tier: Optimierung für Google AI Overviews + ChatGPT-Search + Perplexity. LLM-friendly Content (klare Struktur, FAQ-Format, Statistik-Citations)",
+        "**GEO (Generative Engine Optimization)**, neuer SEO-Tier: Optimierung für Google AI Overviews + ChatGPT-Search + Perplexity. LLM-friendly Content (klare Struktur, FAQ-Format, Statistik-Citations)",
         "**LLM-Visibility-Tracking**: Profound (250 $/Mon, trackt Brand-Erwähnungen in ChatGPT/Perplexity/Gemini), Otterly (Mid-Market). Pflicht für Brands die AI-Search-relevant sein wollen",
         "**Content-Format für AI-Search**: Klare Frage-Antwort-Struktur, Definition-Boxen, Comparison-Tables, Stat-Citations mit Quellen. AI bevorzugt strukturierten Content für Snippet-Erwähnung",
-        "**FAQ-Schema überall**: nicht nur auf FAQ-Seite — auf Produkt-Pages + Kategorie-Pages + Blog-Posts. Direktes Snippet-in-Suche-Display + AI-Search-Bevorzugung",
+        "**FAQ-Schema überall**: nicht nur auf FAQ-Seite, auf Produkt-Pages + Kategorie-Pages + Blog-Posts. Direktes Snippet-in-Suche-Display + AI-Search-Bevorzugung",
         "**Programmatic SEO**: Template-basierte Page-Generierung für Long-Tail-Keywords (z.B. 'Yogamatte für [Anwendung]' × 50 Anwendungen = 50 SEO-Pages). Tools: Webflow CMS + Whalesync, oder Custom-Setup",
         "**Programmatic-Sweet-Spot**: 100-1.000+ ähnliche Keyword-Variationen mit ähnlicher Search-Intent. Standorte, Anwendungen, Größen, Eigenschaften als Variations",
         "**Site-Search-Optimization** (interne Suche): Algolia (Premium), Klevu (E-Commerce-spezialisiert), Searchanise (Shopify). Schlechte interne Suche = 30-50 % verlorene Sales",
@@ -7683,7 +7683,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Programmatic-SEO-ROI**: 1.000 Long-Tail-Pages × 10 Visits/Mon × 1 % Conversion × 50 € AOV = 5.000 €/Mon zusätzlich. Setup einmalig 4-8 Wochen, danach skaliert ohne weitere Content-Kosten.",
         "**Site-Search-ROI**: Klevu/Algolia-Implementation steigert E-Commerce-Conversion 10-30 % bei 5 % der User die internal Search nutzen. Pflicht ab 100+ SKUs.",
         "**Content-Frequency vs. Quality 2026**: 1 hochwertiger 3.000-Wort-Pillar-Artikel mit Original-Research > 10 generic AI-Mass-Articles. Helpful-Content-Update bestraft Mass-AI-Content.",
-        "**Featured-Snippets-Hack**: gezielte Question-Format-Sub-Headings (H2/H3) + 40-50-Wort-Antwort direkt darunter = höhere Snippet-Wahrscheinlichkeit. AI-Search bevorzugt diese Format."
+        "**Featured-Snippets-Praxis**: gezielte Question-Format-Sub-Headings (H2/H3) + 40-50-Wort-Antwort direkt darunter = höhere Snippet-Wahrscheinlichkeit. AI-Search bevorzugt diese Format."
       ],
       "description": "SEO-Landschaft 2026: Google AI Overviews, ChatGPT-Search, Perplexity zerschneiden 30-50 % der klassischen Click-Through-Rates. GEO (Generative Engine Optimization) + E-E-A-T + Programmatic SEO sind neue Pflicht-Disziplinen."
     }
@@ -7693,9 +7693,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Pricing-Modell wählen: Per-Seat (Slack, Zoom), Usage-Based (AWS, Twilio), Per-Workspace (Notion), Hybrid",
         "3-Tier-Standard: Starter (Self-Service, niedrigster Preis), Pro (mid-market), Enterprise (custom)",
-        "Pricing-Anchor: höchster Tier definiert Wert-Wahrnehmung — bewusst hoch ansetzen",
+        "Pricing-Anchor: höchster Tier definiert Wert-Wahrnehmung, bewusst hoch ansetzen",
         "Decoy-Tier (Pro): macht Enterprise wertvoller wirken (Behavioral Pricing)",
-        "Annual-Discount: 15-23 % Rabatt für Jahres-Vorauszahlung — Cashflow-Boost",
+        "Annual-Discount: 15-23 % Rabatt für Jahres-Vorauszahlung, Cashflow-Boost",
         "Free-Trial vs Freemium: Trial 14-30 Tage besser für SMB-Conversion, Freemium für Bottom-Up-Adoption",
         "Geo-Pricing prüfen (DACH = Premium, EE/PL/CZ niedriger)",
         "Pricing-Test-Strategie: A/B-Test alle 6 Monate via Pricing-Page-Variants"
@@ -7723,7 +7723,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "stripe-grundgeruest": {
       "checklist": [
         "Stripe-Account erstellen + Business-Verifizierung (HR-Auszug, USt-ID, Bankverbindung)",
-        "Products in Stripe anlegen — pro Tier (Starter / Pro / Enterprise) ein Product",
+        "Products in Stripe anlegen, pro Tier (Starter / Pro / Enterprise) ein Product",
         "Prices pro Product: Monatlich + Jährlich (Annual-Discount typisch 15-23 %)",
         "Trial-Period konfigurieren: 14 Tage Standard, optional Card-Required toggle",
         "Webhook-Endpoint im Backend einrichten (URL + Signing-Secret)",
@@ -7772,9 +7772,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Invoice-Nummer-Format: fortlaufend mit Präfix (z.B. 2026-0001)",
         "Reverse-Charge-Klausel für B2B-EU-Verkäufe automatisch (Stripe Tax handhabt das)",
         "Dunning-Email-Flow definieren: 1-3-7-Tage-Reminder bei Failed-Payment",
-        "Smart Retries aktiviert (Stripe-Algorithmus retried optimal — höhere Recovery-Rate)",
+        "Smart Retries aktiviert (Stripe-Algorithmus retried optimal, höhere Recovery-Rate)",
         "Final-Dunning: nach 21 Tagen Subscription auto-cancel oder manuelles Review",
-        "PDF-Rechnung-Archivierung GoBD-konform (10 Jahre) — via Stripe-API zu Lexoffice/sevDesk",
+        "PDF-Rechnung-Archivierung GoBD-konform (10 Jahre), via Stripe-API zu Lexoffice/sevDesk",
         "Buchhaltung-Sync: Stripe → Lexoffice/sevDesk/DATEV (Plugins verfügbar)"
       ],
       "externalLinks": [
@@ -7864,7 +7864,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Customer-Success-Manager-Ratio: 1 CSM pro 50-100 SMB-Konten ODER 5-15 Mid-Market ODER 1-3 Enterprise.",
-        "ROI-Berechnung: 1 CSM @ 70k €/Jahr senkt Churn von 8 % auf 5 % bei 1M ARR = 30k € geretteter ARR/Jahr — payback in 2 Jahren."
+        "ROI-Berechnung: 1 CSM @ 70k €/Jahr senkt Churn von 8 % auf 5 % bei 1M ARR = 30k € geretteter ARR/Jahr, payback in 2 Jahren."
       ],
       "description": "B2B-SaaS lebt von Retention. Customer-Success ist NICHT Customer-Support, sondern proaktive Wertschöpfung. Onboarding + QBRs + Health-Score sind Pflicht."
     },
@@ -7876,7 +7876,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Demo-Tailored: nicht 'Feature-Tour', sondern Kunde-spezifische Use-Cases zeigen",
         "POC/Trial-Phase: 2-4 Wochen mit klarem Success-Criteria",
         "Proposal-Template: Executive Summary + Use-Cases + ROI-Berechnung + Pricing + Implementation-Plan",
-        "Procurement-Process kennen: Verträge, Security-Reviews, Legal-Approval, Finance-Approval — kann 4-12 Wochen dauern",
+        "Procurement-Process kennen: Verträge, Security-Reviews, Legal-Approval, Finance-Approval, kann 4-12 Wochen dauern",
         "Master Service Agreement (MSA) + Order Form (OF) als 2-Doc-Strategie: MSA einmalig, OF pro Renewal",
         "Security-Documentation parat: SOC2, ISO 27001, DSGVO-Compliance, Penetration-Tests",
         "Pricing-Verhandlung: max 15-23 % Discount, dafür Multi-Year-Commitment oder Logo-Right"
@@ -7911,7 +7911,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Upsell-Triggers: Usage-Limits erreicht (Seats, API-Calls, Storage), Feature-Anfrage, Wachstum",
         "Cross-Sell-Module: Add-On-Produkte (Analytics-Premium, AI-Features, White-Label)",
         "Annual Pricing-Increase 5-10 % auf Bestandskunden (mit 60-Tage-Vorab-Notice)",
-        "Grandfathering-Strategie: Loyalty-Tier mit altem Preis bei Renewal — reduziert Churn-Risiko",
+        "Grandfathering-Strategie: Loyalty-Tier mit altem Preis bei Renewal, reduziert Churn-Risiko",
         "Multi-Year-Commits: 3-Jahres-Verträge mit 10-23 % Discount → längere Retention + Cash-Vorauszahlung",
         "Logo-Right-Trade: Logo-Veröffentlichung gegen 10 % Discount bei Mid-Market+",
         "Volume-Discounts ab bestimmten Seat-/Volumen-Schwellen",
@@ -7967,7 +7967,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Espacenet (EPA) für EP + Worldwide-Patents",
         "Google Patents für KI-unterstützte Suche",
         "Klassifikationen prüfen: IPC (Internationale Patentklassifikation) eingrenzen",
-        "Familien-Patente: ein Patent kann in mehreren Ländern angemeldet sein — alle prüfen",
+        "Familien-Patente: ein Patent kann in mehreren Ländern angemeldet sein, alle prüfen",
         "Ähnliche Lösungen aus Wissenschafts-Publikationen prüfen (Google Scholar)",
         "Wenn Stand-der-Technik gefunden: Anpassung der Erfindung oder Anmeldung verwerfen",
         "Pro-Tipp: Recherche durch Patent-Anwalt = höhere Erfolgsquote (kennen Klassifikationen + Sprache der Patentprüfer)"
@@ -8021,7 +8021,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Strategie 'Priorität sichern': zuerst DE-Patent (60 € + Anwalt) → binnen 12 Monaten EP/PCT-Folge-Anmeldung mit Priorität → Bedenkzeit für internationalen Ausbau ohne Konkurrenz-Risiko.",
         "Software-Patent in DE/EU: nur erlaubt wenn 'technischer Effekt' (z.B. Daten-Komprimierung, Bildverarbeitung). Reine Geschäftsmethoden + Software 'as such' nicht patentierbar.",
         "USA-Patent (USPTO): separate Strategie nötig. Software-Patente leichter, aber teurer (10.000-30.000 $).",
-        "PCT-Vorteil: 30 Monate Zeit-Puffer bevor du in Einzelländer-Phase eintrittst — Markt-Validierung möglich."
+        "PCT-Vorteil: 30 Monate Zeit-Puffer bevor du in Einzelländer-Phase eintrittst, Markt-Validierung möglich."
       ]
     },
     "gebrauchsmuster": {
@@ -8032,7 +8032,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Eintragungs-Zeit: 3-6 Wochen (vs. Patent 18-36 Monate)",
         "Schutzdauer max 10 Jahre (3-/6-/8-/10-Jahre-Verlängerungs-Gebühren)",
         "Nicht für Verfahren oder biologische Erfindungen (nur Patent)",
-        "'Abzweigung': aus laufender Patent-Anmeldung kann Gebrauchsmuster abgezweigt werden — beste Strategie",
+        "'Abzweigung': aus laufender Patent-Anmeldung kann Gebrauchsmuster abgezweigt werden, beste Strategie",
         "Nicht international möglich: Gebrauchsmuster nur in DE. EU-/Welt-Schutz via Patent."
       ],
       "externalLinks": [
@@ -8045,7 +8045,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Startup-Strategie: Gebrauchsmuster ALS ERSTES anmelden (3-6 Wo Schutz), dann parallel DE-Patent + EP/PCT für tieferen Schutz. Gebrauchsmuster wirkt als 'Lückenfüller' während Patent-Verfahren läuft.",
         "Häufiger Anfänger-Fehler: nur Patent angemeldet, im Markt aktive Konkurrenz nutzt Verfahrens-Lücken. Gebrauchsmuster gibt schnellen Schutz."
       ],
-      "description": "Gebrauchsmuster ist 'kleines Patent' — schneller, billiger, niedrigere Erfindungshöhe, max 10 Jahre. Sweet-Spot für DACH-Tech-Startups."
+      "description": "Gebrauchsmuster ist 'kleines Patent', schneller, billiger, niedrigere Erfindungshöhe, max 10 Jahre. Sweet-Spot für DACH-Tech-Startups."
     },
     "design-anmeldung": {
       "checklist": [
@@ -8073,8 +8073,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Beauty/Fashion/Kitchen-Brands sollten Design-Schutz für Verpackung + Produkt-Form anmelden — schützt vor Lookalike-Konkurrenten.",
-        "Pro-Tipp: 'Hinterlegung ohne Veröffentlichung' (geheime Hinterlegung) für 30 Monate möglich — schützt während Markt-Validierung."
+        "Beauty/Fashion/Kitchen-Brands sollten Design-Schutz für Verpackung + Produkt-Form anmelden, schützt vor Lookalike-Konkurrenten.",
+        "Pro-Tipp: 'Hinterlegung ohne Veröffentlichung' (geheime Hinterlegung) für 30 Monate möglich, schützt während Markt-Validierung."
       ],
       "description": "Schützt Erscheinungsbild eines Produkts: Form, Konturen, Farben, Oberflächen. Sweet-Spot für D2C-Brands (Verpackung, Produkt-Optik)."
     },
@@ -8103,7 +8103,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Watch-Setup: regelmäßige Monitoring-Recherche nach ähnlichen Patenten + Produkten",
         "Verletzungs-Indikatoren: Konkurrenz-Produkt am Markt mit ähnlichen technischen Merkmalen",
-        "Erste Maßnahme: Cease-and-Desist (C&D) durch Patent-Anwalt — kostengünstig, oft erfolgreich",
+        "Erste Maßnahme: Cease-and-Desist (C&D) durch Patent-Anwalt, kostengünstig, oft erfolgreich",
         "Lizenz-Verhandlung als Alternative zu Klage: Gegenseite zahlt 2-5 % Royalty + Anerkennung",
         "Klage als Letztes Mittel: 50-500k € Kosten, 1-3 Jahre Dauer, 50-70 % Erfolgsquote",
         "Zoll-Beschlagnahme bei Import-Plagiaten via Zollanwalt (DPMA-Eintragung Pflicht)",
@@ -8159,13 +8159,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "E-Commerce/D2C Multiples: 1-3x Revenue ODER 4-8x EBITDA (deutlich niedriger als SaaS wegen geringerer Marge + Skalierbarkeit)",
         "Tech/Marketplace Multiples: 3-8x Revenue ODER 15-30x EBITDA",
         "DCF-Methode: für reife Firmen mit stabilem Cashflow. Pre-Profit-Startups eher Multiple-basiert.",
-        "Comparables: 5-10 ähnliche Transaktionen letzte 24 Monate finden — best Predictor für Markt-Range.",
-        "Asking-Price-Strategie: 20-30 % über Ziel-Preis ansetzen — Verhandlungsspielraum."
+        "Comparables: 5-10 ähnliche Transaktionen letzte 24 Monate finden, best Predictor für Markt-Range.",
+        "Asking-Price-Strategie: 20-30 % über Ziel-Preis ansetzen, Verhandlungsspielraum."
       ]
     },
     "berater-team": {
       "checklist": [
-        "M&A-Berater: 3-5 Boutiquen oder Banken in Erstgesprächen (Unverbindlich)",
+        "M&A-Berater: 3-5 Boutiquen oder Banken in ersten Gesprächen (Unverbindlich)",
         "Berater-Auswahl: Branchen-Erfahrung > Größe der Firma",
         "Engagement Letter: Mandatszeit 6-12 Monate, Success-Fee 3-7 % (Sliding-Scale bei höherer Bewertung)",
         "Anwalt: M&A-Spezialist (NICHT General-Anwalt). Erfahrung mit ähnlichen Deal-Größen",
@@ -8185,7 +8185,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Berater-Honorar-Modelle: Retainer (5-20k €/Mon) + Success-Fee, oder pure Success-Fee (höher 5-7 %).",
-        "Lehman-Formula (alte Bewertung): 5-4-3-2-1 % über Tranchen — heute meist abgelöst durch flat 3-5 %.",
+        "Lehman-Formula (alte Bewertung): 5-4-3-2-1 % über Tranchen, heute meist abgelöst durch flat 3-5 %.",
         "Top-Boutiquen-Schwellen: < 20M Deal → Mid-Market-Boutique, 20-100M → Major-Boutique, > 100M → Investment Bank."
       ]
     },
@@ -8261,8 +8261,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Exclusivity: 30-90 Tage No-Shop-Period während Final-Verhandlung"
       ],
       "extendedNotes": [
-        "Earn-Out-Ratio: 60-80 % Cash + 20-40 % Earn-Out ist Standard. Founder-Risiko liegt im Earn-Out — KPI-Definition genau aushandeln.",
-        "Roll-Over-Equity: bei Private-Equity oft 20-40 % Anteile am NewCo bleiben (Re-Investment) — Upside bei zweitem Exit."
+        "Earn-Out-Ratio: 60-80 % Cash + 20-40 % Earn-Out ist Standard. Founder-Risiko liegt im Earn-Out, KPI-Definition genau aushandeln.",
+        "Roll-Over-Equity: bei Private-Equity oft 20-40 % Anteile am NewCo bleiben (Re-Investment), Upside bei zweitem Exit."
       ],
       "description": "Nach DD: Käufer macht Binding-Offer via LOI/Term-Sheet. Definiert Pricing, Struktur (Asset/Share), Closing-Bedingungen, Earn-Out, Reps & Warranties."
     },
@@ -8288,7 +8288,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Integration-Plan: 100-Tage-Plan mit Käufer-Operations-Team",
         "Customer-Retention sicherstellen: Founder bleibt Ansprechpartner für Top-Konten",
         "Mitarbeiter-Retention: Bonus-Programme + Founder-Sponsorship für Key-Hires",
-        "Tax-Optimierung: Kaufpreis ggf. via Holding-GmbH (95 % steuerfrei §8b KStG)",
+        "Tax-Optimierung: Kaufpreis ggf. via Holding-GmbH (95 % steuerbegünstigt §8b KStG)",
         "Vermögensplanung: bei großem Exit-Erlös Family-Office / Asset-Manager engagieren",
         "Lock-Up-Phase: typisch 1-3 Jahre, danach Optionen für nächstes Vorhaben",
         "Reputation-Pflege: positive Public-Communication mit Käufer abgestimmt"
@@ -8297,7 +8297,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Earn-Out-Erfüllungs-Quote 2024-26: nur 50-60 % der Earn-Out-Targets werden voll erreicht. KPI-Definition hat zentrale Bedeutung.",
         "Steuer-Optimierung Exit-Erlös DE: Verkauf via Holding-GmbH spart ~25 %-Punkt vs. direkter Privat-Verkauf (Halbeinkünfteverfahren / Schachtelprivileg)."
       ],
-      "description": "Nach Closing folgen Integration + Earn-Out-Periode + ggf. Founder-Transition. Cardinal Sin: nach Closing 'abzuschalten' — Earn-Out hängt davon ab."
+      "description": "Nach Closing folgen Integration + Earn-Out-Periode + ggf. Founder-Transition. Cardinal Sin: nach Closing 'abzuschalten', Earn-Out hängt davon ab."
     }
   },
   "crowdfunding-token": {
@@ -8335,7 +8335,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Equity-Crowdfunding** (Companisto, Seedmatch): Investoren bekommen Anteile (typisch via Genussrechte oder partiarisches Darlehen). Sweet-Spot 250k-3M Round-Size. Zielgruppe: D2C-Brands, Tech-Startups mit Story.",
         "**Reward-Crowdfunding** (Kickstarter, Indiegogo): Backer 'kaufen' Produkt vor Launch. KEIN Anteils-Transfer. Sweet-Spot Hardware/Innovation-Products. Pre-Order = validierte Marktforschung + Working-Capital.",
         "**Token-Launch / Security Token Offering (STO)**: Crypto-Tokens als Anteils-Form. Seit MiCAR (1.1.2024) lizenz-Pflicht in EU. Komplex + teuer, aber globale Reichweite.",
-        "**Initial Coin Offering (ICO)** ohne MiCAR-Compliance: in EU rechtlich riskant ab 2024 — meiden außer mit Vollzeit-Compliance-Setup.",
+        "**Initial Coin Offering (ICO)** ohne MiCAR-Compliance: in EU rechtlich riskant ab 2024, meiden außer mit Vollzeit-Compliance-Setup.",
         "**Best-Fit Decision**: Brand mit Story → Equity-CF · Hardware mit Pre-Order-Potential → Kickstarter · Crypto/Web3-Native → Token (mit Vollzeit-Compliance)."
       ]
     },
@@ -8344,7 +8344,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Plattform-Auswahl: Companisto (B2C-Brand-Fokus), Seedmatch (Tech-Startup-Fokus)",
         "Plattform-Pitch: 30-min-Call mit Plattform-Team, Bewertungs-Range klären",
         "Voraussetzung: GmbH/UG (kein Einzelunternehmen), saubere Buchhaltung, Cap-Table",
-        "Vermögensanlagen-Informationsblatt (VIB) für Investoren — Pflicht-Doku",
+        "Vermögensanlagen-Informationsblatt (VIB) für Investoren, Pflicht-Doku",
         "Vermögensanlagen-Verkaufsprospekt ab > 8M € Volumen oder > 200k pro Investor",
         "Marketing-Material: Pitch-Video, Bilder, Investoren-Pitch-Deck",
         "Mindest-Funding-Schwelle (typisch 100-500k €): wenn nicht erreicht → Geld zurück",
@@ -8412,9 +8412,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "token-launch": {
       "checklist": [
-        "Token-Klassifikation: Asset-Referenced Token (ART), E-Money Token (EMT), Crypto-Asset (Utility) — unterschiedliche MiCAR-Anforderungen",
+        "Token-Klassifikation: Asset-Referenced Token (ART), E-Money Token (EMT), Crypto-Asset (Utility), unterschiedliche MiCAR-Anforderungen",
         "Utility-Token (Plattform-Zugang): einfachste Klasse, weniger Compliance",
-        "ART/EMT (Stablecoins, Tokenized Assets): Vollständige Banking-Lizenz nötig — sehr komplex",
+        "ART/EMT (Stablecoins, Tokenized Assets): Vollständige Banking-Lizenz nötig, sehr komplex",
         "MiCAR White-Paper: 30-100 Seiten, Pflicht-Inhalt definiert (Risk-Disclosure, Tech, Use-of-Funds, etc.)",
         "BaFin-Notification: White-Paper 20 Werktage vor Launch einreichen",
         "Smart-Contract-Audit: ConsenSys, Trail of Bits, OpenZeppelin (50-150k €)",
@@ -8446,7 +8446,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "Realistische MiCAR-Setup-Kosten: 200-500k € total für Compliance + Audit + Anwalt + Plattform-Setup. Sweet-Spot nur ab Funding > 5M €.",
         "Alternative: Launch in nicht-EU-Jurisdiktion (Schweiz, Singapur, Cayman Islands) und Sales-Restriction in EU. Legal aber begrenzt Reichweite.",
-        "Sub-Modelle: Security Token Offering (STO, Anteile-Token) vs. Utility Token (Plattform-Zugriff) — Compliance-Tiefe variiert deutlich."
+        "Sub-Modelle: Security Token Offering (STO, Anteile-Token) vs. Utility Token (Plattform-Zugriff), Compliance-Tiefe variiert deutlich."
       ],
       "description": "Markets in Crypto-Assets Regulation (MiCAR) seit 1.1.2024 in EU verbindlich. Token-Launch ohne MiCAR-Lizenz = illegal in EU. Komplex aber globale Reichweite."
     },
@@ -8479,7 +8479,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Jahres-Geschäftsbericht Pflicht (für Equity-CF)",
         "Community-Channel: Discord/Telegram für Direkt-Kommunikation",
         "AMA-Sessions (Ask-Me-Anything): monatlich oder quartalsweise",
-        "Transparente Kommunikation bei Problemen — Community vergibt Verzögerungen, ABER nicht Schweigen",
+        "Transparente Kommunikation bei Problemen, Community vergibt Verzögerungen, ABER nicht Schweigen",
         "Reward-CF: regelmäßige Fulfillment-Updates (Production, Shipping, etc.)",
         "Token-Launch: ongoing Tokenomics-Reporting + DEX-Liquiditäts-Management",
         "Bei Folge-Runde: bestehende Investoren bevorzugt informieren (Pre-Emption-Right oft kontraktuell)"
@@ -8496,7 +8496,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Steuer-ID parat (11-stellig, vom FA per Brief erhalten)",
         "Aktivierungs-Code per Brief abwarten (Registrierung laut ELSTER bis zu 10 Werktage)",
         "Login + Software-Zertifikat herunterladen + speichern (Pflicht für jede Anmeldung!)",
-        "Zertifikat-Backup (Cloud + USB-Stick) — Verlust = neuer Antrags-Prozess",
+        "Zertifikat-Backup (Cloud + USB-Stick), Verlust = neuer Antrags-Prozess",
         "2-Faktor-Authentifizierung optional aktivieren"
       ],
       "externalLinks": [
@@ -8515,7 +8515,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Tätigkeitsbeginn: REALES Datum (auch zurückliegend, dann ggf. Steuer-Effekte rückwirkend)",
         "Anschrift: Wohnsitz = Unternehmensanschrift bei Solo-Selbstständigen",
-        "Geschäftsadresse separat: nur wenn echtes Office (Mietvertrag) — Postfach-Adresse vermeiden",
+        "Geschäftsadresse separat: nur wenn echtes Office (Mietvertrag), Postfach-Adresse vermeiden",
         "Steuernummer: LEER LASSEN (wird nach Bearbeitung vergeben)",
         "Steuer-ID (11-stellig): aus FA-Brief eintragen",
         "Familienstand + Kinder: relevant für Splitting + Freibeträge",
@@ -8527,7 +8527,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Tätigkeit konkret beschreiben (NICHT 'IT-Tätigkeit', sondern 'Softwareentwicklung im Bereich SaaS')",
         "Mehrere Tätigkeiten? Hauptaktivität zuerst, andere mit %-Anteil schätzen",
         "Bei unsicherer Freiberuf/Gewerbe-Klassifikation: vorher schriftliche Anfrage beim zuständigen FA",
-        "Wirtschaftszweig-Code (WZ 2008): in ELSTER auswählbar — passenden Code finden"
+        "Wirtschaftszweig-Code (WZ 2008): in ELSTER auswählbar, passenden Code finden"
       ],
       "externalLinks": [
         {
@@ -8538,8 +8538,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Freiberufler-Tätigkeiten** (§18 EStG, kein Gewerbe): Softwareentwicklung, Beratung, Coaching, Journalistische Tätigkeit, Künstlerische Tätigkeit, Heilpraktiker, Architekten, Anwälte, Ärzte, Steuerberater.",
         "**Gewerbliche Tätigkeiten**: Online-Shop, Vermittlung, Agentur, Handel, Produktion, Marketing-Services, Reinigung, etc.",
-        "**Mischtätigkeit**: Abfärbetheorie — wenn > 3 % der Einkünfte gewerblich → GESAMTE Tätigkeit wird gewerblich (auch wenn 97 % freiberuflich).",
-        "**Pro-Tipp**: bei unsicherer Klassifikation 'Verbindliche Auskunft' beim FA (100-200 €) — gibt rechtliche Sicherheit.",
+        "**Mischtätigkeit**: Abfärbetheorie, wenn > 3 % der Einkünfte gewerblich → GESAMTE Tätigkeit wird gewerblich (auch wenn 97 % freiberuflich).",
+        "**Pro-Tipp**: bei unsicherer Klassifikation 'Verbindliche Auskunft' beim FA (100-200 €), gibt rechtliche Sicherheit.",
         "**Beispiele richtig formuliert**: 'Softwareentwicklung mit Schwerpunkt SaaS-Anwendungen' (Freiberuf) vs. 'Online-Vermittlung von Software-Lizenzen' (Gewerbe)."
       ]
     },
@@ -8585,9 +8585,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "  - USt entsteht bei GELDEINGANG (nicht bei Rechnung)",
         "  - Liquiditäts-Vorteil ~30-60 Tage",
         "  - Erlaubt wenn Vorjahres-Umsatz < 800k €",
-        "**Soll-Versteuerung** = Default wenn nicht angekreuzt — VERMEIDEN!",
+        "**Soll-Versteuerung** = Default wenn nicht angekreuzt, VERMEIDEN!",
         "**USt-VA-Rhythmus**: erstes Jahr immer monatlich, ab Jahr 2 abhängig von Vorjahres-USt-Last",
-        "**Dauerfristverlängerung** beantragen (1 Monat länger Zeit für USt-VA, kostet 1/11 der Vorjahres-Last als Sondervorauszahlung) — lohnt fast immer"
+        "**Dauerfristverlängerung** beantragen (1 Monat länger Zeit für USt-VA, kostet 1/11 der Vorjahres-Last als Sondervorauszahlung), lohnt fast immer"
       ],
       "warning": "KU-Status NACH 5 Jahren Bindungsfrist freiwilliger Wechsel zur Regelbesteuerung. KU-Pflicht-Wechsel bei Schwellen-Überschreitung im Folgejahr.",
       "description": "Kleinunternehmer-Regelung §19 UStG vs. Regelbesteuerung. Ist-Versteuerung vs. Soll-Versteuerung. Diese Wahl beeinflusst Pricing + Cashflow erheblich."
@@ -8628,7 +8628,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Verbindliche Versicherung ankreuzen (§150 AO Wahrheitsbekenntnis)",
         "Elektronisch signieren mit Software-Zertifikat",
         "Submit-Bestätigung speichern (PDF + Email-Archiv)",
-        "Bearbeitung 4-12 Wochen warten (saisonal — Q1 langsamer)"
+        "Bearbeitung 4-12 Wochen warten (saisonal, Q1 langsamer)"
       ],
       "description": "Verbindliche Versicherung + elektronische Signatur via Software-Zertifikat. Ohne Submit keine Bearbeitung."
     },
@@ -8671,7 +8671,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Kapital-Check: 20-100k € initial verfügbar (Inventar + Marketing + Compliance)?",
         "Produkt-Vision: konkrete USP, nicht 'mich auch'?",
-        "Marken-Mindset: 3-5 Jahre Aufbau-Geduld vs. Quick-Wins?",
+        "Marken-Herangehensweise: 3-5 Jahre Aufbau-Geduld vs. Quick-Wins?",
         "Marge-Realität: 60-80 % Brutto-Marge nötig für nachhaltige D2C-Ökonomie",
         "Skalierungs-Vision: 1-10M Revenue-Ziel oder Lifestyle-Business?"
       ],
@@ -8711,7 +8711,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "ip-schutz": {
       "checklist": [
         "Marken-Recherche zuerst (DPMA + EUIPO + Google) vor jedem Branding-Investment",
-        "DE-Marke ODER EU-Marke (UM) — UM lohnt ab DACH-Markt-Reichweite",
+        "DE-Marke ODER EU-Marke (UM), UM lohnt ab DACH-Markt-Reichweite",
         "Design-Anmeldung für Verpackung + Produkt-Form bei differenzierter Optik",
         "Marken-Überwachung aktivieren (DPMA-Service oder Anwalt) für Plagiats-Schutz",
         "Patent/Gebrauchsmuster nur wenn echte technische Innovation"
@@ -8798,7 +8798,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.junglescout.com"
         },
         {
-          "label": "Keepa (Preis/BSR-History — Cross-Funktion OA + PL)",
+          "label": "Keepa (Preis/BSR-History, Cross-Funktion OA + PL)",
           "url": "https://keepa.com"
         },
         {
@@ -8814,7 +8814,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://sellercentral.amazon.de"
         }
       ],
-      "warning": "Amazon-PL ohne Brand-Registry = Hijacking-Risiko binnen Wochen. Marken-Anmeldung VOR Amazon-Listing — sonst kein Brand-Registry-Zugang.",
+      "warning": "Amazon-PL ohne Brand-Registry = Hijacking-Risiko binnen Wochen. Marken-Anmeldung VOR Amazon-Listing, sonst kein Brand-Registry-Zugang.",
       "description": "Brand-Owner profitiert von Amazon als Volumen-Channel zusätzlich zum eigenen Shop. PL (Private Label) auf Amazon = höchste Margen aber harte Konkurrenz. Research-Tools entscheiden über Erfolgs-Quote, Brand-Registry schützt vor Hijacking."
     },
     "buchhaltung-steuer": {
@@ -8924,7 +8924,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Reviews-Stack**: Yotpo (Premium-All-in-One), Stamped (Mid-Market), Loox (UGC-Bilder), Judge.me (günstig). UGC-Content für Ads + Site",
         "**Personalisierte Site-Search**: Klevu (E-Commerce-spezialisiert, 50-500 €/Mon), Algolia (Premium), Searchanise (Shopify günstig). Site-Search-User konvertieren 5-10x höher",
         "**Quiz-Funnel für Personalisierung**: Octane AI (50-300 $/Mon), Tolstoy (Video-Quiz). +15-25 % AOV durch Personalisierung",
-        "**Customer-Segmentation (RFM)**: Klaviyo Built-In Lifecycle-Stages — VIP / Frequent / At-Risk / Lapsed. Unterschiedliche Email/SMS-Flows pro Segment",
+        "**Customer-Segmentation (RFM)**: Klaviyo Built-In Lifecycle-Stages, VIP / Frequent / At-Risk / Lapsed. Unterschiedliche Email/SMS-Flows pro Segment",
         "**Predictive-Analytics**: Klaviyo CLV-Predictions + Next-Order-Predictions. Pflicht für Skalierung-Phase, schaltet automatisch passende Flows ab/an"
       ],
       "externalLinks": [
@@ -9007,7 +9007,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "description": "D2C-Brand-Skalierung lebt von Customer-Retention. Customer-Data-Platform (CDP) + Service-Stack + Loyalty-Programm + Subscriptions sind Pflicht ab 100k €/Mon. LTV-Boost 30-50 % vs. ohne Retention-Stack."
     },
     "pitfalls": {
-      "warning": "70 % der D2C-Brands schaffen die ersten 24 Monate nicht. Top-Killer unten — vermeiden.",
+      "warning": "70 % der D2C-Brands schaffen die ersten 24 Monate nicht. Top-Killer unten, vermeiden.",
       "extendedNotes": [
         "**Pitfall 1**: Brand starten OHNE Marken-Schutz → Plagiate auf Amazon binnen 6-12 Monaten, Re-Branding teuer",
         "**Pitfall 2**: Verpackungs-Lizenz vergessen → 1-10k € Bußgeld bei Aufdeckung + Vertriebs-Stopp",
@@ -9024,7 +9024,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "reseller-marketplace-setup": {
     "fit-check": {
       "checklist": [
-        "Cash-Mindset: schneller Inventar-Turn (4-12x/Jahr) statt Brand-Build?",
+        "Cash-Herangehensweise: schneller Inventar-Turn (4-12x/Jahr) statt Brand-Build?",
         "Margen-Realität: Reseller-Margen 15-35 % brutto, vs. Brand 60-80 %",
         "Konkurrenz-Toleranz: Race-to-Bottom auf Marketplaces akzeptieren?",
         "Lieferanten-Netzwerk vorhanden oder bereit aufzubauen?",
@@ -9070,7 +9070,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Beispiel**: Wareneinkauf 100 € netto (119 € brutto). Mit Regelbesteuerung: du zahlst 100 € (Vorsteuer-Abzug). Mit KU: du zahlst 119 €. Bei 1.000 Einkäufen pro Jahr = 19.000 € Differenz!",
         "**Wann KU für Reseller doch passt**: Pure Service-Reseller (z.B. Dropshipping mit niedrigem Wareneinsatz) oder reine Provision-Modelle.",
-        "**Pro-Tipp**: Im FsE bei Reseller IMMER Regelbesteuerung wählen — auch wenn Schwellen überschritten werden könnten."
+        "**Pro-Tipp**: Im FsE bei Reseller IMMER Regelbesteuerung wählen, auch wenn Schwellen überschritten werden könnten."
       ]
     },
     "marketplaces": {
@@ -9100,9 +9100,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "oss-eu": {
       "checklist": [
-        "Unter 10.000 € EU-Cross-Border-Umsatz/Jahr: keine OSS-Pflicht — USt bleibt im Heimatland (DE)",
+        "Unter 10.000 € EU-Cross-Border-Umsatz/Jahr: keine OSS-Pflicht, USt bleibt im Heimatland (DE)",
         "Ab 10.000 € EU-Cross-Border B2C: OSS-Anmeldung beim BZSt ODER lokale USt-Registrierung in jedem Lieferland",
-        "OSS-Anmeldung wirkt erst zum Quartal-Beginn nach Antrag — NICHT rückwirkend, also rechtzeitig vor Schwellen-Überschreitung planen",
+        "OSS-Anmeldung wirkt erst zum Quartal-Beginn nach Antrag, NICHT rückwirkend, also rechtzeitig vor Schwellen-Überschreitung planen",
         "Pan-EU-FBA: zusätzlich lokale USt-Registrierung in den FBA-Ländern Pflicht (auch mit OSS, weil Lager im Land = lokale Lieferung)",
         "Verzicht auf 10k-Schwelle (Verzichtserklärung an FA): bei geplantem Cross-Border-Start sinnvoll für sauberes Setup ab Tag 1",
         "Quartalsweise OSS-Meldung beim BZSt (Fristen: 30.04. / 31.07. / 31.10. / 31.01.)"
@@ -9124,7 +9124,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bis 1.000 Orders/Mon: Billbee (ab 9 €/Mon)",
         "1.000-10.000 Orders/Mon: plentymarkets oder Xentral",
         "Eigenes Lager + komplexe Bundle-Logik: JTL-Wawi",
-        "Wenn unsicher: Billbee starten — Migration später möglich"
+        "Wenn unsicher: Billbee starten, Migration später möglich"
       ],
       "externalLinks": [
         {
@@ -9299,9 +9299,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "repricer-amazon": {
       "checklist": [
-        "Sellerlogic 50-150 €/Mon — regelbasiert, DACH-Standard",
-        "BQool 80-300 €/Mon — KI-basiert, Top-Tier für >500 SKUs",
-        "RepricerExpress ab 55 €/Mon — günstigster Einstieg",
+        "Sellerlogic 50-150 €/Mon, regelbasiert, DACH-Standard",
+        "BQool 80-300 €/Mon, KI-basiert, Top-Tier für >500 SKUs",
+        "RepricerExpress ab 55 €/Mon, günstigster Einstieg",
         "Min-/Max-Preis je SKU setzen (niemals unter 5 % Marge)",
         "Buy-Box-Strategie wählen: aggressiv (Marktanteil) vs. profitabel (Marge)"
       ],
@@ -9323,9 +9323,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "versand-integration": {
       "checklist": [
-        "Sendcloud 25-100 €/Mon — Standard, alle Carrier auf einer Plattform",
-        "Shipcloud — DACH-Alternative, einfacheres Pricing",
-        "DHL-Portal direkt — kostenlos, aber nur ein Carrier",
+        "Sendcloud 25-100 €/Mon, Standard, alle Carrier auf einer Plattform",
+        "Shipcloud, DACH-Alternative, einfacheres Pricing",
+        "DHL-Portal direkt, kostenlos, aber nur ein Carrier",
         "Versand-Label automatisch aus Billbee triggern (Webhook)",
         "Retouren-Labels separat einrichten (Pflicht für 14-Tage-Widerruf)"
       ],
@@ -9347,9 +9347,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "prep-center-returns": {
       "checklist": [
-        "Self-Prep günstiger, aber Founder-Bottleneck — ab 500 Units/Mon outsourcen",
+        "Self-Prep günstiger, aber Founder-Bottleneck, ab 500 Units/Mon outsourcen",
         "Prep-Center 1-3 € pro Unit (FBA-Label, Bundling, Polybag, Amazon-Anlieferung)",
-        "ZenFulfillment + Prep-Center Germany — DACH-Top-Tier",
+        "ZenFulfillment + Prep-Center Germany, DACH-Top-Tier",
         "Returns-Workflow definieren: Marketplace-Return → Inspection → Restocking / Refurbishment",
         "Prep-Center übernehmen oft auch Retouren-Inspection (separat anfragen)"
       ],
@@ -9367,7 +9367,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.fba-prep-service.com"
         }
       ],
-      "description": "Prep-Center (3PL) übernimmt FBA-Vorbereitung — Wareneingang aus China, FBA-Label, Bundling, Anlieferung ans Amazon-Lager. Pflicht bei Import-Reseller-Modell oder Pan-EU-FBA."
+      "description": "Prep-Center (3PL) übernimmt FBA-Vorbereitung, Wareneingang aus China, FBA-Label, Bundling, Anlieferung ans Amazon-Lager. Pflicht bei Import-Reseller-Modell oder Pan-EU-FBA."
     },
     "source-diversifikation": {
       "checklist": [
@@ -9378,7 +9378,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Importe Türkei: Trendyol-Wholesale, Direct-Sourcing in Istanbul",
         "Brand-Distributoren: direkt bei Marken-Großhändlern (höhere Margen, Approval nötig)",
         "Auctions: Aucto, GoIndustry-DoveBid für Industrie-Liquidation",
-        "Min 3 parallele Quellen aufbauen — Single-Source = Existenz-Risiko"
+        "Min 3 parallele Quellen aufbauen, Single-Source = Existenz-Risiko"
       ],
       "description": "Reseller-Skalierung hängt an Source-Pipeline. Single-Source-Risiko vermeiden. 3-5 parallele Sourcing-Kanäle = Resilienz."
     },
@@ -9395,7 +9395,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "Keepa (Preis/BSR-History — Pflicht)",
+          "label": "Keepa (Preis/BSR-History, Pflicht)",
           "url": "https://keepa.com"
         },
         {
@@ -9403,7 +9403,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.selleramp.com"
         },
         {
-          "label": "BuyBotPro (BBP) — OA-Sourcing",
+          "label": "BuyBotPro (BBP), OA-Sourcing",
           "url": "https://buybotpro.com"
         },
         {
@@ -9455,9 +9455,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Reviews-Automation Amazon**: FeedbackFive / FeedbackWhiz für 'Request a Review'-Button automatisiert. Pflicht für Buy-Box + BSR-Boost",
         "**Reviews-Strategie Kaufland/eBay**: manuelle oder via eDesk automatisierte Bewertungsanfrage nach Lieferung",
         "**AMZAlert für Amazon-Hijacking-Schutz**: monitort Listing-Hijacker (andere Verkäufer auf deinen ASINs) + Suspicious-Activity-Alerts",
-        "**Returns-Workflow-Tool**: Loop Returns (Premium, 90-500 €/Mon), AfterShip Returns (Mid-Market, 50-300 €/Mon) — automatisiert Refund + Restocking + Customer-Communication",
+        "**Returns-Workflow-Tool**: Loop Returns (Premium, 90-500 €/Mon), AfterShip Returns (Mid-Market, 50-300 €/Mon), automatisiert Refund + Restocking + Customer-Communication",
         "**Returns-Reduction-Strategie**: Insert-Cards mit Setup-Manual + 'Kontaktiere uns vor Bewertung'-Karte. Reduziert sowohl Returns als auch negative Reviews 30-50 %",
-        "**Suppliers-CRM (HubSpot Free)**: Lieferanten-Beziehungen tracken — Pricing-Historie, Order-Cycle, Quality-Issues, Verhandlungs-Notizen. Verhandlungs-Hebel bei nächster Order",
+        "**Suppliers-CRM (HubSpot Free)**: Lieferanten-Beziehungen tracken, Pricing-Historie, Order-Cycle, Quality-Issues, Verhandlungs-Notizen. Verhandlungs-Hebel bei nächster Order",
         "**Account-Health-Monitoring**: tägliches Dashboard pro Marketplace (Amazon Performance + eBay Seller Standards + Kaufland Performance-Score). Bei < 95 % SOFORT Action",
         "**Suspension-Recovery-Anwälte**: Riggio Legal (US-Top-Tier), Ecommerce Attorneys (DACH). Bei Account-Suspension 500-2k € Investment vs. 30-90 Tage Sales-Verlust"
       ],
@@ -9512,7 +9512,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "description": "Reseller skaliert mit Multi-Marketplace-Customer-Support-Tools (eDesk, Replyco), automatisierten Reviews-Anfragen, sauberem Returns-Workflow. Account-Health-Score pro Marketplace hängt direkt davon ab."
     },
     "pitfalls": {
-      "warning": "Reseller-Margen sind dünn — ein Fehler kann ganze Jahres-Marge fressen.",
+      "warning": "Reseller-Margen sind dünn, ein Fehler kann ganze Jahres-Marge fressen.",
       "extendedNotes": [
         "**Pitfall 1**: Kleinunternehmer-Status gewählt → 19 % Vorsteuer-Verlust = oft unprofitabel",
         "**Pitfall 2**: Single-Marketplace-Risiko (nur Amazon) → Account-Suspend = Existenz weg",
@@ -9586,7 +9586,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Hour-Rate-Berechnung: Ziel-Brutto-Jahres-Einkommen × 1,4 / 1.200 Billable-Hours = Hour-Rate",
         "Project-Pricing: 50 % Margin-Buffer auf Estimate (Scope-Creep-Schutz)",
         "Retainer-Pricing: 3 Pakete (Starter/Growth/Enterprise) mit klarem Wert-Differential",
-        "Annual-Discount für Retainer (10-23 % bei Jahres-Vertrag) — Cashflow-Boost"
+        "Annual-Discount für Retainer (10-23 % bei Jahres-Vertrag), Cashflow-Boost"
       ],
       "extendedNotes": [
         "**Hour-Rate** (Stunden-Verkauf): einfach + transparent, aber Skalierungs-Cap. Sweet-Spot 80-200 €/h DACH, 150-400 € Senior, 500+ € Top-Specialist.",
@@ -9650,7 +9650,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Scheinselbstständigkeit-Indikatoren**: > 5/6 Umsatz von 1 Auftraggeber, fester Arbeitsort beim Auftraggeber, Weisungsgebundenheit, eingegliedert in Auftraggeber-Organisation",
         "**Werkvertrag richtig**: konkretes Werk (Logo, Website, Modul) statt Stunden-basiert, Selbstbestimmung der Arbeitszeit, eigenes Equipment, mehrere Auftraggeber",
-        "**Statusfeststellungs-Verfahren bei DRV**: vor Engagement schriftlich klären (kostenfrei) — gibt rechtliche Sicherheit",
+        "**Statusfeststellungs-Verfahren bei DRV**: vor Engagement schriftlich klären (kostenfrei), gibt rechtliche Sicherheit",
         "**Best-Practice**: Freelancer haben mehrere Kunden + GbR/Einzelunternehmen-Status + eigene Office-Infrastruktur"
       ],
       "description": "Skalierungs-Hebel = Freelancer einsetzen. ABER Scheinselbstständigkeit-Risiko (DRV) bei langfristiger 1-Klienten-Beziehung. Werkvertrag richtig strukturieren."
@@ -9660,7 +9660,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Outbound: Apollo.io / Lemlist / Instantly für Cold-Email-Sequenzen",
         "LinkedIn-Outreach (Sales Navigator + Personalisierung)",
         "Referrals: explicit-asking-prozess + Referral-Bonus (5-15 % vom ersten Auftrag)",
-        "Inbound: Content-Marketing (Blog, YouTube, LinkedIn-Posts) — langfristig günstigster Channel",
+        "Inbound: Content-Marketing (Blog, YouTube, LinkedIn-Posts), langfristig günstigster Channel",
         "Case-Studies + Social-Proof (Logos + Quotes + Numbers)",
         "Niche-Positioning: 'Marketing für DACH-D2C-Brands' > 'Marketing-Agency'",
         "Outbound-Volume: 50-100 personalisierte Mails/Tag = realistische Skalierung für 1-Person-Sales",
@@ -9700,7 +9700,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Invoice-Stack DACH**: sevDesk (DACH-Standard, 9-55 €/Mon, GoBD-konform), Lexoffice, Easybill, Bonsai (Freelance-fokussiert international)",
         "**Recurring-Invoicing für Retainer**: Stripe Billing (Standard, 0,5 % zusätzlich), HoneyBook (Service-Business-spezifisch), Bonsai. Auto-Charge für Retainer-Clients = Cashflow-Stabilität",
         "**Proposal-zu-Contract-Workflow**: Proposal in PandaDoc → E-Signature → automatisch Pipeline-Stage in CRM updates → automatisch erste Invoice via Stripe Billing",
-        "**Sales-Reporting**: monatliches Dashboard — Pipeline-Value, Conversion-Rate pro Stage, Average-Deal-Size, Sales-Cycle-Length, Win-Rate. Forecast 3-Monate basierend auf Pipeline × Probability",
+        "**Sales-Reporting**: monatliches Dashboard, Pipeline-Value, Conversion-Rate pro Stage, Average-Deal-Size, Sales-Cycle-Length, Win-Rate. Forecast 3-Monate basierend auf Pipeline × Probability",
         "**Time-to-Cash-Hebel**: Net-14 statt Net-30 verhandeln, 50/50 Anzahlung-vs-Final, Auto-Charge für Retainer. Schneller Cashflow = Skalierungs-Hebel"
       ],
       "externalLinks": [
@@ -9818,7 +9818,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "creator-influencer-setup": {
     "fit-check": {
       "checklist": [
-        "Hobby-Schwelle: < 410 €/Jahr Einnahmen UND < 256 €/Jahr Gewinn = steuerfrei",
+        "Hobby-Schwelle: < 410 €/Jahr Einnahmen UND < 256 €/Jahr Gewinn = steuerbegünstigt",
         "Über Hobby-Schwelle: Anmeldung Pflicht (Gewerbe oder Freiberuf)",
         "Künstlerisch-publizistische Tätigkeit (§18 EStG): Journalismus, Schriftsteller, Künstler → Freiberuf möglich",
         "Reine Werbe-Influence ohne künstlerische Komponente → Gewerbe (Abfärbetheorie!)",
@@ -9840,14 +9840,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbook/elster-fse-fillout"
         }
       ],
-      "warning": "Gewerbe zu früh anmelden = Quartals-USt-VA-Pflicht + ESt-Erklärung + IHK-Beiträge (50-300 €/Jahr) + Buchhaltungs-Aufwand — auch bei 0 € Umsatz. Erst anmelden wenn konstante Einnahmen >300 €/Mon stabil sind.",
+      "warning": "Gewerbe zu früh anmelden = Quartals-USt-VA-Pflicht + ESt-Erklärung + IHK-Beiträge (50-300 €/Jahr) + Buchhaltungs-Aufwand, auch bei 0 € Umsatz. Erst anmelden wenn konstante Einnahmen >300 €/Mon stabil sind.",
       "extendedNotes": [
-        "**Phase 0 — Test-Phase (0-12 Monate)**: Content posten + Reichweite aufbauen. KEINE Anmeldung. Keine Sponsoring-Verträge unterschreiben. Keine Affiliate-Links setzen die echte Provision generieren > 100 €/Jahr.",
-        "**Hobby-Schwelle §22 EStG**: bis 410 €/Jahr Einnahmen + 256 €/Jahr Gewinn = steuerfrei + keine Anmeldung nötig (Nebeneinkünfte-Freigrenze).",
-        "**Erste reale Einnahmen (> 100 €/Mon konstant)**: jetzt Excel/Sheets-Tracking starten — alle Einnahmen + Ausgaben dokumentieren (Equipment, Software, Reise, Anteilig Internet/Strom). NICHT noch anmelden.",
+        "**Phase 0, Test-Phase (0-12 Monate)**: Content posten + Reichweite aufbauen. KEINE Anmeldung. Keine Sponsoring-Verträge unterschreiben. Keine Affiliate-Links setzen die echte Provision generieren > 100 €/Jahr.",
+        "**Hobby-Schwelle §22 EStG**: bis 410 €/Jahr Einnahmen + 256 €/Jahr Gewinn = steuerbegünstigt + keine Anmeldung nötig (Nebeneinkünfte-Freigrenze).",
+        "**Erste reale Einnahmen (> 100 €/Mon konstant)**: jetzt Excel/Sheets-Tracking starten, alle Einnahmen + Ausgaben dokumentieren (Equipment, Software, Reise, Anteilig Internet/Strom). NICHT noch anmelden.",
         "**Anmelde-Trigger**: 6+ Monate konstante Einnahmen > 300-500 €/Mon ODER 1. großer Sponsoring-Deal mit Vertrag ODER ersten YouTube-Auszahlung > 100 €. Dann ELSTER-FsE einreichen.",
         "**Rechtsform-Wahl im FsE**: Einzelunternehmen Standard (kostet 0-50 € Gewerbeanmeldung). GmbH erst ab 100k € Gewinn/Jahr oder Haftungs-Risiko. NICHT voreilig GmbH gründen.",
-        "**Kleinunternehmer-Regel §19 UStG**: bis 25k €/Jahr ankreuzen — keine USt-VA-Pflicht. ABER: für Creator OFT besser Regelbesteuerung (Equipment-Vorsteuer-Abzug = Kamera/Software/Studio-Setup). Strategie individuell prüfen.",
+        "**Kleinunternehmer-Regel §19 UStG**: bis 25k €/Jahr ankreuzen, keine USt-VA-Pflicht. ABER: für Creator OFT besser Regelbesteuerung (Equipment-Vorsteuer-Abzug = Kamera/Software/Studio-Setup). Strategie individuell prüfen.",
         "**Rückwirkende Anmeldung**: FA erlaubt rückwirkende Anmeldung bis 12 Monate. Falls du JETZT erst merkst dass schon seit Monaten Einnahmen flossen → Beleg-Sammlung + dann Anmeldung mit korrektem Tätigkeits-Beginn.",
         "**Was NIE riskieren**: keine Werbe-Einnahmen ohne #Werbung-Kennzeichnung (Abmahn-Risiko 1-5k €). Sponsoring-Anfragen vor Anmeldung höflich ablehnen ODER ausschließlich PR-Sample-Basis (kein Geld)."
       ]
@@ -9865,8 +9865,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Pflicht-Hashtags** (Top der Caption, NICHT versteckt): #Werbung, #Anzeige, #Ad, oder Plattform-Tools (Instagram 'Bezahlte Partnerschaft')",
         "**Auch bei**: Affiliate-Links, Gratis-Produkte (PR-Sample), Reise-Einladungen, Event-Tickets, Code-Discounts",
-        "**Ausnahme**: rein redaktionelle Erwähnung ohne Gegenleistung (selten — meist liegt Gegenleistung vor)",
-        "**Plattform-Spezifika**: Instagram 'Bezahlte Partnerschaft' Tag NICHT Ersatz für #Werbung in Caption — beides nötig",
+        "**Ausnahme**: rein redaktionelle Erwähnung ohne Gegenleistung (selten, meist liegt Gegenleistung vor)",
+        "**Plattform-Spezifika**: Instagram 'Bezahlte Partnerschaft' Tag NICHT Ersatz für #Werbung in Caption, beides nötig",
         "**TikTok**: 'Branded Content' Toggle aktivieren + #Werbung in Caption",
         "**YouTube**: 'Bezahlte Werbung' im Video-Manager + Werbung-Hinweis in ersten 5 Sekunden"
       ]
@@ -9904,10 +9904,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Primary-Plattform (Volumen-Treiber): TikTok für Gen-Z/Mass, Instagram für DACH-Mid-Age, YouTube für Long-Form",
         "Secondary-Plattform (Diversification): mind. 1 weitere für Account-Ban-Schutz",
-        "Email-Liste (Owned-Audience!): Beehiiv / ConvertKit / Substack — Plattform-unabhängig",
+        "Email-Liste (Owned-Audience!): Beehiiv / ConvertKit / Substack, Plattform-unabhängig",
         "Cross-Posting: Repurpose.io, Metricool, Buffer für Multi-Plattform-Distribution",
         "Analytics: native Plattform-Analytics + Metricool für Cross-Plattform-Übersicht",
-        "Owned-Channel ab Tag 1 (Newsletter, Discord, Telegram) — Plattform-Risiko-Hedge"
+        "Owned-Channel ab Tag 1 (Newsletter, Discord, Telegram), Plattform-Risiko-Hedge"
       ],
       "description": "Multi-Plattform-Strategie spreitet Risiko (Algorithmus-Changes, Account-Bans). Sweet-Spot 2-3 Plattformen vertikal + 1-2 horizontal."
     },
@@ -9951,7 +9951,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**PR-Reisen + Events**: kompletter Wert (Flug + Hotel + Verpflegung) = Einnahme bei Brand-Event-Einladung",
         "**Equipment-Geschenke**: > 800 € → AfA-Pflicht (Abschreibung über Nutzungsdauer)",
         "**Affiliate-Provisionen aus dem Ausland**: USt-Reverse-Charge (B2B EU) oder USt-Pflicht (DE)",
-        "**Plattform-Auszahlungen aus Ausland**: TikTok/YouTube USA-Quellensteuer (5-30 % je nach DBA-Status) — DBA-Antrag stellen",
+        "**Plattform-Auszahlungen aus Ausland**: TikTok/YouTube USA-Quellensteuer (5-30 % je nach DBA-Status), DBA-Antrag stellen",
         "**Non-Cash-Provisionen** (Free-Products als Affiliate-Reward): zum Marktwert als Einnahme buchen"
       ],
       "description": "Creator-spezifische Steuer-Fallen: Geschenke = Einnahmen, PR-Reisen = Einnahmen, Equipment-Geschenke = AfA-Pflicht."
@@ -10125,7 +10125,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "1:1-Coaching: Hour-Cap, max 20-40h/Woche × Hour-Rate. Sweet-Spot 100-500 €/h",
         "Group-Coaching: 5-15 Klienten gleichzeitig, 5-20x Skalierung vs. 1:1",
         "Online-Kurs (Self-Paced): asynchron, max Skalierung, aber höhere Marketing-Kosten",
-        "Hybrid (Course + Group-Coaching): 'Cohort-Based Course' — höhere Preise, höhere Completion",
+        "Hybrid (Course + Group-Coaching): 'Cohort-Based Course', höhere Preise, höhere Completion",
         "Mastermind / Membership: recurring Revenue + Community + Premium-Pricing"
       ]
     },
@@ -10134,7 +10134,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Beratende Tätigkeit (1:1, Strategy-Coaching, Consulting) → Freiberuf möglich",
         "Online-Kurse-Verkauf (massenhaft, standardisiert) → meist Gewerbe (Verkauf von 'Werken')",
         "Mischtätigkeit (Coaching + Online-Kurse): meist Gewerbe wegen Abfärbung",
-        "Bei Zweifel: verbindliche Auskunft beim FA (100-200 €) — gibt rechtliche Sicherheit",
+        "Bei Zweifel: verbindliche Auskunft beim FA (100-200 €), gibt rechtliche Sicherheit",
         "GmbH ab 100k+ Gewinn (Steuer-Optimierung) oder bei Haftungs-Risiko (z.B. Rechts-/Medizin-Coaching)"
       ],
       "externalLinks": [
@@ -10172,10 +10172,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Klassische FernUSG-Fälle**: Online-Kurse mit Modulen + Lehrer-Feedback (Hausaufgaben, Q&A-Calls) + Zertifikat",
         "**KEIN FernUSG**: pure Reine-Coaching-Sessions (1:1 ohne Curriculum), reine Bücher/eBooks, reine Aufzeichnungen ohne Feedback",
         "**ZFU-Zulassung**: 6-12 Wochen Bearbeitung, 250-1.500 €/Kurs, jährliche Verlängerung",
-        "**Vermeidung-Strategie 1**: Kurs als 'Information' positionieren ohne Lehr-Charakter (schwer rechtssicher)",
+        "**Vermeidung-Strategie 1**: Kurs als 'Information' positionieren ohne Lehr-Charakter (schwer sauber aufgesetzt)",
         "**Vermeidung-Strategie 2**: rein synchrone Live-Coachings ohne Aufzeichnung (kein Fernunterricht)",
-        "**Vermeidung-Strategie 3**: B2B-Verkauf (Unternehmer-Klausel — FernUSG gilt nur B2C)",
-        "**Pro-Tipp**: vor jedem Kurs-Launch ZFU-Antrag prüfen + Anwalt konsultieren — Kosten 500-2.000 € günstiger als Existenz-Risiko"
+        "**Vermeidung-Strategie 3**: B2B-Verkauf (Unternehmer-Klausel, FernUSG gilt nur B2C)",
+        "**Pro-Tipp**: vor jedem Kurs-Launch ZFU-Antrag prüfen + Anwalt konsultieren, Kosten 500-2.000 € günstiger als Existenz-Risiko"
       ]
     },
     "kurs-plattform": {
@@ -10285,10 +10285,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "crm-community-webinar-stack": {
       "checklist": [
-        "**CRM-Wahl für Coach**: HubSpot CRM Free (Standard für < 100 Leads/Mon), Pipedrive (Pipeline-fokussiert, 14-99 €/Mon), Close (Sales-Call-fokussiert für High-Ticket), GoHighLevel (All-in-One CRM + Funnel + Webinar, 97-297 $/Mon — kontroverses Tool aber mächtig)",
+        "**CRM-Wahl für Coach**: HubSpot CRM Free (Standard für < 100 Leads/Mon), Pipedrive (Pipeline-fokussiert, 14-99 €/Mon), Close (Sales-Call-fokussiert für High-Ticket), GoHighLevel (All-in-One CRM + Funnel + Webinar, 97-297 $/Mon, kontroverses Tool aber mächtig)",
         "**High-Ticket-Sales-Pipeline**: Lead → Application-Submitted → Discovery-Call-Booked → Discovery-Call-Done → Proposal-Sent → Decision → Closed-Won/Lost",
         "**Application-Funnel** (für High-Ticket > 2.000 €): Typeform / Tally Application-Form mit qualifying-Questions (Budget, Goals, Commitment) → nur qualifizierte Leads bekommen Call-Link",
-        "**Webinar-Stack-Vergleich**: WebinarJam (Standard, Live + Replay, 99-499 $/Mon), EverWebinar (Auto-Webinars 24/7 für Lead-Generation, 99-499 $/Mon), Demio (modern, 49-234 $/Mon), Zoom Webinar (kostenlos bis 100 Teilnehmer, weniger Features)",
+        "**Webinar-Stack-Vergleich**: WebinarJam (Standard, Live + Replay, 99-499 $/Mon), EverWebinar (Auto-Webinars jederzeit für Lead-Generation, 99-499 $/Mon), Demio (modern, 49-234 $/Mon), Zoom Webinar (kostenlos bis 100 Teilnehmer, weniger Features)",
         "**Live-Webinar-vs-Auto-Webinar-Strategie**: Live für Launch-Phase (urgency + Conversion 5-10 %), Auto-Webinar für Evergreen-Lead-Generation (Conversion 2-5 %)",
         "**Studio-Quality-Recording**: Riverside (24-48 $/Mon, separate Audio/Video-Tracks, 4K) für Webinar-Records + Podcast. Hebt Professionalitäts-Wahrnehmung",
         "**Community-Platform-Wahl**: Skool (99 $/Mon, Course + Community + Gamification, Sweet-Spot für High-Ticket), Circle (49-419 $/Mon, Premium-UX), Mighty Networks (41-119 $/Mon, eigene App möglich), Discord (Free, Tech-Audience)",
@@ -10439,13 +10439,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "elster": {
       "checklist": [
-        "ELSTER-Konto erstellen (Zertifikat dauert 2–4 Wochen per Post)",
-        "Fragebogen zur steuerlichen Erfassung — Variante 'Freie Berufe' wählen",
+        "ELSTER-Konto erstellen (Zertifikat dauert 2-4 Wochen per Post)",
+        "Fragebogen zur steuerlichen Erfassung, Variante 'Freie Berufe' wählen",
         "Tätigkeit präzise beschreiben (z.B. 'Software-Entwicklung im Bereich Datenanalyse')",
         "Voraussichtlicher Gewinn Jahr 1 + Jahr 2 (bestimmt Vorauszahlungen)",
         "Voraussichtlicher Umsatz (entscheidet über Kleinunternehmer-Option)",
         "Bankverbindung angeben (für Erstattungen / Lastschrift Vorauszahlungen)",
-        "Kleinunternehmer-Wahl (§ 19 UStG) entscheiden — siehe nächster Schritt"
+        "Kleinunternehmer-Wahl (§ 19 UStG) entscheiden, siehe nächster Schritt"
       ],
       "externalLinks": [
         {
@@ -10475,7 +10475,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Prüfen: Bist du 'künstlerisch/publizistisch' tätig (Design, Text, Foto, Film, Musik, Illustration)?",
         "Mindesteinkommen 3.900 €/Jahr aus selbst. künstler. Tätigkeit (Berufsanfänger 3 Jahre Ausnahme)",
-        "Antrag online stellen (Bearbeitung 3–6 Monate)",
+        "Antrag online stellen (Bearbeitung 3-6 Monate)",
         "Während Bearbeitung: privat krankenversichern oder freiwillig GKV",
         "Nach Bewilligung: KSK rechnet direkt mit deiner KV/RV ab"
       ],
@@ -10489,7 +10489,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.kuenstlersozialkasse.de/kuenstler-und-publizisten/wer-ist-versichert.html"
         }
       ],
-      "description": "Pflicht für selbständige Künstler & Publizisten (Designer, Texter, Fotografen, Musiker, Journalisten). KSK übernimmt 50 % der KV/RV-Beiträge — riesiger Vorteil."
+      "description": "Pflicht für selbständige Künstler & Publizisten (Designer, Texter, Fotografen, Musiker, Journalisten). KSK übernimmt 50 % der KV/RV-Beiträge, riesiger Vorteil."
     },
     "haftpflicht": {
       "checklist": [
@@ -10508,7 +10508,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.hiscox.de"
         }
       ],
-      "description": "Für viele Berufe Pflicht (Anwälte, StB, Architekten, Heilberufe), für IT-Freelancer, Berater & Coaches dringend empfohlen. 200–800 €/Jahr."
+      "description": "Für viele Berufe Pflicht (Anwälte, StB, Architekten, Heilberufe), für IT-Freelancer, Berater & Coaches dringend empfohlen. 200-800 €/Jahr."
     },
     "rechnung": {
       "checklist": [
@@ -10518,7 +10518,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Rechnungsdatum + Leistungsdatum (ggf. = Rechnungsdatum)",
         "Menge & Art der Leistung präzise beschrieben",
         "Netto-Betrag, USt-Satz (7/19 %), USt-Betrag, Brutto",
-        "Bei Kleinunternehmer: Hinweis '§ 19 UStG – keine Umsatzsteuer ausgewiesen'",
+        "Bei Kleinunternehmer: Hinweis '§ 19 UStG, keine Umsatzsteuer ausgewiesen'",
         "Bei Reverse-Charge (B2B EU/Drittland): 'Steuerschuldnerschaft des Leistungsempfängers' + USt-ID Kunde"
       ],
       "externalLinks": [
@@ -10535,17 +10535,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.lexoffice.de"
         }
       ],
-      "warning": "Ab 2025 E-Rechnungspflicht im B2B (Empfangs-Pflicht) — du musst E-Rechnungen (XRechnung/ZUGFeRD) annehmen können. Versand-Pflicht gestaffelt 2027–2028.",
+      "warning": "Ab 2025 E-Rechnungspflicht im B2B (Empfangs-Pflicht), du musst E-Rechnungen (XRechnung/ZUGFeRD) annehmen können. Versand-Pflicht gestaffelt 2027-2028.",
       "description": "Fehlerhafte Rechnungen = Kunde bekommt keinen Vorsteuer-Abzug = Reklamation. Diese Pflichtangaben müssen drauf."
     },
     "buchhaltung": {
       "extendedNotes": [
-        "EÜR ist deutlich einfacher als doppelte Buchführung — nur Cash-Flow zählt.",
+        "EÜR ist deutlich einfacher als doppelte Buchführung, nur Cash-Flow zählt.",
         "Pflicht: ELSTER-Übermittlung der Anlage EÜR mit Steuererklärung (jährlich).",
         "Belege 10 Jahre aufbewahren (digital reicht, GoBD-konform).",
         "USt-Voranmeldungen: monatlich (1. Jahr Pflicht) oder quartalsweise."
       ],
-      "description": "Freiberufler nutzen Einnahmen-Überschuss-Rechnung (EÜR) — keine Bilanz nötig. Tool wählen, Belege sammeln, jährlich an Finanzamt."
+      "description": "Freiberufler nutzen Einnahmen-Überschuss-Rechnung (EÜR), keine Bilanz nötig. Tool wählen, Belege sammeln, jährlich an Finanzamt."
     }
   },
   "gbr-gruenden": {
@@ -10561,7 +10561,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Vollständige Namen + Adressen aller Gesellschafter",
         "Zweck & Tätigkeitsbereich der GbR",
         "Beiträge jedes Gesellschafters (Geld, Arbeit, Sachwerte)",
-        "Gewinn-/Verlustverteilung (Standard: nach Köpfen — meist nicht gewollt!)",
+        "Gewinn-/Verlustverteilung (Standard: nach Köpfen, meist nicht gewollt!)",
         "Geschäftsführungs-Befugnis (Einzeln vs. gemeinsam)",
         "Vertretungsmacht nach außen",
         "Kündigungs- & Ausstiegsregelung (Abfindung, Sperrfrist)",
@@ -10579,14 +10579,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbooks/co-founder-agreement"
         }
       ],
-      "warning": "MoPeG seit 2024: Eingetragene GbR (eGbR) im Gesellschaftsregister möglich — Pflicht wenn ihr Grundbuchänderungen oder GmbH-Anteile haltet."
+      "warning": "MoPeG seit 2024: Eingetragene GbR (eGbR) im Gesellschaftsregister möglich, Pflicht wenn ihr Grundbuchänderungen oder GmbH-Anteile haltet."
     },
     "gewerbe": {
       "checklist": [
         "Termin beim Gewerbeamt (jeder Gesellschafter persönlich)",
         "GbR-Name + alle Gesellschafternamen angeben",
         "Tätigkeit beschreiben",
-        "Personalausweis + Gewerbe-Gebühr 20–60 €"
+        "Personalausweis + Gewerbe-Gebühr 20-60 €"
       ]
     },
     "fa": {
@@ -10617,12 +10617,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/anbieter#banking-de"
         }
       ],
-      "description": "GbR-Konto auf Namen aller Gesellschafter (Oder-Konto). Nicht jede Bank macht das — Neobanken oft nur mit Aufpreis oder gar nicht."
+      "description": "GbR-Konto auf Namen aller Gesellschafter (Oder-Konto). Nicht jede Bank macht das, Neobanken oft nur mit Aufpreis oder gar nicht."
     },
     "umwandlung": {
       "extendedNotes": [
         "Methode 1 (klein): Neue UG/GmbH gründen, GbR-Vermögen einbringen, GbR auflösen.",
-        "Methode 2 (steuerneutral): Einbringung nach § 24 UmwStG zu Buchwerten — Steuerneutralität wenn alle Gesellschafter Anteile in gleichem Verhältnis erhalten.",
+        "Methode 2 (steuerneutral): Einbringung nach § 24 UmwStG zu Buchwerten, Steuerneutralität wenn alle Gesellschafter Anteile in gleichem Verhältnis erhalten.",
         "Frühzeitig StB einbeziehen, sonst 30 % EkSt auf stille Reserven fällig."
       ],
       "description": "Wenn Geschäft wächst, riskanter wird oder Investoren kommen: GbR → UG/GmbH umwandeln. Kein 'Umwandeln' im Rechtssinn, sondern Einbringung."
@@ -10633,7 +10633,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Konzept-Doku: Cuisine, Zielgruppe, Preisniveau, USP",
         "Standortanalyse: Frequenzzählung 3 Tage à 4h zu Stoßzeiten",
-        "Konkurrenzanalyse: 5–10 Restaurants im Umkreis 1km",
+        "Konkurrenzanalyse: 5-10 Restaurants im Umkreis 1km",
         "Pacht-Verhandlung: Mietverhältnis ≥ 10 Jahre, Konkurrenzschutz, Außenfläche?",
         "Businessplan mit Break-Even-Berechnung",
         "Finanzierung: Eigenkapital ≥ 20 %, Restbetrag KfW + Hausbank"
@@ -10689,7 +10689,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Termin Gesundheitsamt für Erstbelehrung (online vielerorts möglich)",
         "Bescheinigung NICHT älter als 3 Monate bei Tätigkeitsaufnahme",
         "Jährliche Folgebelehrung durch Betrieb selbst dokumentieren",
-        "HACCP-Konzept erstellen (Kritische Kontrollpunkte) — Pflicht ab Verkauf von Lebensmitteln",
+        "HACCP-Konzept erstellen (Kritische Kontrollpunkte), Pflicht ab Verkauf von Lebensmitteln",
         "Reinigungs- & Temperaturpläne aushängen"
       ],
       "externalLinks": [
@@ -10698,7 +10698,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.gesetze-im-internet.de/ifsg/__43.html"
         }
       ],
-      "description": "JEDER Mitarbeiter mit Lebensmittel-Kontakt braucht Erstbelehrung beim Gesundheitsamt — vor Tätigkeitsaufnahme. Wiederholung jährlich durch Arbeitgeber."
+      "description": "JEDER Mitarbeiter mit Lebensmittel-Kontakt braucht Erstbelehrung beim Gesundheitsamt, vor Tätigkeitsaufnahme. Wiederholung jährlich durch Arbeitgeber."
     },
     "tse-kasse": {
       "checklist": [
@@ -10784,8 +10784,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Altgesellenregelung § 7b HwO: 6 Jahre Berufserfahrung + 4 Jahre in leitender Position",
         "Ausnahmebewilligung § 8 HwO: bei nachgewiesener Befähigung (Meister-äquivalente Kenntnisse)",
         "EU-Anerkennung: ausländische Qualifikation aus EU-Land oft anerkannt",
-        "Angestellter Meister: 'Meister im Betrieb' deckt Pflicht ab — aber 50–80k €/Jahr Kosten",
-        "Reisegewerbe-Karte (§ 55 GewO) als Notlösung — eingeschränkt"
+        "Angestellter Meister: 'Meister im Betrieb' deckt Pflicht ab, aber 50-80k €/Jahr Kosten",
+        "Reisegewerbe-Karte (§ 55 GewO) als Notlösung, eingeschränkt"
       ]
     },
     "handwerksrolle": {
@@ -10816,7 +10816,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.bgetem.de"
         }
       ],
-      "description": "Pflicht binnen 1 Woche ab Tätigkeitsaufnahme. Auch ohne Mitarbeiter — Unternehmer-Pflichtversicherung in vielen Gewerken."
+      "description": "Pflicht binnen 1 Woche ab Tätigkeitsaufnahme. Auch ohne Mitarbeiter, Unternehmer-Pflichtversicherung in vielen Gewerken."
     },
     "versicherungen": {
       "checklist": [
@@ -10829,26 +10829,26 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "einkauf": {
       "extendedNotes": [
-        "Ab Tag 1 Kundennummer bei 3–5 Großhändlern beantragen — Konditionen werden mit Umsatz besser.",
+        "Ab Tag 1 Kundennummer bei 3-5 Großhändlern beantragen, Konditionen werden mit Umsatz besser.",
         "Skonto nutzen: 2 % bei 10 Tagen = 36 % effektiver Jahreszins, immer mitnehmen.",
         "Innungs-Mitgliedschaft (zusätzlich zur HWK) bringt oft weitere Rabatte + Tarifverträge."
       ],
-      "description": "HWK-Mitgliedschaft bringt Zugang zu Großhändlern (Würth, Stark, BAUKING) mit Handwerker-Konditionen 15–40 % unter UVP."
+      "description": "HWK-Mitgliedschaft bringt Zugang zu Großhändlern (Würth, Stark, BAUKING) mit Handwerker-Konditionen 15-40 % unter UVP."
     }
   },
   "immobilien-gmbh": {
     "strategie": {
       "warning": "Drei-Objekt-Grenze BFH: > 3 verkaufte Objekte innerhalb 5 Jahren → gewerblicher Grundstückshandel → kein § 9 GewStG → ~30 % Steuer statt 15,825 %.",
       "extendedNotes": [
-        "Bestandshalter-Modell: Kaufen, vermieten, halten ≥ 10 Jahre. Verkäufe steuerfrei nach Spekulationsfrist (privat) bzw. KSt-pflichtig (GmbH).",
-        "Trader-Modell: Lieber als Einzel-GmbH ohne Erweiterte Kürzung — dafür Verlustverrechnung & Vorsteuer-Abzug (bei Optionsmodell)."
+        "Bestandshalter-Modell: Kaufen, vermieten, halten ≥ 10 Jahre. Verkäufe steuerbegünstigt nach Spekulationsfrist (privat) bzw. KSt-pflichtig (GmbH).",
+        "Trader-Modell: Lieber als Einzel-GmbH ohne Erweiterte Kürzung, dafür Verlustverrechnung & Vorsteuer-Abzug (bei Optionsmodell)."
       ]
     },
     "satzung": {
       "checklist": [
         "Zweck: 'Erwerb, Halten, Vermieten und Verwalten eigenen Grundbesitzes'",
         "KEIN Bauträger-Wording, KEIN Maklerei, KEIN Immobilienhandel",
-        "Holding-Konstruktion erwägen: Holding-GmbH hält 100 % der vv-GmbH (Verkäufe später 95 % steuerfrei)",
+        "Holding-Konstruktion erwägen: Holding-GmbH hält 100 % der vv-GmbH (Verkäufe später 95 % steuerbegünstigt)",
         "Kein Mit-Vermieten von 'Betriebsvorrichtungen' (PV-Anlage gegen Aufpreis kann schädlich sein)"
       ]
     },
@@ -10866,13 +10866,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "finanzierung": {
       "checklist": [
-        "Eigenkapital ≥ 30 % des Kaufpreises (vs. 10–20 % privat)",
+        "Eigenkapital ≥ 30 % des Kaufpreises (vs. 10-20 % privat)",
         "Selbstauskunft Geschäftsführer + persönliche Bürgschaft fast immer Pflicht",
         "Mietvertrag(s)-Vorlage zur Cashflow-Bestätigung",
         "Banken mit GmbH-Affinität: Sparkassen Hypo, GRENKE, regionale Volksbanken, Aareal, DG Hyp",
-        "Zinssatz typisch 0,3–0,8 % höher als Privat-Finanzierung"
+        "Zinssatz typisch 0,3-0,8 % höher als Privat-Finanzierung"
       ],
-      "description": "vv-GmbH bekommt SCHWERER Kredit als Privatperson — Banken wollen oft persönliche Bürgschaft + 30 % EK + Mietvertrags-Sicherheiten."
+      "description": "vv-GmbH bekommt SCHWERER Kredit als Privatperson, Banken wollen oft persönliche Bürgschaft + 30 % EK + Mietvertrags-Sicherheiten."
     },
     "ankauf-prozess": {
       "checklist": [
@@ -10882,15 +10882,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Versicherungs-Übertragung (Gebäude/Haftpflicht)",
         "GoBD-konforme Erfassung in Buchhaltung"
       ],
-      "description": "Käufer = die GmbH (vertreten durch GF). Grunderwerbsteuer 3,5–6,5 %, Notar ~1,5 %, Makler bis 3,57 % (abhängig vom Bundesland)."
+      "description": "Käufer = die GmbH (vertreten durch GF). Grunderwerbsteuer 3,5-6,5 %, Notar ~1,5 %, Makler bis 3,57 % (abhängig vom Bundesland)."
     },
     "buchhaltung-afa": {
       "extendedNotes": [
-        "Anlagespiegel: Gebäudewert / Grundstück trennen — meist 70/30 oder 80/20.",
+        "Anlagespiegel: Gebäudewert / Grundstück trennen, meist 70/30 oder 80/20.",
         "Erhaltungsaufwand (Reparatur) = sofort abziehbar. Herstellungsaufwand (Wert-erhöhend) = aktivieren + AfA.",
         "Anschaffungsnaher Aufwand: > 15 % der AK in den ersten 3 Jahren = Herstellungskosten (auch wenn 'nur' Reparatur)."
       ],
-      "description": "Jahresabschluss inkl. Bilanz Pflicht. Lineare AfA 2–3 % auf Gebäude (50/33 Jahre), Grund-Anteil nicht abschreibbar. Erhaltungsaufwand vs. Herstellungskosten unterscheiden!"
+      "description": "Jahresabschluss inkl. Bilanz Pflicht. Lineare AfA 2-3 % auf Gebäude (50/33 Jahre), Grund-Anteil nicht abschreibbar. Erhaltungsaufwand vs. Herstellungskosten unterscheiden!"
     },
     "ek-pruefung": {
       "checklist": [
@@ -10908,7 +10908,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "PRO AG: Aktien einfach übertragbar (kein Notar pro Trade), gut für ESOP/Mitarbeiterprogramme, Investor-freundlicher als GmbH-Anteile, IPO-fähig.",
         "CONTRA AG: 50k Mindestkapital, Aufsichtsrat 3 Personen Pflicht, Hauptversammlung mit formalen Anforderungen, Pflicht-WP ab Größenklasse.",
-        "Alternative: Kleine AG (vereinfachte Form, max 100 Aktionäre) — etwas weniger Bürokratie."
+        "Alternative: Kleine AG (vereinfachte Form, max 100 Aktionäre), etwas weniger Bürokratie."
       ]
     },
     "vorbereitung": {
@@ -10926,7 +10926,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Mindest-Grundkapital 50.000 €",
         "Bargründung: 12.500 € sofort eingezahlt",
-        "Sacheinlage: Gründungsprüfung durch externen Prüfer Pflicht (1.500–4.000 €)",
+        "Sacheinlage: Gründungsprüfung durch externen Prüfer Pflicht (1.500-4.000 €)",
         "Konto auf 'AG i.G.' eröffnen"
       ]
     },
@@ -10937,7 +10937,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "description": "Gerichtlich bestellter Gründungsprüfer (oft WP) prüft Werthaltigkeit von Sacheinlagen + Sondervorteilen. Bei Bargründung ohne Sondervorteile entfällt das."
     },
     "hr-eintragung": {
-      "description": "Nach Notar reicht dieser ein. Amtsgericht prüft 2–6 Wochen. Ab HR-Eintrag ist die AG rechtlich existent."
+      "description": "Nach Notar reicht dieser ein. Amtsgericht prüft 2-6 Wochen. Ab HR-Eintrag ist die AG rechtlich existent."
     },
     "aktienregister": {
       "checklist": [
@@ -10981,7 +10981,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "e.V.: ≥ 7 Mitglieder bei Gründung (kann später unter 7 fallen, aber min. 3)",
         "e.V.: Gründungsprotokoll mit Satzungsbeschluss + Vorstandswahl",
-        "gUG: Notartermin + Stammkapital ab 1 € (realistisch 500–5.000 €)",
+        "gUG: Notartermin + Stammkapital ab 1 € (realistisch 500-5.000 €)",
         "Vorstand / Geschäftsführer benennen (Identifikationsnachweis)"
       ]
     },
@@ -10991,14 +10991,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bei e.V.: Original-Satzung + Gründungsprotokoll",
         "Bei gUG: vollständige Notar-Anmeldung"
       ],
-      "description": "e.V. → Vereinsregister beim Amtsgericht (~50 € Gebühr). gUG → Handelsregister (~150 €). Dauert 2–6 Wochen."
+      "description": "e.V. → Vereinsregister beim Amtsgericht (~50 € Gebühr). gUG → Handelsregister (~150 €). Dauert 2-6 Wochen."
     },
     "fa-gemeinnuetzigkeit": {
       "checklist": [
         "FsE für gemeinnützige Körperschaften",
         "Satzung beifügen",
         "Tätigkeitsbeschreibung der ersten 12 Monate",
-        "Bescheid abwarten (4–12 Wochen)",
+        "Bescheid abwarten (4-12 Wochen)",
         "Alle 3 Jahre Freistellungsbescheid via Steuererklärung erneuern (KSt-1 + Anlage Gem)"
       ],
       "externalLinks": [
@@ -11017,7 +11017,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Bis 300 € pro Spende: vereinfachter Nachweis (Kontoauszug + Beleg) reicht — keine formelle Quittung nötig.",
+        "Bis 300 € pro Spende: vereinfachter Nachweis (Kontoauszug + Beleg) reicht, keine formelle Quittung nötig.",
         "Über 300 €: Pflicht zur formellen Zuwendungsbestätigung nach amtlichem Muster.",
         "10 Jahre Aufbewahrung der Doppel-Quittungen!"
       ],
@@ -11051,8 +11051,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "loi": {
       "checklist": [
         "NDA beidseitig unterzeichnet",
-        "Indikatives Preisangebot (Range, z.B. 4–6x EBITDA)",
-        "Exklusivitätszeitraum 60–90 Tage",
+        "Indikatives Preisangebot (Range, z.B. 4-6x EBITDA)",
+        "Exklusivitätszeitraum 60-90 Tage",
         "Bedingungen: Due-Diligence-Vorbehalt, Finanzierungs-Vorbehalt, Wettbewerbsschutz Verkäufer",
         "Datenraum-Zugang sichergestellt"
       ]
@@ -11071,18 +11071,18 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "deal-struktur": {
       "extendedNotes": [
         "**Asset Deal**: Käufer bekommt Step-up (AfA neu auf Kaufpreis), Risiken bleiben beim Verkäufer. Aber: Mietverträge, Arbeitsverträge (§ 613a BGB!), Lizenzen müssen einzeln übertragen werden.",
-        "**Share Deal**: Einfach (Notar, Anteilsübertragung), alles bleibt drin. Käufer übernimmt ABER alle Altlasten. Verkäufer profitiert von 95 %-Befreiung (bei Holding) oder Teileinkünfteverfahren (40 % steuerfrei privat).",
-        "Faustregel: Käufer will Asset Deal, Verkäufer will Share Deal — Preis bildet die Steuerdifferenz ab.",
+        "**Share Deal**: Einfach (Notar, Anteilsübertragung), alles bleibt drin. Käufer übernimmt ABER alle Altlasten. Verkäufer profitiert von 95 %-Befreiung (bei Holding) oder Teileinkünfteverfahren (40 % steuerbegünstigt privat).",
+        "Faustregel: Käufer will Asset Deal, Verkäufer will Share Deal, Preis bildet die Steuerdifferenz ab.",
         "§ 613a BGB beachten: Bei Asset Deal gehen Arbeitsverhältnisse trotzdem mit über. Mitarbeiter haben Widerspruchsrecht (1 Monat)."
       ],
       "description": "Asset = einzelne Vermögensgegenstände kaufen (du wählst aus). Share = Anteile an der GmbH/AG kaufen (alles drin, auch Risiken). Steuerliche Konsequenzen massiv unterschiedlich."
     },
     "finanzierung": {
       "checklist": [
-        "Eigenkapital 20–40 % (Banken erwarten Skin in the Game)",
+        "Eigenkapital 20-40 % (Banken erwarten Skin in the Game)",
         "KfW ERP-Kapital für Gründung (bis 500k unbesichert) oder ERP-Förderkredit",
         "Hausbank-Finanzierung mit Bürgschaftsbank-Absicherung wenn Sicherheiten fehlen",
-        "Verkäufer-Darlehen: 10–30 % des KP, 3–7 Jahre Laufzeit, oft günstige Zinsen",
+        "Verkäufer-Darlehen: 10-30 % des KP, 3-7 Jahre Laufzeit, oft günstige Zinsen",
         "Earn-Out: variable Kaufpreis-Komponente abhängig von Folgejahren-EBITDA",
         "Mezzanine / Family Office bei größeren Deals"
       ],
@@ -11096,13 +11096,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.vdb-info.de"
         }
       ],
-      "description": "Selten 100 % Eigenkapital. Typischer Mix: 20–30 % EK + Bank-Finanzierung + Verkäufer-Darlehen + ggf. Earn-Out."
+      "description": "Selten 100 % Eigenkapital. Typischer Mix: 20-30 % EK + Bank-Finanzierung + Verkäufer-Darlehen + ggf. Earn-Out."
     },
     "spa": {
       "checklist": [
         "Garantie-Katalog: Bilanzgarantien, Steuergarantien, Eigentumsgarantien, Compliance, IP",
-        "Haftungs-Cap (typisch 10–30 % KP) + De-Minimis-Schwelle",
-        "Verjährung Garantien (typ. 18–24 Monate, Steuern bis Verjährung)",
+        "Haftungs-Cap (typisch 10-30 % KP) + De-Minimis-Schwelle",
+        "Verjährung Garantien (typ. 18-24 Monate, Steuern bis Verjährung)",
         "MAC-Klausel (Material Adverse Change) bis Closing",
         "W&I-Versicherung (Warranty & Indemnity) bei Deals > 5 Mio. erwägen",
         "Conditions Precedent: Kartellfreigabe, Bank-Zusage, Schlüssel-Mitarbeiter-Bleibegarantie"
@@ -11114,9 +11114,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Closing-Memo: alle CPs erfüllt, Übergabe-Bilanz, Stichtags-Inventur",
         "Bank-Konten umstellen, Vollmachten neu, HR-Eintrag GF-Wechsel",
         "Kommunikation: Mitarbeiter (Tag 1!), Kunden (Top-20 persönlich), Lieferanten",
-        "Verkäufer-Übergabezeit fixieren (3–12 Monate, oft als Berater)",
+        "Verkäufer-Übergabezeit fixieren (3-12 Monate, oft als Berater)",
         "100-Tage-Plan: 5 Quick Wins identifizieren, keine Großumbauten in Phase 1",
-        "Monats-Reporting ab Tag 1 — Cashflow eng monitoren"
+        "Monats-Reporting ab Tag 1, Cashflow eng monitoren"
       ],
       "description": "Closing = Kaufpreis fließt, Anteile/Assets übergehen. Danach: erste 100 Tage entscheiden, ob die Übernahme funktioniert."
     }
@@ -11237,7 +11237,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Publish-Button klicken",
         "Status checken: 'In Review' → 'Active' (1-24h)",
         "Bei 'Rejected': Klick auf Ad → Review-Begründung lesen + Fix",
-        "Erste 24-48h NICHT optimieren — Algorithmus braucht Learning-Phase",
+        "Erste 24-48h NICHT optimieren, Algorithmus braucht Learning-Phase",
         "Day-3 erste Performance-Review: ROAS, CPM, CTR, CPC",
         "Day-7 entscheiden: Skalieren (Tagesbudget +20-50%) oder Killen (ROAS < 1)"
       ],
@@ -11250,7 +11250,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "klaviyo.com/sign-up öffnen",
         "Business-Email + Passwort + Firmen-Name",
-        "Industry wählen (Beauty, Apparel, Electronics, etc. — beeinflusst Templates)",
+        "Industry wählen (Beauty, Apparel, Electronics, etc., beeinflusst Templates)",
         "Anzahl monatlicher Sends erwartet (relevant für Plan-Empfehlung)",
         "Account-Sprache: Deutsch (für Templates), aber Klaviyo-UI primär englisch",
         "2FA aktivieren (Pflicht seit 2024)"
@@ -11336,7 +11336,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbook/email-marketing-stack"
         }
       ],
-      "description": "5-7-Email-Sequenz nach Sign-Up. Email 1 macht 60-80 % der Sales — investier am meisten Zeit hier."
+      "description": "5-7-Email-Sequenz nach Sign-Up. Email 1 macht 60-80 % der Sales, investier am meisten Zeit hier."
     },
     "phase6-test-golive": {
       "checklist": [
@@ -11395,7 +11395,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "phase3-merchant-center": {
       "checklist": [
         "merchants.google.com → 'Get Started'",
-        "Firmen-Daten + Webseite verifizieren (selbe Domain wie Search Console — siehe nächster Step)",
+        "Firmen-Daten + Webseite verifizieren (selbe Domain wie Search Console, siehe nächster Step)",
         "'Products' → 'Feeds' → '+ Feed hinzufügen'",
         "Country: Deutschland · Language: Deutsch",
         "Feed-Methode: 'Shopify Integration' (Shopify Google-Channel-App nutzt diese)",
@@ -11415,13 +11415,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "phase4-search-console": {
       "checklist": [
         "search.google.com/search-console öffnen",
-        "Property-Typ: 'Domain' (umfasst www, http/https, subdomains) — empfohlen",
+        "Property-Typ: 'Domain' (umfasst www, http/https, subdomains), empfohlen",
         "Domain eingeben + DNS-TXT-Record im Domain-Provider verifizieren",
         "Alternative: URL-Prefix-Property + HTML-Tag/Meta-Verifizierung",
         "Sitemap einreichen: '/sitemap.xml' (Shopify auto bei domain.de/sitemap.xml)",
         "Coverage-Report prüfen: 'Indexed' vs 'Excluded' Pages",
         "Mobile-Usability-Report (häufige Fehler: Touch-Targets too small, Content wider than screen)",
-        "Core Web Vitals-Report: LCP, INP, CLS — Grün anstreben"
+        "Core Web Vitals-Report: LCP, INP, CLS, Grün anstreben"
       ],
       "externalLinks": [
         {
@@ -11460,7 +11460,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbook/performance-marketing-stack"
         }
       ],
-      "description": "Brand-Defense ist Pflicht-Kampagne — verhindert dass Konkurrenten auf deine Marke bieten. CPC 0,05-0,30 €, ROAS 10-50x."
+      "description": "Brand-Defense ist Pflicht-Kampagne, verhindert dass Konkurrenten auf deine Marke bieten. CPC 0,05-0,30 €, ROAS 10-50x."
     },
     "phase7-pmax-publish": {
       "checklist": [
@@ -11771,8 +11771,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "fit-niche": {
       "checklist": [
         "1 Niche wählen: spezifisch + monetisierbar (z.B. 'Skincare für 40+' statt 'Beauty', 'Vegan Meal-Prep für Vielarbeitende' statt 'Kochen')",
-        "1 Format wählen: Talking-Head, Voiceover-B-Roll, Tutorial, Story-Format — KONSISTENT halten",
-        "Top 10 Konkurrenz-Accounts in deiner Niche identifizieren — was funktioniert?",
+        "1 Format wählen: Talking-Head, Voiceover-B-Roll, Tutorial, Story-Format, KONSISTENT halten",
+        "Top 10 Konkurrenz-Accounts in deiner Niche identifizieren, was funktioniert?",
         "Niche-Test: 30 Tage 1 Post/Tag → wenn keine Views > 1.000 nach 4 Wochen: Niche/Format anpassen",
         "Monetarisierungs-Pfade pro Niche prüfen: Beauty/Health = Brand-Deals + Affiliate · Tech = Sponsored Posts · Finance = Eigene Kurse/Coaching · Lifestyle = UGC-Deals"
       ]
@@ -11818,12 +11818,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "algo-hacks": {
       "extendedNotes": [
         "**Top-3-TikTok-Algo-Faktoren 2026**: 1) Watch-Time (Video bis Ende = 100 %), 2) Re-Watch-Rate, 3) Save-Rate. Comments + Shares sind sekundär.",
-        "**Watch-Time-Hack**: Video unter 8 Sekunden = höhere Completion-Rate = höhere Reach. Sweet-Spot 6-12 Sekunden für Engagement-Bait.",
+        "**Watch-Time-Tipp**: Video unter 8 Sekunden = höhere Completion-Rate = höhere Reach. Sweet-Spot 6-12 Sekunden für Engagement-Bait.",
         "**Save-Bait**: Listen, Tutorials, Information-dense Posts werden mehr gespeichert. 'Speicher dir das für später' im CTA.",
         "**Instagram Reels-Algo**: ähnlich TikTok ABER zusätzlich profitiert von Cross-Posting in Stories + Original-Audio (eigene Sounds bevorzugt).",
         "**Shadow-Ban-Mythos**: meistens kein Shadow-Ban, sondern Algo-Phase. 7-14 Tage konstantes Posting → Algo bewertet neu.",
         "**Hashtag-Strategie 2026**: TikTok 3-5 spezifische Hashtags (10k-1M Reach), keine #fyp/#foryou-Spam. Instagram 3-8 Hashtags mit Mix aus großen + Niche.",
-        "**Engagement-Pods**: NICHT mehr — Plattformen erkennen + bestrafen. Echte Community statt Pod-Engagement."
+        "**Engagement-Pods**: NICHT mehr, Plattformen erkennen + bestrafen. Echte Community statt Pod-Engagement."
       ],
       "description": "Algorithmus-Faktoren ändern sich. Stand 2026: Watch-Time + Save-Rate + Re-Watch sind Top-Signale."
     },
@@ -11831,7 +11831,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "**Pfad 1 (0-10k Follower)**: KEINE Monetarisierung. Audience aufbauen. Excel-Sheet für Einnahmen-Tracking starten falls trotzdem etwas reinkommt.",
         "**Pfad 2 (5k-25k Follower)**: Affiliate-Links über Linktree/Stan.store. Amazon PartnerNet (1-10 % Commission) oder direkte Brand-Affiliate (15-50 %). Erste echte Einnahmen.",
-        "**Pfad 3 (10k-50k Follower)**: TikTok Creator Fund (USA aktiviert, EU teilweise — meist niedrig 0,02-0,04 € pro 1.000 Views). Instagram Reels-Bonus (ab und zu aktiv).",
+        "**Pfad 3 (10k-50k Follower)**: TikTok Creator Fund (USA aktiviert, EU teilweise, meist niedrig 0,02-0,04 € pro 1.000 Views). Instagram Reels-Bonus (ab und zu aktiv).",
         "**Pfad 4 (10k-100k Follower)**: Brand-Deals. Sweet-Spot 100-500 € pro Sponsored-Post bei < 50k Followern, 500-3.000 € bei 50-100k. Sponsoring-Vertrag PFLICHT (Buy-Out + Usage-Rights).",
         "**Pfad 5 (50k+ Follower)**: eigene Produkte (Coaching, Kurse, Brand). Höchste Marge. Linktree → eigener Shop/Beratungs-Buchung.",
         "**TikTok Live-Gifts** (ab 1.000 Follower): Live-Stream-Geschenke konvertierbar in Cash (~50 % Plattform-Cut). Niedrige Marge aber niedrige Eintritts-Schwelle.",
@@ -11845,7 +11845,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Online-Kurse / Membership: höhere Margen als Sponsoring, plus FernUSG-Falle beachten",
         "Long-Form-Pivot: TikTok-Audience → YouTube für höhere CPMs + tiefere Bindung",
         "Newsletter-Aufbau parallel ab Tag 1 (Owned-Audience, Plattform-Ban-Schutz)",
-        "Email-Liste mit 1.000 Subscribern monetarisiert 3-10 €/Sub/Jahr — oft mehr als 50k Insta-Follower"
+        "Email-Liste mit 1.000 Subscribern monetarisiert 3-10 €/Sub/Jahr, oft mehr als 50k Insta-Follower"
       ],
       "externalLinks": [
         {
@@ -11865,7 +11865,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbook/creator-influencer-setup"
         }
       ],
-      "description": "Ab 50k Followern wird Reichweite langsam — Skalierungs-Hebel umstellen."
+      "description": "Ab 50k Followern wird Reichweite langsam, Skalierungs-Hebel umstellen."
     }
   },
   "creator-youtube-longform": {
@@ -11880,7 +11880,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "equipment-quality": {
       "checklist": [
-        "Audio: RØDE Wireless GO II + Lavalier Mic (300-500 €) — wichtiger als Kamera!",
+        "Audio: RØDE Wireless GO II + Lavalier Mic (300-500 €), wichtiger als Kamera!",
         "Kamera: Sony A7C, Canon R8, oder iPhone 15 Pro mit Filmic Pro (1.000-3.000 €)",
         "Lighting: 1 Key-Light + 1 Fill-Light. Aputure 120D oder Godox SL-60W (300-800 €)",
         "Hintergrund: 2-3-Meter-Backdrop oder durchdachter Office-Setup",
@@ -11939,7 +11939,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "sponsoring-youtube": {
       "checklist": [
         "Sponsoring-Schwelle: ab 5-10k Subs + konstante Views > 5k/Video lohnt sich aktives Pitchen",
-        "Deal-Strukturen: Pre-Roll (Intro 30-60 Sek) + Mid-Roll (in der Mitte 60-90 Sek) — Mid-Roll 2-3x höhere CPM",
+        "Deal-Strukturen: Pre-Roll (Intro 30-60 Sek) + Mid-Roll (in der Mitte 60-90 Sek), Mid-Roll 2-3x höhere CPM",
         "Pricing-Formula: 20-40 € × 1.000 Average-Views = Deal-Price (also 10k Views = 200-400 € pro Mention)",
         "Brand-Discovery: Aspire, Modash, Famous Birthdays, direkte Outreach an Brands in deiner Niche",
         "Sponsoring-Email-Template: Stats + Audience-Demographics + Deliverables + Pricing + Past Brand-Examples",
@@ -11953,7 +11953,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Shorts vs Long-Form**: Shorts CPM 0,03-0,10 € (extrem niedrig). Long-Form Video 5-15 € CPM. Faktor 100-150x.",
         "**Shorts-Strategy**: Shorts als Top-of-Funnel um Subscriber zu gewinnen, Long-Form als Monetarisierungs-Layer.",
         "**Cross-Post**: TikTok-Video ohne Watermark → YouTube Shorts (gleiches Asset, mehr Reach).",
-        "**Shorts-zu-Long-Form-Hook**: Shorts-Description: 'Vollständiges Video auf meinem Channel — Link in Bio'.",
+        "**Shorts-zu-Long-Form-Hook**: Shorts-Description: 'Vollständiges Video auf meinem Channel, Link in Bio'.",
         "**Hybrid-Channel-Setup**: 3-5 Shorts/Woche + 1-2 Long-Form/Woche ist Sweet-Spot.",
         "**Audience-Overlap**: 10-30 % der Shorts-Viewer wandern zu Long-Form, bei guter Hook-Strategy 50 %+."
       ],
@@ -11976,17 +11976,17 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Niche-Subreddits identifizieren: 3-5 Subreddits mit 50k-500k Members in deiner Niche",
         "Karma-Phase (1-3 Monate): 90 % wertvolle Comments/Antworten, 0 % Self-Promo. Min 1k Comment-Karma aufbauen",
-        "Subreddit-Regeln LESEN — jeder hat eigene (Self-Promo-Verbote, Link-Restrictions, Post-Flair-Pflichten)",
-        "AMA-Strategie (Ask Me Anything): nach Karma-Aufbau in passendem Subreddit AMA hosten — Top-Funnel zu Newsletter",
-        "Cross-Post-Strategie: NICHT — Cross-Posting wird oft als Spam markiert",
+        "Subreddit-Regeln LESEN, jeder hat eigene (Self-Promo-Verbote, Link-Restrictions, Post-Flair-Pflichten)",
+        "AMA-Strategie (Ask Me Anything): nach Karma-Aufbau in passendem Subreddit AMA hosten, Top-Funnel zu Newsletter",
+        "Cross-Post-Strategie: NICHT, Cross-Posting wird oft als Spam markiert",
         "Native Posts: Subreddit-spezifischer Content (z.B. Reddit-Format mit Long-Description, nicht Twitter-Style)",
-        "Werbung-Hinweis: Reddit hat strenge Werberichtlinien — keine Affiliate-Links in Posts ohne Mod-Erlaubnis"
+        "Werbung-Hinweis: Reddit hat strenge Werberichtlinien, keine Affiliate-Links in Posts ohne Mod-Erlaubnis"
       ]
     },
     "newsletter-funnel": {
       "checklist": [
         "Newsletter-Tool wählen: Beehiiv (Ad-Network), Substack (Paid-Subs), Kit (Creator-Commerce)",
-        "Lead-Magnet: 'Mein 10-Punkte-Framework für X' als Download — Konvertierungs-Hook",
+        "Lead-Magnet: 'Mein 10-Punkte-Framework für X' als Download, Konvertierungs-Hook",
         "X-Bio + Pinned-Tweet: prominenter Newsletter-Link",
         "Reddit: 'For more, here's my newsletter' nur subtle in passenden Comments (mod-Regeln beachten)",
         "Send-Cadence: 1-2 Mails/Woche (Substack/Beehiiv-Standard für Creator-Newsletter)",
@@ -12024,8 +12024,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "build-in-public": {
       "extendedNotes": [
         "**Build-in-Public-Format**: monatliche Revenue-Reports, Failures, Lessons-Learned. Authentisch + spezifisch.",
-        "**Top-Examples 2026**: ZenStocks (MRR-Tweets), Pieter Levels (Nomad List), Indie Hackers Community.",
-        "**Privacy vs Transparency Balance**: nicht ALLES öffentlich (z.B. genaue Mitarbeiter-Zahlen) — aber MRR/Growth/Setbacks ja.",
+        "**Top-Examples 2026**: ZenStocks (MRR-Tweets), Pieter Levels (Nomad List), Indie Praxis-Tippers Community.",
+        "**Privacy vs Transparency Balance**: nicht ALLES öffentlich (z.B. genaue Mitarbeiter-Zahlen), aber MRR/Growth/Setbacks ja.",
         "**Conversion zu Sales**: Build-in-Public-Audience konvertiert oft 2-3x höher zu eigenen Produkten als kalte Audience.",
         "**Risiko**: Vergleichs-Pressure + Burnout durch öffentliche Erwartungen. Plane Pause-Phasen ein."
       ],
@@ -12037,8 +12037,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Top-Niches auf Pinterest 2026**: Home-Decor, Beauty/Skincare, Mode/Outfits, Rezepte, DIY, Hochzeit/Events, Reise-Planung, Fitness, Garten, Kinderzimmer.",
         "**Schwache Niches**: B2B-SaaS, Tech-Reviews, Politik, Gaming, Crypto. Skippen.",
-        "**Conversion-Math**: 1.000 Pin-Impressions ergeben typisch 50-100 Klicks (5-10 % CTR — sehr hoch vs Social-Media). Bei 5 % Sales-Conversion = 2,5-5 Sales pro 1.000 Impressions.",
-        "**Lifetime-Value pro Pin**: gut performende Pins bringen 6-12 Monate konstant Traffic — vs TikTok 24-72h. Long-Tail-Marketing-Channel.",
+        "**Conversion-Math**: 1.000 Pin-Impressions ergeben typisch 50-100 Klicks (5-10 % CTR, sehr hoch vs Social-Media). Bei 5 % Sales-Conversion = 2,5-5 Sales pro 1.000 Impressions.",
+        "**Lifetime-Value pro Pin**: gut performende Pins bringen 6-12 Monate konstant Traffic, vs TikTok 24-72h. Long-Tail-Marketing-Channel.",
         "**Pinterest = Search-Engine**: Behave wie SEO, nicht wie Social-Media. Keyword-Optimierung + Long-Form-Description."
       ]
     },
@@ -12079,9 +12079,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Keyword-Recherche: Pinterest-Suche-Autocomplete für jeden Suchbegriff testen",
         "Top-Keywords pro Niche: kombinieren in Pin-Title, Description, Board-Names, Profil-Bio",
-        "Saisonale Pins: Pinterest Predicts (Stand 2026) zeigt Trends 6-12 Monate vorab — Pins früh erstellen",
+        "Saisonale Pins: Pinterest Predicts (Stand 2026) zeigt Trends 6-12 Monate vorab, Pins früh erstellen",
         "Board-Names: Keyword-haltig (z.B. 'Easy Vegan Dinner Recipes' statt 'My Recipes')",
-        "Pin-Description: erste 60 Zeichen sind Title-Tag-Äquivalent — Keyword vorne",
+        "Pin-Description: erste 60 Zeichen sind Title-Tag-Äquivalent, Keyword vorne",
         "Hashtags: 5-10 spezifische (kein #fyp), Mix aus Long-Tail + Generic",
         "Pin-zu-Pin-Linking: ähnliche Pins als 'Verwandte Pins' im Board gruppieren"
       ],
@@ -12163,7 +12163,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Freiberufler-Status (§18 EStG): bei beratender 1:1-Tätigkeit möglich → spart GewSt + IHK-Beiträge",
         "ABER: bei standardisierten Programmen/Kursen → Gewerbe (Verkauf von 'Werken')",
-        "Bei Unsicherheit: verbindliche Auskunft FA (100-200 € einmalig) — gibt rechtliche Sicherheit",
+        "Bei Unsicherheit: verbindliche Auskunft FA (100-200 € einmalig), gibt rechtliche Sicherheit",
         "Kleinunternehmer-Regel (§19 UStG) prüfen: bis 25k €/Jahr → meist sinnvoll bei 1:1 (wenig Vorsteuer-Bedarf)",
         "ELSTER-FsE: 'Coaching/Beratung' als Tätigkeit eintragen (Freiberuf-Indikator)",
         "GmbH ab 100k+ Gewinn ODER bei Haftungs-Risiko (z.B. Rechts-/Medizin-Coaching)"
@@ -12178,7 +12178,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "/playbook/elster-fse-fillout"
         }
       ],
-      "description": "1:1-Coaching = beratende Tätigkeit (§18 EStG) — kann als Freiberufler ohne Gewerbeanmeldung laufen. Spart IHK-Beiträge + GewSt."
+      "description": "1:1-Coaching = beratende Tätigkeit (§18 EStG), kann als Freiberufler ohne Gewerbeanmeldung laufen. Spart IHK-Beiträge + GewSt."
     },
     "skalierung-1on1": {
       "externalLinks": [
@@ -12197,7 +12197,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "**Hour-Cap-Realität**: 25 Sessions/Woche × 50 Wochen/Jahr × 300 €/h = 375k €/Jahr Brutto. Sweet-Spot für Solo-Coach.",
-        "**Skalierungs-Frust**: ab 200k+ €/Jahr wird 1:1 ermüdend — gleiche Anzahl Klienten = gleiche Zeit, kein Hebel.",
+        "**Skalierungs-Frust**: ab 200k+ €/Jahr wird 1:1 ermüdend, gleiche Anzahl Klienten = gleiche Zeit, kein Hebel.",
         "**Hebel-Optionen**: 1) Group-Coaching (5-10x Skalierung), 2) Online-Course (asynchron, FernUSG beachten), 3) Membership (recurring).",
         "**Hybrid-Modell**: 1:1 für Premium-Klienten (Top-20%) + Group für Mid-Tier (Mass-Market). Bekanntes Modell von Tony Robbins-Style-Coaches."
       ],
@@ -12230,7 +12230,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**FernUSG-Tatbestand**: standardisierter Lehrgang + räumliche Trennung + Lehrer überwacht Lernerfolg. Group-Coaching erfüllt das oft.",
         "**Vermeidungs-Strategie 1**: rein synchrone Live-Calls ohne Aufzeichnung → kein Fernunterricht",
         "**Vermeidungs-Strategie 2**: B2B-Positionierung (Unternehmer-Klausel) → FernUSG gilt nur B2C",
-        "**Vermeidungs-Strategie 3**: ZFU-Zulassung beantragen (250-1.500 €/Programm + 6-12 Wochen Bearbeitung) → rechtssicher",
+        "**Vermeidungs-Strategie 3**: ZFU-Zulassung beantragen (250-1.500 €/Programm + 6-12 Wochen Bearbeitung) → sauber aufgesetzt",
         "**Konsequenz bei Verstoß**: ALLE Verträge nichtig → Rückzahlungs-Pflicht aller Einnahmen + Wettbewerbszentrale-Abmahnung. 2023-2024 viele Influencer-Coaches betroffen"
       ]
     },
@@ -12239,7 +12239,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Skool: 99 $/Mon flat, beste für Coaching mit Gamification (Levels, Points)",
         "Circle: 49-419 $/Mon, Premium-UX + Branding, Course + Community kombiniert",
         "Mighty Networks: 41-119 $/Mon, eigene Mobile-App möglich (Business-Plan)",
-        "Discord: kostenlos, aber wenig Course-Integration — Sweet-Spot für Tech/Crypto-Audience",
+        "Discord: kostenlos, aber wenig Course-Integration, Sweet-Spot für Tech/Crypto-Audience",
         "Setup: 1 Channel pro Topic + 1 Welcome-Channel + 1 Wins-Channel + 1 Help-Channel",
         "Onboarding-Sequenz: Welcome-Video + Module 1 + Q&A-Channel-Intro"
       ],
@@ -12265,8 +12265,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "launch-sales": {
       "checklist": [
         "Cohort-Cadence: 2-4 Launches/Jahr (Quartalsweise typisch)",
-        "Funnel 1 — Webinar: Lead-Magnet → 60-Min-Webinar → Pitch am Ende → Cart-Open 7 Tage",
-        "Funnel 2 — Discovery-Call: Application-Form → Sales-Call → Close (50 % Conversion bei qualifizierten Leads)",
+        "Funnel 1, Webinar: Lead-Magnet → 60-Min-Webinar → Pitch am Ende → Cart-Open 7 Tage",
+        "Funnel 2, Discovery-Call: Application-Form → Sales-Call → Close (50 % Conversion bei qualifizierten Leads)",
         "Pricing-Strategie: Early-Bird 10-23 % Discount in ersten 48h → reguläres Pricing → Last-Chance-Discount-Free-Bonus",
         "Ads-Budget pro Launch: 5-30k € (Meta-Ads zu Webinar-Registration)",
         "Email-Liste-Größe für 100k €-Launch: 3.000-10.000 Subscribers (3-10 % Conversion bei 3-8k € Pricing)"
@@ -12319,9 +12319,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "warning": "Online-Kurs ohne ZFU-Zulassung verkaufen = Verträge NICHTIG + Rückzahlungs-Pflicht ALLER Einnahmen. 2023-2025 viele Mass-Suspensionen + Anwalts-Klagen. SETUP-FRAGE VOR ALLEM ANDEREN.",
       "extendedNotes": [
         "**FernUSG-Anwendung Online-Kurs**: Standardisiert + asynchron + räumliche Trennung + Lerner-Erfolgs-Überwachung = JA, fast immer.",
-        "**Vermeidungs-Strategie 1 — B2B-Only**: Kurs nur an Unternehmer/Selbstständige verkaufen (Unternehmer-Klausel in AGB) → FernUSG gilt nur B2C",
-        "**Vermeidungs-Strategie 2 — Pure Information (kein Lehrgang)**: Kurs als 'Information' framen ohne Lehr-Anspruch — rechtlich heikel, Anwalt-Check zwingend",
-        "**Pflicht-Pfad — ZFU-Zulassung**: Antrag bei zfu.de, 6-12 Wochen Bearbeitung, 250-1.500 € Gebühr. Rechtssicher.",
+        "**Vermeidungs-Strategie 1, B2B-Only**: Kurs nur an Unternehmer/Selbstständige verkaufen (Unternehmer-Klausel in AGB) → FernUSG gilt nur B2C",
+        "**Vermeidungs-Strategie 2, Pure Information (kein Lehrgang)**: Kurs als 'Information' framen ohne Lehr-Anspruch, rechtlich heikel, Anwalt-Check zwingend",
+        "**Pflicht-Pfad, ZFU-Zulassung**: Antrag bei zfu.de, 6-12 Wochen Bearbeitung, 250-1.500 € Gebühr. Sauber aufgesetzt.",
         "**Kosten-Realität**: ZFU-Zulassung 1x pro Kurs. Bei mehreren Kursen pro Kurs separater Antrag."
       ]
     },
@@ -12363,7 +12363,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Pro Module: 1 klares Outcome + 3-5 Lektionen (10-20 Min) + 1 Action-Item",
         "Video-Format: Talking-Head + Screen-Share-Demos. Loom für Quick-Setup, Riverside für Premium",
         "Workbooks: PDF mit Action-Items + Templates + Worksheets",
-        "Bonus-Material: Templates, Swipe-Files, Cheat-Sheets — perceived value boost",
+        "Bonus-Material: Templates, Swipe-Files, Cheat-Sheets, perceived value boost",
         "Q&A-Sektion (asynchron): Klienten posten Fragen, du beantwortest 1x/Woche im Group-Video",
         "Completion-Tracking: Plattform-eingebaute Module-Completed-Indikatoren"
       ],
@@ -12386,7 +12386,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "AGB für Online-Kurs (spezifisch): Leistungsumfang, Vergütung, Lieferform (sofortiger Zugang), Cancellation",
         "Widerrufs-Belehrung: 14-Tage-Widerrufsrecht für B2C (außer Verzicht-Klausel bei sofortigem Zugang)",
-        "Verzichts-Klausel: 'Kunde stimmt zu, dass Widerrufsrecht erlischt bei sofortigem Zugang' — rechtlich KORREKT formuliert (sonst nichtig)",
+        "Verzichts-Klausel: 'Kunde stimmt zu, dass Widerrufsrecht erlischt bei sofortigem Zugang', rechtlich KORREKT formuliert (sonst nichtig)",
         "B2B-Klausel: 'Käufer bestätigt Unternehmer-Status' → kein Widerruf (B2B)",
         "Datenschutz-Erklärung: GDPR-konform mit Plattform als Daten-Verarbeiter (AVV mit Elopage/Kajabi)",
         "Impressum + Anbieter-Kennzeichnung"
@@ -12407,7 +12407,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "**Live-Launch (Jeff Walker PLF)**: 4 Pre-Launch-Videos + Cart-Open 5-7 Tage + Cart-Close. Conversion 5-15 %",
         "**Webinar-Funnel**: Lead-Magnet → Webinar → Pitch. Conversion 3-10 %",
-        "**Evergreen-Funnel**: Auto-Webinar (EverWebinar) 24/7 + Email-Sequenz → kontinuierliche Sales",
+        "**Evergreen-Funnel**: Auto-Webinar (EverWebinar) jederzeit + Email-Sequenz → kontinuierliche Sales",
         "Pricing-Strategie Launch: Early-Bird 24-48h (20 % Discount) + reguläres Pricing + Last-Chance-Bonus",
         "Refund-Quote-Erwartung: 5-15 % typisch bei B2C-Kursen → Cashflow-Buffer einplanen",
         "Win-Back-Campaign 6 Monate nach Refund mit anderen Produkten"
@@ -12485,7 +12485,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Daily Community-Engagement** (asynchron): Founder posted täglich 1-2 Comments/Threads",
         "**Monthly New Content**: 1 neuer Workshop/Modul/Resource pro Monat → konstanter Value",
         "**Quarterly Member-Spotlight**: Member-Wins-Showcase → Social-Proof + Engagement-Boost",
-        "**Onboarding-Sequenz**: Tag 1, 7, 14, 30 — automatisierte Touchpoints (Email + Community-Posts)",
+        "**Onboarding-Sequenz**: Tag 1, 7, 14, 30, automatisierte Touchpoints (Email + Community-Posts)",
         "**Engagement-KPIs**: Active-Member-Rate (Login letzte 7 Tage) > 50 % = gesund"
       ],
       "description": "Konsistente Content-Cadence ist Retention-Hebel. Members kündigen wenn 'nichts passiert'."
@@ -12495,10 +12495,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Monthly-Churn-Ziel: < 5 % gesund, < 3 % exzellent",
         "Churn-Reasons-Tracking: Exit-Survey bei Cancellation (Drop-Down + Free-Text)",
         "Top-Churn-Reasons: 1) Zu wenig Zeit, 2) Erwartungen erfüllt, 3) Pricing-Issues, 4) Lack-of-Engagement",
-        "Pause-Option als Save: statt Cancel anbieten 'Pause 30/60/90 Tage' — 50 % der Pause-User kommen zurück",
+        "Pause-Option als Save: statt Cancel anbieten 'Pause 30/60/90 Tage', 50 % der Pause-User kommen zurück",
         "Win-Back-Campaign: 3 + 6 Monate nach Cancel mit Free-Month + Programm-Update",
         "Annual-Pay-Conversion: monatliche Member mit 6+ Monaten Aktivität gezielt auf Jahres-Plan umwerben (Discount + Bonus)",
-        "Onboarding-Critical-Period: Tag 1-30 ist Make-or-Break — 70 % der Churn passiert in Monat 1-2"
+        "Onboarding-Critical-Period: Tag 1-30 ist Make-or-Break, 70 % der Churn passiert in Monat 1-2"
       ],
       "description": "Membership-Math: niedrige Churn = exponentielles Wachstum. Bei 5 % Monthly-Churn = 50 % Jahres-Churn = Wachstum-Bremse."
     }
@@ -12530,11 +12530,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "vib-wib-doku": {
       "checklist": [
         "VIB (3-Seiten-Dokument) Pflicht für jede Anlage > 1.000 € pro Investor",
-        "Inhalte: Anbieter, Anlageform, Risiken, Renditen, Gebühren — strikte BaFin-Format-Vorgaben",
+        "Inhalte: Anbieter, Anlageform, Risiken, Renditen, Gebühren, strikte BaFin-Format-Vorgaben",
         "VIB-Veröffentlichung 1 Tag vor Kampagnen-Start (BaFin-Anzeige)",
         "Bei Anlage > 8M € Volumen ODER > 200k pro Investor: Vollprospekt-Pflicht (deutlich teurer + komplexer)",
         "WIB bei Wertpapier-Format (Aktien, Genussscheine als Wertpapiere): leicht andere Anforderungen",
-        "Anwalt-Begleitung: Specialist für VermAnlG-Recht (z.B. Heuking, GSK Stockmann) — 3-8k € einmalig"
+        "Anwalt-Begleitung: Specialist für VermAnlG-Recht (z.B. Heuking, GSK Stockmann), 3-8k € einmalig"
       ],
       "externalLinks": [
         {
@@ -12577,7 +12577,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Vorteile**: VC-friendly Cap-Table, einfachere Abstimmungen, einfachere Folge-Runden",
         "**Setup-Aufwand**: 2-5k € Anwalt einmalig, kompletter Vertrag mit allen Crowd-Investoren",
         "**Companisto/Seedmatch**: oft schon eingebaut als Standard-Setup. Im Engagement-Letter abklären",
-        "**Direkt-Investoren-Setup**: NICHT machen ohne Pooling — kostet später 10x mehr in Aufräumarbeit"
+        "**Direkt-Investoren-Setup**: NICHT machen ohne Pooling, kostet später 10x mehr in Aufräumarbeit"
       ],
       "description": "Bei direkter Investoren-Aufnahme: 100-1.000+ Investoren im Cap-Table → spätere VC-Runde schwierig."
     },
@@ -12587,7 +12587,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Jahres-Geschäftsbericht: testierte BWA + Bilanz (bei GmbH gesetzlich Pflicht)",
         "Investor-Plattform: Carta, Ledgy oder Notion/Email als günstigste Variante",
         "Folge-Runden: bestehende Crowd-Investoren bevorzugt informieren (Pre-Emption-Right oft vertraglich)",
-        "Bei schlechten News: TRANSPARENT kommunizieren — Investoren vergeben Verzögerungen, aber NICHT Schweigen",
+        "Bei schlechten News: TRANSPARENT kommunizieren, Investoren vergeben Verzögerungen, aber NICHT Schweigen",
         "Steuer: Anteils-Auszahlungen (bei Profit) = Kapitalertragsteuer 25 % + SolZ + ggf. KiSt"
       ],
       "description": "Quartals-/Jahres-Reports an Investoren Pflicht. Bei Reporting-Versäumnis Reputationsschaden + rechtliche Risiken."
@@ -12623,7 +12623,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "**Pre-Launch-Tool**: Backerkit Launch oder Kickoff-Labs für Lead-Capture + Viral-Referral-System",
         "**Pre-Launch-Marketing**: Meta + TikTok-Ads zur Email-Liste-Bildung (CPL 1-5 €)",
         "**Influencer-Seeding**: 5-15 Product-Samples an passende Influencer für Reichweite + UGC",
-        "**PR-Outreach**: Tech-Press + Niche-Blogs für Pre-Launch-Stories (Endgadget, Hacker News, Engadget, etc.)",
+        "**PR-Outreach**: Tech-Press + Niche-Blogs für Pre-Launch-Stories (Endgadget, Praxis-Tipper News, Engadget, etc.)",
         "**Day-1-Math**: 10.000 Pre-Launch-Subs × 5 % Day-1-Backer-Conversion × 75 € Average Pledge = 37.500 € am Launch-Day"
       ],
       "externalLinks": [
@@ -12639,11 +12639,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "reward-tiers": {
       "checklist": [
-        "**Tier 1 — Early-Bird** (erste 24-48h, limitierte Stückzahl): 25-30 % Discount vom Final-Retail-Preis",
-        "**Tier 2 — Standard**: 15-23 % Discount, Hauptverkaufs-Tier",
-        "**Tier 3 — Bundle**: 2-3 Produkte zusammen, bessere Per-Stück-Marge",
-        "**Tier 4 — Premium**: Limited-Edition oder Founder-Edition, höchste Marge",
-        "**Tier 5 — VIP/Group**: Wholesale-Pack für Reseller, B2B-Tier",
+        "**Tier 1, Early-Bird** (erste 24-48h, limitierte Stückzahl): 25-30 % Discount vom Final-Retail-Preis",
+        "**Tier 2, Standard**: 15-23 % Discount, Hauptverkaufs-Tier",
+        "**Tier 3, Bundle**: 2-3 Produkte zusammen, bessere Per-Stück-Marge",
+        "**Tier 4, Premium**: Limited-Edition oder Founder-Edition, höchste Marge",
+        "**Tier 5, VIP/Group**: Wholesale-Pack für Reseller, B2B-Tier",
         "**Stretch-Goals**: bei 200 % / 300 % / 500 % vom Goal → neue Features/Farben/Bundles unlocken (Re-Engagement-Hebel)",
         "**Add-Ons**: zusätzliche Produkte/Customizations die Backer post-Pledge buchen können → erhöht Average-Pledge 30-50 %"
       ]
@@ -12723,7 +12723,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "kyc-aml-custody": {
       "checklist": [
-        "KYC/AML-Tool: Sumsub, Onfido, Veriff — 1-5 € pro verifiziertem User",
+        "KYC/AML-Tool: Sumsub, Onfido, Veriff, 1-5 € pro verifiziertem User",
         "AML-Schwellen: Onboarding ab 1.000 € Token-Kauf typisch. Enhanced-DD ab 15.000 €",
         "Custody-Provider mit BaFin-Lizenz: nur 5-10 in EU verfügbar (z.B. Tangany, Bitpanda Custody, Finoa)",
         "Custody-Fee 0,5-2 % auf gehaltetes Volumen",
@@ -12792,7 +12792,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "**Empfehlungs-Quote**: 30-40 % aller Hires kommen über Netzwerk — günstigster Kanal mit höchster Retention",
+        "**Empfehlungs-Quote**: 30-40 % aller Hires kommen über Netzwerk, günstigster Kanal mit höchster Retention",
         "**Probearbeit-Tag bezahlen**: 200-500 € für 1 Tag → zeigt Wertschätzung + senkt Bias",
         "**Red Flags im Interview**: Lästern über Ex-AG, fehlende Selbstreflexion, unklare Lücken im Lebenslauf"
       ]
@@ -12804,7 +12804,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Probezeit-Klausel: 6 Monate mit 2-Wochen-Kündigungsfrist (statt 4 Wochen ab Mon 7)",
         "Wettbewerbsverbot: nur mit Karenz-Entschädigung wirksam (50 % Gehalt für Dauer), oft nicht sinnvoll bei Junior-Hires",
         "Geheimhaltungs-Klausel: für IP-Schutz + Customer-Data-Protection",
-        "Probezeit-Optionen: nach 6 Monaten Wechsel zu KSchG-Schutz (= viel schwerer kündbar) — Probe genau nutzen"
+        "Probezeit-Optionen: nach 6 Monaten Wechsel zu KSchG-Schutz (= viel schwerer kündbar), Probe genau nutzen"
       ],
       "externalLinks": [
         {
@@ -12839,7 +12839,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ]
     },
     "probezeit-management": {
-      "warning": "Nach 6 Monaten Probezeit gilt KSchG (Kündigungsschutz-Gesetz) — Kündigung nur mit social-justified Grund + Sozialauswahl. PRE-KSCHG-PHASE für definitive Entscheidung nutzen.",
+      "warning": "Nach 6 Monaten Probezeit gilt KSchG (Kündigungsschutz-Gesetz), Kündigung nur mit social-justified Grund + Sozialauswahl. PRE-KSCHG-PHASE für definitive Entscheidung nutzen.",
       "extendedNotes": [
         "**Probezeit-Optionen**: Standard 6 Monate, max 6 Monate erlaubt. Kündigungsfrist 2 Wochen (statt 4 Wochen)",
         "**Probezeit-Check-Routine**: Monat 1, 3, 5 strukturierte Reviews mit klaren Outcomes",
@@ -12866,7 +12866,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Trennungs-Entscheidung dokumentieren: Performance-Issues + Gespräche + Verbesserungs-Versuche",
         "Probezeit-Kündigung: 2 Wochen Frist, kein Grund nötig (innerhalb 6 Monaten)",
         "Verhaltens-Kündigung: Abmahnung Pflicht (mind. 1×, oft 2×) bevor Kündigung möglich",
-        "Aufhebungsvertrag: oft besser als Kündigung — keine Sperrzeit ALG bei einvernehmlich + Abfindung-Klausel",
+        "Aufhebungsvertrag: oft besser als Kündigung, keine Sperrzeit ALG bei einvernehmlich + Abfindung-Klausel",
         "Abfindungs-Bandbreite: 0,5-1 Monatsgehalt pro Beschäftigungs-Jahr (Faustregel, kein gesetzlicher Anspruch)",
         "Freistellung: ab Kündigungs-Ausspruch unwiderruflich freistellen → kein Wissensabfluss, Resturlaub abgegolten",
         "Abmeldung Sozialversicherung: Krankenkasse + BG + Lohnsteuer-Schluss-Meldung via ELSTER",
@@ -12874,7 +12874,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "Bundesagentur — Pflichten bei Trennung",
+          "label": "Bundesagentur, Pflichten bei Trennung",
           "url": "https://www.arbeitsagentur.de"
         }
       ],
@@ -12888,7 +12888,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     }
   },
   "hiring-freelancer": {
-    "werkvertrag-rechtssicher": {
+    "werkvertrag-sauber aufgesetzt": {
       "checklist": [
         "Werkvertrag-Pflicht: konkrete Werk-Definition (z.B. 'Fertige iOS-App nach Spec X')",
         "Dienstvertrag (§611 BGB) als Alternative: Zeit-/Beratungs-Leistung ohne fixiertes Ergebnis. Höheres Scheinselbst-Risiko",
@@ -12914,7 +12914,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "extendedNotes": [
         "**Top-5-Scheinselbst-Indikatoren**: 1) >5/6 Umsatz von 1 Auftraggeber, 2) fester Arbeitsort beim Auftraggeber, 3) Weisungsgebundenheit, 4) Eingliederung in Auftraggeber-Organisation, 5) keine eigene Infrastruktur",
         "**Anti-Scheinselbst**: Freelancer hat 3+ Auftraggeber gleichzeitig, eigenes Office/Büro, eigenes Equipment, eigene Werkverträge",
-        "**Statusfeststellungs-Verfahren**: vor Engagement bei DRV einreichen (kostenfrei) — gibt rechtliche Sicherheit ob Selbstständig oder Scheinselbst",
+        "**Statusfeststellungs-Verfahren**: vor Engagement bei DRV einreichen (kostenfrei), gibt rechtliche Sicherheit ob Selbstständig oder Scheinselbst",
         "**Worst-Case-Math**: Freelancer 5k €/Mon × 12 Mon × 4 Jahre × 40 % SV (AG+AN) = 96k € Nachzahlung + Strafe + Anwalt",
         "**Safe-Practice**: Vertrag dokumentiert mehrere Auftraggeber, Werkverträge statt Dienstverträge, Eigenes Equipment"
       ]
@@ -12935,7 +12935,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Recruiting via Upwork (Mid-Market), Toptal (Premium), Fiverr (Bootstrap), LinkedIn-Outreach",
         "Test-Project: 200-500 € initialer Auftrag um Quality + Fit zu prüfen",
         "Verfügbarkeits-Tracking: monatlich kurz Check-in mit jedem Freelancer",
-        "Reorientation bei Skalierung: Top-Performer als 'Lead-Freelancer' positionieren — koordinieren andere Freelancer"
+        "Reorientation bei Skalierung: Top-Performer als 'Lead-Freelancer' positionieren, koordinieren andere Freelancer"
       ],
       "externalLinks": [
         {
@@ -12979,7 +12979,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "KEINE KV/PV/ALV-Pflicht: Student bleibt in Familienversicherung oder studentischen KV",
         "Stundenlohn: Mindestlohn (13,90 €/h ab 01.01.2026) PFLICHT, gerne mehr",
         "Vertrag: einfacher als Vollzeit, fokussiert auf Stunden + Stundenlohn + Tätigkeit",
-        "Steuer: bis 1.180 €/Mon meist steuerfrei (Grundfreibetrag-Verteilung)"
+        "Steuer: bis 1.180 €/Mon meist steuerbegünstigt (Grundfreibetrag-Verteilung)"
       ],
       "externalLinks": [
         {
@@ -13022,7 +13022,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "amazon-brand-registry": {
     "voraussetzungen": {
       "checklist": [
-        "Eingetragene Wort- oder Bildmarke (DPMA für DE, EUIPO für EU, USPTO für US) – Registernummer parat",
+        "Eingetragene Wort- oder Bildmarke (DPMA für DE, EUIPO für EU, USPTO für US), Registernummer parat",
         "Markenname = exakt der Name, der auf deinen Produkten/Verpackung steht",
         "Aktives Amazon-Verkäufer- ODER Vendor-Konto",
         "Marke muss in dem Land/Region eingetragen sein, in dem du verkaufst (EU-Marke deckt alle EU-Marktplätze)",
@@ -13059,18 +13059,18 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bei brandservices.amazon.com mit Seller/Vendor-Konto einloggen",
         "Marke anlegen: Name, Markenamt + Registernummer, Kategorien, Länder",
         "Produkt-/Verpackungsbilder hochladen",
-        "Verifizierungsmethode wählen – Amazon sendet Code an den im Marken-Register hinterlegten Korrespondenten",
+        "Verifizierungsmethode wählen, Amazon sendet Code an den im Marken-Register hinterlegten Korrespondenten",
         "Code im Brand Registry eingeben → Prüfung läuft (i.d.R. wenige Tage)"
       ],
       "externalLinks": [
         {
-          "label": "Brand Registry – Marke anmelden",
+          "label": "Brand Registry, Marke anmelden",
           "url": "https://brandservices.amazon.com/brandapplication"
         }
       ],
       "extendedNotes": [
-        "Der Verifizierungscode geht an den \"Correspondent\"/Vertreter, der im DPMA/EUIPO-Register zur Marke steht – nicht an dich direkt. Falls du die Marke selbst angemeldet hast, bist das du; bei Anwalts-Anmeldung der Anwalt.",
-        "Bearbeitungszeit der Freischaltung: meist 2–10 Werktage nach Code-Eingabe."
+        "Der Verifizierungscode geht an den \"Correspondent\"/Vertreter, der im DPMA/EUIPO-Register zur Marke steht, nicht an dich direkt. Falls du die Marke selbst angemeldet hast, bist das du; bei Anwalts-Anmeldung der Anwalt.",
+        "Bearbeitungszeit der Freischaltung: meist 2-10 Werktage nach Code-Eingabe."
       ]
     },
     "tools-aktivieren": {
@@ -13080,7 +13080,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Sponsored Brands / Sponsored Display freischalten",
         "Brand Analytics (Such- & Wettbewerbsdaten) nutzen",
         "\"Report a Violation\"-Tool gegen Hijacker/Counterfeits aktivieren",
-        "Transparency-Programm erwägen (siehe eigener Guide) – nur mit Brand Registry möglich"
+        "Transparency-Programm erwägen (siehe eigener Guide), nur mit Brand Registry möglich"
       ],
       "description": "Sobald die Marke aktiv ist, schalten sich die wertvollen Brand-Features frei."
     }
@@ -13099,7 +13099,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://transparency.amazon.com"
         }
       ],
-      "warning": "Transparency-Codes vergibt ausschließlich Amazon. Sie lassen sich NICHT selbst \"generieren\" oder ableiten – gefälschte Codes sind Betrug und führen zu Account-Sperrung."
+      "warning": "Transparency-Codes vergibt ausschließlich Amazon. Sie lassen sich NICHT selbst \"generieren\" oder ableiten, gefälschte Codes sind Betrug und führen zu Account-Sperrung."
     },
     "anmelden": {
       "checklist": [
@@ -13110,7 +13110,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "Transparency – Anmeldung",
+          "label": "Transparency, Anmeldung",
           "url": "https://transparency.amazon.com"
         }
       ]
@@ -13118,13 +13118,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "codes-bestellen-anbringen": {
       "checklist": [
         "Code-Menge je Charge bestellen (entsprechend deiner Produktionsmenge)",
-        "Codes als Etiketten drucken (lassen) – scharf, ausreichend groß, scanbar",
-        "Auf jede Einzeleinheit/Verpackung anbringen – gut sichtbar, nicht über Falz/Kante",
+        "Codes als Etiketten drucken (lassen), scharf, ausreichend groß, scanbar",
+        "Auf jede Einzeleinheit/Verpackung anbringen, gut sichtbar, nicht über Falz/Kante",
         "Stichprobe: Codes mit der Transparency-App testweise scannen"
       ],
       "extendedNotes": [
         "Bei FBA scannt Amazon die Codes beim Wareneingang/Versand und authentifiziert jede Einheit. Fehlende/unlesbare Codes können zu Wareneingangs-Problemen führen.",
-        "Plane die Codes IN den Produktions-/Verpackungsprozess ein – nachträgliches Bekleben tausender Einheiten ist teuer."
+        "Plane die Codes IN den Produktions-/Verpackungsprozess ein, nachträgliches Bekleben tausender Einheiten ist teuer."
       ]
     }
   },
@@ -13158,8 +13158,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         }
       ],
       "extendedNotes": [
-        "Die Garantie für B2C-Geräte ist der größte Kostenblock und muss jährlich erneuert/angepasst werden – Höhe richtet sich nach gemeldeten Mengen.",
-        "Bearbeitung der Registrierung dauert oft mehrere Wochen – früh starten, BEVOR du Geräte listest."
+        "Die Garantie für B2C-Geräte ist der größte Kostenblock und muss jährlich erneuert/angepasst werden, Höhe richtet sich nach gemeldeten Mengen.",
+        "Bearbeitung der Registrierung dauert oft mehrere Wochen, früh starten, BEVOR du Geräte listest."
       ]
     },
     "marktplatz-pflichten": {
@@ -13170,14 +13170,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Rücknahme-/Entsorgungspflichten beachten",
         "Für ANDERE EU-Länder: separate WEEE-Registrierung + Bevollmächtigter pro Land (DE-Nr. gilt NICHT für FR/IT/ES/…)"
       ],
-      "warning": "Eine deutsche WEEE-Nr. deckt nur Deutschland ab. Wer Pan-EU/in andere EU-Länder verkauft, braucht je Land eine eigene WEEE-Registrierung über einen Bevollmächtigten – sonst drohen dort Sperren/Bußgelder."
+      "warning": "Eine deutsche WEEE-Nr. deckt nur Deutschland ab. Wer Pan-EU/in andere EU-Länder verkauft, braucht je Land eine eigene WEEE-Registrierung über einen Bevollmächtigten, sonst drohen dort Sperren/Bußgelder."
     }
   },
   "amazon-produkt-anlegen": {
     "gtin": {
       "checklist": [
         "Eigene Marke? → GS1-GTINs von GS1 Germany kaufen (offiziell, von Amazon akzeptiert)",
-        "KEINE wiederverkauften/Billig-EANs aus Drittquellen – Amazon prüft den GS1-Eigentümer und sperrt sonst",
+        "KEINE wiederverkauften/Billig-EANs aus Drittquellen, Amazon prüft den GS1-Eigentümer und sperrt sonst",
         "Alternativ: GTIN-Befreiung im Seller Central beantragen (für markenlose/handgemachte Produkte)",
         "GTINs den jeweiligen Produktvarianten zuordnen"
       ],
@@ -13195,15 +13195,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     },
     "match-oder-neu": {
       "checklist": [
-        "Im Katalog nach GTIN/Produkt suchen – existiert die ASIN bereits?",
+        "Im Katalog nach GTIN/Produkt suchen, existiert die ASIN bereits?",
         "Identisches Produkt vorhanden → als Angebot an bestehende ASIN andocken (kein neues Listing)",
         "Wirklich neues Produkt/eigene Marke → neues Listing anlegen",
-        "Bei eigener Marke: vorher Brand Registry (sonst kein A+/Schutz) – siehe Guide"
+        "Bei eigener Marke: vorher Brand Registry (sonst kein A+/Schutz), siehe Guide"
       ]
     },
     "keyword-recherche": {
       "checklist": [
-        "Hauptkeyword + 5–15 relevante Nebenkeywords sammeln (so wie Käufer suchen, nicht wie Hersteller benennen)",
+        "Hauptkeyword + 5-15 relevante Nebenkeywords sammeln (so wie Käufer suchen, nicht wie Hersteller benennen)",
         "Amazon-Autovervollständigung + 'Verwandte Suchbegriffe' am Listing-Ende auswerten",
         "Top-3-Wettbewerber-Listings analysieren: welche Keywords in Titel/Bullets, welche Bilder, welcher Preis",
         "Suchvolumen/Relevanz grob priorisieren (1 starkes Hauptkeyword > 20 schwache)",
@@ -13217,7 +13217,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Kostenlos starten: Amazon-Suchschlitz-Autocomplete + Wettbewerber-Listings reichen für den Anfang. Tools wie Helium 10 / Sellics liefern Suchvolumen, sind aber kein Muss.",
-        "Mit Brand Registry: Brand Analytics zeigt dir echte Such-Frequenz-Ränge – Gold wert für Keyword-Priorisierung."
+        "Mit Brand Registry: Brand Analytics zeigt dir echte Such-Frequenz-Ränge, Gold wert für Keyword-Priorisierung."
       ]
     },
     "listing-erstellen": {
@@ -13243,22 +13243,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Veröffentlichen → nach Freischaltung Listing live prüfen (Bilder, Variationen, Buy-Box)"
       ],
       "extendedNotes": [
-        "Compliance-Felder (GPSR, WEEE, LUCID) sind seit 2024/2025 zunehmend Pflicht – fehlen sie, blockiert Amazon das Listing oder den Verkauf in der EU."
+        "Compliance-Felder (GPSR, WEEE, LUCID) sind seit 2024/2025 zunehmend Pflicht, fehlen sie, blockiert Amazon das Listing oder den Verkauf in der EU."
       ],
-      "description": "Preis, Versandart und – wichtig – die regulatorischen Nachweise, bevor du veröffentlichst."
+      "description": "Preis, Versandart und, wichtig, die regulatorischen Nachweise, bevor du veröffentlichst."
     },
     "launch-conversion": {
       "checklist": [
         "Erste echte Bewertungen über das Amazon \"Vine\"-Programm (mit Brand Registry) generieren",
-        "Sponsored Products (PPC) auf das Hauptkeyword schalten – auch zum Ranking-Aufbau, nicht nur für Klicks",
+        "Sponsored Products (PPC) auf das Hauptkeyword schalten, auch zum Ranking-Aufbau, nicht nur für Klicks",
         "Einführungspreis/Coupon für die ersten Verkäufe (Conversion + Verkaufsgeschwindigkeit pushen)",
         "Listing-Qualität prüfen: Hauptbild knackig, A+ vorhanden, Bullets nutzen-orientiert, mobile Ansicht checken",
-        "Conversion-Rate & Sessions im Bericht beobachten – schlechte CR meist = Bild/Preis/Bewertungen, nicht Traffic",
-        "Nach 2–4 Wochen: Keywords nachschärfen, schlechte PPC-Suchbegriffe als negativ ausschließen"
+        "Conversion-Rate & Sessions im Bericht beobachten, schlechte CR meist = Bild/Preis/Bewertungen, nicht Traffic",
+        "Nach 2-4 Wochen: Keywords nachschärfen, schlechte PPC-Suchbegriffe als negativ ausschließen"
       ],
       "extendedNotes": [
         "Reihenfolge der Hebel: (1) gute Bilder + Bewertungen → (2) PPC auf Hauptkeyword → (3) Preis-/Coupon-Push. Ohne Bewertungen verpufft PPC.",
-        "Vine (Brand Registry) ist der sauberste Weg zu ersten Bewertungen – Anreiz-Reviews/Fake-Reviews sind Account-gefährdend."
+        "Vine (Brand Registry) ist der sauberste Weg zu ersten Bewertungen, Anreiz-Reviews/Fake-Reviews sind Account-gefährdend."
       ],
       "description": "Ein neues Listing ohne Bewertungen und Sichtbarkeit verkauft sich kaum. Diese ersten Wochen entscheiden über das Ranking."
     }
@@ -13267,11 +13267,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "gating-pruefen": {
       "checklist": [
         "Produkt/ASIN anlegen versuchen → Marktplatz zeigt \"Freischaltung beantragen\" / \"Genehmigung erforderlich\"",
-        "Pro Marktplatz separat prüfen: Amazon, Kaufland, eBay, OTTO – jeder hat eigene Gates",
+        "Pro Marktplatz separat prüfen: Amazon, Kaufland, eBay, OTTO, jeder hat eigene Gates",
         "Notieren, was konkret verlangt wird (Rechnung? Mindestmenge? Autorisierung? Seriennummern?)",
         "Manche Kategorien (z.B. bestimmte Elektronik, Marken-Restriktionen) brauchen zusätzlich Hersteller-Erlaubnis"
       ],
-      "warning": "Nicht auf gut Glück listen – ein abgelehnter/auffälliger Antrag erschwert spätere Freischaltungen. Erst Anforderungen sauber sammeln."
+      "warning": "Nicht auf gut Glück listen, ein abgelehnter/auffälliger Antrag erschwert spätere Freischaltungen. Erst Anforderungen sauber sammeln."
     },
     "rechnung": {
       "checklist": [
@@ -13280,8 +13280,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "DEINE exakten Firmendaten auf der Rechnung = identisch zum Verkäuferkonto (Name, Adresse, ggf. USt-IdNr.)",
         "Vollständige Lieferantendaten: echter Distributor/Großhändler/Hersteller mit Name, Adresse, Kontakt",
         "Produktnamen auf der Rechnung passen zur Marke/zum Listing",
-        "Original-PDF – KEINE Screenshots, keine nachträglich bearbeiteten Felder",
-        "Einzelhandels-Rechnungen (MediaMarkt/Saturn) und sogar Amazon-eigene Rechnungen werden grundsätzlich auch akzeptiert – am stärksten sind aber echte Distributor-/Großhandelsrechnungen",
+        "Original-PDF, KEINE Screenshots, keine nachträglich bearbeiteten Felder",
+        "Einzelhandels-Rechnungen (MediaMarkt/Saturn) und sogar Amazon-eigene Rechnungen werden grundsätzlich auch akzeptiert, am stärksten sind aber echte Distributor-/Großhandelsrechnungen",
         "Wichtig ist nicht die Quelle, sondern: korrekte Menge, Datum im Zeitfenster und EXAKT passende Firmendaten"
       ],
       "fields": [
@@ -13295,7 +13295,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "type": "number"
         }
       ],
-      "warning": "Wird eine Rechnung als editiert/unstimmig erkannt, führt das in der Regel NICHT zur dauerhaften Konto-Sperre – der Antrag bleibt einfach gesperrt/abgelehnt, bis du eine korrekte, unveränderte Rechnung hochlädst. Lad also einfach das saubere Original hoch.",
+      "warning": "Wird eine Rechnung als editiert/unstimmig erkannt, führt das in der Regel NICHT zur dauerhaften Konto-Sperre, der Antrag bleibt einfach gesperrt/abgelehnt, bis du eine korrekte, unveränderte Rechnung hochlädst. Lad also einfach das saubere Original hoch.",
       "extendedNotes": [
         "Wenn deine Firmendaten nicht 1:1 zur Rechnung passen (z.B. anderer Name, alte Adresse), erst Verkäuferkonto/Rechnung angleichen.",
         "Tipp: Beim Distributor direkt um eine \"Amazon-/Marktplatz-taugliche\" Rechnung bitten (vollständige Adressen, Marke klar benannt)."
@@ -13310,7 +13310,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Alles als saubere PDFs/Bilder sammeln, klar benannt"
       ],
       "extendedNotes": [
-        "Noch nicht alle Produkte sind im Transparency-Programm – deshalb akzeptieren Marktplätze hilfsweise Seriennummern + Fotos als Echtheitsnachweis."
+        "Noch nicht alle Produkte sind im Transparency-Programm, deshalb akzeptieren Marktplätze hilfsweise Seriennummern + Fotos als Echtheitsnachweis."
       ]
     },
     "antrag-stellen": {
@@ -13318,23 +13318,23 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Amazon: über \"Verkaufsantrag stellen\"/\"Freischaltung beantragen\" beim Listing, Rechnung + ggf. Seriennummern hochladen",
         "Kaufland / OTTO / eBay: jeweiligen Marken-/Kategorie-Freischaltungsantrag im Seller-Bereich",
         "Bei Ablehnung: konkreten Ablehnungsgrund lesen und gezielt nachbessern (oft: Datenabweichung oder Mindestmenge)",
-        "Höflich, aber bestimmt nachfassen – Bearbeitung dauert oft mehrere Tage"
+        "Höflich, aber bestimmt nachfassen, Bearbeitung dauert oft mehrere Tage"
       ],
       "externalLinks": [
         {
-          "label": "Amazon – Verkaufsbeschränkungen/Freischaltung",
+          "label": "Amazon, Verkaufsbeschränkungen/Freischaltung",
           "url": "https://sellercentral.amazon.de/help/hub/reference/external/G201817360"
         }
       ],
-      "warning": "Jeder Marktplatz prüft separat – eine Amazon-Freischaltung gilt NICHT für Kaufland/eBay. Pro Plattform denselben Nachweis-Stack einreichen.",
-      "description": "Mit Rechnung + Echtheitsnachweisen den Freischaltungsantrag stellen – je Marktplatz im jeweiligen Flow."
+      "warning": "Jeder Marktplatz prüft separat, eine Amazon-Freischaltung gilt NICHT für Kaufland/eBay. Pro Plattform denselben Nachweis-Stack einreichen.",
+      "description": "Mit Rechnung + Echtheitsnachweisen den Freischaltungsantrag stellen, je Marktplatz im jeweiligen Flow."
     }
   },
   "dac7": {
     "verstehen": {
       "checklist": [
         "Betroffen: alle, die über Plattformen Waren/Dienstleistungen verkaufen (gewerblich und teils privat)",
-        "DAC7 schafft KEINE neue Steuer – es ist Transparenz: die Plattform meldet, das Finanzamt gleicht mit deiner Erklärung ab",
+        "DAC7 schafft KEINE neue Steuer, es ist Transparenz: die Plattform meldet, das Finanzamt gleicht mit deiner Erklärung ab",
         "Die Plattform sammelt + verifiziert deine Daten und meldet jährlich",
         "Falsche/fehlende Angaben → Plattform friert Auszahlungen/Konto ein"
       ]
@@ -13342,11 +13342,11 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "schwellen": {
       "checklist": [
         "De-minimis (Warenverkäufer): weniger als 30 Verkäufe UND unter 2.000 € Erlös pro Plattform/Jahr → keine DAC7-Meldung",
-        "Beide Bedingungen müssen erfüllt sein – ab 30 Verkäufen ODER 2.000 € wird gemeldet",
-        "Schwelle gilt PRO Plattform – auf mehreren Marktplätzen jeweils einzeln prüfen",
-        "Wichtig: Die Steuerpflicht selbst hängt NICHT an dieser Schwelle – wer gewerblich handelt, muss ohnehin versteuern"
+        "Beide Bedingungen müssen erfüllt sein, ab 30 Verkäufen ODER 2.000 € wird gemeldet",
+        "Schwelle gilt PRO Plattform, auf mehreren Marktplätzen jeweils einzeln prüfen",
+        "Wichtig: Die Steuerpflicht selbst hängt NICHT an dieser Schwelle, wer gewerblich handelt, muss ohnehin versteuern"
       ],
-      "warning": "Verlass dich nicht auf die Bagatellgrenze, um Einkünfte \"unter dem Radar\" zu halten – Gewerblichkeit und Steuerpflicht bestehen unabhängig von DAC7. DAC7 macht es nur transparent."
+      "warning": "Verlass dich nicht auf die Bagatellgrenze, um Einkünfte \"unter dem Radar\" zu halten, Gewerblichkeit und Steuerpflicht bestehen unabhängig von DAC7. DAC7 macht es nur transparent."
     },
     "daten-liefern": {
       "checklist": [
@@ -13354,10 +13354,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Vollständige Firmendaten: Name, Anschrift, Rechtsform, ggf. Handelsregisternummer",
         "Bei Aufforderung der Plattform (Amazon/eBay/Kaufland …) die DAC7-Datenfelder korrekt und zeitnah ausfüllen",
         "Daten müssen mit deiner Steuererklärung/Buchhaltung konsistent sein",
-        "Frist der Plattform einhalten – sonst Auszahlungs-/Konto-Stopp"
+        "Frist der Plattform einhalten, sonst Auszahlungs-/Konto-Stopp"
       ],
       "extendedNotes": [
-        "Die gemeldeten Erlöse fließen ans Finanzamt – stelle sicher, dass deine USt-Voranmeldung/EÜR/Bilanz dazu passt, sonst gibt es Rückfragen.",
+        "Die gemeldeten Erlöse fließen ans Finanzamt, stelle sicher, dass deine USt-Voranmeldung/EÜR/Bilanz dazu passt, sonst gibt es Rückfragen.",
         "Wenn eine Auszahlung wegen fehlender DAC7-Daten hängt: Daten vollständig nachreichen, dann gibt die Plattform i.d.R. wieder frei."
       ]
     }
@@ -13365,12 +13365,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
   "amazon-verkaeuferkonto-setup": {
     "konto-registrieren": {
       "checklist": [
-        "Professionellen Verkaufstarif wählen (39 €/Mon) – Basis (0,99 €/Verkauf) nur für Mini-Mengen",
+        "Professionellen Verkaufstarif wählen (39 €/Mon), Basis (0,99 €/Verkauf) nur für Mini-Mengen",
         "Firmendaten exakt wie in Gewerbeanmeldung/Handelsregister eingeben",
         "Identitätsnachweis (Ausweis/Reisepass) + Kontoauszug/Kreditkarte für Adressverifizierung bereithalten",
         "Geschäftsadresse, auf die Amazon eine Postkarte mit Code schickt (Adressverifizierung)",
         "Ansprechpartner/wirtschaftlich Berechtigte angeben (bei GmbH/UG)",
-        "Video-Verifizierung kann verlangt werden – Original-Dokumente bereithalten"
+        "Video-Verifizierung kann verlangt werden, Original-Dokumente bereithalten"
       ],
       "externalLinks": [
         {
@@ -13386,12 +13386,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Steuereinstellungen: Standard-Steuersätze/Produktsteuercodes korrekt setzen",
         "Bei Pan-EU/Lagerung im Ausland: USt-Registrierung in jedem Lagerland nötig (FR/IT/ES/PL/CZ …)",
         "OSS (One-Stop-Shop) für Fernverkäufe an EU-Privatkunden über 10.000 € prüfen/anmelden",
-        "Kleinunternehmer? Dann KEINE USt ausweisen – Einstellungen entsprechend (Vorsicht bei B2B/Reverse-Charge)",
-        "Steuerberater mit Amazon-Erfahrung einbinden – DATEV-Export/amazon-Reports abstimmen"
+        "Kleinunternehmer? Dann KEINE USt ausweisen, Einstellungen entsprechend (Vorsicht bei B2B/Reverse-Charge)",
+        "Steuerberater mit Amazon-Erfahrung einbinden, DATEV-Export/amazon-Reports abstimmen"
       ],
-      "warning": "Wer FBA-Pan-EU aktiviert, lagert automatisch in mehreren Ländern → dort sofort USt-pflichtig. Erst Registrierungen klären, DANN Pan-EU einschalten – sonst drohen Nachzahlungen.",
+      "warning": "Wer FBA-Pan-EU aktiviert, lagert automatisch in mehreren Ländern → dort sofort USt-pflichtig. Erst Registrierungen klären, DANN Pan-EU einschalten, sonst drohen Nachzahlungen.",
       "extendedNotes": [
-        "OSS ersetzt NICHT die lokale Registrierung im Lagerland – OSS ist nur für grenzüberschreitende B2C-Verkäufe, nicht für lokale Lagerung."
+        "OSS ersetzt NICHT die lokale Registrierung im Lagerland, OSS ist nur für grenzüberschreitende B2C-Verkäufe, nicht für lokale Lagerung."
       ]
     },
     "auto-rechnung": {
@@ -13402,7 +13402,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Für Amazon Business: Rechnungsstellung ist faktisch Pflicht (sonst Buy-Box-/Nachteil)"
       ],
       "extendedNotes": [
-        "Mit aktivem VCS zeigt Amazon Preise B2B oft netto an und stellt automatisch korrekte Rechnungen – spart enorm Buchhaltungsaufwand."
+        "Mit aktivem VCS zeigt Amazon Preise B2B oft netto an und stellt automatisch korrekte Rechnungen, spart enorm Buchhaltungsaufwand."
       ]
     },
     "bankdaten-sicherheit": {
@@ -13410,21 +13410,21 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Bankkonto (EU-IBAN) als Einzahlungsmethode hinterlegen + verifizieren",
         "Gültige Kreditkarte für Gebühren hinterlegen",
         "2-Faktor-Authentifizierung (2FA) verpflichtend aktivieren",
-        "Über Benutzerberechtigungen einen ZWEITEN Nutzer mit Admin-Rechten anlegen (z.B. Partner/Backup) – Sicherheit gegen Aussperrung",
+        "Über Benutzerberechtigungen einen ZWEITEN Nutzer mit Admin-Rechten anlegen (z.B. Partner/Backup), Sicherheit gegen Aussperrung",
         "Wiederherstellungs-Telefonnummer/E-Mail aktuell halten"
       ],
       "warning": "Ein zweites eigenständiges VERKÄUFERKONTO ohne Amazon-Genehmigung ist Policy-Verstoß und führt zur Sperre BEIDER Konten. Für Redundanz stattdessen einen zweiten Admin-Nutzer im selben Konto anlegen.",
-      "description": "Auszahlungskonto hinterlegen und das Konto gegen Verlust/Hack absichern. Wichtig: kein zweites VERKÄUFER-Konto (verboten), sondern einen zweiten Admin-NUTZER."
+      "description": "Auszahlungskonto hinterlegen und das Konto gegen Verlust oder Fremdzugriff absichern. Wichtig: kein zweites VERKÄUFER-Konto (verboten), sondern einen zweiten Admin-NUTZER."
     },
     "versand": {
       "checklist": [
         "Versandvorlagen anlegen: Regionen (national/EU), Versandkosten, Lieferzeit",
-        "Realistische Bearbeitungszeit (Handling Time) setzen – zu kurz = Defektrate, zu lang = schlechteres Ranking",
+        "Realistische Bearbeitungszeit (Handling Time) setzen, zu kurz = Defektrate, zu lang = schlechteres Ranking",
         "Kostenlosen Standardversand erwägen (Conversion-Hebel)",
         "Versanddienstleister + Tracking-Pflicht beachten (Sendungsverfolgung hochladen)",
-        "Bei FBA: Versand macht Amazon – dann hier nur die FBM-Artikel konfigurieren"
+        "Bei FBA: Versand macht Amazon, dann hier nur die FBM-Artikel konfigurieren"
       ],
-      "description": "Für selbst versandte Artikel (FBM) bestimmen Versandvorlagen Lieferzeit, Regionen und Kosten – und beeinflussen direkt Buy-Box & Conversion."
+      "description": "Für selbst versandte Artikel (FBM) bestimmen Versandvorlagen Lieferzeit, Regionen und Kosten, und beeinflussen direkt Buy-Box & Conversion."
     },
     "retouren-remission": {
       "checklist": [
@@ -13435,7 +13435,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Erstattungs-/Reklamationsprozess kennen (für Differenzen → Fall erstellen, siehe letzter Schritt)"
       ],
       "extendedNotes": [
-        "Automatische Entsorgung/Remission spart teure Langzeitlagergebühren – aber prüfe die Schwellen, damit nicht versehentlich guter Bestand entsorgt wird."
+        "Automatische Entsorgung/Remission spart teure Langzeitlagergebühren, aber prüfe die Schwellen, damit nicht versehentlich guter Bestand entsorgt wird."
       ],
       "description": "Rücksendungen, und bei FBA: was mit unverkäuflichem/Langzeit-Lagerbestand passiert (zurücksenden oder entsorgen)."
     },
@@ -13443,7 +13443,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Impressum in den \"Geschäftsinformationen\"/\"Über den Verkäufer\" vollständig hinterlegen",
         "AGB, Datenschutzerklärung, Widerrufsbelehrung + Widerrufsformular einpflegen",
-        "Rechtstexte rechtssicher erstellen (siehe Rechtstext-Tools / Anwalt) – nicht einfach kopieren",
+        "Rechtstexte sauber aufgesetzt erstellen (siehe Rechtstext-Tools / Anwalt), nicht einfach kopieren",
         "Verkäufername/Firmierung konsistent zum Impressum"
       ],
       "warning": "Unvollständiges Impressum oder fehlende Widerrufsbelehrung = klassischer Abmahn-Trigger durch Wettbewerber. Vor dem ersten Verkauf erledigen.",
@@ -13452,13 +13452,13 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "laender-urlaubsmodus": {
       "checklist": [
         "Nur in DE verkaufen? → andere Länder-Marktplätze (FR/IT/ES/NL/PL …) deaktiviert lassen / Listings nicht ausspielen",
-        "Internationale Listings (Build International Listings) nur bewusst aktivieren – sonst landest du ungewollt in allen EU-Marktplätzen (+ USt-Pflichten)",
-        "Urlaubsmodus: Konto-Status pro Marktplatz auf \"inaktiv\" setzen, wenn du nicht versenden kannst (FBM) – pausiert die Angebote sauber",
+        "Internationale Listings (Build International Listings) nur bewusst aktivieren, sonst landest du ungewollt in allen EU-Marktplätzen (+ USt-Pflichten)",
+        "Urlaubsmodus: Konto-Status pro Marktplatz auf \"inaktiv\" setzen, wenn du nicht versenden kannst (FBM), pausiert die Angebote sauber",
         "Bearbeitungszeit hochsetzen statt komplett zu schließen, wenn nur kurze Abwesenheit",
-        "FBA-Artikel laufen im Urlaub weiter (Amazon versendet) – nur FBM muss pausiert werden"
+        "FBA-Artikel laufen im Urlaub weiter (Amazon versendet), nur FBM muss pausiert werden"
       ],
       "warning": "\"Build International Listings\" aktiviert oft automatisch alle EU-Marktplätze → dort sofort USt-/Compliance-Pflichten. Wenn du nur DE willst, lass es AUS.",
-      "description": "Festlegen, in welchen Ländern du verkaufst – und wie du das Konto pausierst, ohne Kennzahlen zu ruinieren."
+      "description": "Festlegen, in welchen Ländern du verkaufst, und wie du das Konto pausierst, ohne Kennzahlen zu ruinieren."
     },
     "erste-schritte": {
       "checklist": [
@@ -13469,9 +13469,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Case-Nummern dokumentieren und nachfassen, bis gelöst"
       ],
       "extendedNotes": [
-        "Amazon hat KEINE API zum automatischen Fall-Erstellen – Cases werden immer manuell im Seller Central eröffnet. Du kannst den Inhalt aber vorbereiten und per Klick einreichen."
+        "Amazon hat KEINE API zum automatischen Fall-Erstellen, Cases werden immer manuell im Seller Central eröffnet. Du kannst den Inhalt aber vorbereiten und per Klick einreichen."
       ],
-      "description": "Konto steht – jetzt das erste Listing und der Support-Weg für Probleme."
+      "description": "Konto steht, jetzt das erste Listing und der Support-Weg für Probleme."
     }
   },
   "kaufland-produkt-anlegen": {
@@ -13498,7 +13498,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Upload-Weg wählen: Inventory Manager (CSV), Web-Oberfläche oder API/Connector",
         "Pflicht-Attribute der Kategorie vollständig füllen (sonst keine Veröffentlichung)"
       ],
-      "warning": "Falsche/abweichende EAN führt zu Fehlmatch mit einem fremden Produkt – immer die korrekte GS1-EAN deines Produkts verwenden."
+      "warning": "Falsche/abweichende EAN führt zu Fehlmatch mit einem fremden Produkt, immer die korrekte GS1-EAN deines Produkts verwenden."
     },
     "angebot-versand": {
       "checklist": [
@@ -13516,7 +13516,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "GPSR: verantwortliche Person + Sicherheitshinweise",
         "Gated Kategorien ggf. freischalten lassen"
       ],
-      "description": "Kaufland prüft Verpackungs- und Elektro-Registrierung – ohne Nachweise wird gesperrt."
+      "description": "Kaufland prüft Verpackungs- und Elektro-Registrierung, ohne Nachweise wird gesperrt."
     }
   },
   "otto-produkt-anlegen": {
@@ -13531,7 +13531,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         {
-          "label": "OTTO Market – Verkäufer werden",
+          "label": "OTTO Market, Verkäufer werden",
           "url": "https://www.otto.market"
         }
       ],
@@ -13560,7 +13560,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "EAN/GTIN je Variante, sauberer Titel + ausführliche Beschreibung",
         "Bilder nach OTTO-Bildrichtlinien (Freisteller, Auflösung, Anzahl)",
         "Varianten (Größe/Farbe) korrekt strukturieren",
-        "Datenqualität prüfen – OTTO weist fehlerhafte/unvollständige Produkte zurück"
+        "Datenqualität prüfen, OTTO weist fehlerhafte/unvollständige Produkte zurück"
       ]
     },
     "service-compliance": {
@@ -13569,7 +13569,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "LUCID (Verpackungsregister) + bei Elektro WEEE hinterlegen",
         "GPSR: verantwortliche Person + Sicherheits-/Warnhinweise",
         "USt-IdNr / OSS korrekt",
-        "Kennzahlen (Stornoquote, Lieferpünktlichkeit) im Blick behalten – OTTO sanktioniert schwache Performance"
+        "Kennzahlen (Stornoquote, Lieferpünktlichkeit) im Blick behalten, OTTO sanktioniert schwache Performance"
       ],
       "warning": "OTTO ist service-getrieben: schlechte Liefer-/Stornoquoten führen schnell zu Sichtbarkeitsverlust oder Sperrung. Erst mit sauberer Logistik starten.",
       "description": "OTTO erwartet hohe Service-Standards und prüft die übliche EU-Compliance."
@@ -13579,10 +13579,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "webseite-bauen": {
       "checklist": [
         "Ziel klären: Landingpage / Web-App (Lovable) · Onlineshop (Shopify) · Content/Blog (WordPress)",
-        "Domain registrieren (Registrar mit fairem Verlängerungspreis – Achtung Auto-Renewal-Aufschlag)",
+        "Domain registrieren (Registrar mit fairem Verlängerungspreis, Achtung Auto-Renewal-Aufschlag)",
         "HTTPS/SSL aktivieren (Pflicht für SEO & Vertrauen)",
         "Backend/Datenbank bei Bedarf: Supabase (PostgreSQL/SQL, Login/Auth, Storage, API)",
-        "Entwicklung/Anpassungen mit Claude Code (KI-Coding im Terminal) – Features bauen, debuggen, deployen",
+        "Entwicklung/Anpassungen mit Claude Code (KI-Coding im Terminal), Features bauen, debuggen, deployen",
         "Saubere, sprechende URL-Struktur (keine ?id=123-Wüsten)"
       ],
       "externalLinks": [
@@ -13626,8 +13626,8 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "onpage-seo": {
       "checklist": [
         "Pro Seite ein Haupt-Keyword/Thema (nicht alles auf eine Seite)",
-        "Title-Tag (ca. 50–60 Zeichen) mit Keyword vorne",
-        "Meta-Description (ca. 150–160 Zeichen) – verkauft den Klick (kein Ranking-Faktor, aber CTR)",
+        "Title-Tag (ca. 50-60 Zeichen) mit Keyword vorne",
+        "Meta-Description (ca. 150-160 Zeichen), verkauft den Klick (kein Ranking-Faktor, aber CTR)",
         "Genau EINE H1, sinnvolle H2/H3-Struktur",
         "Hochwertiger Content, der die Suchintention WIRKLICH beantwortet (Länge folgt dem Bedarf)",
         "Bild-Alt-Texte + sprechende Dateinamen",
@@ -13635,14 +13635,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Strukturierte Daten (Schema.org) für Produkte/FAQ/Artikel"
       ],
       "extendedNotes": [
-        "Keyword-Recherche vorab: an welchen Begriffen suchen deine Kunden? Title/H1/Content darum bauen – nicht um interne Produktnamen."
+        "Keyword-Recherche vorab: an welchen Begriffen suchen deine Kunden? Title/H1/Content darum bauen, nicht um interne Produktnamen."
       ]
     },
     "search-console-sitemap": {
       "checklist": [
         "Google Search Console: Property anlegen (Domain-Property = ganze Domain, am stärksten)",
         "Inhaberschaft verifizieren (DNS-TXT-Eintrag, HTML-Datei oder Meta-Tag)",
-        "Sitemap.xml erzeugen (CMS/Plugin oder generieren lassen) – listet alle wichtigen URLs",
+        "Sitemap.xml erzeugen (CMS/Plugin oder generieren lassen), listet alle wichtigen URLs",
         "Sitemap in der Search Console einreichen (Bereich \"Sitemaps\")",
         "robots.txt anlegen: Crawling erlauben + Sitemap-URL darin referenzieren",
         "Optional: Bing Webmaster Tools (kostenlos, schnelle Extra-Sichtbarkeit)"
@@ -13657,28 +13657,37 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://www.bing.com/webmasters"
         }
       ],
-      "warning": "Stell sicher, dass die robots.txt das Crawling NICHT versehentlich blockiert (häufiger Fehler: \"Disallow: /\" aus der Testphase bleibt drin) – sonst wird gar nichts indexiert.",
+      "warning": "Stell sicher, dass die robots.txt das Crawling NICHT versehentlich blockiert (häufiger Fehler: \"Disallow: /\" aus der Testphase bleibt drin), sonst wird gar nichts indexiert.",
       "description": "Das Pflicht-Setup, damit Google deine Seite überhaupt sauber crawlt und du siehst, wofür du rankst."
     },
     "indexierung-monitoring": {
       "checklist": [
-        "In Google suchen: site:deinedomain.de → welche Seiten sind im Index?",
-        "Search Console → URL-Prüfung: einzelne wichtige Seiten testen + \"Indexierung beantragen\"",
-        "Bericht \"Seiten/Indexierung\": Ausgeschlossene URLs + Fehler abarbeiten",
-        "Bericht \"Leistung\": Impressionen, Klicks, CTR, Position je Keyword beobachten",
-        "Neue/aktualisierte Inhalte regelmäßig zur Indexierung anstoßen"
+        "Seiten für die wichtigsten Kaufabsichten bauen: konkrete Kosten, Vergleiche, Produkte oder Leistungen am Standort",
+        "In Google suchen (site:deinedomain.de) und in der Search Console unter URL-Prüfung testen, ob die Seite indexiert und als Snippet angezeigt werden darf",
+        "In der robots.txt prüfen, dass Googlebot, Bingbot und OAI-SearchBot (ChatGPT-Suche) Zugriff auf alle öffentlichen Seiten haben",
+        "In Bing Webmaster Tools anmelden (zeigt über Bing AI Performance, welche Seiten in KI-Antworten von Copilot und ChatGPT zitiert werden)",
+        "Konkrete Preise, eigene Vergleiche und dokumentierte Beispiele immer mit Stand-Datum und Quelle auf der Seite veröffentlichen"
       ],
-      "description": "Eingereicht ≠ indexiert. Prüfen, ob Google die Seiten aufnimmt, und Leistung beobachten."
+      "externalLinks": [
+        { "label": "Google Search Console", "url": "https://search.google.com/search-console" },
+        { "label": "Bing Webmaster Tools", "url": "https://www.bing.com/webmasters" },
+        { "label": "OpenAI Crawler (OAI-SearchBot)", "url": "https://platform.openai.com/docs/bots" }
+      ],
+      "description": "Eingereicht heißt noch nicht indexiert oder von KI-Antwortmaschinen zitiert. Hier prüfst du Google Search Console, OAI-SearchBot und Bing Webmaster Tools."
     },
     "lokal-analytics-tools": {
       "checklist": [
-        "Google Unternehmensprofil (Business Profile) anlegen, wenn lokal relevant – starker Hebel für lokale Suchen + Maps",
-        "Web-Analytics: Google Analytics 4 ODER datenschutzfreundlich Plausible/Matomo",
-        "Conversion-/Event-Tracking einrichten (Käufe, Anfragen, Newsletter)",
-        "Payment integrieren: Mollie (einfach, viele EU-Zahlarten) oder Stripe (global, beste API) – siehe Anbieter-Vergleich",
-        "Tool-Stack: Lovable (Seite bauen) · Supabase (DB/Auth/SQL) · Claude Code (KI-Entwicklung) · Search Console (SEO) · Mollie/Stripe (Zahlung)"
+        "Bei einem Online-Shop: Produkte mit Preis und Verfügbarkeit im Google Merchant Center pflegen",
+        "Bei einem lokalen Geschäft: Google Unternehmensprofil (Google Maps) vollständig anlegen und pflegen",
+        "Web-Analytics einrichten: datenschutzfreundlich (Plausible/Matomo) oder Google Analytics 4",
+        "Conversion- und Event-Tracking einrichten (Käufe, Anfragen, Quiz-Abschlüsse, Newsletter)",
+        "Zahlungsanbieter integrieren: Mollie (EU-Zahlarten) oder Stripe (global)"
       ],
       "externalLinks": [
+        {
+          "label": "Google Merchant Center",
+          "url": "https://merchants.google.com/"
+        },
         {
           "label": "Google Unternehmensprofil",
           "url": "https://www.google.com/business/"
@@ -13688,24 +13697,20 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
           "url": "https://plausible.io"
         },
         {
-          "label": "Mollie (Zahlungsanbieter)",
-          "url": "https://www.mollie.com"
-        },
-        {
           "label": "Stripe (Zahlungsanbieter)",
           "url": "https://stripe.com/de"
         }
       ],
       "extendedNotes": [
-        "Empfohlener Lean-Stack für Gründer: Lovable + Supabase fürs Produkt, Claude Code für Custom-Features/Debugging, Mollie oder Stripe fürs Bezahlen, Google Search Console + GA4/Plausible fürs Wachstum."
+        "Für Google und KI-Antworten (ChatGPT, Google-KI, Copilot) zählen belegbare Fakten: konkrete Brutto-Preise, echte Vergleiche und ein sichtbares Stand-Datum."
       ],
-      "description": "Lokale Sichtbarkeit, Messung – und der empfohlene Tool-Stack inkl. Zahlung."
+      "description": "Shop-Sichtbarkeit im Merchant Center, lokales Unternehmensprofil, Messung und Zahlungs-Setup."
     }
   },
   "us-accounts-deutscher": {
     "fundament": {
       "checklist": [
-        "Ziel festlegen: Amazon.com verkaufen / US-Amex / TikTok Shop US / Target — jedes hat andere Mindest-Bausteine.",
+        "Ziel festlegen: Amazon.com verkaufen / US-Amex / TikTok Shop US / Target, jedes hat andere Mindest-Bausteine.",
         "Amazon.com Seller: geht MIT deutscher Firma (US-Entity optional) → Baustein EIN nur bei US-Bank nötig, sonst W-8BEN-E + Payoneer/Wise reicht.",
         "US-Amex (Global Card Relationship): braucht bestehende Amex-Karte + echte US-Adresse + US-Phone. KEINE LLC nötig, aber US-Adresse ist Pflicht.",
         "TikTok Shop US: braucht US-Entity (am besten C-Corp) + US-Bank + US-Person als Representative mit US-Wohnadresse & SSN/ITIN. Härtestes Ziel.",
@@ -13728,9 +13733,9 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "extendedNotes": [
         "Single-Member-LLC (SMLLC): IRS behandelt sie als „disregarded entity” → 0 % US-Bundessteuer, solange nicht ETBUS. ABER: du gibst gegenüber Plattformen W-8BEN-E ab, NICHT W-9. Für Amazon & Amex perfekt.",
-        "C-Corporation: eigene Steuerperson (21 % Corporate Tax + ggf. Quellensteuer auf Ausschüttung = Doppelbesteuerung). Der Grund, sie trotzdem zu nehmen: TikTok Shop verlangt ein W-9 — das kann eine foreign-owned SMLLC nicht wahrheitsgemäß abgeben, eine US-C-Corp schon.",
+        "C-Corporation: eigene Steuerperson (21 % Corporate Tax + ggf. Quellensteuer auf Ausschüttung = Doppelbesteuerung). Der Grund, sie trotzdem zu nehmen: TikTok Shop verlangt ein W-9, das kann eine foreign-owned SMLLC nicht wahrheitsgemäß abgeben, eine US-C-Corp schon.",
         "Bundesstaat: Wyoming = anonym, günstig, Default für Solos. New Mexico = am billigsten, kein Annual Report. Delaware = nur bei geplanten Investoren/VCs (300 $/Jahr Franchise Tax).",
-        "Merke: Für den reinen Amazon.com-Start brauchst du oft GAR KEINE US-Entity — die deutsche GmbH/Einzelunternehmen + W-8BEN-E + Payoneer genügt. Entity lohnt für US-Banking, US-Cards und TikTok."
+        "Merke: Für den reinen Amazon.com-Start brauchst du oft GAR KEINE US-Entity, die deutsche GmbH/Einzelunternehmen + W-8BEN-E + Payoneer genügt. Entity lohnt für US-Banking, US-Cards und TikTok."
       ],
       "description": "SMLLC vs. C-Corp ist die Weichenstellung: Die SMLLC ist steuerlich schlank (0 % / W-8), scheitert aber an TikToks W-9-Pflicht. Die C-Corp löst das W-9-Problem, kostet aber Doppelbesteuerung. Wähle nach Primär-Ziel: Amazon/Amex → SMLLC (oder gar keine US-Entity). TikTok Shop → C-Corp. Details & Filing im separaten Guide „US-LLC gründen”."
     },
@@ -13740,16 +13745,16 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "name": "ein", "label": "Erhaltene EIN" }
       ],
       "externalLinks": [
-        { "label": "IRS — Form SS-4 (PDF)", "url": "https://www.irs.gov/pub/irs-pdf/fss4.pdf" },
-        { "label": "IRS — SS-4 Instructions", "url": "https://www.irs.gov/instructions/iss4" },
-        { "label": "IRS — EIN für International Applicants (Telefon-Option)", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online" },
-        { "label": "LLC University — EIN ohne SSN (Anleitung)", "url": "https://www.llcuniversity.com/irs/apply-for-ein-without-ssn/" }
+        { "label": "IRS, Form SS-4 (PDF)", "url": "https://www.irs.gov/pub/irs-pdf/fss4.pdf" },
+        { "label": "IRS, SS-4 Instructions", "url": "https://www.irs.gov/instructions/iss4" },
+        { "label": "IRS, EIN für International Applicants (Telefon-Option)", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online" },
+        { "label": "LLC University, EIN ohne SSN (Anleitung)", "url": "https://www.llcuniversity.com/irs/apply-for-ein-without-ssn/" }
       ],
-      "warning": "Line 7b NICHT leer lassen — dort MUSS „Foreign” stehen, wenn du keine SSN/ITIN hast. Leere 7b = automatische Ablehnung. Und: vor Tag 62 NICHT erneut faxen, sonst doppelte EIN-Vergabe / Verzögerung.",
+      "warning": "Line 7b NICHT leer lassen, dort MUSS „Foreign” stehen, wenn du keine SSN/ITIN hast. Leere 7b = automatische Ablehnung. Und: vor Tag 62 NICHT erneut faxen, sonst doppelte EIN-Vergabe / Verzögerung.",
       "extendedNotes": [
         "Fax-Nummern: +1-855-641-6935 (US/domestic) · +1-304-707-9471 (international). Online-Fax-Dienste (z.B. FaxZero, HelloFax) funktionieren.",
         "Kernfelder: Line 7a = dein Name, 7b = „Foreign”. Line 8a = Yes (LLC), 8b = Anzahl Members. Line 9a = „Other → Foreign-owned U.S. disregarded entity” (SMLLC) bzw. „Corporation” bei C-Corp. Line 10 = „Started new business”. Line 18 = No.",
-        "Dauer: Fax-Rückantwort mit EIN typisch ~4 Werktage. Wer schneller will, nimmt einen CPA-/Third-Party-Designee (Line 18-Bereich) — dann telefonisch am selben/nächsten Tag, 150–300 $.",
+        "Dauer: Fax-Rückantwort mit EIN typisch ~4 Werktage. Wer schneller will, nimmt einen CPA-/Third-Party-Designee (Line 18-Bereich), dann telefonisch am selben/nächsten Tag, 150-300 $.",
         "EIN ≠ ITIN: Das EIN gehört der Firma und reicht für US-Bank, Amazon-Tax-Interview und TikTok. Eine persönliche ITIN brauchst du erst für Consumer-Kreditkarten / Credit-Bureau-Reporting (eigener Schritt)."
       ]
     },
@@ -13765,10 +13770,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "OpenPhone / Quo (US-Nummer von überall)", "url": "https://www.openphone.com" },
         { "label": "Google Voice", "url": "https://voice.google.com" }
       ],
-      "warning": "CMRA-geflaggte Mailbox-Adressen (Commercial Mail Receiving Agency) werden von Banken UND Plattformen zunehmend abgelehnt — Mercury nimmt seit 2025 keine reinen Registered-Agent-Adressen mehr, Amex lehnt PO-Boxen/geflaggte Forwarder ab, TikTok akzeptiert eine Virtual-Mailbox NICHT als „US residential address” der Person. Wähle nach Möglichkeit eine Non-CMRA-Adresse (Anytime Mailbox hat viele) und nutze über ALLE Konten hinweg exakt dieselbe Adresse.",
+      "warning": "CMRA-geflaggte Mailbox-Adressen (Commercial Mail Receiving Agency) werden von Banken UND Plattformen zunehmend abgelehnt, Mercury nimmt seit 2025 keine reinen Registered-Agent-Adressen mehr, Amex lehnt PO-Boxen/geflaggte Forwarder ab, TikTok akzeptiert eine Virtual-Mailbox NICHT als „US residential address” der Person. Wähle nach Möglichkeit eine Non-CMRA-Adresse (Anytime Mailbox hat viele) und nutze über ALLE Konten hinweg exakt dieselbe Adresse.",
       "extendedNotes": [
         "iPostal1 = echte Straßenadresse mit Boxnummer, aber alle Standorte sind USPS-CMRA. Anytime Mailbox = teils Non-CMRA-Adressen (oft in Wohngebieten), was für Bank-KYC unauffälliger ist.",
-        "US-Phone: OpenPhone/Quo gibt dir in Minuten eine US-Nummer (~15 $/User/Mon), funktioniert als VoIP. Google Voice (personal) ist praktisch nur mit bereits bestehender US-Nummer neu zu bekommen — von DE aus schwierig.",
+        "US-Phone: OpenPhone/Quo gibt dir in Minuten eine US-Nummer (~15 $/User/Mon), funktioniert als VoIP. Google Voice (personal) ist praktisch nur mit bereits bestehender US-Nummer neu zu bekommen, von DE aus schwierig.",
         "Achtung VoIP: Manche Bank-/Plattform-Verifizierungen lehnen VoIP-Nummern ab. Für „non-VoIP”-Anforderungen hilft eine US-Carrier-eSIM (z.B. US Mobile / Tello eSIM).",
         "Konsistenz ist verifikationskritisch: DIESELBE US-Adresse auf LLC-Articles, SS-4/EIN, Bank, Amazon und Amex verwenden. Abweichungen triggern Nachforderungen (Utility Bill) und Delays."
       ],
@@ -13785,10 +13790,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Mercury (echtes US-Business-Banking)", "url": "https://mercury.com" },
         { "label": "Relay (verlangt SSN/ITIN)", "url": "https://relayfi.com" }
       ],
-      "warning": "Bankdaten in den ersten ~90 Tagen nach Amazon-Registrierung NICHT ändern — das triggert eine Zusatz-Verifizierung. Kläre also die Bank VOR dem Amazon-Onboarding.",
+      "warning": "Bankdaten in den ersten ~90 Tagen nach Amazon-Registrierung NICHT ändern, das triggert eine Zusatz-Verifizierung. Kläre also die Bank VOR dem Amazon-Onboarding.",
       "extendedNotes": [
         "Payoneer: keine Entity zwingend, niedrigste Hürde, ideal als Auszahlungskonto für Amazon.com von DE aus. Nicht für ausgehende Zahlungen wie ein echtes Bankkonto gedacht.",
-        "Wise Business: flexibel (US-LLC / UK-Ltd / OÜ), online, nimmt EIN + Reisepass (ohne SSN/ITIN) und ist bei der Adresse toleranter als Mercury. KYC seit 2025 aber strenger — viele Foreign-Owner-Ablehnungen.",
+        "Wise Business: flexibel (US-LLC / UK-Ltd / OÜ), online, nimmt EIN + Reisepass (ohne SSN/ITIN) und ist bei der Adresse toleranter als Mercury. KYC seit 2025 aber strenger, viele Foreign-Owner-Ablehnungen.",
         "Mercury: echte US-Bankfunktionen + Debit-/Charge-Card. Seit 2025 härter: braucht eine echte US-Street-Address (KEINE reine Agent-Adresse), Prohibited-Country-Liste (Deutschland ist NICHT drauf), längere Reviews bei Neu-LLC ohne US-Umsatz.",
         "Relay & Brex: Relay verlangt SSN oder ITIN → für reine Non-Residents eine Hürde. Brex für kleine Foreign-Owner schwerer geworden.",
         "Für Amazon-only reicht Payoneer/Wise. Für TikTok Shop / US-Cards willst du Mercury (echtes Konto + Karte)."
@@ -13801,82 +13806,82 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "name": "w7_date", "label": "W-7 eingereicht am", "type": "date" }
       ],
       "externalLinks": [
-        { "label": "IRS — ITIN Acceptance Agent Program (CAA-Liste)", "url": "https://www.irs.gov/individuals/itin-acceptance-agent-program" },
-        { "label": "IRS — Form W-7 (PDF)", "url": "https://www.irs.gov/pub/irs-pdf/fw7.pdf" },
-        { "label": "IRS — W-7 Instructions", "url": "https://www.irs.gov/instructions/iw7" }
+        { "label": "IRS, ITIN Acceptance Agent Program (CAA-Liste)", "url": "https://www.irs.gov/individuals/itin-acceptance-agent-program" },
+        { "label": "IRS, Form W-7 (PDF)", "url": "https://www.irs.gov/pub/irs-pdf/fw7.pdf" },
+        { "label": "IRS, W-7 Instructions", "url": "https://www.irs.gov/instructions/iw7" }
       ],
       "extendedNotes": [
-        "ITIN ist die persönliche Steuer-ID (SSN-Ersatz) für dich als Individuum — nötig für Consumer-Kreditkarten mit Credit-Bureau-Reporting und für den Aufbau eines US-FICO-Scores. Für Firma/Amazon/Bank reicht das EIN.",
+        "ITIN ist die persönliche Steuer-ID (SSN-Ersatz) für dich als Individuum, nötig für Consumer-Kreditkarten mit Credit-Bureau-Reporting und für den Aufbau eines US-FICO-Scores. Für Firma/Amazon/Bank reicht das EIN.",
         "Schnellster Weg: über einen Certifying Acceptance Agent (CAA). Der beglaubigt deinen Reisepass, sodass du ihn NICHT im Original an die IRS schicken musst.",
-        "Dauer: IRS-Richtwert ~7 Wochen off-peak, 9–11 Wochen in der Peak-Season Jan–April — real laufen die Zeiten 2025/2026 aber eher Richtung 11–14 Wochen. Großzügig puffern und früh beantragen. Mit CAA teils schneller.",
-        "Reihenfolge fürs Credit-Building: erst US-Amex via Global Card Relationship holen (geht OHNE ITIN), dann ITIN besorgen, dann eine ZWEITE Karte mit ITIN beantragen — nur die reportet an Experian/Equifax/TransUnion."
+        "Dauer: IRS-Richtwert ~7 Wochen off-peak, 9-11 Wochen in der Peak-Season Jan-April, real laufen die Zeiten 2025/2026 aber eher Richtung 11-14 Wochen. Großzügig puffern und früh beantragen. Mit CAA teils schneller.",
+        "Reihenfolge fürs Credit-Building: erst US-Amex via Global Card Relationship holen (geht OHNE ITIN), dann ITIN besorgen, dann eine ZWEITE Karte mit ITIN beantragen, nur die reportet an Experian/Equifax/TransUnion."
       ],
       "description": "Die ITIN ist optional und nur nötig, wenn du persönliche US-Kreditkarten mit Bureau-Reporting oder einen US-FICO-Score willst (bzw. für Relay-Banking). Am schnellsten geht sie über einen Certifying Acceptance Agent, der deinen Pass beglaubigt, damit du das Original nicht verschicken musst."
     },
     "steuer-w8": {
       "externalLinks": [
-        { "label": "IRS — Form W-8BEN-E (Entity) PDF", "url": "https://www.irs.gov/pub/irs-pdf/fw8bene.pdf" },
-        { "label": "IRS — Form W-8BEN (Individuum) PDF", "url": "https://www.irs.gov/pub/irs-pdf/fw8ben.pdf" },
-        { "label": "IRS — Form 5472 (Pflicht für foreign-owned SMLLC)", "url": "https://www.irs.gov/forms-pubs/about-form-5472" },
+        { "label": "IRS, Form W-8BEN-E (Entity) PDF", "url": "https://www.irs.gov/pub/irs-pdf/fw8bene.pdf" },
+        { "label": "IRS, Form W-8BEN (Individuum) PDF", "url": "https://www.irs.gov/pub/irs-pdf/fw8ben.pdf" },
+        { "label": "IRS, Form 5472 (Pflicht für foreign-owned SMLLC)", "url": "https://www.irs.gov/forms-pubs/about-form-5472" },
         { "label": "Guide: US-LLC gründen (Steuer-Kapitel)", "url": "/guides/us-llc" }
       ],
-      "warning": "ZWEI teure Fallen: (1) Foreign-owned Single-Member-LLC MUSS jährlich Form 5472 + Pro-forma 1120 einreichen (Deadline 15. April) — Versäumnis = 25.000 $ Strafe. (2) Wenn du die US-LLC faktisch von deinem Schreibtisch in Deutschland aus führst, hast du i.d.R. eine deutsche Betriebsstätte → die Gewinne sind in DEUTSCHLAND steuerpflichtig, egal was die US-Seite sagt. „0 % US-Steuer” heißt NICHT „0 % Steuer”.",
+      "warning": "ZWEI teure Fallen: (1) Foreign-owned Single-Member-LLC MUSS jährlich Form 5472 + Pro-forma 1120 einreichen (Deadline 15. April), Versäumnis = 25.000 $ Strafe. (2) Wenn du die US-LLC faktisch von deinem Schreibtisch in Deutschland aus führst, hast du i.d.R. eine deutsche Betriebsstätte → die Gewinne sind in DEUTSCHLAND steuerpflichtig, egal was die US-Seite sagt. „0 % US-Steuer” heißt NICHT „0 % Steuer”.",
       "extendedNotes": [
         "W-8BEN-E (Entity) bzw. W-8BEN (Individuum) gibst du gegenüber US-Zahlern/Plattformen (Amazon, Stripe) ab → erklärt „income not effectively connected” und senkt die 30 % Quellensteuer auf 0 %.",
-        "0 % US-Bundessteuer gilt nur, solange du NICHT ETBUS bist: kein festes US-Office, keine Angestellten/„dependent agents” physisch in den USA, Arbeit wird von außerhalb der USA erbracht. ACHTUNG für Amazon-FBA & eigenes US-Lager: US-Inventar/Warehouse, US-Mitarbeiter oder ein abhängiger US-Agent können ETBUS/ECI auslösen — der Test ist einzelfallabhängig und schwammig, „0 %” ist also NICHT automatisch. Im Zweifel CPA fragen.",
-        "Form 5472 + Pro-forma 1120: reine Informations-Meldung (keine Steuer), aber Pflicht. Deadline 15. April, Verlängerung via Form 7004 bis 15. Oktober. Wegen 25.000-$-Risiko CPA empfohlen (300–800 $/Jahr).",
-        "DE-Seite ehrlich klären: Betriebsstätte, Hinzurechnungsbesteuerung (§ 7 ff. AStG) und Wegzug sind reale Themen. Ein deutscher StB mit US-Erfahrung (200–500 €/Std, 1–3 h/Jahr) ist hier gut investiertes Geld — nicht optional."
+        "0 % US-Bundessteuer gilt nur, solange du NICHT ETBUS bist: kein festes US-Office, keine Angestellten/„dependent agents” physisch in den USA, Arbeit wird von außerhalb der USA erbracht. ACHTUNG für Amazon-FBA & eigenes US-Lager: US-Inventar/Warehouse, US-Mitarbeiter oder ein abhängiger US-Agent können ETBUS/ECI auslösen, der Test ist einzelfallabhängig und schwammig, „0 %” ist also NICHT automatisch. Im Zweifel CPA fragen.",
+        "Form 5472 + Pro-forma 1120: reine Informations-Meldung (keine Steuer), aber Pflicht. Deadline 15. April, Verlängerung via Form 7004 bis 15. Oktober. Wegen 25.000-$-Risiko CPA empfohlen (300-800 $/Jahr).",
+        "DE-Seite ehrlich klären: Betriebsstätte, Hinzurechnungsbesteuerung (§ 7 ff. AStG) und Wegzug sind reale Themen. Ein deutscher StB mit US-Erfahrung (200-500 €/Std, 1-3 h/Jahr) ist hier gut investiertes Geld, nicht optional."
       ],
       "description": "Der Steuer-Teil entscheidet, ob dein US-Setup sauber oder ein Bumerang ist. Kurz: W-8BEN-E gegenüber Plattformen senkt die Quellensteuer auf 0 %; die SMLLC zahlt 0 % US-Bundessteuer, solange sie nicht ETBUS ist. ABER die Form-5472-Pflicht (25.000 $ Strafe) und die deutsche Betriebsstätte, wenn du von DE aus steuerst, sind die zwei Punkte, die Gründer ruinieren. Beides gehört auf den Tisch, bevor du live gehst."
     },
     "amazon-us": {
       "checklist": [
-        "Amazon.com Seller Central (Region Nordamerika: US/CA/MX) registrieren — separates Konto zu Amazon.de.",
+        "Amazon.com Seller Central (Region Nordamerika: US/CA/MX) registrieren, separates Konto zu Amazon.de.",
         "Professional Plan (39,99 $/Mon) wählen (Individual nur für <40 Verkäufe/Mon sinnvoll).",
         "Tax Interview durchlaufen → als Foreign Entity W-8BEN-E (als Individuum W-8BEN) abgeben.",
-        "Auszahlungskonto: Payoneer oder Wise (beide von Amazon akzeptiert) — VOR der Registrierung fertig haben.",
+        "Auszahlungskonto: Payoneer oder Wise (beide von Amazon akzeptiert), VOR der Registrierung fertig haben.",
         "Kreditkarte hinterlegen (funktioniert auch mit deutscher/virtueller Karte).",
         "Identity Verification vorbereiten: im Länder-Dropdown ggf. „United States” wählen, auch wenn du für einen anderen Markt verifizierst (bekanntes UI-Verhalten).",
         "Auf Video-Verifizierungs-Call einstellen: Original-Ausweis + Firmendokumente bereit, Frontkamera, stabile Verbindung, Safari oder Chrome."
       ],
       "externalLinks": [
-        { "label": "Amazon Seller Central — Global Selling", "url": "https://sell.amazon.com/global-selling" },
-        { "label": "Amazon — Identity Verification (Hilfe)", "url": "https://sellercentral.amazon.com/help/hub/reference/external/GQRP483PDN88Q3M9" },
+        { "label": "Amazon Seller Central, Global Selling", "url": "https://sell.amazon.com/global-selling" },
+        { "label": "Amazon, Identity Verification (Hilfe)", "url": "https://sellercentral.amazon.com/help/hub/reference/external/GQRP483PDN88Q3M9" },
         { "label": "YouTube: Sell on Amazon FBA USA as a Non-US Resident (2026, Full Guide + LLC)", "url": "https://www.youtube.com/watch?v=MIzNzffn79Q" },
         { "label": "YouTube: How To Pass The Amazon Seller Identity Verification Video Call", "url": "https://www.youtube.com/watch?v=um1NUgxD8QE" },
         { "label": "YouTube: Start a US LLC from Any Country (Amazon FBA Tutorial)", "url": "https://www.youtube.com/watch?v=h9NtFfg3tQc" }
       ],
-      "warning": "Killer Nr. 1 = Adress-/Namens-Mismatch. Firmenname EXAKT wie im Handelsregister (inkl. Groß/Klein), Personenname EXAKT wie im Reisepass, EINE Adresse über LLC/IRS/Bank/Amazon hinweg. Amazon matched Dokumente automatisch gegen Seller Central — minimale Abweichung = Rejection. Bankdaten in den ersten 90 Tagen nicht ändern.",
+      "warning": "Killer Nr. 1 = Adress-/Namens-Mismatch. Firmenname EXAKT wie im Handelsregister (inkl. Groß/Klein), Personenname EXAKT wie im Reisepass, EINE Adresse über LLC/IRS/Bank/Amazon hinweg. Amazon matched Dokumente automatisch gegen Seller Central, minimale Abweichung = Rejection. Bankdaten in den ersten 90 Tagen nicht ändern.",
       "extendedNotes": [
-        "Amazon.com ist das machbarste der vier Ziele — es ist explizit auf globale Verkäufer ausgelegt. Eine US-LLC ist NICHT zwingend; deutsche Firma + W-8BEN-E + Payoneer genügt oft.",
+        "Amazon.com ist das machbarste der vier Ziele, es ist explizit auf globale Verkäufer ausgelegt. Eine US-LLC ist NICHT zwingend; deutsche Firma + W-8BEN-E + Payoneer genügt oft.",
         "W-8BEN läuft 3 Jahre + Jahresende ab → danach Tax Interview erneut.",
-        "2025/26-Protokoll: verstärkte Checks, für neue US-Accounts oft ein Video-Call mit Face-Match. Ruhig, gut ausgeleuchtet, Dokumente griffbereit — die meisten Ablehnungen kommen von unscharfen/abweichenden Dokumenten, nicht vom Gespräch selbst.",
-        "Wenn du eine US-LLC + Virtual Address nutzt, die nicht mit Bank- und Amazon-Records übereinstimmt, folgt oft eine Utility-Bill-Nachforderung — daher von Anfang an konsistente Adresse."
+        "2025/26-Protokoll: verstärkte Checks, für neue US-Accounts oft ein Video-Call mit Face-Match. Ruhig, gut ausgeleuchtet, Dokumente griffbereit, die meisten Ablehnungen kommen von unscharfen/abweichenden Dokumenten, nicht vom Gespräch selbst.",
+        "Wenn du eine US-LLC + Virtual Address nutzt, die nicht mit Bank- und Amazon-Records übereinstimmt, folgt oft eine Utility-Bill-Nachforderung, daher von Anfang an konsistente Adresse."
       ],
       "description": "Amazon.com ist der einfachste US-Payoff. Der ganze Prozess steht und fällt mit Konsistenz: identischer Name/identische Adresse über alle Dokumente, sauberes Tax Interview (W-8BEN-E) und ein ruhig vorbereiteter Identity-Video-Call. Payoneer/Wise als Auszahlungskonto vorab einrichten, dann registrieren."
     },
     "us-amex": {
       "checklist": [
-        "Prüfen: Hast du eine bestehende, DIREKT von Amex ausgegebene Karte (keine Partner-Bank-/Corporate-Karte) als Primary, min. 3 Monate (besser 6–12) offen?",
+        "Prüfen: Hast du eine bestehende, DIREKT von Amex ausgegebene Karte (keine Partner-Bank-/Corporate-Karte) als Primary, min. 3 Monate (besser 6-12) offen?",
         "Echte US-Wohnadresse bereit (physisch; PO-Box / geflaggter Forwarder = Ablehnung).",
         "US-Telefonnummer bereit.",
         "Reisepass bereit (ersetzt SSN im Global-Card-Relationship-Pfad).",
         "Zahlweg für die US-Rechnung: US-Konto bevorzugt (Mercury), Wise-USD als Backup.",
         "Global Card Relationship (= früheres „Global Transfer”) telefonisch starten über die offizielle US-New-Accounts-Line 1-877-621-2639 (auf diese Nummer verweist Amex von der Moving-Abroad-Seite). Einstieg: „I'm an existing American Express cardholder in Germany and I'd like to apply for a US card using the Global Card Relationship.”",
-        "NÄCHSTER SCHRITT — US-Residence bestätigen: Amex fordert im Global-Transfer-Flow oft einen Adress-Nachweis auf deine US-Adresse an. Halte eine US-Utility-Bill (Strom-/Internet-/Handy-Rechnung) ODER einen Kontoauszug/Statement einer US-Bank auf DERSELBEN US-Adresse bereit — beides muss Name + US-Adresse zeigen. Zusätzlich ggf. Pass-Upload über einen zugesandten Link.",
-        "Bei US-Banking-Angabe: Amex macht teils einen 3-Way-Call mit deiner US-Bank, um Kontodaten + hinterlegte US-Adresse zu verifizieren — also vorab sicherstellen, dass bei der US-Bank (Mercury/Wise) exakt dieselbe US-Adresse hinterlegt ist."
+        "NÄCHSTER SCHRITT, US-Residence bestätigen: Amex fordert im Global-Transfer-Flow oft einen Adress-Nachweis auf deine US-Adresse an. Halte eine US-Utility-Bill (Strom-/Internet-/Handy-Rechnung) ODER einen Kontoauszug/Statement einer US-Bank auf DERSELBEN US-Adresse bereit, beides muss Name + US-Adresse zeigen. Zusätzlich ggf. Pass-Upload über einen zugesandten Link.",
+        "Bei US-Banking-Angabe: Amex macht teils einen 3-Way-Call mit deiner US-Bank, um Kontodaten + hinterlegte US-Adresse zu verifizieren, also vorab sicherstellen, dass bei der US-Bank (Mercury/Wise) exakt dieselbe US-Adresse hinterlegt ist."
       ],
       "externalLinks": [
-        { "label": "Amex — Global Card Relationship", "url": "https://www.americanexpress.com/us/customer-service/global-card-relationship/" },
-        { "label": "Amex — Moving Abroad / Global Card Transfer", "url": "https://www.americanexpress.com/en-us/company/about-us/moving-abroad/" },
-        { "label": "FlyerTalk — Global Card Relationship: Live-Erfahrungen", "url": "https://www.flyertalk.com/forum/american-express-membership-rewards/986747-global-card-relationship-fka-global-transfers-experiences-36.html" },
-        { "label": "Sebastian Sauerborn — US Credit Cards for Non-Residents", "url": "https://www.sebsauerborn.com/insights-english/us-credit-cards-for-non-residents" }
+        { "label": "Amex, Global Card Relationship", "url": "https://www.americanexpress.com/us/customer-service/global-card-relationship/" },
+        { "label": "Amex, Moving Abroad / Global Card Transfer", "url": "https://www.americanexpress.com/en-us/company/about-us/moving-abroad/" },
+        { "label": "FlyerTalk, Global Card Relationship: Live-Erfahrungen", "url": "https://www.flyertalk.com/forum/american-express-membership-rewards/986747-global-card-relationship-fka-global-transfers-experiences-36.html" },
+        { "label": "Sebastian Sauerborn, US Credit Cards for Non-Residents", "url": "https://www.sebsauerborn.com/insights-english/us-credit-cards-for-non-residents" }
       ],
-      "warning": "Wichtig zur Deutschland-Eligibility: Es gibt KEINE offizielle Amex-Länder-Allowlist. Deutsche Amex-Karten werden direkt von American Express ausgegeben (kein Partner-Bank-Modell) und Deutschland steht in Amex' offiziellem Global-Card-Relationship-Netz — die Grundvoraussetzung ist damit erfüllt. Also zuerst Deutschland → USA DIREKT versuchen; die UK-Amex ist nur ein optionaler Fallback, FALLS der DE-Antrag abgelehnt wird (keine Pflicht-Umleitung). Kursierende „9-Länder-Listen” (AU/BR/CA/IN/UK …) stammen aus Blogs und sind Erfahrungs-, keine offiziellen Eligibility-Listen. Ehrlich: einen bestätigten DE→US-Erfolgsbericht für 2025/2026 konnten wir nicht finden — real-world unsicher, offiziell aber nicht ausgeschlossen. Reporting-Hinweis: Ohne ITIN eröffnete Karten berichten Community-Erfahrungen zufolge oft nur Amex-intern (nicht an Experian/Equifax/TransUnion) — das ist NICHT offiziell bestätigt und wird auf FlyerTalk unterschiedlich berichtet.",
+      "warning": "Wichtig zur Deutschland-Eligibility: Es gibt KEINE offizielle Amex-Länder-Allowlist. Deutsche Amex-Karten werden direkt von American Express ausgegeben (kein Partner-Bank-Modell) und Deutschland steht in Amex' offiziellem Global-Card-Relationship-Netz, die Grundvoraussetzung ist damit erfüllt. Also zuerst Deutschland → USA DIREKT versuchen; die UK-Amex ist nur ein optionaler Fallback, FALLS der DE-Antrag abgelehnt wird (keine Pflicht-Umleitung). Kursierende „9-Länder-Listen” (AU/BR/CA/IN/UK …) stammen aus Blogs und sind Erfahrungs-, keine offiziellen Eligibility-Listen. Ehrlich: einen bestätigten DE→US-Erfolgsbericht für 2025/2026 konnten wir nicht finden, real-world unsicher, offiziell aber nicht ausgeschlossen. Reporting-Hinweis: Ohne ITIN eröffnete Karten berichten Community-Erfahrungen zufolge oft nur Amex-intern (nicht an Experian/Equifax/TransUnion), das ist NICHT offiziell bestätigt und wird auf FlyerTalk unterschiedlich berichtet.",
       "extendedNotes": [
         "Global Card Relationship (früher „Global Transfer”) ist der einzige verlässliche Weg an eine US-Amex OHNE SSN/ITIN: Amex nutzt deine Heimat-Karten-Historie statt eines US-Credit-Files.",
         "Online-Alternative zum Telefon: US-Antrag starten → Box „no US credit history but hold an eligible Amex card” ankreuzen → mit den ausländischen Amex-Zugangsdaten einloggen. „Member Since”-Datum wird übernommen, MR-Punkte NICHT.",
-        "FICO aufbauen: Global-Relationship-Karte holen → ITIN besorgen → ZWEITE Karte mit ITIN beantragen (die reportet dann an die Bureaus). US-FICO entsteht ~Monat 6–18.",
+        "FICO aufbauen: Global-Relationship-Karte holen → ITIN besorgen → ZWEITE Karte mit ITIN beantragen (die reportet dann an die Bureaus). US-FICO entsteht ~Monat 6-18.",
         "Business-Alternativen ohne persönlichen US-Credit-Check: Ramp / Brex (Corporate-Cards auf Basis US-LLC + US-Banking-Guthaben) und die Mercury-Debit/Charge-Card. Für reine Business-Ausgaben oft der pragmatischste Weg.",
         "Häufigster Ablehnungsgrund im Global-Transfer-Flow ist NICHT die Bonität, sondern die Adress-Verifizierung: PO-Box/geflaggter Mail-Forwarder wird abgelehnt, und wenn Utility-Bill, US-Bank-Statement und die bei Amex angegebene US-Adresse nicht identisch sind, gibt's Rückfragen oder Ablehnung. Also EINE echte US-Adresse konsistent über Amex, US-Bank und Nachweis-Dokument. Entscheidung kommt oft in Minuten, kann aber bis 72 h dauern."
       ],
@@ -13885,53 +13890,53 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
     "tiktok-shop-us": {
       "checklist": [
         "Entscheiden: Hast du Zugang zu einer echten US-Person mit SSN + US-Wohnadresse, die Primary Business Representative (PBR) / UBO sein kann? Wenn nein, ist ein sauberer eigener US-Shop kaum möglich.",
-        "US-Entity als C-Corporation aufsetzen (nicht SMLLC) — damit ein wahrheitsgemäßes W-9 abgegeben werden kann.",
+        "US-Entity als C-Corporation aufsetzen (nicht SMLLC), damit ein wahrheitsgemäßes W-9 abgegeben werden kann.",
         "EIN, US-Business-Bankkonto (Mercury), US-Adresse, US-Phone bereit.",
         "PBR/UBO mit gültigem US-Government-ID (US-Pass / US-Führerschein) + verifizierbarer US-Wohnadresse + ITIN oder SSN benennen.",
-        "Vor dem Submit die „irreversiblen” Felder (Entity-Typ, Representative) final fixieren — nach Absenden nicht mehr änderbar."
+        "Vor dem Submit die „irreversiblen” Felder (Entity-Typ, Representative) final fixieren, nach Absenden nicht mehr änderbar."
       ],
       "externalLinks": [
-        { "label": "TikTok Seller US — University (Doku-Anforderungen)", "url": "https://seller-us.tiktok.com/university/essay?knowledge_id=258395901675310&lang=en" },
-        { "label": "Globalfy — TikTok Shop USA als International Seller", "url": "https://globalfy.com/blog/register-tiktok-shop-usa-as-international-seller/" },
+        { "label": "TikTok Seller US, University (Doku-Anforderungen)", "url": "https://seller-us.tiktok.com/university/essay?knowledge_id=258395901675310&lang=en" },
+        { "label": "Globalfy, TikTok Shop USA als International Seller", "url": "https://globalfy.com/blog/register-tiktok-shop-usa-as-international-seller/" },
         { "label": "YouTube: How Non-Americans Can Sell on U.S. TikTok Shop (Full Guide)", "url": "https://www.youtube.com/watch?v=xbP7XH2wO4M" },
         { "label": "YouTube: The TRUTH About TikTok Shop Rules for Non-Residents", "url": "https://www.youtube.com/watch?v=yDDTiJ2HRzg" },
-        { "label": "YouTube: LLC For TikTok Shop (2025) — Non-US & UK Resident", "url": "https://www.youtube.com/watch?v=pHdnu7LcYG0" }
+        { "label": "YouTube: LLC For TikTok Shop (2025), Non-US & UK Resident", "url": "https://www.youtube.com/watch?v=pHdnu7LcYG0" }
       ],
       "warning": "NIEMALS eine fremde SSN „leihen” (Einkommen wird auf deren SSN als 1099 gemeldet → deren Steuerproblem, und ToS-Verstoß) oder eine Fake-ID nutzen (TikTok validiert Identitäts- & Steuer-ID-Daten inkl. Selfie/Liveness gegen die Ausweis-/Utility-Bill-Angaben → bei Mismatch Account-Shutdown, meist endgültig). Der einzige saubere Weg ist eine echte US-Person als Representative.",
       "extendedNotes": [
-        "Das ist das schwerste der vier Ziele — härteste KYC. Der Kern-Blocker ist nicht die Firma, sondern der Primary Business Representative / UBO: eine benannte Person mit echtem US-Government-ID UND verifizierbarer US-Wohnadresse. Eine Virtual-Mailbox reicht dafür ausdrücklich NICHT.",
-        "W-9-Falle: TikTok verlangt von allen Sellern ein W-9 (nur für US-Taxpayer). Eine foreign-owned SMLLC ist „disregarded” und müsste W-8 abgeben — ein W-9 für sie wäre eine Falschangabe. Deshalb C-Corp.",
-        "Sauberer Weg: C-Corp + echter US-Partner/Angestellter mit SSN + US-Wohnadresse als PBR/UBO. Spezialisierte „Corporate Representation”-Services (Globalfy, Clemta, NCP/nvinc) bieten das an — Grauzone je nach Anbieter, sorgfältig prüfen.",
+        "Das ist das schwerste der vier Ziele, härteste KYC. Der Kern-Blocker ist nicht die Firma, sondern der Primary Business Representative / UBO: eine benannte Person mit echtem US-Government-ID UND verifizierbarer US-Wohnadresse. Eine Virtual-Mailbox reicht dafür ausdrücklich NICHT.",
+        "W-9-Falle: TikTok verlangt von allen Sellern ein W-9 (nur für US-Taxpayer). Eine foreign-owned SMLLC ist „disregarded” und müsste W-8 abgeben, ein W-9 für sie wäre eine Falschangabe. Deshalb C-Corp.",
+        "Sauberer Weg: C-Corp + echter US-Partner/Angestellter mit SSN + US-Wohnadresse als PBR/UBO. Spezialisierte „Corporate Representation”-Services (Globalfy, Clemta, NCP/nvinc) bieten das an, Grauzone je nach Anbieter, sorgfältig prüfen.",
         "Häufige Ablehnungsgründe: UBO ohne echte US-Adresse/ITIN/SSN, Formation-Dokumente matchen nicht EXAKT die IRS-Records, ID-Leseprobleme (der frühere SSN-Rettungspfad ist für Non-US-Reps weg)."
       ],
-      "description": "TikTok Shop US ist das schwierigste Ziel und ehrlich gesagt ohne echte US-Person kaum sauber machbar. Der Blocker ist der Primary Business Representative/UBO, der ein US-Government-ID und eine echte US-Wohnadresse braucht — als in DE Wohnender kannst du das strukturell nicht selbst sein. Plus die W-9-Falle, die eine C-Corp statt SMLLC erzwingt. Wer keinen US-Partner hat, sollte dieses Ziel zurückstellen, statt mit fremder SSN/Fake-ID einen sicheren Bann zu riskieren."
+      "description": "TikTok Shop US ist das schwierigste Ziel und ehrlich gesagt ohne echte US-Person kaum sauber machbar. Der Blocker ist der Primary Business Representative/UBO, der ein US-Government-ID und eine echte US-Wohnadresse braucht, als in DE Wohnender kannst du das strukturell nicht selbst sein. Plus die W-9-Falle, die eine C-Corp statt SMLLC erzwingt. Wer keinen US-Partner hat, sollte dieses Ziel zurückstellen, statt mit fremder SSN/Fake-ID einen sicheren Bann zu riskieren."
     },
     "target": {
       "externalLinks": [
-        { "label": "Target Plus — Marketplace (Seller-Info)", "url": "https://plus.target.com/" },
-        { "label": "US Unlocked — bei Target aus dem Ausland kaufen", "url": "https://www.usunlocked.com/how-to-shop-at-target-from-outside-the-us/" },
-        { "label": "BellaVix — Target Plus: Invite-Only & Requirements", "url": "https://www.bellavix.com/target-plus-marketplace-explained-invite-only-requirements-fulfillment-standards-and-whether-your-brand-is-ready/" }
+        { "label": "Target Plus, Marketplace (Seller-Info)", "url": "https://plus.target.com/" },
+        { "label": "US Unlocked, bei Target aus dem Ausland kaufen", "url": "https://www.usunlocked.com/how-to-shop-at-target-from-outside-the-us/" },
+        { "label": "BellaVix, Target Plus: Invite-Only & Requirements", "url": "https://www.bellavix.com/target-plus-marketplace-explained-invite-only-requirements-fulfillment-standards-and-whether-your-brand-is-ready/" }
       ],
-      "warning": "Zwei völlig verschiedene Dinge nicht verwechseln: (a) Target.com Shopping-Account (Käufer) vs. (b) Target Plus Marketplace (Verkäufer). Target versendet NICHT nach Deutschland; klassische Package-Forwarder (Shipito/MyUS/Planet Express) werden offiziell nicht unterstützt und oft abgelehnt (Target behält sich das ausdrücklich vor) — in der Praxis gehen viele Forwarder-Bestellungen zwar durch, garantiert ist es nicht. VPN-Logins werden häufig erkannt/gesperrt. Target Plus als Seller ist strikt invite-only und für frische ausländische Verkäufer effektiv nicht offen.",
+      "warning": "Zwei völlig verschiedene Dinge nicht verwechseln: (a) Target.com Shopping-Account (Käufer) vs. (b) Target Plus Marketplace (Verkäufer). Target versendet NICHT nach Deutschland; klassische Package-Forwarder (Shipito/MyUS/Planet Express) werden offiziell nicht unterstützt und oft abgelehnt (Target behält sich das ausdrücklich vor), in der Praxis gehen viele Forwarder-Bestellungen zwar durch, zuverlässig ist es nicht. VPN-Logins werden häufig erkannt/gesperrt. Target Plus als Seller ist strikt invite-only und für frische ausländische Verkäufer effektiv nicht offen.",
       "extendedNotes": [
         "Target.com als Käufer: Account-Anlage von DE geht technisch mit US-VPN + US-Adresse, aber VPN-Erkennung führt oft zu Access-Denied/Lockouts. Versand nur über „Shop-for-me”-Concierge-Dienste (ein Dritter kauft für dich). Für „nur Preise/Verfügbarkeit sehen” reicht VPN + US-Adresse.",
-        "Target Plus als Seller: invite-only, keine öffentliche Bewerbung, keine Fee-to-join — Target lädt Brands aktiv ein. Voraussetzung: registrierte US-Entity + US-Bankkonto + Ware physisch in den USA (24-h-Dispatch-Standard). Cross-Border-Fulfillment und Overseas-Dropshipping sind explizit ausgeschlossen.",
+        "Target Plus als Seller: invite-only, keine öffentliche Bewerbung, keine Fee-to-join, Target lädt Brands aktiv ein. Voraussetzung: registrierte US-Entity + US-Bankkonto + Ware physisch in den USA (24-h-Dispatch-Standard). Cross-Border-Fulfillment und Overseas-Dropshipping sind explizit ausgeschlossen.",
         "Realistischer Pfad zu Target Plus: erst de facto US-Präsenz aufbauen (US-LLC + US-Bank + US-3PL-Lager + Track-Record z.B. auf Amazon), dann auf ein Invite hinarbeiten bzw. sich über Kontakt/Agentur vorstellen lassen. Es gibt keinen „von DE aus in 2 Wochen”-Weg.",
         "Marktplatz-Größe 2025/26: >1.500 kuratierte Brands."
       ],
-      "description": "Bei Target trennst du zwei Welten. Der Shopping-Account (Käufer) geht technisch via US-VPN + US-Adresse, scheitert aber am Versand (kein DE-Versand, keine Forwarder) — Workaround nur über Shop-for-me-Dienste. Der Target-Plus-Marketplace (Seller) ist invite-only und verlangt eine echte US-Präsenz mit US-Lager; für frische DE-Gründer ist er ehrlicherweise vorerst kein realistisches Ziel, sondern etwas, worauf man über eine bestehende US-Operation hinarbeitet."
+      "description": "Bei Target trennst du zwei Welten. Der Shopping-Account (Käufer) geht technisch via US-VPN + US-Adresse, scheitert aber am Versand (kein DE-Versand, keine Forwarder), Workaround nur über Shop-for-me-Dienste. Der Target-Plus-Marketplace (Seller) ist invite-only und verlangt eine echte US-Präsenz mit US-Lager; für frische DE-Gründer ist er ehrlicherweise vorerst kein realistisches Ziel, sondern etwas, worauf man über eine bestehende US-Operation hinarbeitet."
     }
   },
   "eigene-app-launchen": {
     "idee-validieren": {
       "checklist": [
-        "5–10 Haupt-Keywords deiner App-Idee direkt im App Store + Play Store suchen (nicht bei Google!)",
+        "5-10 Haupt-Keywords deiner App-Idee direkt im App Store + Play Store suchen (nicht bei Google!)",
         "Top-10-Konkurrenten notieren: Downloads (Play Store zeigt sie), Bewertungs-Anzahl, Sterne, letztes Update",
         "1-Stern- und 2-Stern-Reviews der Top-3-Konkurrenten lesen → wiederkehrende Beschwerden = dein USP",
         "Monetarisierung der Konkurrenz checken: Paid? Abo? Preispunkte? (im Listing unter \"In-App-Käufe\")",
         "Prüfen ob die Idee eine \"Vitamin-App\" (nice-to-have) oder \"Painkiller-App\" (löst echtes Problem) ist",
         "Retention-Frage ehrlich beantworten: Warum öffnet jemand die App in Woche 4 noch?",
-        "Google-Trends + TikTok-Suche nach dem Problem — wächst die Nachfrage oder stirbt sie?",
+        "Google-Trends + TikTok-Suche nach dem Problem, wächst die Nachfrage oder stirbt sie?",
         "Namens-Check: App-Name im Store frei? Domain frei? Markenrecht (DPMA/EUIPO) kollisionsfrei?",
         "Guardrail: Fällt deine App in eine regulierte Kategorie (Medizin/DiGA, Finanzen/BaFin, Glücksspiel, Kinder/COPPA)? → Sonderregeln VOR dem Bauen klären"
       ],
@@ -13947,10 +13952,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "AppFigures (Konkurrenz-Downloads schätzen, Free-Tier)", "url": "https://appfigures.com/" },
         { "label": "Sensor Tower (Markt-Daten)", "url": "https://sensortower.com/" }
       ],
-      "warning": "Der häufigste Fehler: monatelang bauen, dann validieren. Dreh es um — wenn im Store KEINE Konkurrenz existiert, ist das meist ein schlechtes Zeichen (kein Markt), kein gutes. Du willst einen bewiesenen Markt mit schwachen Playern, nicht ein Vakuum.",
+      "warning": "Der häufigste Fehler: monatelang bauen, dann validieren. Dreh es um, wenn im Store KEINE Konkurrenz existiert, ist das meist ein schlechtes Zeichen (kein Markt), kein gutes. Du willst einen bewiesenen Markt mit schwachen Playern, nicht ein Vakuum.",
       "extendedNotes": [
-        "Play Store zeigt Download-Ranges öffentlich (z.B. \"100.000+\") — nutze das als kostenlosen Markt-Size-Indikator. Der App Store zeigt keine Downloads, aber die Anzahl Bewertungen × 50–200 ist eine grobe Download-Schätzung.",
-        "Schnellster Pre-Launch-Test ohne App: Landing-Page mit \"Bald im App Store\"-Button + 50–100 € TikTok/Meta-Ads drauf. Klickrate auf den Fake-Download-Button = ehrlichstes Nachfrage-Signal, bevor du eine Zeile Code schreibst.",
+        "Play Store zeigt Download-Ranges öffentlich (z.B. \"100.000+\"), nutze das als kostenlosen Markt-Size-Indikator. Der App Store zeigt keine Downloads, aber die Anzahl Bewertungen × 50-200 ist eine grobe Download-Schätzung.",
+        "Schnellster Pre-Launch-Test ohne App: Landing-Page mit \"Bald im App Store\"-Button + 50-100 € TikTok/Meta-Ads drauf. Klickrate auf den Fake-Download-Button = ehrlichstes Nachfrage-Signal, bevor du eine Zeile Code schreibst.",
         "Kategorie-Realität 2026: Utility-Apps (Scanner, Widgets, Cleaner) sind übersättigt und werden von Apple unter Guideline 4.3 (Spam/Duplikat) aggressiv abgelehnt. Nischen-Apps mit klarer Zielgruppe (z.B. \"Trainingsplan für Kletterer\") haben bessere Chancen als generische Apps."
       ]
     },
@@ -13959,10 +13964,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Budget + eigene Skills ehrlich einordnen: kann ich coden / will ich es mit KI lernen / muss ich einkaufen?",
         "App-Art bestimmen: Content/Formulare/Listen (→ Cross-Platform reicht immer) vs. 3D/AR/Spiele/Hardware-nah (→ Nativ oder Game-Engine)",
         "Cross-Platform-Favoriten vergleichen: Flutter (Dart, sehr rund), React Native + Expo (JavaScript, größtes Ökosystem), Capacitor (bestehende Web-App → App)",
-        "Wenn schon eine Web-App existiert: Capacitor prüfen — Web-Code bleibt, native Shell drumherum",
-        "No-Code nur wählen, wenn Zeit > Geld UND die App simpel bleibt (FlutterFlow exportiert echten Flutter-Code — beste Exit-Option)",
+        "Wenn schon eine Web-App existiert: Capacitor prüfen, Web-Code bleibt, native Shell drumherum",
+        "No-Code nur wählen, wenn Zeit > Geld UND die App simpel bleibt (FlutterFlow exportiert echten Flutter-Code, beste Exit-Option)",
         "Build-Frage klären: Für iOS-Builds brauchst du einen Mac ODER einen Cloud-Build-Service (Codemagic, Expo EAS, GitHub Actions macOS-Runner)",
-        "Entscheidung dokumentieren und NICHT mehr ändern — Stack-Wechsel mitten im Projekt ist der teuerste Fehler"
+        "Entscheidung dokumentieren und NICHT mehr ändern, Stack-Wechsel mitten im Projekt ist der teuerste Fehler"
       ],
       "fields": [
         { "name": "stack_choice", "label": "Gewählter Stack + Begründung" },
@@ -13975,25 +13980,25 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "FlutterFlow (No-Code mit Code-Export)", "url": "https://www.flutterflow.io/" },
         { "label": "Codemagic (Cloud-Builds ohne Mac)", "url": "https://codemagic.io/" }
       ],
-      "warning": "\"Erst iOS, Android später\" (oder umgekehrt) klingt fokussiert, halbiert aber deinen Markt und du baust die zweite Version nie. Mit Flutter/React Native/Capacitor bekommst du beide Stores aus einer Codebase — es gibt 2026 fast keinen Grund mehr, als Solo-Gründer zwei native Codebasen zu pflegen.",
+      "warning": "\"Erst iOS, Android später\" (oder umgekehrt) klingt fokussiert, halbiert aber deinen Markt und du baust die zweite Version nie. Mit Flutter/React Native/Capacitor bekommst du beide Stores aus einer Codebase, es gibt 2026 fast keinen Grund mehr, als Solo-Gründer zwei native Codebasen zu pflegen.",
       "extendedNotes": [
         "Realistischer KI-Weg für Nicht-Programmierer 2026: Web-App mit Lovable/Claude bauen → mit Capacitor in eine native Shell packen → Cloud-Build (Codemagic/EAS) erzeugt die Store-Pakete (.ipa/.aab), ganz ohne eigenen Mac und ohne Xcode-Kenntnisse.",
-        "Flutter vs. React Native in kurz: Flutter rendert alles selbst (pixelgleich auf beiden Plattformen, sehr konsistent), React Native nutzt native Elemente (fühlt sich \"nativer\" an, riesiges JS-Ökosystem). Beide sind produktionsreif — nimm das, dessen Sprache dir näher liegt.",
+        "Flutter vs. React Native in kurz: Flutter rendert alles selbst (pixelgleich auf beiden Plattformen, sehr konsistent), React Native nutzt native Elemente (fühlt sich \"nativer\" an, riesiges JS-Ökosystem). Beide sind produktionsreif, nimm das, dessen Sprache dir näher liegt.",
         "No-Code-Kostenfalle: Adalo/Glide berechnen laufende Monatsgebühren pro App und du besitzt den Code nicht. FlutterFlow ist die Ausnahme: ~30 $/Mon während der Entwicklung, danach echten Flutter-Code exportieren und kündigen.",
-        "Progressive Web App (PWA) als Zwischenweg: keine Store-Gebühren, kein Review — aber kein Store-Traffic, eingeschränkte Push-Notifications auf iOS und null Sichtbarkeit. Für die meisten Consumer-Apps ist der Store der Vertriebskanal, nicht nur die Technik."
+        "Progressive Web App (PWA) als Zwischenweg: keine Store-Gebühren, kein Review, aber kein Store-Traffic, eingeschränkte Push-Notifications auf iOS und null Sichtbarkeit. Für die meisten Consumer-Apps ist der Store der Vertriebskanal, nicht nur die Technik."
       ]
     },
     "mvp-design": {
       "checklist": [
         "Feature-Liste schreiben, dann 80 % streichen: nur der EINE Kern-Flow bleibt für v1",
-        "Kern-Flow als 3–5 Screens skizzieren: Onboarding → Hauptfunktion → Ergebnis/Erfolg",
-        "Onboarding auf max. 3 Screens begrenzen — jeder zusätzliche Screen kostet ~20 % der Nutzer",
-        "In Figma (kostenlos) die Screens designen — oder Mobbin-Screenshots erfolgreicher Apps als Vorlage nutzen",
+        "Kern-Flow als 3-5 Screens skizzieren: Onboarding → Hauptfunktion → Ergebnis/Erfolg",
+        "Onboarding auf max. 3 Screens begrenzen, jeder zusätzliche Screen kostet ~20 % der Nutzer",
+        "In Figma (kostenlos) die Screens designen, oder Mobbin-Screenshots erfolgreicher Apps als Vorlage nutzen",
         "Apple Human Interface Guidelines überfliegen: Navigation unten (Tab-Bar), native Gesten, SF-Symbols",
         "Material Design 3 für Android beachten (Cross-Platform-Frameworks machen das meiste automatisch)",
         "Dark Mode von Anfang an mitdenken (nachträglich = doppelte Arbeit)",
         "App-Icon designen (lassen): simpel, ohne Text, auf 60×60 px noch erkennbar",
-        "Empty States + Fehler-Zustände designen (leere Liste, kein Internet) — genau hier fühlen sich billige Apps billig an"
+        "Empty States + Fehler-Zustände designen (leere Liste, kein Internet), genau hier fühlen sich billige Apps billig an"
       ],
       "fields": [
         { "name": "core_flow", "label": "Kern-Flow in Screens (z.B. Start → Eingabe → Ergebnis)", "type": "textarea" },
@@ -14001,28 +14006,28 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "externalLinks": [
         { "label": "Figma (kostenloses Design-Tool)", "url": "https://www.figma.com/" },
-        { "label": "Mobbin — 100.000+ echte App-Screens als Referenz", "url": "https://mobbin.com/" },
+        { "label": "Mobbin, 100.000+ echte App-Screens als Referenz", "url": "https://mobbin.com/" },
         { "label": "Apple Human Interface Guidelines", "url": "https://developer.apple.com/design/human-interface-guidelines/" },
         { "label": "Material Design 3 (Google)", "url": "https://m3.material.io/" },
         { "label": "SF Symbols (Apples Icon-Bibliothek)", "url": "https://developer.apple.com/sf-symbols/" }
       ],
-      "warning": "Apps werden in den ersten 10 Sekunden gelöscht oder behalten. Wenn dein MVP 8 Features hat, die alle mittelmäßig sind, verlierst du gegen die App mit 1 Feature, das perfekt ist. Durchschnittliche Day-30-Retention liegt bei unter 5 % — dagegen designst du an.",
+      "warning": "Apps werden in den ersten 10 Sekunden gelöscht oder behalten. Wenn dein MVP 8 Features hat, die alle mittelmäßig sind, verlierst du gegen die App mit 1 Feature, das perfekt ist. Durchschnittliche Day-30-Retention liegt bei unter 5 %, dagegen designst du an.",
       "extendedNotes": [
-        "Design-Abkürzung ohne Designer: Such auf Mobbin die 3 besten Apps deiner Kategorie, screenshotte deren Kern-Screens und baue deine Version davon. Layout-Konventionen zu kopieren ist legal und schlau — Nutzer haben diese Muster bereits gelernt.",
-        "Onboarding-Formel die konvertiert: (1) Ein Screen Nutzenversprechen, (2) optional 2–3 Personalisierungs-Fragen, (3) sofort in die Kern-Funktion. Registrierung erst NACH dem ersten Aha-Moment verlangen — Pflicht-Registrierung vor dem ersten Mehrwert ist Retention-Killer Nr. 1.",
-        "Wenn du einen Design-Freelancer buchst (300–1.500 €): verlange Figma-Datei mit allen Screens in iOS- UND Android-Auflösung, App-Icon in 1024×1024 sowie die Store-Screenshots gleich mit — das spart dir später den zweiten Auftrag."
+        "Design-Abkürzung ohne Designer: Such auf Mobbin die 3 besten Apps deiner Kategorie, screenshotte deren Kern-Screens und baue deine Version davon. Layout-Konventionen zu kopieren ist legal und schlau, Nutzer haben diese Muster bereits gelernt.",
+        "Onboarding-Formel die konvertiert: (1) Ein Screen Nutzenversprechen, (2) optional 2-3 Personalisierungs-Fragen, (3) sofort in die Kern-Funktion. Registrierung erst NACH dem ersten Aha-Moment verlangen, Pflicht-Registrierung vor dem ersten Mehrwert ist Retention-Killer Nr. 1.",
+        "Wenn du einen Design-Freelancer buchst (300-1.500 €): verlange Figma-Datei mit allen Screens in iOS- UND Android-Auflösung, App-Icon in 1024×1024 sowie die Store-Screenshots gleich mit, das spart dir später den zweiten Auftrag."
       ]
     },
     "entwicklung": {
-      "description": "Jetzt wird gebaut — und 2026 hast du drei realistische Wege. Weg 1: Selbst mit KI-Tools (Claude Code, Cursor, Lovable). Auch ohne Programmier-Hintergrund kommst du damit zu einem funktionierenden MVP; rechne mit 4–8 Wochen Lernkurve + Bauzeit. Weg 2: Freelancer (3.000–10.000 € für ein MVP via Upwork/Fiverr Pro/Malt) — du briefst mit deinen Figma-Designs, zahlst nach Meilensteinen. Weg 3: Agentur (ab 15.000 €, eher 30.000 €+ in DE) — nur sinnvoll, wenn Budget da ist und die App dein Kern-Business wird. Für 90 % der Gründer ist Weg 1 oder 2 richtig. Egal welcher Weg: DU besitzt den Code (GitHub-Repo auf deinen Account), sonst bist du erpressbar.",
+      "description": "Jetzt wird gebaut, und 2026 hast du drei realistische Wege. Weg 1: Selbst mit KI-Tools (Claude Code, Cursor, Lovable). Auch ohne Programmier-Hintergrund kommst du damit zu einem funktionierenden MVP; rechne mit 4-8 Wochen Lernkurve + Bauzeit. Weg 2: Freelancer (3.000-10.000 € für ein MVP via Upwork/Fiverr Pro/Malt), du briefst mit deinen Figma-Designs, zahlst nach Meilensteinen. Weg 3: Agentur (ab 15.000 €, eher 30.000 €+ in DE), nur sinnvoll, wenn Budget da ist und die App dein Kern-Business wird. Für 90 % der Gründer ist Weg 1 oder 2 richtig. Egal welcher Weg: DU besitzt den Code (GitHub-Repo auf deinen Account), sonst bist du erpressbar.",
       "checklist": [
-        "GitHub-Repository auf DEINEM Account anlegen — Freelancer/Agentur arbeiten als Collaborator, nie im eigenen Repo",
+        "GitHub-Repository auf DEINEM Account anlegen, Freelancer/Agentur arbeiten als Collaborator, nie im eigenen Repo",
         "Meilensteine definieren: 1) Kern-Flow klickbar, 2) Backend angebunden, 3) Beta-fähig, 4) Store-ready",
-        "Bei Freelancern: Werkvertrag mit IP-Übertragung (Code gehört nach Zahlung dir) — Standard-Klausel, aber sie muss drinstehen",
+        "Bei Freelancern: Werkvertrag mit IP-Übertragung (Code gehört nach Zahlung dir), Standard-Klausel, aber sie muss drinstehen",
         "Testgeräte organisieren: mind. 1 echtes iPhone + 1 Android-Gerät (Simulator reicht NICHT für Touch-Gefühl + Performance)",
         "Crash-freies Grundgerüst vor Feature-Ausbau: App-Start, Navigation, Offline-Verhalten müssen stabil sein",
         "Versionierung von Anfang an: Version 1.0.0, Build-Nummern hochzählen (beide Stores verlangen das)",
-        "Secrets (API-Keys) NIE im App-Code hardcoden — Apps lassen sich dekompilieren, Keys gehören ins Backend"
+        "Secrets (API-Keys) NIE im App-Code hardcoden, Apps lassen sich dekompilieren, Keys gehören ins Backend"
       ],
       "fields": [
         { "name": "dev_weg", "label": "Gewählter Weg (KI-selbst / Freelancer / Agentur) + Budget" },
@@ -14037,23 +14042,23 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ],
       "warning": "Agentur-Falle für Erstgründer: \"App ab 5.000 €\"-Angebote enden regelmäßig bei 25.000 €+ durch Change Requests, oder du bekommst ein White-Label-Template, das Apple unter Guideline 4.3 ablehnt. Und: Wer dir eine App verspricht, ohne deine Figma-Designs oder ein Lastenheft zu verlangen, plant, dich mit Nachträgen zu melken.",
       "extendedNotes": [
-        "Realistischer KI-Solo-Zeitplan für ein MVP (z.B. Tracking-/Content-/Listen-App): Woche 1–2 Kern-Flow als Web-App oder Expo-Projekt, Woche 3–4 Backend + Accounts, Woche 5–6 Politur (Empty States, Dark Mode, Icons), Woche 7–8 Beta + Store-Vorbereitung. Vollzeit halbiert das, nebenberuflich verdoppelt es.",
-        "Freelancer-Briefing das funktioniert: Figma-Designs + User-Stories (\"Als Nutzer will ich X, damit Y\") + explizite NICHT-Ziele (\"kein Chat, keine Web-Version\"). Fixpreis pro Meilenstein statt Stundensatz — sonst zahlst du die Lernkurve des Freelancers.",
-        "Code-Qualität als Nicht-Techniker prüfen: Lass dir wöchentlich einen Build aufs eigene Handy geben (TestFlight/APK). Wenn ein Freelancer das \"noch nicht kann\", ist das ein rotes Tuch — laufende installierbare Builds sind Standard.",
-        "Für Hardware-nahe Features (Bluetooth, HealthKit, Kamera-ML) vorher in den Framework-Docs prüfen, ob es ein gepflegtes Plugin gibt — 1 fehlendes natives Plugin kann den Stack-Entscheid kippen."
+        "Realistischer KI-Solo-Zeitplan für ein MVP (z.B. Tracking-/Content-/Listen-App): Woche 1-2 Kern-Flow als Web-App oder Expo-Projekt, Woche 3-4 Backend + Accounts, Woche 5-6 Politur (Empty States, Dark Mode, Icons), Woche 7-8 Beta + Store-Vorbereitung. Vollzeit halbiert das, nebenberuflich verdoppelt es.",
+        "Freelancer-Briefing das funktioniert: Figma-Designs + User-Stories (\"Als Nutzer will ich X, damit Y\") + explizite NICHT-Ziele (\"kein Chat, keine Web-Version\"). Fixpreis pro Meilenstein statt Stundensatz, sonst zahlst du die Lernkurve des Freelancers.",
+        "Code-Qualität als Nicht-Techniker prüfen: Lass dir wöchentlich einen Build aufs eigene Handy geben (TestFlight/APK). Wenn ein Freelancer das \"noch nicht kann\", ist das ein rotes Tuch, laufende installierbare Builds sind Standard.",
+        "Für Hardware-nahe Features (Bluetooth, HealthKit, Kamera-ML) vorher in den Framework-Docs prüfen, ob es ein gepflegtes Plugin gibt, 1 fehlendes natives Plugin kann den Stack-Entscheid kippen."
       ]
     },
     "backend-dsgvo": {
-      "description": "Fast jede App braucht ein Backend: Nutzer-Accounts, Daten-Sync, Push-Notifications. Die zwei Standard-Optionen für Gründer sind Supabase (EU-Hosting möglich, Postgres, DSGVO-freundlich) und Firebase (Google, riesiges Ökosystem, aber US-Datenflüsse sauber regeln). Beide haben Free-Tiers, die für tausende Nutzer reichen. Parallel legst du hier das DSGVO-Fundament: Welche Daten sammelst du wirklich (Datenminimierung!), wo liegen sie (EU-Region wählen!), und mit jedem Dienstleister (Supabase, Firebase, Analytics) brauchst du einen AV-Vertrag (Auftragsverarbeitung, Art. 28 DSGVO) — die großen Anbieter stellen den als Standard-Dokument bereit, du musst ihn nur akzeptieren/archivieren.",
+      "description": "Fast jede App braucht ein Backend: Nutzer-Accounts, Daten-Sync, Push-Notifications. Die zwei Standard-Optionen für Gründer sind Supabase (EU-Hosting möglich, Postgres, DSGVO-freundlich) und Firebase (Google, riesiges Ökosystem, aber US-Datenflüsse sauber regeln). Beide haben Free-Tiers, die für tausende Nutzer reichen. Parallel legst du hier das DSGVO-Fundament: Welche Daten sammelst du wirklich (Datenminimierung!), wo liegen sie (EU-Region wählen!), und mit jedem Dienstleister (Supabase, Firebase, Analytics) brauchst du einen AV-Vertrag (Auftragsverarbeitung, Art. 28 DSGVO), die großen Anbieter stellen den als Standard-Dokument bereit, du musst ihn nur akzeptieren/archivieren.",
       "checklist": [
         "Backend wählen: Supabase (EU-Region Frankfurt wählbar) oder Firebase (europe-west3 als Region setzen)",
-        "Nur Daten erheben, die die App WIRKLICH braucht — jedes Feld, das du nicht hast, musst du nicht schützen",
+        "Nur Daten erheben, die die App WIRKLICH braucht, jedes Feld, das du nicht hast, musst du nicht schützen",
         "Login-Optionen planen: E-Mail + Apple-Login + Google-Login (Achtung: bietest du IRGENDEINEN Dritt-Login an, MACHT Apple \"Sign in with Apple\" zur Pflicht)",
-        "Anonyme Nutzung ermöglichen, wo möglich — Account erst verlangen, wenn Sync/Bezahlung es erfordert",
+        "Anonyme Nutzung ermöglichen, wo möglich, Account erst verlangen, wenn Sync/Bezahlung es erfordert",
         "AV-Verträge (DPA) mit allen Prozessoren abschließen/archivieren: Backend, Analytics, Push-Dienst, Crash-Reporting",
-        "Account-Löschung IN der App einbauen — Apple-Pflicht seit 2022: Wer Account-Erstellung anbietet, muss In-App-Löschung anbieten",
+        "Account-Löschung IN der App einbauen, Apple-Pflicht seit 2022: Wer Account-Erstellung anbietet, muss In-App-Löschung anbieten",
         "Verschlüsselung: HTTPS überall (Standard), sensible Felder zusätzlich verschlüsseln",
-        "Push-Notifications: APNs (Apple) + FCM (Google) — oder OneSignal als Abstraktion über beide",
+        "Push-Notifications: APNs (Apple) + FCM (Google), oder OneSignal als Abstraktion über beide",
         "Backups des Backends aktivieren (Supabase: Point-in-Time-Recovery ab Pro-Plan)"
       ],
       "fields": [
@@ -14075,37 +14080,37 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ]
     },
     "apple-developer": {
-      "description": "Ohne Apple Developer Program kein App Store: 99 $/Jahr (zzgl. USt-Behandlung, jährlich wiederkehrend). Du hast zwei Konto-Typen: Individual (läuft auf deinen Namen, im Store steht dein Klarname als Anbieter) oder Organization (läuft auf deine Firma — braucht eine D-U-N-S-Nummer und eine im Register auffindbare Rechtsform, z.B. GmbH/UG; Einzelunternehmen ohne HR-Eintrag werden oft NICHT als Organization akzeptiert). Die D-U-N-S-Nummer ist kostenlos, dauert aber bis zu 1–2 Wochen — früh beantragen! Die Anmeldung läuft über die Apple Developer App / developer.apple.com mit deiner Apple-ID + Zwei-Faktor. Apple verifiziert bei Organizations telefonisch — es muss jemand erreichbar sein, der zeichnungsberechtigt ist. Seit dem Digital Services Act (DSA) musst du als kommerzieller Anbieter in der EU zusätzlich deinen \"Trader Status\" hinterlegen: Adresse, Telefonnummer und E-Mail, die ÖFFENTLICH im App Store angezeigt werden — ohne Trader-Status fliegt deine App in der EU aus dem Store.",
+      "description": "Ohne Apple Developer Program kein App Store: 99 $/Jahr (zzgl. USt-Behandlung, jährlich wiederkehrend). Du hast zwei Konto-Typen: Individual (läuft auf deinen Namen, im Store steht dein Klarname als Anbieter) oder Organization (läuft auf deine Firma, braucht eine D-U-N-S-Nummer und eine im Register auffindbare Rechtsform, z.B. GmbH/UG; Einzelunternehmen ohne HR-Eintrag werden oft NICHT als Organization akzeptiert). Die D-U-N-S-Nummer ist kostenlos, dauert aber bis zu 1-2 Wochen, früh beantragen! Die Anmeldung läuft über die Apple Developer App / developer.apple.com mit deiner Apple-ID + Zwei-Faktor. Apple verifiziert bei Organizations telefonisch, es muss jemand erreichbar sein, der zeichnungsberechtigt ist. Seit dem Digital Services Act (DSA) musst du als kommerzieller Anbieter in der EU zusätzlich deinen \"Trader Status\" hinterlegen: Adresse, Telefonnummer und E-Mail, die ÖFFENTLICH im App Store angezeigt werden, ohne Trader-Status fliegt deine App in der EU aus dem Store.",
       "checklist": [
         "Konto-Typ entscheiden: Individual (schnell, Klarname sichtbar) vs. Organization (Firmenname, braucht D-U-N-S + Rechtsform)",
-        "Bei Organization: D-U-N-S-Nummer kostenlos bei Dun & Bradstreet beantragen (Vorlauf 1–2 Wochen)",
+        "Bei Organization: D-U-N-S-Nummer kostenlos bei Dun & Bradstreet beantragen (Vorlauf 1-2 Wochen)",
         "Apple-ID mit Zwei-Faktor-Authentifizierung anlegen/nutzen (Pflicht)",
         "Enrollment über developer.apple.com oder die Apple Developer App durchführen, 99 $/Jahr zahlen",
         "DSA-Trader-Status in App Store Connect hinterlegen (Adresse + Telefon + E-Mail, wird öffentlich angezeigt)",
         "Bank- und Steuerdaten in App Store Connect → \"Agreements, Tax, and Banking\" ausfüllen (IBAN, W-8BEN/W-8BEN-E für US-Quellensteuer)",
         "Paid Applications Agreement akzeptieren, wenn du irgendwann Geld verlangen willst (auch für spätere IAPs jetzt schon erledigen)",
-        "Team-Zugriffe: Entwickler/Freelancer als Teammitglied mit Rolle \"Developer\" einladen — NIEMALS dein Apple-ID-Passwort teilen"
+        "Team-Zugriffe: Entwickler/Freelancer als Teammitglied mit Rolle \"Developer\" einladen, NIEMALS dein Apple-ID-Passwort teilen"
       ],
       "fields": [
         { "name": "account_typ", "label": "Konto-Typ (Individual / Organization)" },
         { "name": "duns", "label": "D-U-N-S-Nummer (falls Organization)" }
       ],
       "externalLinks": [
-        { "label": "Apple Developer Program — Enrollment", "url": "https://developer.apple.com/programs/enroll/" },
+        { "label": "Apple Developer Program, Enrollment", "url": "https://developer.apple.com/programs/enroll/" },
         { "label": "D-U-N-S-Nummer prüfen/beantragen (Apple-Tool)", "url": "https://developer.apple.com/enroll/duns-lookup/" },
         { "label": "App Store Connect", "url": "https://appstoreconnect.apple.com/" },
         { "label": "Apple: EU-Trader-Anforderungen (DSA)", "url": "https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements/" }
       ],
-      "warning": "Als Individual-Account steht dein voller Klarname für jeden sichtbar unter der App. Wenn du das nicht willst, brauchst du die Organization-Variante mit eingetragener Firma (UG reicht) — plane die D-U-N-S-Wartezeit ein, sie ist der häufigste unerwartete Zeitfresser vor dem Launch. Und: Der Trader-Status mit öffentlicher Adresse gilt auch für Individuals mit kommerziellen Apps — eine ladungsfähige Anschrift (ggf. Impressum-Service) gehört zur Planung.",
+      "warning": "Als Individual-Account steht dein voller Klarname für jeden sichtbar unter der App. Wenn du das nicht willst, brauchst du die Organization-Variante mit eingetragener Firma (UG reicht), plane die D-U-N-S-Wartezeit ein, sie ist der häufigste unerwartete Zeitfresser vor dem Launch. Und: Der Trader-Status mit öffentlicher Adresse gilt auch für Individuals mit kommerziellen Apps, eine ladungsfähige Anschrift (ggf. Impressum-Service) gehört zur Planung.",
       "extendedNotes": [
         "Die 99 $ sind ein Abo: Läuft es aus, verschwinden deine Apps aus dem Store (Bestandsnutzer behalten sie installiert). Auto-Renewal aktivieren.",
-        "Apple Small Business Program hier direkt mitdenken: Unter 1 Mio. $ Store-Umsatz/Jahr zahlst du nur 15 % statt 30 % Provision — die Teilnahme musst du aktiv in App Store Connect beantragen, sie kommt nicht automatisch!",
-        "Verifizierungs-Anruf bei Organizations: Apple ruft die im D-U-N-S-Eintrag hinterlegte Nummer an. Stimmen Firmenname/Adresse dort nicht mit deinen Angaben überein, hängt das Enrollment wochenlang — D-U-N-S-Daten vorher via Apple-Lookup prüfen.",
-        "Xcode-los arbeiten: Auch mit Cloud-Builds (Codemagic/EAS) brauchst du diesen Account — die Services signieren mit DEINEN Zertifikaten/Profilen. API-Key für App Store Connect (Rolle App Manager) erstellen und im Build-Service hinterlegen, dann läuft Upload + Signing automatisch."
+        "Apple Small Business Program hier direkt mitdenken: Unter 1 Mio. $ Store-Umsatz/Jahr zahlst du nur 15 % statt 30 % Provision, die Teilnahme musst du aktiv in App Store Connect beantragen, sie kommt nicht automatisch!",
+        "Verifizierungs-Anruf bei Organizations: Apple ruft die im D-U-N-S-Eintrag hinterlegte Nummer an. Stimmen Firmenname/Adresse dort nicht mit deinen Angaben überein, hängt das Enrollment wochenlang, D-U-N-S-Daten vorher via Apple-Lookup prüfen.",
+        "Xcode-los arbeiten: Auch mit Cloud-Builds (Codemagic/EAS) brauchst du diesen Account, die Services signieren mit DEINEN Zertifikaten/Profilen. API-Key für App Store Connect (Rolle App Manager) erstellen und im Build-Service hinterlegen, dann läuft Upload + Signing automatisch."
       ]
     },
     "play-console": {
-      "description": "Google Play Console: einmalig 25 $, kein Abo. Auch hier: Personal Account (Klarname + Wohnadresse werden ab kommerzieller Nutzung öffentlich angezeigt) oder Organization Account (Firma, braucht Registernachweis). WICHTIG — die Regel, über die 2024/25 die meisten Solo-Gründer gestolpert sind: Neue PERSONAL Accounts müssen vor dem ersten Production-Release einen geschlossenen Test (\"Closed Testing\") mit mindestens 12 Testern über mindestens 14 Tage durchlaufen. Erst danach kannst du \"Production Access\" beantragen und wirklich launchen. Organization-Accounts sind von der 12-Tester-Pflicht ausgenommen. Google verifiziert außerdem deine Identität (Ausweis-Upload) und bei Organizations die Firma. Plane für den kompletten Play-Zugang inklusive Test-Pflicht realistisch 3–4 Wochen ein — parallel zum Apple-Prozess, nicht danach.",
+      "description": "Google Play Console: einmalig 25 $, kein Abo. Auch hier: Personal Account (Klarname + Wohnadresse werden ab kommerzieller Nutzung öffentlich angezeigt) oder Organization Account (Firma, braucht Registernachweis). WICHTIG, die Regel, über die 2024/25 die meisten Solo-Gründer gestolpert sind: Neue PERSONAL Accounts müssen vor dem ersten Production-Release einen geschlossenen Test (\"Closed Testing\") mit mindestens 12 Testern über mindestens 14 Tage durchlaufen. Erst danach kannst du \"Production Access\" beantragen und wirklich launchen. Organization-Accounts sind von der 12-Tester-Pflicht ausgenommen. Google verifiziert außerdem deine Identität (Ausweis-Upload) und bei Organizations die Firma. Plane für den kompletten Play-Zugang inklusive Test-Pflicht realistisch 3-4 Wochen ein, parallel zum Apple-Prozess, nicht danach.",
       "checklist": [
         "Google-Konto anlegen (am besten ein dediziertes Firmen-Google-Konto, nicht dein privates)",
         "Play Console Registrierung: 25 $ einmalig zahlen",
@@ -14121,30 +14126,30 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "name": "tester_plan", "label": "Bei Personal: Woher kommen deine 12+ Tester?", "type": "textarea" }
       ],
       "externalLinks": [
-        { "label": "Google Play Console — Registrierung", "url": "https://play.google.com/console/signup" },
+        { "label": "Google Play Console, Registrierung", "url": "https://play.google.com/console/signup" },
         { "label": "Google: Anforderungen für neue Personal Accounts (Testing)", "url": "https://support.google.com/googleplay/android-developer/answer/14151465" },
         { "label": "Play Console Hilfe: Kontotypen", "url": "https://support.google.com/googleplay/android-developer/answer/13628312" }
       ],
-      "warning": "Die 12-Tester-Regel ist KEINE Formalie: Google prüft beim \"Production Access\"-Antrag, ob die Tester die App wirklich genutzt haben (Engagement, nicht nur Installation) und stellt dir Fragen zum Test. Karteileichen-Tester = Ablehnung = weitere 14 Tage. Rekrutiere 15–20 echte Tester mit Puffer und gib ihnen konkrete Aufgaben in der App.",
+      "warning": "Die 12-Tester-Regel ist KEINE Formalie: Google prüft beim \"Production Access\"-Antrag, ob die Tester die App wirklich genutzt haben (Engagement, nicht nur Installation) und stellt dir Fragen zum Test. Karteileichen-Tester = Ablehnung = weitere 14 Tage. Rekrutiere 15-20 echte Tester mit Puffer und gib ihnen konkrete Aufgaben in der App.",
       "extendedNotes": [
-        "Wenn du eine UG/GmbH hast (oder ohnehin gründest): Der Organization-Account umgeht die Tester-Pflicht komplett und zeigt den Firmennamen statt deiner Privatadresse — für ernsthafte Projekte fast immer die bessere Wahl.",
-        "Play zeigt bei Personal-Accounts mit Käufen/IAP deine Wohnadresse öffentlich im Listing an — dieselbe Impressum-Logik wie bei Apple. Virtual-Office/Impressum-Service ist zulässig, solange die Adresse ladungsfähig ist.",
-        "Der 14-Tage-Closed-Test ist strategisch nutzbar: Genau in dieser Zeit machst du deinen echten Beta-Test (Schritt 12) — die Pflicht wird zum Feature, wenn du sie früh einplanst statt am Ende draufzusetzen.",
-        "App-Signing: Play App Signing ist Standard (Google verwaltet den Release-Key). Beim Setup einfach akzeptieren — eigener Key-Verlust wäre sonst fatal, so übernimmt Google das Risiko."
+        "Wenn du eine UG/GmbH hast (oder ohnehin gründest): Der Organization-Account umgeht die Tester-Pflicht komplett und zeigt den Firmennamen statt deiner Privatadresse, für ernsthafte Projekte fast immer die bessere Wahl.",
+        "Play zeigt bei Personal-Accounts mit Käufen/IAP deine Wohnadresse öffentlich im Listing an, dieselbe Impressum-Logik wie bei Apple. Virtual-Office/Impressum-Service ist zulässig, solange die Adresse ladungsfähig ist.",
+        "Der 14-Tage-Closed-Test ist strategisch nutzbar: Genau in dieser Zeit machst du deinen echten Beta-Test (Schritt 12), die Pflicht wird zum Feature, wenn du sie früh einplanst statt am Ende draufzusetzen.",
+        "App-Signing: Play App Signing ist Standard (Google verwaltet den Release-Key). Beim Setup einfach akzeptieren, eigener Key-Verlust wäre sonst fatal, so übernimmt Google das Risiko."
       ]
     },
     "monetarisierung": {
-      "description": "Vier Modelle: (1) Abo — der Standard 2026, wiederkehrender Umsatz, funktioniert für Tools/Content/Fitness; (2) Einmal-Kauf / Lifetime-IAP — Nutzer lieben es, du verkaufst jedem nur einmal; (3) Freemium mit In-App-Käufen; (4) Werbung (AdMob) — braucht 6-stellige Nutzerzahlen, für Nischen-Apps meist irrelevant. Die Provisions-Mathematik: Beide Stores nehmen 30 % Standard — ABER als kleiner Entwickler zahlst du real 15 %: Apple über das Small Business Program (unter 1 Mio. $/Jahr, aktiv beantragen!), Google automatisch auf die erste 1 Mio. $/Jahr; Abos kosten bei Apple ab dem 13. Monat je Abonnent ebenfalls nur noch 15 %. Digitale Inhalte MÜSSEN über die Store-Zahlsysteme laufen (Apple Guideline 3.1.1) — physische Waren/Dienstleistungen außerhalb der App (z.B. dein E-Com-Shop) dürfen dagegen normale Payment-Anbieter nutzen und zahlen keine Store-Provision. Praktisch fast immer richtig: RevenueCat als Abstraktions-Layer über beiden Stores (Free bis 2.500 $/Mon) — spart dir Wochen an StoreKit/Billing-Integration und liefert Abo-Analytics gratis dazu.",
+      "description": "Vier Modelle: (1) Abo, der Standard 2026, wiederkehrender Umsatz, funktioniert für Tools/Content/Fitness; (2) Einmal-Kauf / Lifetime-IAP, Nutzer lieben es, du verkaufst jedem nur einmal; (3) Freemium mit In-App-Käufen; (4) Werbung (AdMob), braucht 6-stellige Nutzerzahlen, für Nischen-Apps meist irrelevant. Die Provisions-Mathematik: Beide Stores nehmen 30 % Standard, ABER als kleiner Entwickler zahlst du real 15 %: Apple über das Small Business Program (unter 1 Mio. $/Jahr, aktiv beantragen!), Google automatisch auf die erste 1 Mio. $/Jahr; Abos kosten bei Apple ab dem 13. Monat je Abonnent ebenfalls nur noch 15 %. Digitale Inhalte MÜSSEN über die Store-Zahlsysteme laufen (Apple Guideline 3.1.1), physische Waren/Dienstleistungen außerhalb der App (z.B. dein E-Com-Shop) dürfen dagegen normale Payment-Anbieter nutzen und zahlen keine Store-Provision. Praktisch fast immer richtig: RevenueCat als Abstraktions-Layer über beiden Stores (Free bis 2.500 $/Mon), spart dir Wochen an StoreKit/Billing-Integration und liefert Abo-Analytics gratis dazu.",
       "checklist": [
         "Modell festlegen: Abo / Einmal-Kauf / Freemium-IAP / Ads (oder Hybrid: Abo + Lifetime-Option)",
         "Preispunkte der Top-5-Konkurrenten notieren und dich bewusst positionieren (nicht automatisch billiger!)",
-        "Apple Small Business Program beantragen (15 % statt 30 % — App Store Connect → Small Business Program)",
-        "Bei Google: 15 %-Tier gilt automatisch für die erste 1 Mio. $ — nichts zu tun, aber in der Kalkulation berücksichtigen",
-        "RevenueCat (o.ä.) einbinden statt StoreKit/Play Billing direkt — Produkte in beiden Stores + RevenueCat anlegen",
-        "Paywall designen: Jahres-Abo prominent (mit \"nur X €/Monat\"-Umrechnung), 3–7 Tage Trial testen",
+        "Apple Small Business Program beantragen (15 % statt 30 %, App Store Connect → Small Business Program)",
+        "Bei Google: 15 %-Tier gilt automatisch für die erste 1 Mio. $, nichts zu tun, aber in der Kalkulation berücksichtigen",
+        "RevenueCat (o.ä.) einbinden statt StoreKit/Play Billing direkt, Produkte in beiden Stores + RevenueCat anlegen",
+        "Paywall designen: Jahres-Abo prominent (mit \"nur X €/Monat\"-Umrechnung), 3-7 Tage Trial testen",
         "Preise pro Markt prüfen: Stores rechnen automatisch um, aber runde Preispunkte (9,99 €) manuell setzen",
-        "Wiederherstellen-Button (\"Käufe wiederherstellen\") einbauen — Apple-Pflicht, häufiger Review-Ablehnungsgrund",
-        "Kalkulation: Netto-Erlös = Preis ÷ 1,19 (USt) × 0,85 (Store-Cut) — bei 9,99 € Abo bleiben dir ~7,14 €"
+        "Wiederherstellen-Button (\"Käufe wiederherstellen\") einbauen, Apple-Pflicht, häufiger Review-Ablehnungsgrund",
+        "Kalkulation: Netto-Erlös = Preis ÷ 1,19 (USt) × 0,85 (Store-Cut), bei 9,99 € Abo bleiben dir ~7,14 €"
       ],
       "fields": [
         { "name": "modell", "label": "Monetarisierungs-Modell + Preispunkte" },
@@ -14157,24 +14162,24 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "RevenueCat State of Subscription Apps (Benchmarks)", "url": "https://www.revenuecat.com/state-of-subscription-apps/" },
         { "label": "AdMob (falls Werbung)", "url": "https://admob.google.com/" }
       ],
-      "warning": "Guideline 3.1.1 ist Apples meist-durchgesetzte Regel: Digitale Güter/Features am Store-Payment vorbei zu verkaufen (Stripe-Link in der App, \"kauf auf unserer Website\"-Hinweis) führt zuverlässig zur Ablehnung. Die EU-DMA-Öffnung (alternative Zahlwege/Link-outs) existiert, ist aber mit eigenen Gebühren-Modellen und Auflagen verbunden — für dein MVP: Standard-IAP nutzen, DMA-Optimierung ist ein Later-Problem.",
+      "warning": "Guideline 3.1.1 ist Apples meist-durchgesetzte Regel: Digitale Güter/Features am Store-Payment vorbei zu verkaufen (Stripe-Link in der App, \"kauf auf unserer Website\"-Hinweis) führt zuverlässig zur Ablehnung. Die EU-DMA-Öffnung (alternative Zahlwege/Link-outs) existiert, ist aber mit eigenen Gebühren-Modellen und Auflagen verbunden, für dein MVP: Standard-IAP nutzen, DMA-Optimierung ist ein Later-Problem.",
       "extendedNotes": [
-        "Benchmark-Realität (RevenueCat-Daten): Nur grob ~5 % der Free-Nutzer werden je zahlend, Trial-Start-zu-Paid-Conversion liegt je nach Kategorie bei 30–50 %. Rechne dein Business-Case mit diesen Zahlen, nicht mit Wunschwerten.",
+        "Benchmark-Realität (RevenueCat-Daten): Nur grob ~5 % der Free-Nutzer werden je zahlend, Trial-Start-zu-Paid-Conversion liegt je nach Kategorie bei 30-50 %. Rechne dein Business-Case mit diesen Zahlen, nicht mit Wunschwerten.",
         "Jahres-Abo schlägt Monats-Abo fast immer im LTV: Positioniere Jahr als Default (\"59,99 €/Jahr = 5 €/Monat\") und Monat als teure Alternative (9,99 €). Lifetime-IAP (z.B. 99,99 €) als drittes Angebot fängt Abo-Verweigerer ein.",
-        "Kleinunternehmer-Hinweis: Die Store-Provision ist unabhängig von deiner USt-Stellung. Apple/Google treten dir gegenüber als Kommissionär auf und führen die USt auf den Endkundenpreis in den meisten Ländern selbst ab — Details und die korrekte Verbuchung kommen in Schritt 17.",
-        "Preis-Anker: Es gibt in den Stores kaum Preis-Elastizität nach unten — eine 2,99 €-App verkauft sich selten öfter als eine 4,99 €-App. Teste höhere Preise zuerst, senken kannst du immer."
+        "Kleinunternehmer-Hinweis: Die Store-Provision ist unabhängig von deiner USt-Stellung. Apple/Google treten dir gegenüber als Kommissionär auf und führen die USt auf den Endkundenpreis in den meisten Ländern selbst ab, Details und die korrekte Verbuchung kommen in Schritt 17.",
+        "Preis-Anker: Es gibt in den Stores kaum Preis-Elastizität nach unten, eine 2,99 €-App verkauft sich selten öfter als eine 4,99 €-App. Teste höhere Preise zuerst, senken kannst du immer."
       ]
     },
     "rechtliches": {
-      "description": "Beide Stores verlangen eine öffentlich erreichbare Datenschutzerklärungs-URL — ohne sie kommst du gar nicht durchs Einreichen. Für den deutschen Markt brauchst du: (1) Datenschutzerklärung nach DSGVO, spezifisch für die App (welche Daten, welche Dienste — Firebase, RevenueCat, AdMob etc. namentlich!), (2) Impressum (§ 5 DDG — als kommerzielle App bist du Diensteanbieter; in der App verlinken, z.B. in den Einstellungen), (3) AGB/EULA bei Abos dringend empfohlen (Apple bietet eine Standard-EULA, eigene AGB gehen vor), (4) bei Abos die Pflicht-Infos zu Laufzeit/Kündigung. Generator-Lösungen (eRecht24, Datenschutz-Generator.de von RA Schwenke, iubenda, Termly) liefern App-taugliche Texte ab 0–20 €/Mon — für den Start völlig okay, bei sensiblen Daten (Gesundheit, Kinder, Standort-Tracking) lohnt der Anwalts-Check (200–500 €).",
+      "description": "Beide Stores verlangen eine öffentlich erreichbare Datenschutzerklärungs-URL, ohne sie kommst du gar nicht durchs Einreichen. Für den deutschen Markt brauchst du: (1) Datenschutzerklärung nach DSGVO, spezifisch für die App (welche Daten, welche Dienste, Firebase, RevenueCat, AdMob etc. namentlich!), (2) Impressum (§ 5 DDG, als kommerzielle App bist du Diensteanbieter; in der App verlinken, z.B. in den Einstellungen), (3) AGB/EULA bei Abos dringend empfohlen (Apple bietet eine Standard-EULA, eigene AGB gehen vor), (4) bei Abos die Pflicht-Infos zu Laufzeit/Kündigung. Generator-Lösungen (eRecht24, Datenschutz-Generator.de von RA Schwenke, iubenda, Termly) liefern App-taugliche Texte ab 0-20 €/Mon, für den Start völlig okay, bei sensiblen Daten (Gesundheit, Kinder, Standort-Tracking) lohnt der Anwalts-Check (200-500 €).",
       "checklist": [
         "Liste aller Datenflüsse aus Schritt 5 nehmen: jeder Dienst (Backend, Analytics, Push, Ads, Payment) kommt namentlich in die Datenschutzerklärung",
         "Datenschutzerklärung generieren (App-spezifische Vorlage wählen, nicht Website-Vorlage!) und auf einer öffentlichen URL hosten",
         "Impressum erstellen und in der App verlinken (Einstellungen → \"Impressum\" + \"Datenschutz\")",
-        "Bei Abos: EULA/AGB mit Laufzeit-, Verlängerungs- und Kündigungs-Infos; Widerrufsbelehrung (digitale Inhalte: Erlöschen des Widerrufs bei sofortiger Bereitstellung korrekt abbilden — machen die Stores im Kaufprozess größtenteils für dich)",
+        "Bei Abos: EULA/AGB mit Laufzeit-, Verlängerungs- und Kündigungs-Infos; Widerrufsbelehrung (digitale Inhalte: Erlöschen des Widerrufs bei sofortiger Bereitstellung korrekt abbilden, machen die Stores im Kaufprozess größtenteils für dich)",
         "Tracking-Consent klären: Bei Werbe-Tracking/personalisierter Werbung → Apple ATT-Popup (App Tracking Transparency) einbauen + auf Android Consent-Flow (z.B. Google UMP)",
-        "Wenn KEINE Einwilligungspflicht (nur technisch nötige Daten): auch gut — dann sauber ohne Cookie/Consent-Banner bleiben, weniger ist mehr",
-        "Altersgrenzen prüfen: Richtet sich die App an Kinder unter 13/16? → Sonderregeln (COPPA/Art. 8 DSGVO, Play-\"Families\"-Policy) — wenn nicht, Zielgruppe klar 13+/16+ deklarieren",
+        "Wenn KEINE Einwilligungspflicht (nur technisch nötige Daten): auch gut, dann sauber ohne Cookie/Consent-Banner bleiben, weniger ist mehr",
+        "Altersgrenzen prüfen: Richtet sich die App an Kinder unter 13/16? → Sonderregeln (COPPA/Art. 8 DSGVO, Play-\"Families\"-Policy), wenn nicht, Zielgruppe klar 13+/16+ deklarieren",
         "URLs sammeln für die Store-Listings: Datenschutz-URL, Support-URL, Marketing-URL (kann dieselbe Landing sein)"
       ],
       "fields": [
@@ -14188,23 +14193,23 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Apple Standard-EULA", "url": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" },
         { "label": "Google UMP / Consent (AdMob)", "url": "https://support.google.com/admob/answer/10113207" }
       ],
-      "warning": "Die Datenschutzerklärung muss zur Realität passen: Apple und Google GLEICHEN deine Privacy-Labels/Data-Safety-Angaben (Schritte 10+11) mit dem tatsächlichen Netzwerkverkehr der App ab — Apps werden nachträglich gescannt. \"Wir sammeln nichts\" angeben, während Firebase Analytics mitläuft, ist der schnellste Weg zu Takedown + Strike auf dem Konto.",
+      "warning": "Die Datenschutzerklärung muss zur Realität passen: Apple und Google GLEICHEN deine Privacy-Labels/Data-Safety-Angaben (Schritte 10+11) mit dem tatsächlichen Netzwerkverkehr der App ab, Apps werden nachträglich gescannt. \"Wir sammeln nichts\" angeben, während Firebase Analytics mitläuft, ist der schnellste Weg zu Takedown + Strike auf dem Konto.",
       "extendedNotes": [
         "Deutsche Abmahn-Realität: Fehlendes Impressum in einer kommerziellen App ist abmahnfähig, genau wie eine Website. Der Einstellungs-Screen mit Impressum + Datenschutz + Lizenzen-Link ist Standard und in 30 Minuten eingebaut.",
         "Mehrsprachigkeit: Bietest du die App auf Deutsch UND Englisch an, sollten auch die Rechtstexte in beiden Sprachen vorliegen (iubenda kann das automatisch). Minimum: Deutsch für den DE-Store-Eintrag.",
-        "ATT nur wenn nötig: Das Apple-Tracking-Popup (\"App möchte deine Aktivität tracken\") senkt Opt-ins auf ~20–30 % und ist NUR Pflicht, wenn du wirklich über Apps/Websites Dritter trackst (Meta-Ads-SDK, AdMob personalisiert). First-Party-Analytics wie TelemetryDeck oder anonymisiertes Firebase brauchen kein ATT — Setup aus Schritt 16 entsprechend wählen."
+        "ATT nur wenn nötig: Das Apple-Tracking-Popup (\"App möchte deine Aktivität tracken\") senkt Opt-ins auf ~20-30 % und ist NUR Pflicht, wenn du wirklich über Apps/Websites Dritter trackst (Meta-Ads-SDK, AdMob personalisiert). First-Party-Analytics wie TelemetryDeck oder anonymisiertes Firebase brauchen kein ATT, Setup aus Schritt 16 entsprechend wählen."
       ]
     },
     "app-store-connect": {
-      "description": "In App Store Connect legst du die App an (Bundle-ID, Name, Primärsprache) und baust das Listing: App-Name (30 Zeichen, wichtigster ASO-Faktor), Untertitel (30 Zeichen), Keyword-Feld (100 Zeichen, unsichtbar für Nutzer — Komma-getrennt, keine Wiederholungen aus dem Namen), Beschreibung (4.000 Zeichen, bei Apple NICHT keyword-indexiert — schreibe für Menschen), Screenshots und optional App-Preview-Video. Pflicht-Screenshots: 6,9-Zoll-iPhone (1320×2868 px); iPad nur, wenn die App iPad unterstützt. Dazu füllst du die Privacy-\"Nutrition Labels\" aus (welche Daten sammelst du, sind sie mit Identität verknüpft, Tracking ja/nein) und die Export-Compliance-Frage (Standard-HTTPS = \"exempt\", einfach wahrheitsgemäß beantworten). Preis/IAPs aus Schritt 8 hier anlegen, Altersfreigabe-Fragebogen ausfüllen, Kategorie wählen (die Nische mit weniger Konkurrenz kann die bessere Chart-Platzierung bringen).",
+      "description": "In App Store Connect legst du die App an (Bundle-ID, Name, Primärsprache) und baust das Listing: App-Name (30 Zeichen, wichtigster ASO-Faktor), Untertitel (30 Zeichen), Keyword-Feld (100 Zeichen, unsichtbar für Nutzer, Komma-getrennt, keine Wiederholungen aus dem Namen), Beschreibung (4.000 Zeichen, bei Apple NICHT keyword-indexiert, schreibe für Menschen), Screenshots und optional App-Preview-Video. Pflicht-Screenshots: 6,9-Zoll-iPhone (1320×2868 px); iPad nur, wenn die App iPad unterstützt. Dazu füllst du die Privacy-\"Nutrition Labels\" aus (welche Daten sammelst du, sind sie mit Identität verknüpft, Tracking ja/nein) und die Export-Compliance-Frage (Standard-HTTPS = \"exempt\", einfach wahrheitsgemäß beantworten). Preis/IAPs aus Schritt 8 hier anlegen, Altersfreigabe-Fragebogen ausfüllen, Kategorie wählen (die Nische mit weniger Konkurrenz kann die bessere Chart-Platzierung bringen).",
       "checklist": [
-        "App in App Store Connect anlegen: Bundle-ID (com.deinefirma.appname — später NICHT änderbar), Name, Primärsprache",
-        "App-Name (30 Z.): Brand + wichtigstes Keyword (z.B. \"Kletterlog – Trainingstagebuch\")",
+        "App in App Store Connect anlegen: Bundle-ID (com.deinefirma.appname, später NICHT änderbar), Name, Primärsprache",
+        "App-Name (30 Z.): Brand + wichtigstes Keyword (z.B. \"Kletterlog, Trainingstagebuch\")",
         "Untertitel (30 Z.): Nutzenversprechen mit Zweit-Keywords",
         "Keyword-Feld (100 Z.): Komma-getrennt, keine Leerzeichen nach Kommas, keine Duplikate aus Name/Untertitel, keine Markennamen der Konkurrenz",
         "Beschreibung: erste 3 Zeilen verkaufen (mehr sieht man ohne \"Mehr\"-Tap nicht), dann Features als Liste",
-        "Screenshots 6,9\" (1320×2868): 3–5 Stück, erste 2 mit großem Text-Overlay (Nutzen, nicht Feature) — die ersten 2 entscheiden",
-        "Optional aber stark: App-Preview-Video (15–30 Sek., wird autoplayed)",
+        "Screenshots 6,9\" (1320×2868): 3-5 Stück, erste 2 mit großem Text-Overlay (Nutzen, nicht Feature), die ersten 2 entscheiden",
+        "Optional aber stark: App-Preview-Video (15-30 Sek., wird autoplayed)",
         "App-Privacy-Labels wahrheitsgemäß ausfüllen (Abgleich mit Datenliste aus Schritt 5/9)",
         "Altersfreigabe-Fragebogen + Kategorie (Haupt + Sekundär) setzen",
         "Preis/IAPs anlegen und mit Screenshots der Paywall einreichen (Apple will IAPs im Review sehen können)",
@@ -14221,25 +14226,25 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Apple: App-Privacy-Details (Labels)", "url": "https://developer.apple.com/app-store/app-privacy-details/" },
         { "label": "Figma Screenshot-Templates (Community, kostenlos)", "url": "https://www.figma.com/community/search?resource_type=files&sort_by=relevancy&query=app%20store%20screenshots" }
       ],
-      "warning": "Der App-Name ist der stärkste einzelne Ranking-Faktor im App Store — aber Keyword-Stuffing im Namen (\"Kletterlog: Training, Tagebuch, Plan, Tracker, Log\") verstößt gegen Guideline 2.3.7 und wird abgelehnt. Ein Keyword im Namen, zwei im Untertitel, der Rest ins 100-Zeichen-Feld.",
+      "warning": "Der App-Name ist der stärkste einzelne Ranking-Faktor im App Store, aber Keyword-Stuffing im Namen (\"Kletterlog: Training, Tagebuch, Plan, Tracker, Log\") verstößt gegen Guideline 2.3.7 und wird abgelehnt. Ein Keyword im Namen, zwei im Untertitel, der Rest ins 100-Zeichen-Feld.",
       "extendedNotes": [
         "Keyword-Feld-Profi-Tipps: Singular ODER Plural reicht (Apple matcht beides), \"frei\" kombinierbare Wörter einzeln listen (\"kletter,log,tagebuch\" matcht auch \"klettertagebuch\"), deutsche UND englische Keywords über die Lokalisierungen verteilen (DE-Store indexiert auch die EN-Lokalisierung!).",
-        "Screenshot-Formel die konvertiert: Screenshot 1 = größter Nutzen als 5-Wort-Headline über dem Device-Frame, Screenshot 2 = Social Proof oder Kern-Feature, 3–5 = weitere Features. Tools: Figma-Templates oder AppMockUp/Previewed (kostenlos bis günstig).",
-        "Du kannst das komplette Listing VOR Fertigstellung der App bauen — mach das parallel zur Entwicklung, nicht am Ende. Der erste Build kommt später einfach dazu.",
+        "Screenshot-Formel die konvertiert: Screenshot 1 = größter Nutzen als 5-Wort-Headline über dem Device-Frame, Screenshot 2 = Social Proof oder Kern-Feature, 3-5 = weitere Features. Tools: Figma-Templates oder AppMockUp/Previewed (kostenlos bis günstig).",
+        "Du kannst das komplette Listing VOR Fertigstellung der App bauen, mach das parallel zur Entwicklung, nicht am Ende. Der erste Build kommt später einfach dazu.",
         "In-App-Events, Promo-Codes (100 Stück pro Version für Presse/Influencer) und Custom Product Pages (verschiedene Landing-Varianten für Ads) sind mächtige Gratis-Features von App Store Connect, die kaum ein Indie nutzt."
       ]
     },
     "play-listing": {
-      "description": "Gleiches Spiel in der Play Console, andere Regeln: Titel (30 Zeichen), Kurzbeschreibung (80 Zeichen — WIRD für Rankings indexiert!), lange Beschreibung (4.000 Zeichen — bei Google ebenfalls keyword-relevant, wichtigste Keywords 3–5× natürlich einbauen). Assets: App-Icon 512×512, Feature-Graphic 1024×500 (Pflicht — wird prominent angezeigt), mindestens 2 Screenshots pro unterstütztem Gerätetyp (Phone Pflicht, 7\"/10\"-Tablet nur wenn unterstützt). Dazu die Data-Safety-Sektion (Googles Pendant zu Apples Privacy-Labels — muss mit deiner Datenschutzerklärung übereinstimmen), der IARC-Content-Rating-Fragebogen (bestimmt die Altersfreigabe weltweit) und die Ziel-Zielgruppen-Deklaration. Anders als Apple indexiert Google auch die Beschreibung — dein Play-Listing ist SEO-Text, dein Apple-Listing ist Sales-Text.",
+      "description": "Gleiches Spiel in der Play Console, andere Regeln: Titel (30 Zeichen), Kurzbeschreibung (80 Zeichen, WIRD für Rankings indexiert!), lange Beschreibung (4.000 Zeichen, bei Google ebenfalls keyword-relevant, wichtigste Keywords 3-5× natürlich einbauen). Assets: App-Icon 512×512, Feature-Graphic 1024×500 (Pflicht, wird prominent angezeigt), mindestens 2 Screenshots pro unterstütztem Gerätetyp (Phone Pflicht, 7\"/10\"-Tablet nur wenn unterstützt). Dazu die Data-Safety-Sektion (Googles Pendant zu Apples Privacy-Labels, muss mit deiner Datenschutzerklärung übereinstimmen), der IARC-Content-Rating-Fragebogen (bestimmt die Altersfreigabe weltweit) und die Ziel-Zielgruppen-Deklaration. Anders als Apple indexiert Google auch die Beschreibung, dein Play-Listing ist SEO-Text, dein Apple-Listing ist Sales-Text.",
       "checklist": [
         "App in der Play Console anlegen (App-Name, Standardsprache, App/Spiel, kostenlos/kostenpflichtig)",
-        "Titel (30 Z.) mit Haupt-Keyword, Kurzbeschreibung (80 Z.) mit Nutzen + Zweit-Keywords — beide werden indexiert",
-        "Lange Beschreibung: Keywords 3–5× natürlich einbauen, erste 3 Zeilen = Pitch, Rest strukturiert mit Emojis/Absätzen",
+        "Titel (30 Z.) mit Haupt-Keyword, Kurzbeschreibung (80 Z.) mit Nutzen + Zweit-Keywords, beide werden indexiert",
+        "Lange Beschreibung: Keywords 3-5× natürlich einbauen, erste 3 Zeilen = Pitch, Rest strukturiert mit Emojis/Absätzen",
         "App-Icon 512×512 px (32-bit PNG) + Feature-Graphic 1024×500 px hochladen",
-        "Min. 4–8 Phone-Screenshots (16:9 oder 9:16, min. 1080 px) — gleiche Overlay-Strategie wie bei Apple",
+        "Min. 4-8 Phone-Screenshots (16:9 oder 9:16, min. 1080 px), gleiche Overlay-Strategie wie bei Apple",
         "Data-Safety-Formular ausfüllen (Datenerhebung, Weitergabe, Verschlüsselung, Löschmöglichkeit)",
         "IARC-Content-Rating-Fragebogen ausfüllen (falsche Angaben = Suspension)",
-        "Zielgruppe deklarieren (13+/16+/18+ — bei \"auch Kinder\" gelten die strengen Families-Policies)",
+        "Zielgruppe deklarieren (13+/16+/18+, bei \"auch Kinder\" gelten die strengen Families-Policies)",
         "Store-Eintrag-Experimente vormerken: Play erlaubt native A/B-Tests von Icon/Screenshots/Texten (Apple nur eingeschränkt via PPO)",
         "Kategorie + Tags wählen, Kontaktdaten (E-Mail Pflicht, öffentlich sichtbar) eintragen"
       ],
@@ -14253,25 +14258,25 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Play: Grafik-Assets-Spezifikationen", "url": "https://support.google.com/googleplay/android-developer/answer/9866151" },
         { "label": "IARC Content-Rating", "url": "https://www.globalratings.com/" }
       ],
-      "warning": "Data-Safety-Falle: Dein eingebundenes SDK (Firebase, AdMob, Facebook-SDK) sammelt Daten, auch wenn DU es nicht aktiv tust — und du bist für die Deklaration verantwortlich. Jedes große SDK publiziert eine eigene Data-Safety-Hilfsseite; geh deine SDK-Liste durch und übertrage deren Angaben. Inkonsistenzen zwischen Data Safety, Datenschutzerklärung und echtem Traffic sind ein Top-Grund für Play-Rejections und nachträgliche Takedowns.",
+      "warning": "Data-Safety-Falle: Dein eingebundenes SDK (Firebase, AdMob, Facebook-SDK) sammelt Daten, auch wenn DU es nicht aktiv tust, und du bist für die Deklaration verantwortlich. Jedes große SDK publiziert eine eigene Data-Safety-Hilfsseite; geh deine SDK-Liste durch und übertrage deren Angaben. Inkonsistenzen zwischen Data Safety, Datenschutzerklärung und echtem Traffic sind ein Top-Grund für Play-Rejections und nachträgliche Takedowns.",
       "extendedNotes": [
         "Die Feature-Graphic (1024×500) wird oft lieblos gemacht, ist aber das größte visuelle Element deines Listings (und Video-Thumbnail, falls du ein Promo-Video verlinkst): großer App-Name + 1 Nutzen-Satz + Screenshot-Ausschnitt, fertig.",
         "Google-Play-Beschreibung = dein wichtigster ASO-Text: Anders als bei Apple lohnt hier echte Keyword-Arbeit. Struktur die funktioniert: Hook-Absatz mit Haupt-Keyword → \"DAS KANN [APP]\"-Liste → Social Proof → FAQ-artige Absätze mit Long-Tail-Keywords → Kontakt.",
-        "Pre-Registration (Vormerkung) kann sich lohnen: Nutzer können die App vor Launch vormerken und bekommen sie am Launch-Tag automatisch — kostenloser Launch-Spike, der den Algorithmus füttert."
+        "Pre-Registration (Vormerkung) kann sich lohnen: Nutzer können die App vor Launch vormerken und bekommen sie am Launch-Tag automatisch, kostenloser Launch-Spike, der den Algorithmus füttert."
       ]
     },
     "beta-testing": {
-      "description": "Jetzt kommt deine App zum ersten Mal auf fremde Geräte. iOS: TestFlight — interne Tester (bis 100, sofort, kein Review) und externe Tester (bis 10.000, Link teilbar, kurzer Beta-Review durch Apple). Android: der Closed Test aus Schritt 7 — bei Personal-Accounts ohnehin Pflicht (12+ Tester, 14 Tage), bei Organization freiwillig aber dringend empfohlen. Ziel des Beta-Tests ist nicht \"Freunde finden es cool\", sondern: Crasht die App auf alten Geräten? Verstehen Fremde das Onboarding ohne Erklärung? Wo brechen Nutzer ab? Gib Testern 3 konkrete Aufgaben, sammle strukturiert Feedback (Formular, nicht WhatsApp-Chaos) und fixe die Top-Probleme VOR dem Store-Release — die ersten öffentlichen Bewertungen entscheiden über dein Ranking, und die bekommst du nie zurück.",
+      "description": "Jetzt kommt deine App zum ersten Mal auf fremde Geräte. iOS: TestFlight, interne Tester (bis 100, sofort, kein Review) und externe Tester (bis 10.000, Link teilbar, kurzer Beta-Review durch Apple). Android: der Closed Test aus Schritt 7, bei Personal-Accounts ohnehin Pflicht (12+ Tester, 14 Tage), bei Organization freiwillig aber dringend empfohlen. Ziel des Beta-Tests ist nicht \"Freunde finden es cool\", sondern: Crasht die App auf alten Geräten? Verstehen Fremde das Onboarding ohne Erklärung? Wo brechen Nutzer ab? Gib Testern 3 konkrete Aufgaben, sammle strukturiert Feedback (Formular, nicht WhatsApp-Chaos) und fixe die Top-Probleme VOR dem Store-Release, die ersten öffentlichen Bewertungen entscheiden über dein Ranking, und die bekommst du nie zurück.",
       "checklist": [
         "iOS: Build via TestFlight an interne Tester (sofort) + externen Test-Link erstellen (kurzer Beta-Review)",
         "Android: Closed-Testing-Track mit E-Mail-Liste oder Google-Group einrichten, Opt-in-Link teilen",
-        "15–20 Tester rekrutieren: Zielgruppen-Kontakte > Freunde (Freunde schonen dich)",
+        "15-20 Tester rekrutieren: Zielgruppen-Kontakte > Freunde (Freunde schonen dich)",
         "3 konkrete Test-Aufgaben stellen (z.B. \"Erstelle einen Eintrag, ändere ihn, exportiere ihn\")",
-        "Feedback-Formular (Google Forms/Tally) mit den 3 Kernfragen: Was war unklar? Wo gehakt? Würdest du zahlen — und was?",
+        "Feedback-Formular (Google Forms/Tally) mit den 3 Kernfragen: Was war unklar? Wo gehakt? Würdest du zahlen, und was?",
         "Crash-Reports beobachten (TestFlight-Crashes + Firebase Crashlytics/Sentry ab jetzt aktiv)",
-        "Onboarding-Beobachtungstest: 2–3 Leuten über die Schulter schauen (Bildschirmaufnahme), ohne zu helfen",
-        "Top-3-Findings fixen, neuen Build verteilen, Kurz-Retest — dann Feature-Freeze für den Launch",
-        "Bei Google Personal-Account: 14-Tage-Uhr läuft ab erstem Closed-Test-Release — Production-Access-Antrag direkt nach Ablauf stellen"
+        "Onboarding-Beobachtungstest: 2-3 Leuten über die Schulter schauen (Bildschirmaufnahme), ohne zu helfen",
+        "Top-3-Findings fixen, neuen Build verteilen, Kurz-Retest, dann Feature-Freeze für den Launch",
+        "Bei Google Personal-Account: 14-Tage-Uhr läuft ab erstem Closed-Test-Release, Production-Access-Antrag direkt nach Ablauf stellen"
       ],
       "fields": [
         { "name": "tester_count", "label": "Anzahl aktive Tester iOS / Android" },
@@ -14283,19 +14288,19 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Tally (kostenlose Feedback-Formulare)", "url": "https://tally.so/" },
         { "label": "Sentry (Crash-Monitoring, Free-Tier)", "url": "https://sentry.io/" }
       ],
-      "warning": "Überspringe den Beta-Test nicht, um \"schneller zu launchen\": Eine App, die in Woche 1 bei echten Nutzern crasht, sammelt 1-Stern-Bewertungen, und ein Listing mit 2,8 Sternen ist praktisch tot — Bewertungen zu reparieren dauert 10× länger als der Beta-Test gedauert hätte.",
+      "warning": "Überspringe den Beta-Test nicht, um \"schneller zu launchen\": Eine App, die in Woche 1 bei echten Nutzern crasht, sammelt 1-Stern-Bewertungen, und ein Listing mit 2,8 Sternen ist praktisch tot, Bewertungen zu reparieren dauert 10× länger als der Beta-Test gedauert hätte.",
       "extendedNotes": [
         "TestFlight-Links sind auch dein erstes Marketing: In Nischen-Communities (Reddit, Discord, Facebook-Gruppen deiner Zielgruppe) nach Beta-Testern zu fragen ist erlaubt, bringt echte Zielgruppen-Tester UND baut eine Warteliste für den Launch auf.",
-        "Geräte-Matrix Android: Teste mindestens ein Gerät mit Android 10/11 (alte Mittelklasse, z.B. gebrauchtes Samsung A-Serie ~80 €) — dort sterben die meisten Apps, nicht auf dem Pixel des Entwicklers.",
-        "Beta-Feedback richtig gewichten: Feature-Wünsche notieren, aber NICHT vor Launch bauen. Nur Blocker (Crashes, Verständnis-Probleme im Kern-Flow) werden gefixt — alles andere ist v1.1."
+        "Geräte-Matrix Android: Teste mindestens ein Gerät mit Android 10/11 (alte Mittelklasse, z.B. gebrauchtes Samsung A-Serie ~80 €), dort sterben die meisten Apps, nicht auf dem Pixel des Entwicklers.",
+        "Beta-Feedback richtig gewichten: Feature-Wünsche notieren, aber NICHT vor Launch bauen. Nur Blocker (Crashes, Verständnis-Probleme im Kern-Flow) werden gefixt, alles andere ist v1.1."
       ]
     },
     "apple-review": {
-      "description": "Build hochladen (aus Xcode oder deinem Cloud-Build-Service), Version in App Store Connect vervollständigen, \"Zur Prüfung einreichen\". Apple reviewt heute meist in 24–48 Stunden (90 % innerhalb von 24h laut Apple), ein Mensch klickt sich tatsächlich durch deine App. Die häufigsten Ablehnungsgründe — und alle sind vermeidbar: Guideline 2.1 (App crasht, Bugs, Login-Demo-Zugang fehlt oder Review-Team kommt nicht durch den Flow), 2.3 (Metadaten irreführend: Screenshots zeigen Features, die es nicht gibt), 3.1.1 (digitale Käufe am IAP vorbei), 4.3 (Spam/zu ähnlich zu tausenden anderen Apps — Template-Apps!), 5.1.1 (Datenerhebung ohne Zweck/Erlaubnis, Registrierungszwang ohne Grund), fehlender \"Käufe wiederherstellen\"-Button, Sign-in-with-Apple fehlt trotz Dritt-Login. Eine Ablehnung ist KEIN Drama: Du bekommst den konkreten Grund im Resolution Center, antwortest oder lieferst einen Fix-Build, und der Re-Review ist meist schneller. Ruhig und sachlich bleiben — Diskussionen gewinnst du im Resolution Center, nicht mit Wut-Antworten.",
+      "description": "Build hochladen (aus Xcode oder deinem Cloud-Build-Service), Version in App Store Connect vervollständigen, \"Zur Prüfung einreichen\". Apple reviewt heute meist in 24-48 Stunden (90 % innerhalb von 24h laut Apple), ein Mensch klickt sich tatsächlich durch deine App. Die häufigsten Ablehnungsgründe, und alle sind vermeidbar: Guideline 2.1 (App crasht, Bugs, Login-Demo-Zugang fehlt oder Review-Team kommt nicht durch den Flow), 2.3 (Metadaten irreführend: Screenshots zeigen Features, die es nicht gibt), 3.1.1 (digitale Käufe am IAP vorbei), 4.3 (Spam/zu ähnlich zu tausenden anderen Apps, Template-Apps!), 5.1.1 (Datenerhebung ohne Zweck/Erlaubnis, Registrierungszwang ohne Grund), fehlender \"Käufe wiederherstellen\"-Button, Sign-in-with-Apple fehlt trotz Dritt-Login. Eine Ablehnung ist KEIN Drama: Du bekommst den konkreten Grund im Resolution Center, antwortest oder lieferst einen Fix-Build, und der Re-Review ist meist schneller. Ruhig und sachlich bleiben, Diskussionen gewinnst du im Resolution Center, nicht mit Wut-Antworten.",
       "checklist": [
         "Finalen Build hochladen (Xcode / Codemagic / EAS Submit) und in App Store Connect der Version zuordnen",
         "Demo-Account für das Review-Team hinterlegen (App-Review-Informationen → Login + Passwort), falls die App Login hat",
-        "Review-Notizen schreiben: Was macht die App, wie testet man den Kern-Flow, wo liegen IAPs (2–5 Sätze reichen)",
+        "Review-Notizen schreiben: Was macht die App, wie testet man den Kern-Flow, wo liegen IAPs (2-5 Sätze reichen)",
         "Vorab-Selbst-Review gegen die Top-Gründe: Crasht nichts? Alle Links funktionieren? Paywall hat Restore-Button? Preise stimmen mit Listing überein?",
         "Sign-in-with-Apple vorhanden, falls Google/Facebook-Login angeboten wird?",
         "Placeholder-Inhalte entfernt (Lorem ipsum, \"Coming soon\"-Screens = 2.1-Ablehnung)",
@@ -14311,26 +14316,26 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Häufige Ablehnungsgründe (Apple)", "url": "https://developer.apple.com/app-store/review/#common-app-rejections" },
         { "label": "App Store Connect: Einreichen zur Prüfung", "url": "https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-for-review/" }
       ],
-      "warning": "Guideline 4.3 (\"Spam\") trifft KI- und Template-Apps hart: Wenn deine App im Kern aussieht wie hundert andere (generischer Quiz-Klon, Wrapper um eine API, White-Label-Template), lehnt Apple ab — unabhängig von der Code-Qualität. Dein Schutz: sichtbare Eigenleistung (eigenes Design, eigene Inhalte, eigene Nische) VOR dem Einreichen, nicht als Reaktion auf die Ablehnung.",
+      "warning": "Guideline 4.3 (\"Spam\") trifft KI- und Template-Apps hart: Wenn deine App im Kern aussieht wie hundert andere (generischer Quiz-Klon, Wrapper um eine API, White-Label-Template), lehnt Apple ab, unabhängig von der Code-Qualität. Dein Schutz: sichtbare Eigenleistung (eigenes Design, eigene Inhalte, eigene Nische) VOR dem Einreichen, nicht als Reaktion auf die Ablehnung.",
       "extendedNotes": [
-        "Erst-Einreichung dauert manchmal länger (bis zu einer Woche), Updates gehen danach schneller. Nicht direkt vor Feiertagen (Weihnachten: Review-Pause!) oder einem harten Launch-Termin einreichen — 1 Woche Puffer.",
+        "Erst-Einreichung dauert manchmal länger (bis zu einer Woche), Updates gehen danach schneller. Nicht direkt vor Feiertagen (Weihnachten: Review-Pause!) oder einem harten Launch-Termin einreichen, 1 Woche Puffer.",
         "Expedited Review existiert: Bei kritischen Bugs im Live-Betrieb kannst du eine beschleunigte Prüfung beantragen (App Store Connect → Contact Us). Sparsam einsetzen, wird aber real gewährt.",
-        "Phased Release aktivieren: Updates rollen über 7 Tage an einen wachsenden Nutzer-Anteil aus — dein Sicherheitsnetz gegen einen Crash-Bug, der alle Nutzer gleichzeitig trifft (für das Erst-Release irrelevant, ab Update 1 Standard).",
-        "Wenn du zweimal am selben Punkt abgelehnt wirst und die Begründung für falsch hältst: App Review Board Appeal (formeller Einspruch) — höflich, mit Guideline-Zitaten argumentieren. Erfolgsquote ist ordentlich, wenn du sachlich belegst."
+        "Phased Release aktivieren: Updates rollen über 7 Tage an einen wachsenden Nutzer-Anteil aus, dein Sicherheitsnetz gegen einen Crash-Bug, der alle Nutzer gleichzeitig trifft (für das Erst-Release irrelevant, ab Update 1 Standard).",
+        "Wenn du zweimal am selben Punkt abgelehnt wirst und die Begründung für falsch hältst: App Review Board Appeal (formeller Einspruch), höflich, mit Guideline-Zitaten argumentieren. Erfolgsquote ist ordentlich, wenn du sachlich belegst."
       ]
     },
     "play-review": {
-      "description": "Bei Google läuft der Release über Tracks: Closed Testing (hast du schon) → optional Open Testing → Production. Beim Personal-Account stellst du nach den 14 Test-Tagen den Production-Access-Antrag (Fragen zur App + zum Test wahrheitsgemäß beantworten), dann kannst du den Production-Release anlegen. Googles Review ist stärker automatisiert als Apples (Malware-Scan, Policy-Checks, Data-Safety-Abgleich), dauert bei neuen Entwicklern aber ebenfalls Stunden bis mehrere Tage — plane bis zu 7 Tage ein. Der wichtigste Unterschied zu Apple: Nutze den GESTAFFELTEN Rollout (Staged Rollout) — starte Production bei 10–20 %, beobachte Crashes/Vitals 1–2 Tage, dann auf 50 % und 100 % hochdrehen. Ein Vollausfall bei 10 % Rollout ist ein Ärgernis; bei 100 % ist er ein Bewertungs-Massaker.",
+      "description": "Bei Google läuft der Release über Tracks: Closed Testing (hast du schon) → optional Open Testing → Production. Beim Personal-Account stellst du nach den 14 Test-Tagen den Production-Access-Antrag (Fragen zur App + zum Test wahrheitsgemäß beantworten), dann kannst du den Production-Release anlegen. Googles Review ist stärker automatisiert als Apples (Malware-Scan, Policy-Checks, Data-Safety-Abgleich), dauert bei neuen Entwicklern aber ebenfalls Stunden bis mehrere Tage, plane bis zu 7 Tage ein. Der wichtigste Unterschied zu Apple: Nutze den GESTAFFELTEN Rollout (Staged Rollout), starte Production bei 10-20 %, beobachte Crashes/Vitals 1-2 Tage, dann auf 50 % und 100 % hochdrehen. Ein Vollausfall bei 10 % Rollout ist ein Ärgernis; bei 100 % ist er ein Bewertungs-Massaker.",
       "checklist": [
-        "App-Bundle (.aab — Play akzeptiert kein reines APK mehr) in den Production-Track hochladen",
+        "App-Bundle (.aab, Play akzeptiert kein reines APK mehr) in den Production-Track hochladen",
         "Bei Personal-Account: Production-Access beantragen (nach 14 Tagen Closed Test mit 12+ aktiven Testern)",
         "Alle Konsolen-Checkboxen grün: Store-Eintrag, Data Safety, Content-Rating, Zielgruppe, Preise & Länder",
-        "Länder-Auswahl treffen (Start: DACH oder direkt weltweit — weltweit kostet nichts extra)",
+        "Länder-Auswahl treffen (Start: DACH oder direkt weltweit, weltweit kostet nichts extra)",
         "Release-Notes schreiben (werden öffentlich angezeigt)",
-        "Staged Rollout auf 10–20 % setzen, NICHT 100 %",
-        "Android Vitals (Crash-Rate, ANR-Rate) täglich checken — Googles Ranking bestraft schlechte Vitals direkt",
-        "Nach 24–48h ohne Auffälligkeiten: Rollout auf 50 %, dann 100 %",
-        "Bei Policy-Ablehnung: E-Mail + Konsole nennen die verletzte Policy — fixen, neu einreichen; bei Fehlentscheidung Appeal-Formular nutzen"
+        "Staged Rollout auf 10-20 % setzen, NICHT 100 %",
+        "Android Vitals (Crash-Rate, ANR-Rate) täglich checken, Googles Ranking bestraft schlechte Vitals direkt",
+        "Nach 24-48h ohne Auffälligkeiten: Rollout auf 50 %, dann 100 %",
+        "Bei Policy-Ablehnung: E-Mail + Konsole nennen die verletzte Policy, fixen, neu einreichen; bei Fehlentscheidung Appeal-Formular nutzen"
       ],
       "fields": [
         { "name": "rollout_stufe", "label": "Aktuelle Rollout-Stufe (%)" },
@@ -14342,25 +14347,25 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Android Vitals (Hilfe)", "url": "https://support.google.com/googleplay/android-developer/answer/9844486" },
         { "label": "Play: Appeal-Formular bei Ablehnungen", "url": "https://support.google.com/googleplay/android-developer/answer/2477981" }
       ],
-      "warning": "Google verteilt Policy-Strikes aufs KONTO, nicht nur auf die App — wiederholte Verstöße (auch aus Schlamperei: falsche Data-Safety-Angaben, Rating-Fragebogen geschönt) können zur Sperrung des gesamten Developer-Accounts führen, inklusive Verbot, je wieder einen zu eröffnen. Lieber eine Angabe zu konservativ als eine zu optimistisch.",
+      "warning": "Google verteilt Policy-Strikes aufs KONTO, nicht nur auf die App, wiederholte Verstöße (auch aus Schlamperei: falsche Data-Safety-Angaben, Rating-Fragebogen geschönt) können zur Sperrung des gesamten Developer-Accounts führen, inklusive Verbot, je wieder einen zu eröffnen. Lieber eine Angabe zu konservativ als eine zu optimistisch.",
       "extendedNotes": [
         "Android Vitals sind ein direkter Ranking-Faktor: Crash-Rate über ~1,09 % oder ANR über ~0,47 % (Googles \"bad behavior\"-Schwellen) drückt deine Sichtbarkeit spürbar. Das ist der harte Grund für den Staged Rollout.",
-        "Der Production-Access-Fragebogen fragt u.a., was du aus dem Closed Test gelernt hast — antworte konkret (gefundene Bugs, gefixte Punkte). Generische Antworten (\"alles gut\") führen zu Ablehnungen des Antrags.",
-        "Update-Strategie Play: kleinere Updates kannst du komplett automatisiert ausrollen; Play unterstützt zudem In-App-Updates (Nutzer updaten ohne Store-Besuch) — für später, wenn kritische Fixes schnell verteilt werden müssen."
+        "Der Production-Access-Fragebogen fragt u.a., was du aus dem Closed Test gelernt hast, antworte konkret (gefundene Bugs, gefixte Punkte). Generische Antworten (\"alles gut\") führen zu Ablehnungen des Antrags.",
+        "Update-Strategie Play: kleinere Updates kannst du komplett automatisiert ausrollen; Play unterstützt zudem In-App-Updates (Nutzer updaten ohne Store-Besuch), für später, wenn kritische Fixes schnell verteilt werden müssen."
       ]
     },
     "aso-launch": {
-      "description": "Launch-Tag: Beide Apps live schalten (Apple: manueller Release; Google: Rollout hochdrehen). Aber \"live\" ist nicht \"gefunden\" — jetzt beginnt ASO als Dauerdisziplin. Die Ranking-Faktoren: Keywords in den Metadaten (hast du gesetzt), Download-Velocity (Downloads pro Tag — deshalb Launch-Push!), Bewertungs-Anzahl und -Schnitt, Retention/Engagement. Dein Launch-Plan: Warteliste/Beta-Tester aktivieren, in deinen Zielgruppen-Communities posten (mit Kontext, nicht als Spam), 2–3 Nischen-Presse/Newsletter/YouTuber anschreiben (Promo-Codes!), optional Product Hunt. In der App: Rating-Prompt an den richtigen Moment hängen — direkt nach einem Erfolgs-Erlebnis (Ziel erreicht, Export fertig), NIE beim App-Start. Die native In-App-Review-API (Apple SKStoreReviewController / Google In-App-Review) zeigt das System-Popup, ohne dass Nutzer die App verlassen — das verzehnfacht Bewertungsraten gegenüber \"Bewerte uns im Store\"-Links.",
+      "description": "Launch-Tag: Beide Apps live schalten (Apple: manueller Release; Google: Rollout hochdrehen). Aber \"live\" ist nicht \"gefunden\", jetzt beginnt ASO als Dauerdisziplin. Die Ranking-Faktoren: Keywords in den Metadaten (hast du gesetzt), Download-Velocity (Downloads pro Tag, deshalb Launch-Push!), Bewertungs-Anzahl und -Schnitt, Retention/Engagement. Dein Launch-Plan: Warteliste/Beta-Tester aktivieren, in deinen Zielgruppen-Communities posten (mit Kontext, nicht als Spam), 2-3 Nischen-Presse/Newsletter/YouTuber anschreiben (Promo-Codes!), optional Product Hunt. In der App: Rating-Prompt an den richtigen Moment hängen, direkt nach einem Erfolgs-Erlebnis (Ziel erreicht, Export fertig), NIE beim App-Start. Die native In-App-Review-API (Apple SKStoreReviewController / Google In-App-Review) zeigt das System-Popup, ohne dass Nutzer die App verlassen, das verzehnfacht Bewertungsraten gegenüber \"Bewerte uns im Store\"-Links.",
       "checklist": [
         "Launch-Tag koordinieren: Apple-Release manuell freigeben + Play-Rollout hochdrehen am selben Tag",
         "Beta-Tester + Warteliste anschreiben: \"Wir sind live\" + direkte Store-Links + Bitte um ehrliche Bewertung",
         "Rating-Prompt im Code an Erfolgs-Momente hängen (native In-App-Review-API beider Plattformen)",
-        "3–5 Community-Posts in echten Zielgruppen-Foren (Reddit/Discord/Facebook-Gruppen) — als Mitglied mit Story, nicht als Werbung",
+        "3-5 Community-Posts in echten Zielgruppen-Foren (Reddit/Discord/Facebook-Gruppen), als Mitglied mit Story, nicht als Werbung",
         "Nischen-Multiplikatoren anschreiben (Newsletter, YouTuber, Blogs) mit Promo-Codes (Apple: 100/Version) + Presse-Kit (Screenshots, Kurztext, Icon)",
         "Eigene Landing-Page mit Smart-Banner + Store-Badges live (Apple/Google-Badge-Richtlinien beachten)",
-        "Keyword-Rankings tracken (AppFigures/Astro/App Radar — Free-Tiers reichen anfangs)",
-        "Nach 2–4 Wochen: erste ASO-Iteration — schwache Keywords austauschen, Screenshots testen (Play: Store-Listing-Experimente)",
-        "Auf jede Bewertung antworten (beide Stores) — sichtbar für alle, hebt Conversion und manchmal die Bewertung selbst"
+        "Keyword-Rankings tracken (AppFigures/Astro/App Radar, Free-Tiers reichen anfangs)",
+        "Nach 2-4 Wochen: erste ASO-Iteration, schwache Keywords austauschen, Screenshots testen (Play: Store-Listing-Experimente)",
+        "Auf jede Bewertung antworten (beide Stores), sichtbar für alle, hebt Conversion und manchmal die Bewertung selbst"
       ],
       "fields": [
         { "name": "launch_datum", "label": "Launch-Datum" },
@@ -14373,22 +14378,22 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Google Play Badge-Generator", "url": "https://play.google.com/intl/de_de/badges/" },
         { "label": "Product Hunt", "url": "https://www.producthunt.com/" }
       ],
-      "warning": "Kauf niemals Bewertungen oder Downloads (Fiverr-\"ASO-Boosts\", Review-Tausch-Gruppen): Beide Stores erkennen die Muster gut, und die Strafe ist Delisting bis Konto-Bann — dein 25-$-Boost kann das ganze Projekt kosten. Incentivierte Bewertungen (\"Bewerte für Premium\") sind ebenfalls verboten.",
+      "warning": "Kauf niemals Bewertungen oder Downloads (Fiverr-\"ASO-Boosts\", Review-Tausch-Gruppen): Beide Stores erkennen die Muster gut, und die Strafe ist Delisting bis Konto-Bann, dein 25-$-Boost kann das ganze Projekt kosten. Incentivierte Bewertungen (\"Bewerte für Premium\") sind ebenfalls verboten.",
       "extendedNotes": [
-        "Realistische Erwartung: Ohne Bestands-Audience sind 10–50 Downloads/Tag in Woche 1 normal und okay. ASO ist Compound-Interest — Rankings bauen sich über Wochen auf, getrieben von Retention und Bewertungen, nicht vom Launch-Tag.",
+        "Realistische Erwartung: Ohne Bestands-Audience sind 10-50 Downloads/Tag in Woche 1 normal und okay. ASO ist Compound-Interest, Rankings bauen sich über Wochen auf, getrieben von Retention und Bewertungen, nicht vom Launch-Tag.",
         "Der stärkste organische Kanal 2026 für Consumer-Apps ist TikTok/Reels/Shorts: 3 Kurzvideos pro Woche, die das PROBLEM zeigen (nicht die App-Features), schlagen jedes ASO-Tool. App-Demos mit Screen-Recording + Hook in den ersten 2 Sekunden.",
-        "Apple Search Ads als Gaspedal: Search-Results-Kampagne auf deine eigenen Brand-Keywords + engste Nischen-Keywords ab ~5–10 €/Tag liefert Daten, welche Keywords wirklich konvertieren — diese Erkenntnisse fließen zurück in deine organischen Metadaten.",
+        "Apple Search Ads als Gaspedal: Search-Results-Kampagne auf deine eigenen Brand-Keywords + engste Nischen-Keywords ab ~5-10 €/Tag liefert Daten, welche Keywords wirklich konvertieren, diese Erkenntnisse fließen zurück in deine organischen Metadaten.",
         "Featuring ist bewerbbar: Apple hat ein offizielles Featuring-Formular (App Store → \"Get featured\"). Chancen steigen mit gutem Design, In-App-Events und Nutzung neuer Apple-Features (Widgets, Live Activities)."
       ]
     },
     "analytics-updates": {
-      "description": "Nach dem Launch beginnt die eigentliche Arbeit: messen, fixen, verbessern — in einem festen Rhythmus. Dein Minimal-Stack: Crash-Monitoring (Firebase Crashlytics oder Sentry — Crashes sind Ranking-Gift), Produkt-Analytics (Firebase Analytics kostenlos, TelemetryDeck als privacy-freundliche EU-Alternative ohne Consent-Bedarf, PostHog/Mixpanel für Funnels), Abo-Analytics (hat RevenueCat eingebaut: Trial-Conversion, Churn, LTV). Die 5 Kennzahlen, die zählen: Day-1/Day-7/Day-30-Retention, Trial-zu-Paid-Conversion, Crash-freie Sessions (Ziel: >99,5 %), Bewertungs-Schnitt, Umsatz/MRR. Update-Rhythmus: alle 2–4 Wochen ein Release — die Stores werten aktive Pflege positiv, Nutzer sehen Lebenszeichen, und du bleibst mit den jährlichen OS-Releases (iOS im September!) kompatibel. Apples jährliche Deadline nicht vergessen: Neue Builds müssen mit aktuellem SDK gebaut sein — ein technisch totes Jahr kann dich das Listing kosten (Apps ohne Updates + ohne Downloads werden ausgelistet).",
+      "description": "Nach dem Launch beginnt die eigentliche Arbeit: messen, fixen, verbessern, in einem festen Rhythmus. Dein Minimal-Stack: Crash-Monitoring (Firebase Crashlytics oder Sentry, Crashes sind Ranking-Gift), Produkt-Analytics (Firebase Analytics kostenlos, TelemetryDeck als privacy-freundliche EU-Alternative ohne Consent-Bedarf, PostHog/Mixpanel für Funnels), Abo-Analytics (hat RevenueCat eingebaut: Trial-Conversion, Churn, LTV). Die 5 Kennzahlen, die zählen: Day-1/Day-7/Day-30-Retention, Trial-zu-Paid-Conversion, Crash-freie Sessions (Ziel: >99,5 %), Bewertungs-Schnitt, Umsatz/MRR. Update-Rhythmus: alle 2-4 Wochen ein Release, die Stores werten aktive Pflege positiv, Nutzer sehen Lebenszeichen, und du bleibst mit den jährlichen OS-Releases (iOS im September!) kompatibel. Apples jährliche Deadline nicht vergessen: Neue Builds müssen mit aktuellem SDK gebaut sein, ein technisch totes Jahr kann dich das Listing kosten (Apps ohne Updates + ohne Downloads werden ausgelistet).",
       "checklist": [
         "Crashlytics/Sentry-Alerts einrichten (E-Mail/Discord bei neuen Crash-Clustern)",
-        "Analytics-Events für den Kern-Flow definieren: Onboarding-Steps, Kern-Aktion, Paywall-View, Kauf (max. 10–15 Events, mehr schaust du nie an)",
+        "Analytics-Events für den Kern-Flow definieren: Onboarding-Steps, Kern-Aktion, Paywall-View, Kauf (max. 10-15 Events, mehr schaust du nie an)",
         "KPI-Dashboard bauen/nutzen: Retention D1/D7/D30, Trial-Conversion, Crash-Free-Rate, MRR (RevenueCat-Dashboard reicht anfangs)",
-        "Feedback-Kanal in der App (Einstellungen → \"Feedback senden\" → E-Mail/Formular) — fängt Frust ab, bevor er zur 1-Stern-Bewertung wird",
-        "Update-Kadenz festlegen (alle 2–4 Wochen) + Release-Checkliste wiederverwenden",
+        "Feedback-Kanal in der App (Einstellungen → \"Feedback senden\" → E-Mail/Formular), fängt Frust ab, bevor er zur 1-Stern-Bewertung wird",
+        "Update-Kadenz festlegen (alle 2-4 Wochen) + Release-Checkliste wiederverwenden",
         "iOS-/Android-Major-Releases (Sept/Herbst) im Kalender: Beta-SDKs früh testen, Kompatibilitäts-Update bereithalten",
         "Onboarding-Funnel nach 2 Wochen Daten analysieren: Wo ist der größte Drop? → das ist dein nächstes Update",
         "v1.1-Features aus Beta-Feedback + Bewertungs-Kommentaren priorisieren (was 3× genannt wird, wird gebaut)"
@@ -14403,25 +14408,25 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "PostHog (Produkt-Analytics, Free-Tier)", "url": "https://posthog.com/" },
         { "label": "RevenueCat Charts (Abo-KPIs)", "url": "https://www.revenuecat.com/docs/dashboard-and-metrics/charts" }
       ],
-      "warning": "Analytics-Falle Nr. 1: 40 Events tracken und keins anschauen. Definiere VOR dem Einbau die eine Frage pro Event (\"Wie viele Onboarding-Starter erreichen die Kern-Aktion?\") — ein Event ohne Frage dahinter ist Datenmüll und bläht nur deine Datenschutzerklärung auf.",
+      "warning": "Analytics-Falle Nr. 1: 40 Events tracken und keins anschauen. Definiere VOR dem Einbau die eine Frage pro Event (\"Wie viele Onboarding-Starter erreichen die Kern-Aktion?\"), ein Event ohne Frage dahinter ist Datenmüll und bläht nur deine Datenschutzerklärung auf.",
       "extendedNotes": [
-        "Benchmark-Orientierung (Consumer-Apps): D1-Retention ~25 %, D7 ~10 %, D30 ~4 % sind DURCHSCHNITT — liegst du deutlich drüber, hast du Product-Market-Fit-Signal und solltest auf Wachstum schalten; deutlich drunter → Onboarding/Kern-Nutzen fixen, kein Marketing-Geld verbrennen.",
-        "TelemetryDeck-Vorteil für DE-Gründer: anonymisiert by design, EU-gehostet, kein Consent-Banner nötig, faire Preise — für viele Indie-Apps die sauberste Wahl gegenüber Firebase (US-Datenflüsse + ATT-Graubereich).",
-        "Bewertungs-Kommentare sind deine kostenlose Produkt-Roadmap: Exportiere sie monatlich (AppFigures kann das) und cluster sie — die drei häufigsten Wünsche sind deine nächsten drei Releases."
+        "Benchmark-Orientierung (Consumer-Apps): D1-Retention ~25 %, D7 ~10 %, D30 ~4 % sind DURCHSCHNITT, liegst du deutlich drüber, hast du Product-Market-Fit-Signal und solltest auf Wachstum schalten; deutlich drunter → Onboarding/Kern-Nutzen fixen, kein Marketing-Geld verbrennen.",
+        "TelemetryDeck-Vorteil für DE-Gründer: anonymisiert by design, EU-gehostet, kein Consent-Banner nötig, faire Preise, für viele Indie-Apps die sauberste Wahl gegenüber Firebase (US-Datenflüsse + ATT-Graubereich).",
+        "Bewertungs-Kommentare sind deine kostenlose Produkt-Roadmap: Exportiere sie monatlich (AppFigures kann das) und cluster sie, die drei häufigsten Wünsche sind deine nächsten drei Releases."
       ]
     },
     "steuern-buchhaltung": {
-      "description": "Die Abrechnung mit Apple/Google verwirrt jeden Steuerberater, der es zum ersten Mal sieht — so ist es richtig: Bei In-App-Käufen/Abos trittst nicht DU als Verkäufer gegenüber dem Endkunden auf, sondern Apple (Apple Distribution International Ltd., Irland) bzw. Google (Google Commerce Ltd., Irland) als Kommissionär/Eigenhändler. Die Stores berechnen und ABFÜHREN die Umsatzsteuer auf den Endkundenpreis in den jeweiligen Ländern selbst. DEINE Leistung ist eine sonstige Leistung an das irische Apple/Google-Unternehmen (B2B, Empfängerort-Prinzip §3a Abs. 2 UStG) → in Deutschland NICHT steuerbar, Reverse Charge: Du stellst keine USt in Rechnung, meldest die Umsätze aber in der USt-Voranmeldung (nicht steuerbare sonstige Leistungen, Kennziffer 21 / §18b) UND in der Zusammenfassenden Meldung (ZM) mit der USt-IdNr. des Stores. Dafür brauchst du zwingend eine eigene USt-IdNr. — auch als Kleinunternehmer! Die monatlichen Auszahlungs-Reports (App Store Connect \"Payments and Financial Reports\", Play \"Umsatzberichte\") sind deine Buchungsgrundlage: Auszahlung = Endkunden-Umsatz minus Store-Provision minus ggf. einbehaltene Steuern.",
+      "description": "Die Abrechnung mit Apple/Google verwirrt jeden Steuerberater, der es zum ersten Mal sieht, so ist es richtig: Bei In-App-Käufen/Abos trittst nicht DU als Verkäufer gegenüber dem Endkunden auf, sondern Apple (Apple Distribution International Ltd., Irland) bzw. Google (Google Commerce Ltd., Irland) als Kommissionär/Eigenhändler. Die Stores berechnen und ABFÜHREN die Umsatzsteuer auf den Endkundenpreis in den jeweiligen Ländern selbst. DEINE Leistung ist eine sonstige Leistung an das irische Apple/Google-Unternehmen (B2B, Empfängerort-Prinzip §3a Abs. 2 UStG) → in Deutschland NICHT steuerbar, Reverse Charge: Du stellst keine USt in Rechnung, meldest die Umsätze aber in der USt-Voranmeldung (nicht steuerbare sonstige Leistungen, Kennziffer 21 / §18b) UND in der Zusammenfassenden Meldung (ZM) mit der USt-IdNr. des Stores. Dafür brauchst du zwingend eine eigene USt-IdNr., auch als Kleinunternehmer! Die monatlichen Auszahlungs-Reports (App Store Connect \"Payments and Financial Reports\", Play \"Umsatzberichte\") sind deine Buchungsgrundlage: Auszahlung = Endkunden-Umsatz minus Store-Provision minus ggf. einbehaltene Steuern.",
       "checklist": [
-        "USt-IdNr. beantragen, falls noch nicht vorhanden (beim BZSt, kostenlos — auch als Kleinunternehmer nötig für die B2B-Leistungen an Irland)",
+        "USt-IdNr. beantragen, falls noch nicht vorhanden (beim BZSt, kostenlos, auch als Kleinunternehmer nötig für die B2B-Leistungen an Irland)",
         "Steuerformulare in beiden Konsolen vollständig: Apple (W-8BEN/W-8BEN-E + irische USt-Abfrage), Google Payments-Steuerinfo",
-        "Monatliche Financial Reports herunterladen und archivieren (GoBD: 10 Jahre) — App Store Connect + Play Console",
-        "Buchungslogik mit StB festlegen: Erlöse als nicht steuerbare sonstige Leistung EU-B2B (SKR03: z.B. 8336 / SKR04: 4336 — Konto mit StB abstimmen)",
+        "Monatliche Financial Reports herunterladen und archivieren (GoBD: 10 Jahre), App Store Connect + Play Console",
+        "Buchungslogik mit StB festlegen: Erlöse als nicht steuerbare sonstige Leistung EU-B2B (SKR03: z.B. 8336 / SKR04: 4336, Konto mit StB abstimmen)",
         "USt-VA: Umsätze an Apple/Google in Zeile \"nicht steuerbare sonstige Leistungen §18b\" melden",
         "Zusammenfassende Meldung (ZM) quartalsweise/monatlich mit den USt-IdNrn. von Apple Distribution International + Google Commerce Ltd. abgeben",
-        "Kleinunternehmer-Check: §19 UStG betrifft nur Inlandsumsätze — die ZM-/§18b-Pflichten gelten trotzdem; mit StB klären, ob §19 für dich überhaupt noch sinnvoll ist",
-        "Auszahlungs-Konten abstimmen: Auszahlung kommt 30–45 Tage versetzt (Apple: bis ~45 Tage nach Monatsende, Schwelle min. Auszahlungsbetrag beachten)",
-        "Apple-/Google-Gebühren (99 $/Jahr, 25 $) als Betriebsausgabe buchen — die 99 $ von Apple kommen ebenfalls als Reverse-Charge-Leistung aus Irland (§13b: USt anmelden + als Vorsteuer ziehen)"
+        "Kleinunternehmer-Check: §19 UStG betrifft nur Inlandsumsätze, die ZM-/§18b-Pflichten gelten trotzdem; mit StB klären, ob §19 für dich überhaupt noch sinnvoll ist",
+        "Auszahlungs-Konten abstimmen: Auszahlung kommt 30-45 Tage versetzt (Apple: bis ~45 Tage nach Monatsende, Schwelle min. Auszahlungsbetrag beachten)",
+        "Apple-/Google-Gebühren (99 $/Jahr, 25 $) als Betriebsausgabe buchen, die 99 $ von Apple kommen ebenfalls als Reverse-Charge-Leistung aus Irland (§13b: USt anmelden + als Vorsteuer ziehen)"
       ],
       "fields": [
         { "name": "ustid", "label": "Eigene USt-IdNr. vorhanden? (DE…)" },
@@ -14434,12 +14439,12 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "Google Play: Steuern & Compliance (Hilfe)", "url": "https://support.google.com/googleplay/android-developer/answer/10532353" },
         { "label": "BZSt: Zusammenfassende Meldung", "url": "https://www.bzst.de/DE/Unternehmen/Umsatzsteuer/ZusammenfassendeMeldung/zusammenfassendemeldung_node.html" }
       ],
-      "warning": "Der klassische Anfänger-Fehler: die monatliche Store-Auszahlung einfach als \"Umsatz 19 % USt\" buchen. Damit zahlst du USt doppelt (die Stores haben sie beim Endkunden schon abgeführt) und deine ZM fehlt trotzdem — das fällt bei der ersten USt-Sonderprüfung auf. Einmal sauber mit dem StB aufsetzen (dieser Guide-Schritt als Briefing), danach läuft es mechanisch.",
+      "warning": "Der klassische Anfänger-Fehler: die monatliche Store-Auszahlung einfach als \"Umsatz 19 % USt\" buchen. Damit zahlst du USt doppelt (die Stores haben sie beim Endkunden schon abgeführt) und deine ZM fehlt trotzdem, das fällt bei der ersten USt-Sonderprüfung auf. Einmal sauber mit dem StB aufsetzen (dieser Guide-Schritt als Briefing), danach läuft es mechanisch.",
       "extendedNotes": [
-        "Einnahmen aus WERBUNG (AdMob) laufen anders: Auch das ist eine B2B-Leistung an Google Irland (Reverse Charge/ZM), aber hier gibt es keinen Endkunden-USt-Layer — die AdMob-Gutschrift ist dein voller Erlös.",
+        "Einnahmen aus WERBUNG (AdMob) laufen anders: Auch das ist eine B2B-Leistung an Google Irland (Reverse Charge/ZM), aber hier gibt es keinen Endkunden-USt-Layer, die AdMob-Gutschrift ist dein voller Erlös.",
         "Apple zahlt in EUR aufs deutsche Konto (Währung in App Store Connect einstellbar); Google via Google Payments ebenfalls. Wechselkurs-Differenzen zwischen Report und Auszahlung sind normal → als Kursgewinn/-verlust buchen.",
-        "Gewinn-Realität fürs Forecasting: Von 9,99 € Endkundenpreis in DE bleiben nach USt (÷1,19) und 15 % Small-Business-Cut rund 7,14 € vor deinen Kosten und Ertragsteuern. Diese Zahl — nicht der Store-Preis — gehört in deine LTV/CAC-Rechnung.",
-        "Wenn die App in einer GmbH/UG liegt: gleiche USt-Logik, plus KSt/GewSt auf den Gewinn. Die App-IP in einer Holding/IP-Struktur zu parken lohnt erst bei relevanten Gewinnen — siehe Holding-Guide."
+        "Gewinn-Realität fürs Forecasting: Von 9,99 € Endkundenpreis in DE bleiben nach USt (÷1,19) und 15 % Small-Business-Cut rund 7,14 € vor deinen Kosten und Ertragsteuern. Diese Zahl, nicht der Store-Preis, gehört in deine LTV/CAC-Rechnung.",
+        "Wenn die App in einer GmbH/UG liegt: gleiche USt-Logik, plus KSt/GewSt auf den Gewinn. Die App-IP in einer Holding/IP-Struktur zu parken lohnt erst bei relevanten Gewinnen, siehe Holding-Guide."
       ]
     }
   },
@@ -14460,15 +14465,15 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       "checklist": [
         "Personalausweis bereithalten",
         "Tätigkeit z. B. „Online-Handel mit … sowie Erbringung von Werbe- und Affiliate-Leistungen über soziale Medien“",
-        "Beginn-Datum realistisch angeben – ab da läuft die Monatsfrist für den Fragebogen"
+        "Beginn-Datum realistisch angeben, ab da läuft die Monatsfrist für den Fragebogen"
       ],
-      "warning": "Eine zu enge Tätigkeitsbeschreibung (nur „Influencer“) deckt eigenen Warenverkauf nicht ab – dann ist eine Ummeldung nötig."
+      "warning": "Eine zu enge Tätigkeitsbeschreibung (nur „Influencer“) deckt eigenen Warenverkauf nicht ab, dann ist eine Ummeldung nötig."
     },
     "fragebogen": {
       "checklist": [
         "ELSTER-Konto (Zertifikat kommt per Post, Vorlauf einplanen)",
         "Fragebogen zur steuerlichen Erfassung für Einzelunternehmen ausfüllen",
-        "Umsatzschätzung für dieses und nächstes Jahr – sie entscheidet über Kleinunternehmer und Voranmeldungs-Rhythmus",
+        "Umsatzschätzung für dieses und nächstes Jahr, sie entscheidet über Kleinunternehmer und Voranmeldungs-Rhythmus",
         "Registrierungsweg wählen: ohne Handelsregister als gewerbliche:r Verkäufer:in (Steuernummer reicht), als e.K. oder GbR zusätzlich USt-IdNr beim BZSt beantragen"
       ],
       "externalLinks": [
@@ -14476,10 +14481,10 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "BZSt: USt-IdNr beantragen", "url": "https://www.bzst.de/DE/Unternehmen/Identifikationsnummern/Umsatzsteuer-Identifikationsnummer/umsatzsteuer-identifikationsnummer_node.html" },
         { "label": "TikTok Seller University: Registrierung als Einzelunternehmer", "url": "https://seller-de.tiktok.com/university/essay?knowledge_id=6339509542340373&lang=de-DE" }
       ],
-      "warning": "TikTok versteht unter „Einzelunternehmer“ nur im Handelsregister eingetragene Kaufleute (e.K.) – mit normalem Kleingewerbe wählst du „gewerbliche:r Verkäufer:in“."
+      "warning": "TikTok versteht unter „Einzelunternehmer“ nur im Handelsregister eingetragene Kaufleute (e.K.), mit normalem Kleingewerbe wählst du „gewerbliche:r Verkäufer:in“."
     },
     "kleinunternehmer": {
-      "description": "Kleinunternehmer (§ 19 UStG) bist du, wenn dein Umsatz im Vorjahr höchstens 25.000 € betrug und im laufenden Jahr 100.000 € nicht übersteigt – im ersten Jahr zählt die 25.000-€-Grenze. Vorteil: keine Umsatzsteuer, keine Voranmeldungen. Nachteil: kein Vorsteuerabzug auf Wareneinkauf, Verpackung und Technik.",
+      "description": "Kleinunternehmer (§ 19 UStG) bist du, wenn dein Umsatz im Vorjahr höchstens 25.000 € betrug und im laufenden Jahr 100.000 € nicht übersteigt, im ersten Jahr zählt die 25.000-€-Grenze. Vorteil: keine Umsatzsteuer, keine Voranmeldungen. Nachteil: kein Vorsteuerabzug auf Wareneinkauf, Verpackung und Technik.",
       "checklist": [
         "Geplanten Jahresumsatz schätzen (inkl. viraler Spitzen)",
         "Vorsteuer aus Wareneinkauf gegenrechnen",
@@ -14496,7 +14501,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ]
     },
     "produktpflichten": {
-      "description": "Für Produkte im TikTok Shop gelten dieselben Pflichten wie in jedem Online-Shop – und zwar vor dem ersten Verkauf.",
+      "description": "Für Produkte im TikTok Shop gelten dieselben Pflichten wie in jedem Online-Shop, und zwar vor dem ersten Verkauf.",
       "checklist": [
         "LUCID: registrieren und Verpackungen bei einem dualen System beteiligen, bevor die erste befüllte Verpackung an Privatkunden geht",
         "Elektrogeräte: Registrierung bei der stiftung ear (WEEE-Nummer) vor dem ersten Angebot",
@@ -14510,14 +14515,14 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         { "label": "stiftung ear", "url": "https://www.stiftung-ear.de" },
         { "label": "Ratgeber: LUCID anmelden", "url": "https://gruenderx.de/ratgeber/lucid-verpackungsregister-anmelden" }
       ],
-      "warning": "Ohne Registrierung dürfen betroffene Produkte nicht angeboten werden – das gilt unabhängig von der Plattform."
+      "warning": "Ohne Registrierung dürfen betroffene Produkte nicht angeboten werden, das gilt unabhängig von der Plattform."
     },
     "seller-center": {
       "description": "Registrierung im TikTok Shop Seller Center mit den Unternehmensdaten aus Gewerbeanmeldung und Fragebogen. Name, Anschrift und Steuernummern müssen exakt übereinstimmen.",
       "checklist": [
         "Gewerbeschein als PDF",
         "Steuernummer (e.K./GbR: plus USt-IdNr; UG/GmbH: Handelsregisternummer)",
-        "Ausweis: Reisepass, Personalausweis oder unbefristeter Aufenthaltstitel – kein Führerschein",
+        "Ausweis: Reisepass, Personalausweis oder unbefristeter Aufenthaltstitel, kein Führerschein",
         "Adressnachweis: z. B. Strom-, Gas-, Wasser-, Handy- oder Internetrechnung",
         "Geschäftskonto (IBAN auf deinen Namen)",
         "Rücksende- und Lageradresse",
@@ -14528,7 +14533,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ]
     },
     "affiliate": {
-      "description": "Creator bewerben deine Produkte gegen Provision – für dich Betriebsausgaben. Bist du selbst Creator, sind deine Provisionen Betriebseinnahmen; Gratis-Samples, die du behältst, zählen mit dem üblichen Endpreis abzüglich üblicher Rabatte.",
+      "description": "Creator bewerben deine Produkte gegen Provision, für dich Betriebsausgaben. Bist du selbst Creator, sind deine Provisionen Betriebseinnahmen; Gratis-Samples, die du behältst, zählen mit dem üblichen Endpreis abzüglich üblicher Rabatte.",
       "checklist": [
         "Provisionssatz je Produkt festlegen und mit der Marge abgleichen",
         "Samples an Creator dokumentieren",
@@ -14541,7 +14546,7 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
       ]
     },
     "meldung-oss": {
-      "description": "Nach dem Plattformen-Steuertransparenzgesetz meldet TikTok Verkäufer an das Bundeszentralamt für Steuern – ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt. Verkaufst du an Privatkunden im EU-Ausland und überschreitest EU-weit 10.000 € im Jahr, gilt die Umsatzsteuer des Ziellands – dann nutzt du das OSS-Verfahren.",
+      "description": "Nach dem Plattformen-Steuertransparenzgesetz meldet TikTok Verkäufer an das Bundeszentralamt für Steuern, ausgenommen ist nur, wer im Jahr weniger als 30 Verkäufe und zusammen weniger als 2.000 € erzielt. Verkaufst du an Privatkunden im EU-Ausland und überschreitest EU-weit 10.000 € im Jahr, gilt die Umsatzsteuer des Ziellands, dann nutzt du das OSS-Verfahren.",
       "externalLinks": [
         { "label": "PStTG § 4", "url": "https://www.gesetze-im-internet.de/psttg/__4.html" },
         { "label": "Ratgeber: OSS-Anmeldung", "url": "https://gruenderx.de/ratgeber/oss-anmeldung" }
@@ -14554,6 +14559,128 @@ export const GUIDE_SECURE: Record<string, Record<string, Record<string, unknown>
         "Erlöse, Gebühren und Provisionen getrennt buchen",
         "Bei Regelbesteuerung: Voranmeldung fristgerecht",
         "Jahresende: Anlage EÜR und Anlage G"
+      ]
+    }
+  },
+  "amex-us-beantragen": {
+    "voraussetzungen-check": {
+      "checklist": [
+        "Prüfen, ob deine deutsche Amex seit mindestens 3 Monaten aktiv und sauber bezahlt ist",
+        "Entscheiden: Erst private US-Amex über Global Transfer (schnellster Start aus Deutschland) oder zusätzlich später US-Business-Amex",
+        "Einstiegskarte festlegen: Oft reicht die US Amex Gold als erster Baustein (4x Punkte auf Restaurants weltweit, 0 % Fremdwährungsgebühr)",
+        "Reisepass griffbereit halten (wird für Bank- und Identitätsprüfung gebraucht)"
+      ],
+      "extendedNotes": [
+        "Stand November 2026: Erst Adresse, Utility-Nachweis, US-Telefonnummer und Bankkonto klären, danach den Antrag stellen.",
+        "Keine Steuer- oder Rechtsberatung: Konditionen, Boni und Prüfregeln der US-Banken und von American Express können sich jederzeit ändern."
+      ]
+    },
+    "us-wohnadresse": {
+      "checklist": [
+        "Echte US-Wohnadresse buchen (z. B. über Cloud Residence, ca. 300 € im Quartal)",
+        "Sicherstellen, dass eine Utility-Rechnung / ein Adressnachweis auf deinen Namen und diese US-Adresse verfügbar ist",
+        "Alternativ: US-Mobilfunkrechnung (z. B. Tello) auf exakt diese US-Adresse ausstellen lassen",
+        "Exakte Schreibweise (Straße, Apartment/Unit, ZIP-Code) überall einheitlich verwenden"
+      ],
+      "warning": "Viele günstige Briefkasten-Adressen sind als CMRA (Commercial Mail Receiving Agency) markiert und führen bei US-Banken oder Amex direkt zu Rückfragen oder Ablehnung.",
+      "extendedNotes": [
+        "Cloud Residence kostet rund 300 € im Quartal und liefert in der Regel auch den passenden Adressnachweis (Utility-Bill).",
+        "Post-Weiterleitung für die physische US-Kreditkarte vorher klären, damit die Karte sicher bei dir in Deutschland ankommt."
+      ]
+    },
+    "us-telefonnummer-tello": {
+      "checklist": [
+        "US-Mobilfunktarif bei Tello mit eSIM auswählen",
+        "US-Adresse aus Schritt 2 als Rechnungsadresse hinterlegen (dient ggf. zusätzlich als Adressnachweis)",
+        "eSIM auf dem Smartphone aktivieren und Wi-Fi Calling einschalten, damit US-Anrufe in Deutschland ankommen",
+        "Testanruf und Test-SMS von einer zweiten Nummer durchführen, bevor du den Amex-Antrag abschickst"
+      ],
+      "warning": "Nutze keine reine VoIP-Nummer: Amex ruft regelmäßig aktiv an und schickt Verifizierungs-SMS. Wenn du den Anruf nicht annehmen kannst, hängt der Antrag.",
+      "externalLinks": [
+        { "label": "Tello (US eSIM)", "url": "https://tello.com" }
+      ],
+      "extendedNotes": [
+        "Bei Tello aktivierst du Wi-Fi Calling (WLAN-Anrufe) auf dem iPhone oder Android-Gerät. So nimmst du US-Anrufe direkt aus Deutschland an."
+      ]
+    },
+    "us-bankkonto": {
+      "description": "Für Rückzahlungen (ACH) und mögliche Bankprüfungen brauchst du als Non-Resident ein US-Bankkonto. Hier gibt es zwei Wege mit klar unterschiedlichem Risiko: Wise ist die schnelle Risiko-Abkürzung, eine echte US-Filialbank wie Chase oder Bank of America der sichere Weg.",
+      "checklist": [
+        "Risiko ehrlich abwägen: Wise USD Account vs. echtes US-Filialbankkonto",
+        "Wenn du den sicheren Weg gehst: Filialtermin bei Chase oder Bank of America in den USA einplanen",
+        "Für den Filialbesuch mitnehmen: gültigen Reisepass (ggf. zweite ID / beglaubigte Kopie), US-Adresse, Utility-Nachweis und Tello-Nummer",
+        "Erste kleine Einzahlung auf das US-Konto buchen, damit das Konto aktiv und mit Routing-/Kontonummer einsatzbereit ist"
+      ],
+      "warning": "Praxis-Warnung zu Wise: Du kannst es mit Wise versuchen. Kommt keine Bankprüfung von Amex, hast du Glück. Kommt jedoch eine Rückfrage bzw. Verifizierung deines US-Bankkontos, scheitert Wise in der Regel und der Antrag ist durch. Auf der sicheren Seite bist du nur mit einer echten US-Filialbank (z. B. Chase oder Bank of America) per Filialbesuch vor Ort.",
+      "extendedNotes": [
+        "Chase und Bank of America eröffnen Konten für Non-Residents grundsätzlich nur mit persönlichem Filialbesuch in den USA und gültigem Reisepass.",
+        "Fintechs ohne eigene Filiale werden von US-Kartenherausgebern bei manuellen Bankprüfungen deutlich häufiger abgelehnt."
+      ]
+    },
+    "cra-und-nachweise": {
+      "description": "US-Kartenanbieter prüfen Identität, Adresse und ggf. Einträge bei US-Auskunfteien (Credit Reporting Agencies / CRA). Halte alle Nachweise konsistent bereit und prüfe aktuelle CRA-Anforderungen direkt vor dem Antrag.",
+      "checklist": [
+        "Reisepass-Scan, Utility-Bill und US-Banknachweis in einem Ordner griffbereit ablegen",
+        "Prüfen, ob Name und US-Adresse in allen Dokumenten zeichengenau übereinstimmen",
+        "Hinweis zu CRA (Credit Reporting Agencies): Anforderungen je nach persönlicher Ausgangslage (mit/ohne ITIN, Global Transfer) vor dem Antrag aktuell prüfen"
+      ],
+      "extendedNotes": [
+        "Ehrlicher Stand-Hinweis: Einzelne CRA-Regeln und interne Prüfkriterien der Auskunfteien (Experian, Equifax, TransUnion) ändern sich laufend. Wir nennen hier bewusst nur die belegten Pflicht-Bausteine und keine pauschale Zusage."
+      ]
+    },
+    "global-transfer-antrag": {
+      "description": "Über Amex Global Transfer nutzt American Express deine bestehende deutsche Amex-Kundenhistorie als Vertrauensbasis für deine erste private US-Amex direkt aus Deutschland heraus.",
+      "checklist": [
+        "Auf americanexpress.com (US-Seite) die gewünschte Einstiegskarte wählen (oft US Amex Gold)",
+        "Im Antragsprozess mit deinem bestehenden deutschen Amex-Login anmelden (Global Card Relationship)",
+        "Deine US-Wohnadresse, deine Tello-US-Telefonnummer und deine US-Bankverbindung (ACH) angeben",
+        "Einkommen realistisch in USD umgerechnet angeben und Antrag absenden"
+      ],
+      "fields": [
+        { "name": "de_amex_seit", "label": "Deutsche Amex aktiv seit (Monat/Jahr)" },
+        { "name": "ziel_karte", "label": "Gewünschte erste US-Karte (z. B. US Amex Gold)" },
+        { "name": "bank_weg", "label": "Gewählter Bankweg (Chase / BoA / Wise-Risiko)" }
+      ],
+      "externalLinks": [
+        { "label": "American Express US: Global Card Relationship", "url": "https://www.americanexpress.com/us/credit-cards/features-benefits/us-newcomers/" }
+      ]
+    },
+    "amex-verifizierungsanruf": {
+      "description": "Nach dem Antrag ruft Amex regelmäßig an oder bittet um Rückruf zur Identitäts- und Adressprüfung. Genau dafür hast du die Tello-eSIM eingerichtet.",
+      "checklist": [
+        "Tello eSIM mit aktiviertem Wi-Fi Calling eingeschaltet lassen",
+        "Reisepass, US-Adresse (inkl. ZIP), Utility-Bill und Daten deiner deutschen Amex beim Telefonat bereithalten",
+        "Rückfragen ruhig und konsistent beantworten (Adresse, bestehende deutsche Karte, Telefonnummer)",
+        "Nach Genehmigung Versand an deine US-Adresse und Weiterleitung bestätigen"
+      ],
+      "extendedNotes": [
+        "Amex will vor allem sicherstellen, dass hinter dem Antrag wirklich du steckst und deine US-Adresse sowie Telefonnummer erreichbar sind."
+      ]
+    },
+    "punkte-strategie-de-us": {
+      "description": "Sobald die private US-Amex aktiv ist, nutzt du die Vorteile direkt im Alltag in Deutschland und auf Reisen.",
+      "checklist": [
+        "US-Karte in Deutschland bei Restaurants einsetzen: 4x Punkte pro Dollar (z. B. US Amex Gold) bei 0 % Fremdwährungsgebühr",
+        "Bis zu zweimal im Jahr deine deutschen Membership-Rewards-Punkte über den Amex-Support in dein US-Punktekonto übertragen (besserer Wechselkurs)",
+        "Vor jeder Einlösung Transferpartner vergleichen: u. a. 1:1 bzw. deutlich bessere Kurse zu Hilton Honors, Avios (British Airways, Iberia, Qatar Airways) und weiteren Premium-Programmen",
+        "Karten-Ausgaben monatlich per US-Bankkonto vollständig ausgleichen, damit keine US-Zinsen anfallen"
+      ],
+      "extendedNotes": [
+        "Rechenbeispiel ohne Garantie: Schon die US Amex Gold ist ein starker Start. Wer über Zeit mehrere US-Karten-Boni sinnvoll kombiniert, kann Größenordnungen um 500.000 Punkte erreichen (je nach Route und Verfügbarkeit grob vier Business-Class-Flüge).",
+        "Keine Steuerberatung: Die steuerliche Behandlung von Punkten bei privater vs. geschäftlicher Nutzung klärst du im Einzelfall mit deinem Steuerberater."
+      ]
+    },
+    "us-business-amex": {
+      "description": "Nach dem privaten Start kommt oft die Frage nach einer US-Business-Amex. Hier gelten strengere Voraussetzungen als bei privaten Global-Transfer-Karten.",
+      "checklist": [
+        "Prüfen, ob deine US-Entity (z. B. US-LLC) samt EIN sauber steht und aktiv Umsätze hat",
+        "Erste 3 bis 6 Monate saubere Zahlungshistorie auf der privaten US-Amex aufbauen",
+        "Prüfen, welche Identifikationsnummer verlangt wird (ITIN/SSN + Personal Guarantee bei Amex Business Cards; reine EIN-only-Alternativen ohne Personal Guarantee sind z. B. Mercury IO oder Ramp)",
+        "Geschäftliche und private Ausgaben sauber trennen (eigene US-Business-Bankverbindung für die LLC)"
+      ],
+      "warning": "US-Business-Karten von Amex verlangen in der Regel eine persönliche Haftung (Personal Guarantee) und passende US-Daten. Wenn du zunächst nur mit einer US-LLC und EIN ohne ITIN starten willst, schau dir parallel unseren US-Kreditkarten-Vergleich (Mercury IO / Ramp) an.",
+      "externalLinks": [
+        { "label": "US-Kreditkarten-Vergleich im Cockpit öffnen", "url": "https://gruenderx.de/cockpit/us-kreditkarten" }
       ]
     }
   }

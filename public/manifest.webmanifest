@@ -1,0 +1,32 @@
+{
+  "name": "GründerX: Lernsystem für Gründung, Website, App & Steuern",
+  "short_name": "GründerX",
+  "description": "Interaktive Schritt-für-Schritt-Guides, Arbeitsfenster, Quizze und Tools für Gründer, Website, App, E-Commerce und US-Amex (12 bis 70 Jahre).",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f6f7f9",
+  "theme_color": "#122b64",
+  "lang": "de-DE",
+  "categories": ["education", "business", "finance", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

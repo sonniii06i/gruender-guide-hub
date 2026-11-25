@@ -56,7 +56,7 @@ const EMPTY: Snap = {
   known: false,
 };
 
-const readCachedSnap = (userId: string): Snap | null => {
+const readCachedSnap = (userId: string, asErrorFallback = true): Snap | null => {
   try {
     const raw = sessionStorage.getItem(`${SNAP_CACHE_KEY}-${userId}`);
     if (!raw) return null;
@@ -66,7 +66,7 @@ const readCachedSnap = (userId: string): Snap | null => {
       isAdmin: !!v.isAdmin,
       hasActiveSub: !!v.hasActiveSub,
       onboardingCompleted: !!v.onboardingCompleted,
-      error: true,
+      error: asErrorFallback,
       known: true,
     };
   } catch {
@@ -196,7 +196,10 @@ const switchUser = (userId: string | null) => {
   store.inflight = null;
   store.retryCount = 0;
   if (store.retryTimer) { clearTimeout(store.retryTimer); store.retryTimer = null; }
-  store.snap = userId ? { ...EMPTY } : { ...EMPTY, loading: false };
+  // Stale-While-Revalidate: bei bekanntem Stand aus dieser Sitzung sofort rendern
+  // statt auf jeder Seite einen Lade-Spinner zu zeigen; DB-Abgleich läuft im Hintergrund.
+  const cached = userId ? readCachedSnap(userId, false) : null;
+  store.snap = userId ? (cached ?? { ...EMPTY }) : { ...EMPTY, loading: false };
   emit();
   if (userId) void loadAccess(userId, false);
 };

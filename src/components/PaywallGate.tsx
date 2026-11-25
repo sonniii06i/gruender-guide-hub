@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAccess } from "@/hooks/useAccess";
+import { isGruenderXIosApp } from "@/lib/iosApp";
 import { Button } from "@/components/ui/button";
 import { stripEmoji } from "@/components/cockpit/kit";
 import { CANCEL_NOTE, PLANS, formatEurCents } from "@/config/pricing";
@@ -43,6 +44,32 @@ export const PaywallGate = ({ children, title = "Premium-Feature" }: { children:
   const monat = PLANS.gruenderx;
   const jahr = PLANS["gruenderx-year"];
   const kicker = stripEmoji(title) || "Premium-Feature";
+
+  // Apple App Store Guideline 3.1.1 (wie bei Arbitragex: in der iOS-App nur Login & Nutzung, keine Kaufwege).
+  if (isGruenderXIosApp()) {
+    return (
+      <div className="container max-w-2xl px-4 py-12">
+        <div className="rounded-2xl border border-border bg-card p-6 text-center shadow-card sm:p-8">
+          <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/5 text-primary">
+            <Lock className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{kicker}</p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-primary">
+            Aktiver GründerX-Zugang erforderlich
+          </h1>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+            Dieser Bereich steht allen Mitgliedern mit aktivem GründerX-Konto offen. In der iOS-App sind keine
+            Käufe oder Abos abschließbar; dein Konto verwaltest du im Web.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="h-11 rounded-xl bg-primary text-primary-foreground">
+              <Link to="/dashboard">Zurück zur Übersicht</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container max-w-4xl px-4 py-10 md:py-14">

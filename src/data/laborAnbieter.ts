@@ -64,7 +64,7 @@ export const LABORE: Labor[] = [
     preise: "CPSR ab 349€ · Standard-Tests 150-500€ · Multi-Test-Pakete 800-3.500€",
     lieferzeit: "Standard 10-15 WT · Mikrobio 5-10 WT · Express 2-3 Tage (+50%)",
     onlinePortal: "Eurofins Apps (Web-Portal, Tracking, Ergebnis-Download)",
-    bekanntheit: "Marktführer DE/EU — Default-Pick für Multi-Test",
+    bekanntheit: "Marktführer DE/EU, Default-Pick für Multi-Test",
     bestFor: ["Cosmetic CPSR All-in-One", "Multi-Vendor-Konsolidierung", "Skalierende Brands"],
     watchouts: [
       "Lieferzeit länger als Boutique-Labore",
@@ -361,7 +361,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "DAS 'Dermatologisch getestet'-Siegel DACH",
     bestFor: ["Skincare-Brand mit 'dermatologisch getestet'-Claim", "Premium-Positionierung mit Siegel"],
     watchouts: [
-      "Siegel-Vergabe kein Test-Surrogat — viele NEMs nutzen es als reines Marketing",
+      "Siegel-Vergabe kein Test-Surrogat, viele NEMs nutzen es als reines Marketing",
       "Öko-Test bewertet Siegel-Qualität gemischt",
       "Nur In-Vivo, keine Mikrobio/Schwermetall-Chemie",
       "Belegt Verträglichkeit, NICHT Wirksamkeit",
@@ -417,7 +417,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Indie-Brand-Entwickler-Hub DACH",
     bestFor: ["D2C-Founder OHNE Rezeptur, der ein Full-Service-Setup will", "Private-Label-Start mit Naturkosmetik"],
     watchouts: [
-      "Kein Labor sondern Entwickler — akkreditierte Prüfungen (z. B. CPSR, Mikrobiologie-Challenge) laufen über externe Partner",
+      "Kein Labor sondern Entwickler, akkreditierte Prüfungen (z. B. CPSR, Mikrobiologie-Challenge) laufen über externe Partner",
       "Lock-in-Risiko bei Rezeptur-Ownership",
     ],
   },
@@ -500,7 +500,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Multi-Kategorie-Mittelständler",
     bestFor: ["Supplement-Brands mit Health-Claim-Strategie", "Multi-Kategorie-Brand (Supplement + Beauty-from-Within)"],
     watchouts: [
-      "Schnelle Akquisitions-getriebene Struktur — Subsidiary-Qualität schwankt",
+      "Schnelle Akquisitions-getriebene Struktur, Subsidiary-Qualität schwankt",
       "Kein eigener Boutique-Charme wie BAV",
     ],
   },
@@ -527,7 +527,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Mykotoxin-Marktführer weltweit",
     bestFor: ["Supplement-Brands mit Pflanzenextrakten (Mariendistel, Kurkuma)", "Bio-Müsli/Granola-Brands", "Tierfutter aus Getreide"],
     watchouts: [
-      "Single-Topic-Lab — kein One-Stop-Shop",
+      "Single-Topic-Lab, kein One-Stop-Shop",
       "Lieferung nach AT (kein DE-Speed-Vorteil)",
     ],
   },
@@ -609,7 +609,7 @@ export const LABORE: Labor[] = [
     lieferzeit: "3-6 Wochen",
     bekanntheit: "OEKO-TEX-Alternative für DACH",
     bestFor: ["DACH-Brands die nicht über Hohenstein wollen", "PFAS-Claim ohne OEKO-TEX-Volldeck"],
-    watchouts: ["Identische OEKO-TEX-Standards wie Hohenstein — Wahl ist Account-getrieben"],
+    watchouts: ["Identische OEKO-TEX-Standards wie Hohenstein, Wahl ist Account-getrieben"],
   },
 
   // ===== TIER-1 GENERALISTEN (NEU) =====
@@ -633,7 +633,7 @@ export const LABORE: Labor[] = [
     ],
     preise: "Range typisch 5-25k€ je Projekt · nicht öffentlich publiziert · UNCLEAR",
     lieferzeit: "Typisch 6-12 Wochen für Komplettzertifizierung",
-    bekanntheit: "Sehr hoch — globaler Marktführer Safety Science",
+    bekanntheit: "Sehr hoch, globaler Marktführer Safety Science",
     bestFor: ["US-Marktzugang (NRTL)", "Globale Multi-Markt-Zertifizierung", "Batterie/IoT/Medical Devices"],
     watchouts: [
       "Premium-Preis",
@@ -720,7 +720,7 @@ export const LABORE: Labor[] = [
     lieferzeit: "Typisch 5-15 Werktage",
     bekanntheit: "Sehr hoch global Food-Sektor",
     bestFor: ["Food/Supplement-Brands DE+EU", "Globales Multi-Country-Setup", "Etikettierungs-Compliance"],
-    watchouts: ["DE-Hauptlabor ist Berlin (NICHT Wesel — wäre Verwechslung)"],
+    watchouts: ["DE-Hauptlabor ist Berlin (NICHT Wesel, wäre Verwechslung)"],
   },
 
   // ===== KOSMETIK-SPEZIALISTEN (NEU) =====
@@ -766,7 +766,7 @@ export const LABORE: Labor[] = [
     testCategories: ["packaging", "food", "petfood", "reach"],
     accreditation: ["ISO 17025 (DAkkS)", "ISO 17065 via ISEGA Cert GmbH (seit 2026 akkreditiert)"],
     specialties: [
-      "Food-Contact-Materials (FCM) — Papier/Karton/Kunststoff",
+      "Food-Contact-Materials (FCM), Papier/Karton/Kunststoff",
       "Migrationstests",
       "BfR-/FDA-Konformität",
       "Hygienezertifizierungen (INOXTREME)",
@@ -776,7 +776,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch bei Verpackungsherstellern (DE-Marktführer Food-Contact)",
     bestFor: ["Lebensmittelverpackungen", "FCM-Konformität EU 10/2011 + BfR", "Papier/Karton-Spezialisten"],
     watchouts: [
-      "Stark spezialisiert — kein Wireless/Elektronik",
+      "Stark spezialisiert, kein Wireless/Elektronik",
       "Zertifizierung seit 2026 über die eigene ISEGA Cert GmbH",
     ],
     topPick: true,
@@ -791,7 +791,7 @@ export const LABORE: Labor[] = [
     establishedSince: "1992",
     tier: "tier1",
     testCategories: ["food", "supplement", "packaging", "pfas", "petfood", "cosmetic"],
-    accreditation: ["ISO 17025 (DAkkS) — nur DE-HQ akkreditiert"],
+    accreditation: ["ISO 17025 (DAkkS), nur DE-HQ akkreditiert"],
     specialties: [
       "PFAS (Reporting-Limit 0,001 µg/kg, Marktführer DE)",
       "Pestizid-Multimethode 'GALAB Pesticides 500Plus'",
@@ -829,7 +829,7 @@ export const LABORE: Labor[] = [
     lieferzeit: "Typisch 5-15 Werktage",
     bekanntheit: "Hoch in DE (Berlin-Niederlassung Mérieux NutriSciences)",
     bestFor: ["Food-Labeling DE/EU", "Compliance + Beratung kombiniert", "Mid-Market-Brands"],
-    watchouts: ["Gehört zu Mérieux NutriSciences (NICHT Tentamus — Tentamus ist Wettbewerber)"],
+    watchouts: ["Gehört zu Mérieux NutriSciences (NICHT Tentamus, Tentamus ist Wettbewerber)"],
   },
   {
     id: "currenta",
@@ -879,7 +879,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch wissenschaftlich",
     bestFor: ["Komplexe Verpackungs-F&E", "Nachhaltige/recyclebare Verpackungen", "Wissenschaftliche Tiefe + Migration"],
     watchouts: [
-      "Forschungsinstitut — nicht 24/7-Routine-Labor wie ISEGA",
+      "Forschungsinstitut, kein rundlaufendes Routine-Labor wie ISEGA",
       "Längere Vorlaufzeiten",
       "Eher für innovative Projekte als für Standard-Compliance",
     ],
@@ -909,7 +909,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch in IoT/Wireless-Sektor",
     bestFor: ["Funk-/IoT-Produkte (CE-RED)", "Cellular-Zertifizierungen", "Bureau-Veritas-Multimarktzugang"],
     watchouts: [
-      "Spezialisierung Funk — nicht Generalist für reine Safety",
+      "Spezialisierung Funk, nicht Generalist für reine Safety",
       "Premium-Pricing",
     ],
     topPick: true,
@@ -962,7 +962,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch Wireless-Standards",
     bestFor: ["Cellular/5G/V2X-Zertifizierung", "Automotive Connectivity", "LoRaWAN"],
     watchouts: [
-      "Standort ES — DE-Brands müssen Logistik/Proben einplanen",
+      "Standort ES, DE-Brands müssen Logistik/Proben einplanen",
       "Sehr fokussiert auf Wireless, nicht Generalist",
     ],
   },
@@ -990,7 +990,7 @@ export const LABORE: Labor[] = [
     bestFor: ["Brands die Eurofins schon für Food/Cosmetics nutzen (One-Vendor)", "Multi-Country-Setup", "Automotive"],
     watchouts: [
       "Akkreditierungsumfang variiert je Standort (Matrix prüfen)",
-      "Eurofins ist Konglomerat — Standort-Qualität nicht immer einheitlich",
+      "Eurofins ist Konglomerat, Standort-Qualität nicht immer einheitlich",
     ],
   },
   {
@@ -1015,7 +1015,7 @@ export const LABORE: Labor[] = [
     bestFor: ["Automotive-EMV-Komponenten", "Medizinprodukte-EMV", "NRW-regionaler Zugriff"],
     watchouts: [
       "Solides regionales Labor, aber kein Tier-1-Allrounder",
-      "Spezialisierung Automotive/Medical-EMV — für D2C-Konsumgüter eher 7layers/Nemko/VDE",
+      "Spezialisierung Automotive/Medical-EMV, für D2C-Konsumgüter eher 7layers/Nemko/VDE",
     ],
   },
 
@@ -1042,7 +1042,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch in DE-Retail/Konsumgüter",
     bestFor: ["Spielzeug-Hersteller", "Textil/Schuh-Brands DE", "Multi-Kategorie-Konsumgüter (One-Stop)"],
     watchouts: [
-      "Seit QIMA-Übernahme einige Umstrukturierungen — Service-Kontinuität prüfen",
+      "Seit QIMA-Übernahme einige Umstrukturierungen, Service-Kontinuität prüfen",
       "Weniger Wireless-Tiefe",
     ],
     topPick: true,
@@ -1069,7 +1069,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch global Footwear/PSA",
     bestFor: ["Schuhe/Footwear-Brands", "PSA-Notifizierung (Sicherheitsschuhe etc.)", "Lederwaren-Tests"],
     watchouts: [
-      "UK-Standort — post-Brexit nicht mehr als EU-Notified-Body nutzbar (für UKCA okay)",
+      "UK-Standort, post-Brexit nicht mehr als EU-Notified-Body nutzbar (für UKCA okay)",
       "Für EU-CE muss EU-Body parallel ran",
     ],
   },
@@ -1097,7 +1097,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch FR/EU Leder+Mode",
     bestFor: ["Leder/Schuh/Mode-Brands EU", "PFAS in Textil/Leder", "Sourcing-Audits Asien"],
     watchouts: [
-      "FR-Fokus — DE-Kommunikation ggf. via EN/FR",
+      "FR-Fokus, DE-Kommunikation ggf. via EN/FR",
       "Sehr spezialisiert auf Leder/Mode",
     ],
   },
@@ -1123,7 +1123,7 @@ export const LABORE: Labor[] = [
     lieferzeit: "Typisch 4-8 Wochen",
     bekanntheit: "Sehr hoch BE/NL/DE Textil",
     bestFor: ["Textil/Bekleidung EU-Marktzugang", "PSA-Notified-Body (NB 0493)", "Smart Textiles + Sustainability"],
-    watchouts: ["BE-Standort — gut für DE/NL/FR-Markt, weniger für Asien-Sourcing-Audits"],
+    watchouts: ["BE-Standort, gut für DE/NL/FR-Markt, weniger für Asien-Sourcing-Audits"],
   },
 
   // ===== MEDIZINPRODUKTE / MDR (NEU) =====
@@ -1205,7 +1205,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch NL/DE Bau+Wasser · breit global",
     bestFor: ["Trinkwasser-/Hygienezertifizierungen (DVGW-W270, KTW)", "Bauprodukte", "Multi-Country One-Stop"],
     watchouts: [
-      "Sehr breit — Standort-Spezialisierung prüfen",
+      "Sehr breit, Standort-Spezialisierung prüfen",
       "Für reines Cosmetics nicht erste Wahl",
     ],
   },
@@ -1231,7 +1231,7 @@ export const LABORE: Labor[] = [
     bekanntheit: "Sehr hoch in DE Arbeitssicherheit/PSA",
     bestFor: ["PSA-CE-Zertifizierung DE", "Arbeitsplatz-/Werkzeug-Sicherheit", "GS-Zeichen für DE-Markt"],
     watchouts: [
-      "BG-Verbund-Struktur — verschiedene Prüfstellen je Fachgebiet",
+      "BG-Verbund-Struktur, verschiedene Prüfstellen je Fachgebiet",
       "Eher Industrie/B2B als D2C",
     ],
   },
@@ -1466,15 +1466,15 @@ export const AVOID_LIST: { name: string; warnung: string }[] = [
   },
   {
     name: "'Genau Labor' / 'Testaroundtheclock' / AcceleratorLab",
-    warnung: "UNCLEAR — keine verifizierbare ISO-17025-Akkreditierungs-Spur gefunden. Wahrscheinlich Marketing-Frontend eines Dritt-Labors. Vor Buchung Akkreditierungs-Beleg + Sub-Vergabe-Kette erfragen.",
+    warnung: "UNCLEAR, keine verifizierbare ISO-17025-Akkreditierungs-Spur gefunden. Wahrscheinlich Marketing-Frontend eines Dritt-Labors. Vor Buchung Akkreditierungs-Beleg + Sub-Vergabe-Kette erfragen.",
   },
   {
     name: "Dermatest-Siegel als Wirksamkeits-Beweis",
-    warnung: "Öko-Test bewertet das Siegel-System kritisch. Dermatest belegt Verträglichkeit (Patch-Test), NICHT Wirksamkeit. 'Sehr gut bei Dermatest' sagt nichts über Anti-Aging-Effekt — für Effekt-Claims SGS proderm nötig.",
+    warnung: "Öko-Test bewertet das Siegel-System kritisch. Dermatest belegt Verträglichkeit (Patch-Test), NICHT Wirksamkeit. 'Sehr gut bei Dermatest' sagt nichts über Anti-Aging-Effekt, für Effekt-Claims SGS proderm nötig.",
   },
   {
     name: "TÜV-Marken-Verwechslung (SÜD vs Rheinland vs Nord vs Austria)",
-    warnung: "Verschiedene Unternehmen mit unterschiedlichem Portfolio. Logos sehen ähnlich aus — bei Sub-Vergabe genau prüfen, wer der eigentliche Test-Body ist.",
+    warnung: "Verschiedene Unternehmen mit unterschiedlichem Portfolio. Logos sehen ähnlich aus, bei Sub-Vergabe genau prüfen, wer der eigentliche Test-Body ist.",
   },
 ];
 
@@ -1482,7 +1482,7 @@ export const AVOID_LIST: { name: string; warnung: string }[] = [
 export const REGULATORIK_2026: { titel: string; datum: string; was: string; auswirkung: string }[] = [
   {
     titel: "Neue EU Toy Safety Regulation (EU) 2025/2509",
-    datum: "Veröffentlicht 12.12.2025, in Kraft seit 1.1.2026 — verbindlich anwendbar erst ab 1.8.2030 (Übergangsfrist ~4,5 J.)",
+    datum: "Veröffentlicht 12.12.2025, in Kraft seit 1.1.2026, verbindlich anwendbar erst ab 1.8.2030 (Übergangsfrist ~4,5 J.)",
     was: "Löst Richtlinie 2009/48/EG zum 1.8.2030 ab (neue Chemikalienverbote, digitaler Produktpass); bis dahin gilt die alte Richtlinie weiter",
     auswirkung: "Spielzeug-Brands: bestehende Konformität bis 2030 gültig; neue Anforderungen rechtzeitig vor 1.8.2030 einplanen",
   },

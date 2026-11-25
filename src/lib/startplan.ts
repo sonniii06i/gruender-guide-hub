@@ -135,7 +135,7 @@ const S = {
   versicherung: tool("versicherung", "versicherungs-basis-check", "/cockpit/versicherungs-basis-check", "Versicherungen prüfen",
     "Welche Policen Pflicht sind, welche dringend und welche du dir sparen kannst."),
   jahresende: tool("jahresende", "pre-year-end", "/cockpit/pre-year-end", "Jahresende vorbereiten",
-    "Sieben Hebel, mit denen sich vor dem 31.12. noch Steuern sparen lassen, jeweils mit Rechnung."),
+    "Sieben Hebel, mit denen sich vor dem 31.12. noch Steuerlast legal senken lässt, jeweils mit Rechnung."),
   usLlcWizard: tool("us-llc-wizard", "us-llc-wizard", "/cockpit/us-llc-wizard", "US-LLC-Setup durchgehen",
     "Bundesstaat, Agent, EIN, BOI-Status und Bank in der Reihenfolge, in der sie anfallen."),
   usTax: tool("us-tax", "us-tax-helper", "/cockpit/us-tax-helper", "US-Steuerpflichten klären",

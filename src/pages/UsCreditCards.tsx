@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Callout, EmptyState, KitTable, ResultRow, StatTile, ToneBadge } from "@/components/cockpit/kit";
@@ -100,10 +101,31 @@ const UsCreditCards = () => {
 
   return (
     <CockpitShell
-      eyebrow="International · US-Kreditkarten, Stand Mai 2026"
-      title="US-Kreditkarten für Gründer aus Deutschland"
-      subtitle={`${US_CARDS.length} geprüfte Karten, ${SWEET_SPOTS.length} Miles-Sweet-Spots, der DE-zu-US-MR-Transfer (rund 17 % FX-Bonus), eine Velocity-Strategie (8 bis 12 Tsd. € Signup-Bonus pro Jahr), die Auswanderer-Timeline und BOI-/Steuer-Compliance. Quellen: Issuer-Seiten, The Points Guy, LoyaltyLobby.`}
+      eyebrow="International · US-Kreditkarten, Stand November 2026"
+      title="US-Kreditkarten & Amex US aus Deutschland"
+      subtitle={`${US_CARDS.length} Karten im Überblick, Praxis-Regeln zu US-Adresse (Cloud Residence), Tello eSIM, US-Bankkonto (Wise-Risiko vs. Chase/Bank of America) und DE-zu-US-Punktetransfer.`}
     >
+      {/* ===== DIREKTEINSTIEG AMEX US GUIDE & LISTICLE ===== */}
+      <div className="mb-6 flex flex-col gap-3 rounded-xl border border-brand-green/35 bg-brand-green-soft/60 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand-green">Neu · Schritt-für-Schritt-Guide</p>
+          <p className="mt-0.5 text-sm font-semibold text-foreground">
+            Amex US (Privat via Global Transfer & Business) in 9 Schritten
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Mit Cloud Residence, Utility-Bill, Tello eSIM, ehrlichem Bankkonto-Vergleich und 4x-Restaurant-Strategie.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm">
+            <Link to="/playbook/amex-us-beantragen">Guide öffnen</Link>
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link to="/listicles/amex-us-privat-vorteile">7 Vorteile lesen</Link>
+          </Button>
+        </div>
+      </div>
+
       {/* ===== USE-CASE-SWITCHER ===== */}
       <div role="group" aria-label="Einsatzzweck" className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
         {(Object.entries(USE_CASE_META) as [CardUseCase, typeof USE_CASE_META[CardUseCase]][]).map(
@@ -293,7 +315,7 @@ const UsCreditCards = () => {
         </button>
       )}
 
-      {/* DE→US-Transfer-Hack: DER zentrale Hebel */}
+      {/* DE-zu-US-Transfer: zentraler Hebel */}
       <CollapsiblePanel
         open={showMrTransfer}
         onToggle={() => setShowMrTransfer((v) => !v)}
@@ -309,7 +331,7 @@ const UsCreditCards = () => {
 
           <InfoBox title="Hotline-Nummern" icon={Phone}>
             <div className="divide-y divide-border/70">
-              <ResultRow label="US Global Card Transfer Team (24/7)" value={<strong>877-621-2639</strong>} />
+              <ResultRow label="US Global Card Transfer Team" value={<strong>877-621-2639</strong>} />
               <ResultRow label="Amex US Platinum-Hotline" value={<strong>1-800-525-3355</strong>} />
             </div>
           </InfoBox>
@@ -520,7 +542,7 @@ const UsCreditCards = () => {
         icon={FileText}
         tone="success"
         title="Steuer: Boni und Punkte für DE-Residents"
-        subtitle="Privat steuerfrei (BFH, §3 Nr. 38 EStG), geschäftlich Grauzone"
+        subtitle="Privat meist als Rabatt eingeordnet, geschäftlich mit dem Steuerberater klären"
       >
         <CheckList items={MILES_TAX_NOTES.map((n) => ({ title: n.headline, detail: n.detail }))} />
       </CollapsiblePanel>
@@ -595,7 +617,7 @@ const UsCreditCards = () => {
         icon={FileText}
         tone="success"
         title="Steuer und Compliance für Kunden aus DE"
-        subtitle="BOI entfällt, Punkte sind steuerfrei, FX-Gebühren absetzbar: alles, was du wissen musst"
+        subtitle="BOI-Stand, Punkte-Einordnung und absetzbare Kartenkosten im Überblick"
       >
         <CheckList items={TAX_COMPLIANCE.map((t) => ({ title: t.headline, detail: t.detail }))} />
       </CollapsiblePanel>

@@ -4,18 +4,28 @@
 
 GründerX kombiniert KI mit Gründungs- und Steuerwissen für E-Commerce-Händler, Creator und Founder. Die Plattform bietet:
 
-- 50+ Schritt-für-Schritt-Guides (z. B. „GmbH gründen", „UG gründen", „US-LLC für Deutsche", „Holding aufbauen", „Marke anmelden", „Amazon FBA Launch")
-- Steuer- und Buchhaltungs-Tools (BWA-Generator, Crypto-Steuer, OSS, Sales-Tax-Nexus, IAB-Rechner)
-- Anbieter-Vergleiche für Geschäftskonto, Buchhaltung, Notar, Hosting, Logistik
-- Wöchentlich neue, recherchierte Ratgeber-Artikel zu aktuellen Gründer-/Steuerthemen
+- 81 interaktive Schritt-für-Schritt-Guides (z. B. „GmbH gründen", „UG gründen", „Amex US beantragen", „US-LLC für Deutsche", „Erste Webseite & SEO", „Eigene App launchen", „Amazon FBA Launch")
+- 90 Steuer-, Gründungs- und Buchhaltungs-Tools (BWA-Generator, Crypto-Steuer, OSS, Sales-Tax-Nexus, IAB-Rechner, Fragebogen-Begleiter, Steuerkalender)
+- 12 interaktive Quizze & Gründer-Umfragen (9 Quizze + 3 Persona-Umfragen mit Rabatt-Belohnung)
+- 210 Anbieter-Vergleiche für Geschäftskonto, Buchhaltung, Notar, Hosting, Logistik
+- Aktuelle, recherchierte Ratgeber-Artikel & Listicles zu Gründung, Steuern, E-Commerce und US-Setup
 - KI-Co-Pilot „Felix" für individuelle Fragen rund um Gründung und Steuern
 
 ## Pages
 
-- [Startseite](/): Überblick über Plattform, Funktionen und Zielgruppen
-- [Preise](/preise): GründerX 64,99 € im Monat oder 649,90 € im Jahr – Endpreise inkl. 19 % USt., jederzeit zum Ende der Abrechnungsperiode kündbar. Konto erst nach der Zahlung.
-- [Gründungs-Guides (Übersicht)](/playbooks): Alle Schritt-für-Schritt-Anleitungen
-- [Anbieter-Vergleich](/anbieter): Geschäftskonto, Buchhaltung, Tools für Gründer
+- [Startseite](/): Überblick über Lern-Studio, 81 Guides, 90 Tools, 12 Quizze/Umfragen und Zielgruppen (12 bis 70 Jahre)
+- [Preise](/preise): GründerX 64,99 € im Monat oder 649,90 € im Jahr (Endpreise inkl. 19 % USt., monatlich kündbar; 20 % auf die erste Rechnung mit Code FOUNDER).
+- [Alle Guides](/guides): 81 interaktive Schritt-für-Schritt-Guides inkl. Amex US, GmbH, UG, Einzelunternehmen (mit U18-Spezial), Website & App, Amazon FBA, TikTok Shop, US-LLC
+- [Amex US Guide](/guides/amex-us-beantragen): Private US-Amex per Global Transfer & US-Business-Amex (Cloud Residence, Utility-Bill, Tello eSIM, Wise-Risiko vs. Chase/Bank of America Filialbesuch + Reisepass)
+- [Quizze & Umfragen](/quiz): 9 interaktive Quizze (Gründertyp, Rechtsform, Steuer-Quiz, US-Amex-Check, U18-Check, Webseite-vs.-App, Shop/Amazon/TikTok, Nebengewerbe-Quiz, Fördermittel-Check) und 3 Persona-Umfragen (Gründer-Barometer, Hürden-Umfrage, App-&-Tool-Wunsch) mit Rabatt-Belohnung
+- [Listicles](/listicles): Kurze Punkt-für-Punkt-Übersichten, u. a. [7 Vorteile der privaten US-Amex aus Deutschland](/listicles/amex-us-privat-vorteile)
+- [Unter 18 gründen & Eltern](/u18-gruenden): Regeln für 12–17 Jahre inkl. § 112 BGB & Familiengericht
+- [Studium & Ausbildung](/studenten-azubis): Gründen mit 18–25 (Familienversicherung, BAföG, Nebengewerbe)
+- [Nebengewerbe neben dem Job](/nebengewerbe): Arbeitgeber, Krankenkasse, ELSTER & 24.500 € Freibetrag
+- [Eigene Website & App starten](/webseite-und-app): Von Domain & Impressum bis Apple App Store & Google Play
+- [Gründen ab 50 bis 70](/gruenden-ab-50): Freiberuf, Beratung, erste Rechnung & Hinzuverdienst
+- [US-Setup & Amex US](/us-setup): US-LLC, US-Banking & Amex US aus Deutschland
+- [Freelancer & Agenturen](/freelancer-agentur): Freiberuf vs. Gewerbe, Stundensatz, E-Rechnung & KSA
 - [Influencer & Creator](/influencer): Gewerbe, Fragebogen, PR-Pakete, Affiliate, Kleinunternehmer für Influencer, Creator und UGC-Creator
 - [TikTok Shop](/tiktok-shop): TikTok Shop starten – Registrierung, Produktpflichten, Plattform-Meldung, Affiliate-Provisionen
 - [Ratgeber](/ratgeber): Aktuelle Artikel zu Gründung, Steuern, E-Commerce, Banking, Recht

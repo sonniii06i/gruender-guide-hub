@@ -117,8 +117,8 @@ export const ProductBuyBox = ({
           {eur(perDayCents(v.grossCents, v.period))} am Tag
         </p>
         <p className="mt-1 text-sm text-muted-foreground">
-          inkl. 19 % USt. — <strong className="text-foreground">{eur(netCents(v.grossCents))} netto</strong>, für
-          Unternehmer also eine absetzbare Betriebsausgabe.
+          inkl. 19 % USt. (<strong className="text-foreground">{eur(netCents(v.grossCents))} netto</strong>), für
+          Unternehmer als Betriebsausgabe absetzbar.
         </p>
         {v.note && <p className="mt-1 text-sm text-muted-foreground">{v.note}</p>}
       </div>

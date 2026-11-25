@@ -21,32 +21,32 @@ const BEREICHE = [
   {
     icon: Building2,
     title: "Rechtsform & Gründung",
-    desc: "Einzelunternehmen, UG oder GmbH? Felix stellt die Rechtsformen für dein Vorhaben gegenüber – Haftung, Kosten, Aufwand – und führt dich durch Gewerbeanmeldung & Fragebogen zur steuerlichen Erfassung. Die Entscheidung triffst du.",
+    desc: "Einzelunternehmen, UG oder GmbH? Felix stellt die Rechtsformen für dein Vorhaben gegenüber (Haftung, Kosten, Aufwand) und führt dich durch Gewerbeanmeldung & Fragebogen zur steuerlichen Erfassung. Die Entscheidung triffst du.",
   },
   {
     icon: ShoppingBag,
     title: "Amazon Seller & Business",
-    desc: "Schritt für Schritt zum Amazon Seller Account und Amazon Business Account – inkl. Verifizierung, OSS, Brand Registry und steuerlicher Anbindung.",
+    desc: "Schritt für Schritt zum Amazon Seller Account und Amazon Business Account inklusive Verifizierung, OSS, Brand Registry und steuerlicher Anbindung.",
   },
   {
     icon: Megaphone,
     title: "Meta Ads & Werbekonten",
-    desc: "Meta Business Manager, Pixel, CAPI, Werbekonto-Limits und richtige Verknüpfung mit deinem Shop – Schritt für Schritt im Guide.",
+    desc: "Meta Business Manager, Pixel, CAPI, Werbekonto-Limits und richtige Verknüpfung mit deinem Shop Schritt für Schritt im Guide.",
   },
   {
     icon: Calculator,
     title: "Buchhaltung & Tools",
-    desc: "Welcher Anbieter passt: Lexware Office, sevDesk, LUCID, Datev, Pennylane oder Stripe Tax – inkl. Setup-Anleitung.",
+    desc: "Welcher Anbieter passt: Lexware Office, sevDesk, LUCID, DATEV, Pennylane oder Stripe Tax inklusive Setup-Anleitung.",
   },
   {
     icon: Briefcase,
     title: "Banking, Förderungen & Versicherung",
-    desc: "Geschäftskonto, passende KfW-Förderung, Berufshaftpflicht – Felix matcht dich.",
+    desc: "Geschäftskonto, passende KfW-Förderung und Berufshaftpflicht sauber gegenübergestellt.",
   },
   {
     icon: MessageSquare,
-    title: "Felix: KI-Chat 24/7",
-    desc: "Stell jederzeit deine Frage – Felix antwortet mit Quellen, nächsten Schritten und konkreten Anbieter-Empfehlungen für dein Setup.",
+    title: "Felix, dein KI-Begleiter im Cockpit",
+    desc: "Stell deine Frage direkt im Chat: Felix antwortet mit Quellen, nächsten Schritten und konkreten Anbieter-Empfehlungen für dein Setup.",
   },
 ];
 
@@ -67,8 +67,8 @@ const Kaufknopf = ({ href, children, variante = "primaer" }: { href: string; chi
 const Angebot = () => (
   <div className="relative min-h-screen bg-background">
     <Seo
-      title="GründerX — KI-Gründungs-Copilot für 64,99 € / Monat"
-      description="Rechtsform, steuerliche Erfassung, LUCID, WEEE, OSS, Amazon- und TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot Schritt für Schritt durch. Monatlich kündbar."
+      title="GründerX: KI-Gründungsbegleiter für 64,99 € / Monat"
+      description="Rechtsform, steuerliche Erfassung, LUCID, WEEE, OSS, Webseite, App, Amazon- und TikTok-Shop-Setup: Felix führt dich Schritt für Schritt durch. Monatlich kündbar."
       path="/angebot"
       noindex
     />
@@ -92,9 +92,8 @@ const Angebot = () => (
           <span className="block text-accent-blue">In der richtigen Reihenfolge.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground">
-          Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS, Amazon- und
-          TikTok-Shop-Setup: Felix führt dich als KI-Co-Pilot Schritt für Schritt durch – in der
-          Reihenfolge, in der es wirklich gebraucht wird.
+          Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS, Webseite, App und Online-Shop:
+          GründerX führt dich Schritt für Schritt in der Reihenfolge durch, in der es wirklich gebraucht wird.
         </p>
         <div className="mt-9 flex justify-center">
           <Kaufknopf href={DS24_GRUENDERX}>GründerX für 64,99 € / Monat starten</Kaufknopf>

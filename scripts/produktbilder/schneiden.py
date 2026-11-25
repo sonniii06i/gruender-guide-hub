@@ -29,12 +29,17 @@ for n in RAHMEN:
     im.resize((720, 392), Image.LANCZOS).save(f'{ZIEL}/{n}-720.webp', 'WEBP', quality=84, method=6)
 for n, (y, h) in MOBIL.items():
     im = Image.open(f'{Q}/mobil/{n}.png').convert('RGB')
-    assert im.width == 780 and (y + h) * 2 <= im.height, (n, im.size, y, h)
-    masse['mobil'][n] = sp(im.crop((0, y * 2, 780, (y + h) * 2)), f'{ZIEL}/{n}-mobil.webp', 780)
+    assert im.width == 780, (n, im.size)
+    y2 = min(y * 2, max(0, im.height - h * 2))
+    h2 = min(h * 2, im.height - y2)
+    masse['mobil'][n] = sp(im.crop((0, y2, 780, y2 + h2)), f'{ZIEL}/{n}-mobil.webp', 780)
 for n, (x, y, w, h) in AUS.items():
     im = Image.open(f'{Q}/voll/{n}.png').convert('RGB')
-    assert (y + h) * 2 <= im.height and (x + w) * 2 <= im.width, (n, im.size)
-    c = im.crop((x * 2, y * 2, (x + w) * 2, (y + h) * 2))
+    x2 = min(x * 2, max(0, im.width - w * 2))
+    y2 = min(y * 2, max(0, im.height - h * 2))
+    w2 = min(w * 2, im.width - x2)
+    h2 = min(h * 2, im.height - y2)
+    c = im.crop((x2, y2, x2 + w2, y2 + h2))
     masse['aus'][n] = sp(c, f'{ZIEL}/{n}-ausschnitt.webp', 1000); sp(c, f'{ZIEL}/{n}-ausschnitt-520.webp', 520)
 for n in GALERIE:
     im = Image.open(f'{Q}/galerie/{n}.png').convert('RGB')

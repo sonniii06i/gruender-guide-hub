@@ -22,8 +22,31 @@ const app = (
 // vor dem Hydrieren laden: Das vorgerenderte HTML zeigt den aufgelösten Login-Zustand.
 // Käme die Sitzung erst nach dem Hydrieren der Seite, passte das HTML nicht mehr
 // (React #418/#422). Der Text steht da längst sichtbar im HTML – LCP unberührt.
-if (rootEl.hasChildNodes()) {
+function hasStoredAuthSession(): boolean {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && /^sb-[a-z0-9]+-auth-token$/i.test(k)) {
+        const raw = localStorage.getItem(k);
+        if (raw && raw.includes("access_token")) return true;
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return false;
+}
+
+const prerenderPath = rootEl.getAttribute("data-prerender-path");
+const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+const kannHydrieren =
+  rootEl.hasChildNodes() &&
+  !hasStoredAuthSession() &&
+  (!prerenderPath || prerenderPath === currentPath);
+
+if (kannHydrieren) {
   void ladeSupabase().finally(() => hydrateRoot(rootEl, app));
 } else {
+  if (rootEl.hasChildNodes()) rootEl.innerHTML = "";
   createRoot(rootEl).render(app);
 }

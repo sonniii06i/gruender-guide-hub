@@ -4,10 +4,8 @@ import { ArrowRight, CalendarDays, CalendarPlus, ExternalLink, Landmark, MapPin,
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Seo } from "@/components/Seo";
-import { Navbar } from "@/components/landing/Navbar";
-import { Footer } from "@/components/landing/Footer";
 import { HubNav } from "@/components/landing/HubNav";
-import { PageHeader } from "@/components/landing/PageHeader";
+import { AdaptiveAppShell } from "@/components/AdaptiveAppShell";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { ladeIcsHerunter } from "@/lib/ics";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
@@ -301,33 +299,33 @@ export default function GruenderEvents() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Seo
-        title="Gründer-Events 2026: IHK-Gründerabende, Hackathons & Meetups"
-        description="Gründer-Events in ganz Deutschland: IHK-Gründerabende, Existenzgründertage, Startup-Konferenzen, Hackathons und KI-Build-Sessions – nach Bundesland filtern, Termine direkt beim Veranstalter."
-        path="/gruender-events"
-        jsonLd={jsonLd}
-      />
-      <Navbar />
-
-      <PageHeader zentriert
-        width="max-w-4xl"
-        kicker={
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">
-            <CalendarDays className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Täglich aktualisiert, Stand{" "}
-            {new Date(LIVE_STAND.stand).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}
-          </span>
-        }
-        title="Gründer-Events in ganz Deutschland"
-        lead={
-          <p>
-            IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups, dazu Hackathons und KI-Build-Sessions,
-            bei denen du in ein paar Stunden dein erstes Tool baust. Jeder Termin mit Link zum Veranstalter.
-            {" "}Wettbewerbe mit Preisgeld, Pitch-Abende und Hackathons gesammelt: <Link to="/gruender-chancen" className="font-medium text-accent-blue hover:underline">Gründer-Chancen</Link>.
-            {" "}Termine und Fristen kannst du auch direkt im KI-Chat abfragen: <Link to="/ki-assistent" className="font-medium text-accent-blue hover:underline">GründerX in ChatGPT und Claude</Link>.
-          </p>
-        }
-      >
+    <AdaptiveAppShell
+      eyebrow="Events & Netzwerk"
+      width="max-w-5xl"
+      seo={
+        <Seo
+          title="Gründer-Events 2026: IHK-Gründerabende, Hackathons & Meetups"
+          description="Gründer-Events in ganz Deutschland: IHK-Gründerabende, Existenzgründertage, Startup-Konferenzen, Hackathons und KI-Build-Sessions nach Bundesland gefiltert."
+          path="/gruender-events"
+          jsonLd={jsonLd}
+        />
+      }
+      kicker={
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">
+          <CalendarDays className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Täglich aktualisiert, Stand{" "}
+          {new Date(LIVE_STAND.stand).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}
+        </span>
+      }
+      title="Gründer-Events in ganz Deutschland"
+      lead={
+        <p>
+          IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups, dazu Hackathons und KI-Build-Sessions,
+          bei denen du in ein paar Stunden dein erstes Tool baust. Jeder Termin mit Link zum Veranstalter.
+          {" "}Wettbewerbe mit Preisgeld, Pitch-Abende und Hackathons gesammelt:{" "}
+          <Link to="/gruender-chancen" className="font-medium text-accent-blue hover:underline">Gründer-Chancen</Link>.
+        </p>
+      }
+      headerExtra={
         <dl className="grid max-w-2xl grid-cols-3 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
           {[
             { n: aktiv.length, l: "Events & Formate" },
@@ -341,10 +339,9 @@ export default function GruenderEvents() {
             </div>
           ))}
         </dl>
-      </PageHeader>
-
-      <section className="py-10 pb-16 md:py-14">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      }
+    >
+      <div className="space-y-10">
           {/* Filter */}
           <div className="mb-8 space-y-3 rounded-2xl border border-border bg-card p-4 shadow-card sm:p-5">
             <div className="flex flex-wrap gap-1.5">
@@ -619,10 +616,7 @@ export default function GruenderEvents() {
           </div>
 
           <HubNav show={["tools", "guides", "ratgeber"]} />
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      </div>
+    </AdaptiveAppShell>
   );
 }

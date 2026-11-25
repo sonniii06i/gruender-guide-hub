@@ -3,10 +3,10 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { FaqList } from "@/components/public/PublicBlocks";
-import { ArrowUpRight, Lock } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Lock, Sparkles } from "lucide-react";
 import { FinalCta, HeroCentered, ScreenshotFrame, SectionHead, StepsPath } from "@/components/marketing/Marketing";
 import type { Screenshot } from "@/data/screenshots";
-import { TOOL_COUNT } from "@/data/kennzahlen";
+import { GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 
 export interface LandingFaq {
   q: string;
@@ -15,16 +15,13 @@ export interface LandingFaq {
 
 export interface OutlineStep {
   title: string;
-  /** Nur für die ersten paar Schritte sichtbar (Content-Sample). */
   description?: string;
   meta?: string;
 }
 
 export interface LandingOutline {
-  /** Überschrift, z.B. "Ablauf in 12 Schritten". */
   heading: string;
   steps: OutlineStep[];
-  /** Hinweis, dass die Detail-Anleitung hinter der Paywall liegt. */
   gateNote: string;
 }
 
@@ -35,56 +32,36 @@ export interface RelatedLink {
 }
 
 export interface LandingPageProps {
-  /** SEO */
   seoTitle: string;
   seoDescription: string;
   path: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
-  /** Breadcrumb */
   crumbs: { label: string; to?: string }[];
-  /** Kategorie-Eyebrow über H1 */
   eyebrow: string;
-  /** Sichtbarer H1 */
   heading: string;
-  /** Subhead unter H1 */
   lead: string;
-  /** Verkaufs-/Dringlichkeits-Absatz ("…sonst verlierst du Geld") */
   urgency: string;
-  /** "Das hast du am Ende" — Ergebnis-Bullets */
   outcomes: string[];
-  /** Optionaler Ablauf-Umriss (für Guides) — sichtbarer Content, Detail gegated */
   outline?: LandingOutline;
-  /** Ehrlicher Kurz-Disclaimer */
   disclaimer: string;
-  /** FAQ (für Snippet + JSON-LD bereits oben eingebettet) */
   faq: LandingFaq[];
-  /** CTA-Box */
   ctaTitle: string;
   ctaText: string;
-  /** Primärer CTA → Checkout/Paywall */
   primaryHref: string;
   primaryLabel: string;
-  /** Optionaler Sekundär-CTA (Tool/Guide öffnen) */
   secondaryHref?: string;
   secondaryLabel?: string;
-  /** Verwandte Landings (Legacy-Einzelgruppe) */
   relatedTitle?: string;
   related?: RelatedLink[];
-  /** Mehrere Related-Gruppen (z.B. „Passende Tools" + „Passende Guides"). */
   relatedGroups?: { title: string; items: RelatedLink[] }[];
-  /** Beliebiger Inhalt am Seitenende (z.B. dynamisch geladene Ratgeber-Artikel). */
   bottomSlot?: React.ReactNode;
-  /** Optionaler Block direkt unter dem Hero (z. B. kostenlose Probe eines Tools). */
   topSlot?: React.ReactNode;
-  /** Echter App-Screenshot unter dem Hero (src/data/screenshots.ts). */
   screenshot?: Screenshot;
 }
 
 /**
- * Gemeinsame öffentliche Marketing-Landing (Tools + Guides) im Aufbau von
- * profitpath.com (25.10.2026): zentrierter Hero, echter Screenshot, „Warum jetzt“
- * mit Ergebnissen, nummerierter Ablauf, FAQ, verwandte Seiten, Schluss-CTA.
- * Zeigt KEINEN Bezahl-Inhalt. Crawlbar → SEO-Top-of-Funnel.
+ * Gemeinsame öffentliche Landingpage für alle Guides (/guides/:slug) und Tools (/tools/:slug).
+ * Rebuild 11/2026: klares Lern-Studio-Design, Check-Karten, Quiz-Einstieg, vollständiges HTML für SEO & KI-Suche.
  */
 export const LandingPage = (p: LandingPageProps) => {
   const groups = [
@@ -104,47 +81,66 @@ export const LandingPage = (p: LandingPageProps) => {
           lead={p.lead}
           primary={{ to: p.primaryHref, label: p.primaryLabel }}
           secondary={p.secondaryHref ? { to: p.secondaryHref, label: p.secondaryLabel ?? "Mehr erfahren" } : undefined}
-          trust={["Monatlich kündbar", "Server in Frankfurt am Main", `${TOOL_COUNT} Tools & Wizards`]}
+          trust={["Monatlich kündbar", `${GUIDE_COUNT} interaktive Guides`, `${TOOL_COUNT} Tools & Wizards`]}
         >
           {p.screenshot && <ScreenshotFrame shot={p.screenshot} priority caption="Echte Ansicht aus dem GründerX-Cockpit" />}
         </HeroCentered>
 
-        {p.topSlot && <div className="container max-w-4xl px-4 pt-6">{p.topSlot}</div>}
+        {p.topSlot && <div className="container max-w-4xl px-4 pt-8">{p.topSlot}</div>}
 
         <section className="container max-w-6xl px-4 py-14 md:py-20">
-          <div className="grid gap-12 lg:grid-cols-[1fr,1fr] lg:gap-20">
+          <div className="grid gap-10 lg:grid-cols-[0.95fr,1.05fr] lg:gap-16">
             <div className="self-start lg:sticky lg:top-28">
-              <SectionHead align="left" eyebrow="Warum jetzt" title="Einmal richtig machen statt teuer nachbessern." />
+              <SectionHead align="left" eyebrow="In der richtigen Reihenfolge" title="Schritt für Schritt erledigen statt lange suchen." />
+              <div className="rounded-2xl border border-brand-green/25 bg-brand-green-soft/60 p-4">
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-brand-green">
+                  <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                  Unsicher, womit du startest?
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Mach das kurze Gründer-Quiz (60 Sekunden) und schalte direkt deinen persönlichen Fahrplan plus
+                  Aktionscode frei.
+                </p>
+                <Link
+                  to="/quiz"
+                  className="mt-2.5 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-accent-blue hover:underline"
+                >
+                  Zum Gründer-Quiz <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              </div>
             </div>
+
             <div>
-              <p className="text-pretty text-lg leading-relaxed text-foreground/85">{p.urgency}</p>
+              <p className="text-pretty text-base leading-relaxed text-foreground/85 md:text-lg">{p.urgency}</p>
               {p.outcomes.length > 0 && (
-                <>
-                  <h2 className="mt-10 text-sm font-semibold text-muted-foreground">Das hast du am Ende</h2>
-                  <ul className="mt-3 divide-y divide-border border-y border-border">
+                <div className="mt-7 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+                  <h2 className="text-sm font-semibold text-primary">Das hast du am Ende fertig</h2>
+                  <ul className="mt-4 space-y-3">
                     {p.outcomes.map((o, i) => (
-                      <li key={i} className="flex gap-3 py-3.5 text-[15px] leading-relaxed">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-blue" aria-hidden="true" />
-                        {o}
+                      <li key={i} className="flex items-start gap-3 text-[15px] leading-relaxed">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-green-soft text-brand-green">
+                          <Check className="h-3 w-3" strokeWidth={2.75} aria-hidden="true" />
+                        </span>
+                        <span>{o}</span>
                       </li>
                     ))}
                   </ul>
-                </>
+                </div>
               )}
             </div>
           </div>
         </section>
 
         {p.outline && p.outline.steps.length > 0 && (
-          <section className="border-y border-border/70 bg-secondary/30 py-14 md:py-20">
+          <section className="border-y border-border bg-secondary/45 py-14 md:py-20">
             <div className="container max-w-6xl px-4">
-              <SectionHead eyebrow="Ablauf" title={p.outline.heading} />
+              <SectionHead eyebrow="Lehrplan & Ablauf" title={p.outline.heading} />
               <StepsPath
                 steps={p.outline.steps}
                 note={
-                  <span className="inline-flex items-start gap-2">
-                    <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                    {p.outline.gateNote}
+                  <span className="inline-flex items-start gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm shadow-sm">
+                    <Lock className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                    <span>{p.outline.gateNote}</span>
                   </span>
                 }
               />
@@ -156,27 +152,35 @@ export const LandingPage = (p: LandingPageProps) => {
           <div className="grid gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
             <div>
               <SectionHead align="left" eyebrow="FAQ" title="Häufige Fragen" />
-              {p.disclaimer && <p className="-mt-6 text-sm leading-relaxed text-muted-foreground">{p.disclaimer}</p>}
+              {p.disclaimer && <p className="-mt-4 text-sm leading-relaxed text-muted-foreground">{p.disclaimer}</p>}
             </div>
             {p.faq.length > 0 && <FaqList items={p.faq} />}
           </div>
         </section>
 
         {groups.length > 0 && (
-          <section className="border-t border-border/70 py-20">
-            <div className="container grid max-w-6xl gap-12 px-4 lg:grid-cols-2">
+          <section className="border-t border-border py-14 md:py-20">
+            <div className="container grid max-w-6xl gap-10 px-4 lg:grid-cols-2">
               {groups.map((group) => (
                 <div key={group.title}>
-                  <h2 className="mb-5 text-xl font-semibold tracking-tight">{group.title}</h2>
-                  <ul className="divide-y divide-border border-y border-border">
+                  <h2 className="mb-4 text-xl font-semibold tracking-tight text-primary">{group.title}</h2>
+                  <ul className="space-y-2.5">
                     {group.items.map((r) => (
                       <li key={r.to}>
-                        <Link to={r.to} className="group flex items-start justify-between gap-4 py-4">
+                        <Link
+                          to={r.to}
+                          className="press group flex items-start justify-between gap-4 rounded-2xl border border-border bg-card p-4 shadow-card hover:border-primary/35"
+                        >
                           <span className="min-w-0">
-                            <span className="block font-medium group-hover:text-accent-blue">{r.title}</span>
-                            <span className="mt-0.5 line-clamp-2 block text-sm text-muted-foreground">{r.desc}</span>
+                            <span className="block font-semibold text-foreground group-hover:text-accent-blue">
+                              {r.title}
+                            </span>
+                            <span className="mt-1 line-clamp-2 block text-sm text-muted-foreground">{r.desc}</span>
                           </span>
-                          <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground group-hover:text-accent-blue" aria-hidden="true" />
+                          <ArrowUpRight
+                            className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-blue"
+                            aria-hidden="true"
+                          />
                         </Link>
                       </li>
                     ))}

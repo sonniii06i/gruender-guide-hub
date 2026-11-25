@@ -34,6 +34,8 @@ import { VORLAGEN, VORLAGEN_KATEGORIEN } from "../src/data/vorlagen";
 import { ZIELGRUPPEN } from "../src/data/zielgruppen";
 import { LEXIKON } from "../src/data/lexikon/katalog";
 import { BUERO } from "../src/data/buero/katalog";
+import { QUIZZES } from "../src/data/quizzes";
+import { LISTICLES } from "../src/data/listicles";
 import { EIGENE_DATUMSLOGIK, festeRouten } from "./generate-sitemap";
 
 export const WURZEL = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -97,6 +99,8 @@ const SEITEN: Record<string, string[]> = {
   "/vorlagen": ["src/pages/Vorlagen.tsx"],
   "/lexikon": ["src/pages/Lexikon.tsx"],
   "/buero": ["src/pages/Buero.tsx"],
+  "/quiz": ["src/pages/QuizIndex.tsx", "src/data/quizzes.ts"],
+  "/listicles": ["src/pages/ListiclesIndex.tsx", "src/data/listicles.ts"],
   "/hackathon-starter-kit": ["src/pages/HackathonStarterKit.tsx"],
   "/startup-guthaben": ["src/pages/StartupGuthaben.tsx"],
   "/ki-assistent": ["src/pages/KiAssistent.tsx"],
@@ -246,6 +250,24 @@ function standEinerRoute(path: string): RoutenStand | null {
   const zielgruppe = ZIELGRUPPEN.find((z) => z.slug === path.slice(1));
   if (zielgruppe) {
     return { hash: sha(["zielgruppe", json(zielgruppe)]), quellen: [{ datei: "src/data/zielgruppen.ts", anker: `    slug: "${zielgruppe.slug}",`, grenze: SLUG_GRENZE }] };
+  }
+
+  if ((m = path.match(/^\/(quiz|umfrage)\/([^/]+)$/))) {
+    const q = QUIZZES.find((x) => x.slug === m![2] && x.routePrefix === `/${m![1]}`);
+    if (!q) return null;
+    return {
+      hash: sha(["quiz", json(q)]),
+      quellen: ["src/data/quizzes.ts"],
+    };
+  }
+
+  if ((m = path.match(/^\/listicles\/([^/]+)$/))) {
+    const l = LISTICLES.find((x) => x.slug === m![1]);
+    if (!l) return null;
+    return {
+      hash: sha(["listicle", json(l)]),
+      quellen: ["src/data/listicles.ts"],
+    };
   }
 
   const dateien = SEITEN[path];

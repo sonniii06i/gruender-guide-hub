@@ -26,6 +26,8 @@ const LS = {
   [`sb-${REF}-auth-token`]: JSON.stringify(session),
   'ggh-tour-done-v1': '1',
   'marketing_consent': 'false', 'marketing_consent_decided': 'true',
+  'ggh_consent': 'necessary',
+  'gx_cookie_consent_v1': JSON.stringify({ necessary: true, analytics: false, marketing: false, decidedAt: '2026-11-25T00:00:00Z' }),
   [`gx-zuletzt-v1-${UID}`]: JSON.stringify(['/cockpit/steuerkalender', '/cockpit/rechnungs-generator', '/cockpit/shop-profit-rechner']),
   'ggh-rechnung-company-v2': JSON.stringify({
     name: 'Muster Handels UG (haftungsbeschränkt)', strasse: 'Musterstraße 1', plzOrt: '10115 Berlin', land: 'Deutschland',
@@ -39,10 +41,10 @@ const feld = (s) => s.locator('input:not([type=radio]):not([type=checkbox]):not(
 const wahl = (s, text) => s.getByText(text, { exact: true }).first().click();
 
 const SEITEN = [
-  { name: 'dashboard', route: '/dashboard', vor: async (s) => { await s.getByRole('checkbox').first().click(); } },
+  { name: 'dashboard', route: '/dashboard', vor: async (s) => { const cb = s.getByRole('checkbox').first(); if (await cb.isVisible().catch(() => false)) await cb.click(); } },
   { name: 'fse-wizard', route: '/cockpit/fse-wizard' },
   { name: 'steuerkalender', route: '/cockpit/steuerkalender' },
-  { name: 'guide-tiktok', route: '/playbook/preview/tiktok-shop-starten', rollen: 'Was du am Ende hast' },
+  { name: 'guide-tiktok', route: '/playbook/preview/tiktok-shop-starten', rollen: 'Dein fertiges Ergebnis' },
   { name: 'gewerbeanmeldung', route: '/cockpit/gewerbeanmeldung-wizard' },
   { name: 'felix', route: '/felix' },
   { name: 'lucid', route: '/cockpit/lucid-wizard' },
@@ -88,7 +90,7 @@ const ANKER = {
   lucid: ['Schritt 1 von 5', '1. Bist du LUCID-pflichtig?', 'Zurück'],
   'fse-wizard': ['So nutzt du den Begleiter', '5 Jahre Bindung'],
   gewerbeanmeldung: ['Person', 'Dein Stand', 'Zwischenspeichern'],
-  'guide-tiktok': ['Was du am Ende hast', 'Schritt-für-Schritt-Plan', 'Gewerbe anmelden'],
+  'guide-tiktok': ['Dein fertiges Ergebnis', 'Dein Lehrplan', 'Gewerbe anmelden'],
   dashboard: ['Dein nächster Schritt', 'Die nächsten 14 Tage', 'Zuletzt geöffnet'],
 };
 for (const o of ['voll', 'rahmen', 'mobil']) fs.mkdirSync(`screens/${o}`, { recursive: true });
@@ -146,7 +148,11 @@ for (const [art, breite, hoehe] of [['desktop', 1425, 775], ['mobil', 390, 844]]
       await s.waitForTimeout(700);
       if (e.vor) await e.vor(s);
       await s.waitForTimeout(700);
-      await s.evaluate(() => { window.scrollTo(0, 0); document.querySelectorAll('[data-sonner-toaster]').forEach((x) => x.remove()); });
+      await s.evaluate((isMobil) => {
+        window.scrollTo(0, 0);
+        document.querySelectorAll('[data-sonner-toaster]').forEach((x) => x.remove());
+        if (isMobil) document.querySelectorAll('nav[aria-label="App-Navigation"]').forEach((x) => x.remove());
+      }, art === 'mobil');
       await s.waitForTimeout(200);
       const h = await s.evaluate(() => document.documentElement.scrollHeight);
       const max = art === 'desktop' ? 3200 : (e.name === 'rechnung' ? 5400 : 2600);

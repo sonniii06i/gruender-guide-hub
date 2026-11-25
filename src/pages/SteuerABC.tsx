@@ -139,7 +139,7 @@ const SteuerABC = () => {
         </Link>
         <Link to="/cockpit/schwellen-check" className="press group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 hover:border-foreground/30">
           <span>
-            <span className="block text-sm font-semibold">Side-Hustle-Schwellen-Check</span>
+            <span className="block text-sm font-semibold">Nebenerwerb-Schwellen-Check</span>
             <span className="block text-xs text-muted-foreground">Alle Freibeträge 2026 auf einen Blick</span>
           </span>
           <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />

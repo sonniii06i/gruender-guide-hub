@@ -120,7 +120,7 @@ const inhalt: LexikonInhalt = {
       bloecke: [
         {
           art: "text",
-          text: "Für angemeldete Händler mit Buchhaltung ändert sich wenig: Das Finanzamt bekommt Zahlen, die es aus deiner Erklärung schon kennt. Achte darauf, dass beides zusammenpasst. Die Plattform meldet Vergütungen nach dem Zeitpunkt der Zahlung oder Gutschrift, deine Buchhaltung arbeitet je nach Gewinnermittlung mit Rechnungs- oder Zahlungsdatum. Eine kurze Überleitung in den Unterlagen erspart Rückfragen. Bußgelder nach dem PStTG richten sich an Plattformbetreiber, die ihre Pflichten verletzen, je nach Verstoß bis 5.000 €, 30.000 € oder 50.000 € (§ 25 PStTG).",
+          text: "Für angemeldete Händler mit Buchhaltung ändert sich wenig: Das Finanzamt bekommt Zahlen, die es aus deiner Erklärung schon kennt. Achte darauf, dass beides zusammenpasst. Die Plattform meldet Vergütungen nach dem Zeitpunkt der Zahlung oder Gutschrift, deine Buchhaltung arbeitet je nach Gewinnermittlung mit Rechnungs- oder Zahlungsdatum. Eine kurze Überleitung in den Unterlagen erspart Rückfragen. Bußgelder nach dem PStTG richten sich an Plattformbetreiber, die ihre Pflichten verletzen, je nach Verstoß bis 5.000 € bis 30.000 € oder 50.000 € (§ 25 PStTG).",
         },
         {
           art: "hinweis",

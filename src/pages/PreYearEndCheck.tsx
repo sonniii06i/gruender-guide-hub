@@ -109,7 +109,7 @@ const PreYearEndCheck = () => {
       });
     }
 
-    // 2) Investitionen vorziehen (Sofortabschreibung GWG bis 800€, 1000€ ab 2024)
+    // 2) Investitionen vorziehen (Sofortabschreibung GWG bis 800€ bis 1000€ ab 2024)
     if (investitionVorziehen > 0) {
       // Sofort abziehbar sind nur GWG bis 800 € netto (§6 Abs. 2 EStG). Größere Wirtschaftsgüter:
       // lineare AfA zeitanteilig (Dezember = 1/12, §7 Abs. 1 Satz 4 EStG), Nutzungsdauer 1 Jahr voll (BMF 22.02.2022), optional Sonder-AfA §7g Abs. 5 (40 %).

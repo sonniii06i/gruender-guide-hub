@@ -15,6 +15,8 @@ import { fremdKanonisch } from "../src/data/ratgeberKanonisch";
 import { VORLAGEN, VORLAGEN_KATEGORIEN } from "../src/data/vorlagen";
 import { LEXIKON } from "../src/data/lexikon/katalog";
 import { BUERO } from "../src/data/buero/katalog";
+import { QUIZZES } from "../src/data/quizzes";
+import { LISTICLES } from "../src/data/listicles";
 
 const BASE_URL = "https://gruenderx.de";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://rwrjuzemkfghlziretdj.supabase.co";
@@ -68,6 +70,15 @@ export const staticEntries: SitemapEntry[] = [
   { path: "/influencer", changefreq: "weekly", priority: "0.9" },
   { path: "/tiktok-shop", changefreq: "weekly", priority: "0.9" },
   { path: "/amazon-haendler", changefreq: "weekly", priority: "0.9" },
+  { path: "/u18-gruenden", changefreq: "weekly", priority: "0.9" },
+  { path: "/studenten-azubis", changefreq: "weekly", priority: "0.9" },
+  { path: "/nebengewerbe", changefreq: "weekly", priority: "0.9" },
+  { path: "/webseite-und-app", changefreq: "weekly", priority: "0.9" },
+  { path: "/gruenden-ab-50", changefreq: "weekly", priority: "0.9" },
+  { path: "/us-setup", changefreq: "weekly", priority: "0.9" },
+  { path: "/freelancer-agentur", changefreq: "weekly", priority: "0.9" },
+  { path: "/quiz", changefreq: "weekly", priority: "0.9" },
+  { path: "/listicles", changefreq: "weekly", priority: "0.9" },
   { path: "/influencer-steuer-check", changefreq: "weekly", priority: "0.8" },
   { path: "/tiktok-shop-checkliste", changefreq: "weekly", priority: "0.8" },
   { path: "/pr-paket-rechner", changefreq: "weekly", priority: "0.8" },
@@ -152,8 +163,31 @@ export const bueroEntries: SitemapEntry[] = BUERO.map((s) => ({
   priority: "0.6",
 }));
 
+// Quizze & Umfragen (/quiz/:slug, /umfrage/:slug)
+export const quizEntries: SitemapEntry[] = QUIZZES.map((q) => ({
+  path: `${q.routePrefix}/${q.slug}`,
+  changefreq: "weekly" as const,
+  priority: "0.8",
+}));
+
+// Listicles (/listicles/:slug)
+export const listicleEntries: SitemapEntry[] = LISTICLES.map((l) => ({
+  path: `/listicles/${l.slug}`,
+  changefreq: "weekly" as const,
+  priority: "0.8",
+}));
+
 /** Alle Routen der Sitemap ausser den Ratgebern, in Sitemap-Reihenfolge. */
-export const festeRouten = (): SitemapEntry[] => [...staticEntries, ...vorlagenEntries, ...toolEntries, ...guideEntries, ...lexikonEntries, ...bueroEntries];
+export const festeRouten = (): SitemapEntry[] => [
+  ...staticEntries,
+  ...quizEntries,
+  ...listicleEntries,
+  ...vorlagenEntries,
+  ...toolEntries,
+  ...guideEntries,
+  ...lexikonEntries,
+  ...bueroEntries,
+];
 
 function manifestLastmod(): Record<string, string> {
   const file = resolve("scripts/lastmod-manifest.json");
@@ -290,6 +324,8 @@ async function main() {
   if (hub && neuesterRatgeber) hub.lastmod = neuesterRatgeber;
   const entries = [
     ...statisch,
+    ...mitLastmod(quizEntries, manifest),
+    ...mitLastmod(listicleEntries, manifest),
     ...mitLastmod(vorlagenEntries, manifest),
     ...mitLastmod(toolEntries, manifest),
     ...mitLastmod(guideEntries, manifest),

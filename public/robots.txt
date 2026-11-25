@@ -1,5 +1,6 @@
 # GründerX robots.txt
-# Öffentlich/indexierbar: / , /tools , /tools/* , /guides , /guides/* , /ratgeber , /ratgeber/* , /faq , Rechtsseiten
+# Öffentlich/indexierbar: / , /tools , /tools/* , /guides , /guides/* , /ratgeber , /ratgeber/* , /quiz , /quiz/* , /umfrage/* , /listicles , /listicles/* , Zielgruppen-Seiten (12 bis 70) , /faq , Rechtsseiten
+# Suchmaschinen & KI-Crawler (Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, PerplexityBot) haben ueber User-agent: * vollen Zugriff auf alle oeffentlichen Seiten.
 # Blockiert: alles hinter der Paywall (zeigt Crawlern nur die Upsell-Wand) + private Bereiche
 
 # Suchmaschinen und KI-Crawler folgen der *-Gruppe. KEINE eigenen "Allow: /"-Gruppen

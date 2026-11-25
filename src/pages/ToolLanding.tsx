@@ -75,7 +75,7 @@ const ToolLanding = () => {
     { q: `Was ist „${tool.title}"?`, a: `${tool.desc} Teil von ${cat} im GründerX-Cockpit.` },
     {
       q: `Für wen ist „${tool.title}" gedacht?`,
-      a: `${tool.categoryTagline} — gebaut für deutsche Gründer, E-Commerce-Brands, Creator und Solo-Selbstständige, die ohne teuren Berater starten wollen.`,
+      a: `${tool.categoryTagline}. Gebaut für Gründerinnen und Gründer von 12 bis 70: von der ersten Website oder App über Nebengewerbe bis zu E-Commerce, Creator und US-Setup.`,
     },
     {
       q: `Was kostet die Nutzung?`,
@@ -178,7 +178,7 @@ const ToolLanding = () => {
           <NewsletterOptin
             quelle={`tool:${tool.slug}`}
             titel="Fristen & Änderungen, die dich betreffen"
-            text="Wir melden uns kurz, bevor eine Steuerfrist abläuft oder sich für Gründer etwas ändert (z. B. neue Pflichten, Förderungen, Gebühren) – höchstens zwei Mails pro Woche, meist seltener."
+            text="Wir melden uns kurz, bevor eine Steuerfrist abläuft oder sich für Gründer etwas ändert (z. B. neue Pflichten, Förderungen, Gebühren). Höchstens zwei Mails pro Woche, meist seltener."
           />
           <LexikonVerweise pfad={`/tools/${tool.slug}`} className="mb-12" />
           <RelatedArticles context={matchCtx} vorrang={RATGEBER_VORRANG[slug]} />

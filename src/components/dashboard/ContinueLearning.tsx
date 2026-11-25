@@ -26,7 +26,7 @@ export const ContinueLearning = () => {
       .neq("status", "completed")
       .order("last_activity_at", { ascending: false })
       .limit(3)
-      .then(({ data }) => setRuns((data ?? []) as Run[]));
+      .then(({ data }) => setRuns(Array.isArray(data) ? (data as Run[]) : []));
   }, [user]);
 
   if (!runs || runs.length === 0) return null;
@@ -50,7 +50,7 @@ export const ContinueLearning = () => {
             <Link
               key={r.id}
               to={`/playbook/${r.id}`}
-              className="press group rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
+              className="press group min-w-0 overflow-hidden rounded-xl border border-border bg-card p-4 hover:border-foreground/30"
             >
               <div className="flex items-center gap-3 mb-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-xl" aria-hidden="true">

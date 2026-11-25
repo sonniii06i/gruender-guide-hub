@@ -1,4 +1,5 @@
-// manage-affiliate (GruenderX): Self-Service. actions: me | save_payout | request_payout.
+// manage-affiliate (GruenderX): Vollständig serverseitig geprüfte Partner-Verwaltung & Auszahlungen.
+// actions: me | save_payout | request_payout | admin_list | admin_mark_paid | admin_reject
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { auszahlbar, WIDERRUF_TAGE } from "../_shared/affiliateKonditionen.ts";
 import { auszahlungsAuswahl, reifCents } from "../_shared/affiliateSicherung.ts";
@@ -10,18 +11,65 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-// Zentraler Affiliate-Ledger = AnwaltX-Hub (Cross-Product). Fallback: lokal.
-const hub = createClient(Deno.env.get("HUB_SUPABASE_URL") || Deno.env.get("SUPABASE_URL")!, Deno.env.get("HUB_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+const hub = createClient(
+  Deno.env.get("HUB_SUPABASE_URL") || Deno.env.get("SUPABASE_URL")!,
+  Deno.env.get("HUB_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+);
+
+/** Serverseitige ISO-13616 / MOD-97 IBAN-Prüfung (verhindert Manipulation & Tippfehler). */
+function normalizeIban(raw: string): string {
+  return String(raw || "").replace(/\s+/g, "").toUpperCase();
+}
+
+function isValidIban(raw: string): boolean {
+  const iban = normalizeIban(raw);
+  if (!/^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(iban)) return false;
+  if (iban.startsWith("DE") && iban.length !== 22) return false;
+  if (iban.startsWith("AT") && iban.length !== 20) return false;
+  if (iban.startsWith("CH") && iban.length !== 21) return false;
+  const rearranged = iban.slice(4) + iban.slice(0, 4);
+  let remainder = 0;
+  for (const ch of rearranged) {
+    const digits = ch >= "A" && ch <= "Z" ? String(ch.charCodeAt(0) - 55) : ch;
+    for (const d of digits) {
+      remainder = (remainder * 10 + Number(d)) % 97;
+    }
+  }
+  return remainder === 1;
+}
+
+/** Maskiert IBAN für Client-Antworten: DE89 •••• •••• •••• 0130 00 */
+function maskIban(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const iban = normalizeIban(raw);
+  if (iban.length < 10) return "••••";
+  const prefix = iban.slice(0, 4);
+  const suffix = iban.slice(-4);
+  return `${prefix} •••• •••• •••• ${suffix}`;
+}
+
+function cleanName(raw: unknown): string {
+  return String(raw ?? "")
+    .replace(/[\r\n\t<>]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 async function handleAdmin(action: string, payoutId: string | undefined, json: (b: unknown, s?: number) => Response) {
   if (action === "admin_list") {
-    const { data } = await hub.from("affiliate_payouts")
+    const { data } = await hub
+      .from("affiliate_payouts")
       .select("id, affiliate_id, amount_cents, status, requested_at, affiliates(email, payout_name, payout_iban)")
-      .in("status", ["requested", "approved"]).order("requested_at", { ascending: true });
+      .in("status", ["requested", "approved"])
+      .order("requested_at", { ascending: true });
     return json({ payouts: data || [] });
   }
   if (!payoutId) return json({ error: "payout_id fehlt" }, 400);
-  const { data: p } = await hub.from("affiliate_payouts").select("id, affiliate_id, amount_cents, status").eq("id", payoutId).maybeSingle();
+  const { data: p } = await hub
+    .from("affiliate_payouts")
+    .select("id, affiliate_id, amount_cents, status")
+    .eq("id", payoutId)
+    .maybeSingle();
   if (!p || p.status === "paid") return json({ error: "Auszahlung nicht gefunden oder bereits bezahlt" }, 400);
 
   if (action === "admin_reject") {
@@ -29,16 +77,19 @@ async function handleAdmin(action: string, payoutId: string | undefined, json: (
     return json({ ok: true });
   }
   if (action === "admin_mark_paid") {
-    const { data: comms } = await hub.from("affiliate_commissions")
-      .select("id, commission_cents").eq("affiliate_id", p.affiliate_id)
+    const { data: comms } = await hub
+      .from("affiliate_commissions")
+      .select("id, commission_cents")
+      .eq("affiliate_id", p.affiliate_id)
       .in("status", ["pending", "approved"])
-      // 27.10.2026: nur Provisionen nach Ablauf der Widerrufsfrist; Gegenbuchungen (negativ, Erstattung/
-      // Chargeback nach Auszahlung) sofort -- Gegenbuchungen zuerst, dann aelteste (affiliateSicherung.ts)
       .or(`created_at.lte.${new Date(Date.now() - WIDERRUF_TAGE * 86400_000).toISOString()},commission_cents.lt.0`)
       .order("created_at", { ascending: true });
     const ids = auszahlungsAuswahl(comms || [], p.amount_cents);
     if (ids.length) await hub.from("affiliate_commissions").update({ status: "paid" }).in("id", ids);
-    await hub.from("affiliate_payouts").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", payoutId);
+    await hub
+      .from("affiliate_payouts")
+      .update({ status: "paid", paid_at: new Date().toISOString() })
+      .eq("id", payoutId);
     return json({ ok: true });
   }
   return json({ error: "unbekannte Admin-Aktion" }, 400);
@@ -59,29 +110,30 @@ Deno.serve(async (req) => {
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) return json({ error: "unauthorized" }, 401);
-    const { data: { user }, error: authErr } = await admin.auth.getUser(authHeader.replace("Bearer ", ""));
+    const {
+      data: { user },
+      error: authErr,
+    } = await admin.auth.getUser(authHeader.replace("Bearer ", ""));
     if (authErr || !user) return json({ error: "unauthorized" }, 401);
 
     const { action, payout_name, payout_iban, payout_id } = await req.json().catch(() => ({ action: "me" }));
 
     // ---- Admin-Aktionen (Auszahlungen verwalten) ----
     if (action?.startsWith("admin_")) {
-      const { data: role } = await admin.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+      const { data: role } = await admin
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
       if (!role) return json({ error: "forbidden" }, 403);
       return await handleAdmin(action, payout_id, json);
     }
 
-    // Erst ueber die user_id, dann ueber die Adresse — ohne Wildcards
-    // (frueher `.or(...email.ilike.${user.email})`: `%`/`_` in der Adresse
-    // trafen fremde Affiliate-Konten, Sonderzeichen brachen den Filter).
-    let { data: aff } = await hub.from("affiliates")
-      .select("*")
-      .eq("user_id", user.id)
-      .maybeSingle();
-    // Abschlusspruefung 27.10.2026: Verknuepfen eines fremden Partnerkontos nur bei BESTAETIGTER Mail,
-    // nur Konten ohne user_id und nur exakt gleiche Adresse (kein Pattern-Matching, s. emailMatch.ts).
-    if (!aff && user.email && mailVerifiziert(user)) {   // 27.10.2026: Konten aus claim-account beweisen keinen Mail-Besitz (_shared/mailBesitz.ts)
-      ({ data: aff } = await hub.from("affiliates")
+    let { data: aff } = await hub.from("affiliates").select("*").eq("user_id", user.id).maybeSingle();
+    if (!aff && user.email && mailVerifiziert(user)) {
+      ({ data: aff } = await hub
+        .from("affiliates")
         .select("*")
         .is("user_id", null)
         .ilike("email", ilikeExakt(user.email))
@@ -95,8 +147,11 @@ Deno.serve(async (req) => {
         if (!taken) break;
         code = genCode();
       }
-      const { data: created, error: cErr } = await hub.from("affiliates")
-        .insert({ email: String(user.email ?? "").trim().toLowerCase(), user_id: user.id, code }).select("*").single();
+      const { data: created, error: cErr } = await hub
+        .from("affiliates")
+        .insert({ email: String(user.email ?? "").trim().toLowerCase(), user_id: user.id, code })
+        .select("*")
+        .single();
       if (cErr) throw cErr;
       aff = created;
     } else if (!aff.user_id) {
@@ -105,31 +160,77 @@ Deno.serve(async (req) => {
     }
 
     if (action === "save_payout") {
-      await hub.from("affiliates").update({
-        payout_name: payout_name ?? aff.payout_name,
-        payout_iban: payout_iban ?? aff.payout_iban,
-      }).eq("id", aff.id);
-      aff.payout_name = payout_name ?? aff.payout_name;
-      aff.payout_iban = payout_iban ?? aff.payout_iban;
+      if (!mailVerifiziert(user)) {
+        return json({ error: "Bitte bestätige zuerst deine E-Mail-Adresse, bevor du Bankdaten speicherst." }, 403);
+      }
+      const cleanedName = cleanName(payout_name);
+      const cleanedIban = normalizeIban(String(payout_iban ?? ""));
+      if (cleanedName.length < 2 || cleanedName.length > 120) {
+        return json({ error: "Bitte gib einen gültigen Kontoinhaber (mind. 2 Zeichen) an." }, 400);
+      }
+      if (!isValidIban(cleanedIban)) {
+        return json({ error: "Ungültige IBAN. Bitte prüfe Länderkennung, Länge und Prüfziffer." }, 400);
+      }
+      const { error: uErr } = await hub
+        .from("affiliates")
+        .update({ payout_name: cleanedName, payout_iban: cleanedIban })
+        .eq("id", aff.id);
+      if (uErr) throw uErr;
+      aff.payout_name = cleanedName;
+      aff.payout_iban = cleanedIban;
     }
 
     const [{ data: comms }, { data: refs }, { data: payouts }] = await Promise.all([
-      hub.from("affiliate_commissions").select("commission_cents,status,product,created_at").eq("affiliate_id", aff.id).order("created_at", { ascending: false }),
+      hub
+        .from("affiliate_commissions")
+        .select("commission_cents,status,product,created_at")
+        .eq("affiliate_id", aff.id)
+        .order("created_at", { ascending: false }),
       hub.from("affiliate_referrals").select("product,status,created_at").eq("affiliate_id", aff.id),
-      hub.from("affiliate_payouts").select("amount_cents,status,requested_at,paid_at").eq("affiliate_id", aff.id).order("requested_at", { ascending: false }),
+      hub
+        .from("affiliate_payouts")
+        .select("id,amount_cents,status,requested_at,paid_at")
+        .eq("affiliate_id", aff.id)
+        .order("requested_at", { ascending: false }),
     ]);
-    const sum = (rows: any[], pred: (r: any) => boolean) => (rows || []).filter(pred).reduce((a, r) => a + (r.commission_cents || 0), 0);
+
+    const sum = (rows: any[], pred: (r: any) => boolean) =>
+      (rows || []).filter(pred).reduce((a, r) => a + (r.commission_cents || 0), 0);
     const available = sum(comms || [], (r) => r.status === "pending" || r.status === "approved");
-    // 27.10.2026: auszahlbar erst nach 14 Tagen (Widerrufsfrist des geworbenen Kunden)
     const reif = reifCents(comms || [], (t) => auszahlbar(t));
-    const paidOut = ((payouts || []).filter((p) => p.status === "paid").reduce((a, p) => a + (p.amount_cents || 0), 0));
-    const requested = ((payouts || []).filter((p) => p.status === "requested" || p.status === "approved").reduce((a, p) => a + (p.amount_cents || 0), 0));
+    const paidOut = (payouts || [])
+      .filter((p) => p.status === "paid")
+      .reduce((a, p) => a + (p.amount_cents || 0), 0);
+    const openPayouts = (payouts || []).filter((p) => p.status === "requested" || p.status === "approved");
+    const requested = openPayouts.reduce((a, p) => a + (p.amount_cents || 0), 0);
     const requestable = Math.max(0, reif - requested);
 
     if (action === "request_payout") {
-      if (!aff.payout_iban) return json({ error: "Bitte zuerst IBAN hinterlegen." }, 400);
-      if (requestable < 2000) return json({ error: "Mindestauszahlung 20 €." }, 400);
-      await hub.from("affiliate_payouts").insert({ affiliate_id: aff.id, amount_cents: requestable });
+      if (!mailVerifiziert(user)) {
+        return json({ error: "Bitte bestätige zuerst deine E-Mail-Adresse vor einer Auszahlung." }, 403);
+      }
+      if (!aff.payout_name || !aff.payout_iban || !isValidIban(aff.payout_iban)) {
+        return json({ error: "Bitte zuerst Kontoinhaber und gültige IBAN serverseitig hinterlegen." }, 400);
+      }
+      if (openPayouts.length > 0) {
+        return json(
+          { error: "Es gibt bereits eine offene Auszahlungsanfrage. Sobald sie überwiesen ist, kannst du erneut anfordern." },
+          409,
+        );
+      }
+      if (requestable < 2000) {
+        return json({ error: "Mindestauszahlung 20 € (nach Ablauf der 14-tägigen Widerrufsfrist)." }, 400);
+      }
+      const { error: insErr } = await hub
+        .from("affiliate_payouts")
+        .insert({ affiliate_id: aff.id, amount_cents: requestable });
+      if (insErr) {
+        // Unique-Index fängt parallele Race-Conditions atomar auf Datenbankebene ab.
+        if (insErr.code === "23505") {
+          return json({ error: "Eine Auszahlungsanfrage läuft bereits." }, 409);
+        }
+        throw insErr;
+      }
       return json({ ok: true, requested_cents: requestable });
     }
 
@@ -139,7 +240,11 @@ Deno.serve(async (req) => {
       konditionen: aff.konditionen ?? "v2_25_12m",
       ref_link: `${origin}/?ref=${aff.code}`,
       payout_name: aff.payout_name,
-      payout_iban: aff.payout_iban,
+      // Niemals Voll-IBAN an den regulären Client zurücksenden — nur maskierte Anzeige + Statusflag!
+      payout_iban_masked: maskIban(aff.payout_iban),
+      has_payout_iban: Boolean(aff.payout_iban && isValidIban(aff.payout_iban)),
+      has_open_payout: openPayouts.length > 0,
+      email_verified: mailVerifiziert(user),
       stats: {
         in_wartezeit_cents: Math.max(0, available - reif),
         available_cents: available,
@@ -149,7 +254,12 @@ Deno.serve(async (req) => {
         total_referrals: (refs || []).length,
       },
       commissions: comms || [],
-      payouts: payouts || [],
+      payouts: (payouts || []).map(({ amount_cents, status, requested_at, paid_at }) => ({
+        amount_cents,
+        status,
+        requested_at,
+        paid_at,
+      })),
     });
   } catch (err) {
     console.error("manage-affiliate error:", err);

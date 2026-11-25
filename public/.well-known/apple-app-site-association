@@ -1,0 +1,30 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["74F5LUWP3X.de.gruenderx.app"],
+        "components": [
+          { "/": "/dashboard", "comment": "Cockpit Start" },
+          { "/": "/dashboard/*", "comment": "Cockpit Unterseiten" },
+          { "/": "/playbooks", "comment": "Alle Guides" },
+          { "/": "/playbook/*", "comment": "Aktive Guides & Vorschau" },
+          { "/": "/cockpit/*", "comment": "Interaktive Tools & Rechner" },
+          { "/": "/wizard/*", "comment": "Wizards" },
+          { "/": "/felix", "comment": "KI-Begleiter Felix" },
+          { "/": "/felix/*", "comment": "Felix Chats" },
+          { "/": "/anbieter", "comment": "Anbieter-Vergleich" },
+          { "/": "/anbieter/*", "comment": "Anbieter-Detail" },
+          { "/": "/quiz/*", "comment": "Quizze" },
+          { "/": "/umfrage/*", "comment": "Umfragen" },
+          { "/": "/gruender-events", "comment": "Gründer-Events" },
+          { "/": "/startup-guthaben", "comment": "Startup-Guthaben" },
+          { "/": "/gruender-chancen", "comment": "Gründer-Chancen" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["74F5LUWP3X.de.gruenderx.app"]
+  }
+}

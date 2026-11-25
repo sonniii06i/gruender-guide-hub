@@ -11,6 +11,7 @@ import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
 import { TOOL_COUNT } from "@/data/kennzahlen";
 import { merkeBesuch } from "@/lib/zuletztGenutzt";
 import { merkeRundgang, rundgangGesehen } from "@/lib/cockpitZustand";
+import { MobileAppTabs } from "@/components/MobileAppTabs";
 
 const GGH_TOUR: TourStep[] = [
   { title: "Einmal kurz durchs Cockpit", text: "Etwa eine Minute. Danach weißt du, wo dein Fahrplan steht, wo du Guides und Tools findest und wo du Hilfe bekommst." },
@@ -97,10 +98,11 @@ export default function AppLayout() {
               <HeaderActions />
             </div>
           </header>
-          <main className="flex-1 min-h-0">
+          <main className="flex-1 min-h-0 pb-20 md:pb-0">
             <Outlet />
           </main>
         </div>
+        <MobileAppTabs />
         <OnboardingTour steps={GGH_TOUR} autoStart={rundgangFaellig} onEnde={rundgangEnde} />
       </div>
     </SidebarProvider>

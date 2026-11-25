@@ -99,7 +99,7 @@ const Q_BZST_USTID = {
 };
 const Q_ZSVR = { label: "Zentrale Stelle Verpackungsregister (LUCID)", url: "https://www.verpackungsregister.org/" };
 const Q_EAR = { label: "stiftung elektro-altgeräte register (stiftung ear)", url: "https://www.stiftung-ear.de/" };
-const Q_AMZ_START = { label: "Amazon: Verkäufer werden – was du für die Registrierung brauchst (abgerufen 14.11.2026)", url: "https://sell.amazon.de/" };
+const Q_AMZ_START = { label: "Amazon: Verkäufer werden, was du für die Registrierung brauchst (abgerufen 14.11.2026)", url: "https://sell.amazon.de/" };
 const Q_AMZ_PREIS = { label: "Amazon: Verkaufstarife und Gebühren (abgerufen 14.11.2026)", url: "https://sell.amazon.de/preisgestaltung" };
 
 const FT_INFLUENCER: ZielgruppeFreeTool = {
@@ -115,7 +115,7 @@ const FT_PR: ZielgruppeFreeTool = {
 const FT_TTS: ZielgruppeFreeTool = {
   to: "/tiktok-shop-checkliste",
   title: "TikTok-Shop-Checkliste",
-  desc: "Alle Pflichten vor dem ersten Verkauf – in der richtigen Reihenfolge.",
+  desc: "Alle Pflichten vor dem ersten Verkauf, in der richtigen Reihenfolge.",
 };
 const FT_LUCID: ZielgruppeFreeTool = {
   to: "/tools/lucid-wizard",
@@ -130,7 +130,7 @@ const FT_WEEE: ZielgruppeFreeTool = {
 const FT_USTID: ZielgruppeFreeTool = {
   to: "/ust-id-beantragen",
   title: "USt-ID beantragen",
-  desc: "Brauchst du sie, welcher Antragsweg passt – und stimmt die Nummer deines Lieferanten?",
+  desc: "Brauchst du sie, welcher Antragsweg passt, und stimmt die Nummer deines Lieferanten?",
 };
 
 export const ZIELGRUPPEN: Zielgruppe[] = [
@@ -138,7 +138,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     slug: "influencer",
     seoTitle: "Influencer & Creator: Gewerbe & Steuern 2026 | GründerX",
     seoDescription:
-      "Influencer, Creator & UGC: Gewerbe anmelden, Fragebogen, PR-Pakete, Affiliate, Kleinunternehmer – Schritt für Schritt mit Felix. Gratis-Check ohne Konto.",
+      "Influencer, Creator & UGC: Gewerbe anmelden, Fragebogen, PR-Pakete, Affiliate, Kleinunternehmer, Schritt für Schritt mit Felix. Gratis-Check ohne Konto.",
     eyebrow: "Für Influencer · Creator · UGC-Creator",
     heading: "Du machst Content. Felix macht das Finanzamt.",
     heroTitle: "Du machst Content.",
@@ -146,12 +146,12 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     screen: "fse",
     warumTitel: "Das Finanzamt schaut inzwischen auch auf Social Media.",
     lead:
-      "Erste Kooperation, erstes PR-Paket, erste Auszahlung aus dem Creator-Programm? GründerX führt dich Schritt für Schritt durch Gewerbe, Fragebogen zur steuerlichen Erfassung, Kleinunternehmerregelung und Rechnungen – damit du dich wieder um deine Videos kümmern kannst.",
+      "Erste Kooperation, erstes PR-Paket, erste Auszahlung aus dem Creator-Programm? GründerX führt dich Schritt für Schritt durch Gewerbe, Fragebogen zur steuerlichen Erfassung, Kleinunternehmerregelung und Rechnungen, damit du dich wieder um deine Videos kümmern kannst.",
     urgency:
-      "Die Finanzverwaltung sagt es selbst: Soziale Medien geraten zunehmend in ihren Fokus – per Internetrecherche und Auskunftsersuchen an deine Geschäftspartner. Werbeeinnahmen, Affiliate-Provisionen, Creator-Geld und sogar PR-Pakete, die du behalten darfst, zählen als Betriebseinnahmen. Für den Fragebogen hast du nach dem Start nur einen Monat. Wer das verschleppt, riskiert Nachzahlung und Zinsen. Mach es einmal richtig – mit Felix in der richtigen Reihenfolge.",
+      "Die Finanzverwaltung sagt es selbst: Soziale Medien geraten zunehmend in ihren Fokus, per Internetrecherche und Auskunftsersuchen an deine Geschäftspartner. Werbeeinnahmen, Affiliate-Provisionen, Creator-Geld und sogar PR-Pakete, die du behalten darfst, zählen als Betriebseinnahmen. Für den Fragebogen hast du nach dem Start nur einen Monat. Wer das verschleppt, riskiert Nachzahlung und Zinsen. Mach es einmal richtig, mit Felix in der richtigen Reihenfolge.",
     outcomes: [
       "Klare Antwort, ob und wann du ein Gewerbe brauchst",
-      "Fragebogen zur steuerlichen Erfassung Schritt für Schritt ausgefüllt – inklusive Kleinunternehmer-Entscheidung",
+      "Fragebogen zur steuerlichen Erfassung Schritt für Schritt ausgefüllt, inklusive Kleinunternehmer-Entscheidung",
       "PR-Pakete, Gratis-Leistungen und Affiliate-Provisionen sauber erfasst",
       "Rechnungen an Marken und Agenturen, die angenommen werden",
       "Steuerkalender mit deinen Fristen, damit nichts liegen bleibt",
@@ -160,7 +160,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     weg: [
       { title: "Einnahmen einordnen", description: "Werbung, Affiliate, Creator-Programme, PR-Pakete, Gratis-Hotelnächte: Was zählt, und mit welchem Wert?", meta: "Gratis: Influencer-Steuer-Check" },
       { title: "Gewerbe anmelden", description: "Influencer-Tätigkeit ist laut Finanzverwaltung grundsätzlich gewerblich. Felix sagt dir, welche Tätigkeitsbeschreibung passt.", meta: "Gewerbeanmeldung-Wizard" },
-      { title: "Fragebogen zur steuerlichen Erfassung", description: "Innerhalb eines Monats nach Start über ELSTER – inklusive Kleinunternehmer ja oder nein.", meta: "Fragebogen-Wizard" },
+      { title: "Fragebogen zur steuerlichen Erfassung", description: "Innerhalb eines Monats nach Start über ELSTER, inklusive Kleinunternehmer ja oder nein.", meta: "Fragebogen-Wizard" },
       { title: "Rechnungen & Gutschriften" },
       { title: "PR-Pakete und Ausgaben erfassen" },
       { title: "Fristen & Steuererklärung (Anlage G, EÜR)" },
@@ -175,7 +175,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       { slug: "steuerkalender", title: "Steuerkalender", desc: "Alle Fristen auf einen Blick." },
     ],
     ratgeber: [
-      { to: "/ratgeber/influencer-steuern-2026", title: "Influencer Steuern 2026", desc: "Gewerbe, Umsatzsteuer, Gewerbesteuer – der komplette Überblick." },
+      { to: "/ratgeber/influencer-steuern-2026", title: "Influencer Steuern 2026", desc: "Gewerbe, Umsatzsteuer, Gewerbesteuer, der komplette Überblick." },
       { to: "/ratgeber/pr-pakete-versteuern", title: "PR-Pakete versteuern", desc: "Wertansatz, Rücksendung, private Nutzung." },
       { to: "/ratgeber/ugc-creator-gewerbe-rechnung", title: "UGC-Creator: Gewerbe & Rechnung", desc: "So schreibst du deine erste Rechnung an eine Marke." },
       { to: "/ratgeber/tiktok-shop-affiliate-steuern", title: "TikTok-Shop-Affiliate & Steuern", desc: "Provisionen und Samples richtig erfassen." },
@@ -194,7 +194,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       },
       {
         q: "Zählen PR-Pakete als Einnahme?",
-        a: "Ja, wenn du das Produkt nach der Werbung behalten darfst – mit dem üblichen Endpreis abzüglich üblicher Rabatte. Gratis-Dienstleistungen wie Hotelnächte zählen mit ihrem regulären Wert.",
+        a: "Ja, wenn du das Produkt nach der Werbung behalten darfst, mit dem üblichen Endpreis abzüglich üblicher Rabatte. Gratis-Dienstleistungen wie Hotelnächte zählen mit ihrem regulären Wert.",
       },
       {
         q: "Bis wann bin ich Kleinunternehmer?",
@@ -210,8 +210,8 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       },
     ],
     quellen: [HESSEN, TT_NEWS],
-    ctaTitle: "Dein Creator-Business sauber aufsetzen – mit Felix",
-    ctaText: "Gewerbe, Fragebogen, Rechnungen, Fristen und alle weiteren Tools und Guides im Abo – monatlich kündbar.",
+    ctaTitle: "Dein Creator-Business sauber aufsetzen, mit Felix",
+    ctaText: "Gewerbe, Fragebogen, Rechnungen, Fristen und alle weiteren Tools und Guides im Abo, monatlich kündbar.",
   },
   // /tiktok-shop, Fassung vom 21.11.2026 (growth-lp): eine Persona (TikTok-Shop-Händler mit eigener oder eingekaufter
   // Ware), eine Aufgabe (Registrierung im Seller Center ohne falschen Kontotyp). Belege, alle am 21.11.2026 gelesen:
@@ -374,7 +374,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     ],
     toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
     toolsLead:
-      "Den Verpackungslizenz-Rechner nutzt du frei und so oft du willst. Die TikTok-Shop-Checkliste und den WEEE-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse – alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen dazu.",
+      "Den Verpackungslizenz-Rechner nutzt du frei und so oft du willst. Die TikTok-Shop-Checkliste und den WEEE-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse, alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen dazu.",
     freeTools: [FT_TTS, FT_LUCID, FT_WEEE],
     tools: [
       { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "Tätigkeit „Online-Handel“ richtig angeben." },
@@ -452,13 +452,13 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     ],
     quellen: [TT_SU, TT_PROVISION, TT_NEWS, Q_GEWO, Q_AO138, Q_USTG19, Q_USTG27A, Q_VERPACK6, Q_VERPACK7, Q_ELEKTRO6, PSTTG, Q_BZST_USTID, Q_ZSVR, Q_EAR, HESSEN],
     ctaTitle: "Dein TikTok Shop, in der richtigen Reihenfolge angemeldet",
-    ctaText: "Gewerbe, Fragebogen, Registrierung im Seller Center, LUCID und WEEE – plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
+    ctaText: "Gewerbe, Fragebogen, Registrierung im Seller Center, LUCID und WEEE, plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
   },
   {
     slug: "amazon-haendler",
     seoTitle: "Amazon-Händler werden: Pflichten in Reihenfolge | GründerX",
     seoDescription:
-      "Auf Amazon verkaufen: Gewerbe, Steuernummer, USt-IdNr., LUCID, WEEE und OSS in der richtigen Reihenfolge – mit Rechtsgrundlagen und Gratis-Rechner.",
+      "Auf Amazon verkaufen: Gewerbe, Steuernummer, USt-IdNr., LUCID, WEEE und OSS in der richtigen Reihenfolge, mit Rechtsgrundlagen und Gratis-Rechner.",
     eyebrow: "Für Amazon-Händler · FBA · eigener Versand",
     heading: "Auf Amazon verkaufen. Alle Pflichten in der richtigen Reihenfolge.",
     heroTitle: "Auf Amazon verkaufen.",
@@ -571,7 +571,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       { title: "Umsatzsteuer, OSS und Marge" },
     ],
     toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
-    toolsLead: "Den Rechner nutzt du frei und so oft du willst. WEEE-Check und USt-ID-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse – alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
+    toolsLead: "Den Rechner nutzt du frei und so oft du willst. WEEE-Check und USt-ID-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse, alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
     freeTools: [FT_LUCID, FT_WEEE, FT_USTID],
     tools: [
       { slug: "fse-wizard", title: "Fragebogen-Wizard", desc: "Zur Steuernummer, Teilseite für Teilseite in der Reihenfolge von ELSTER." },
@@ -636,7 +636,463 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     ],
     quellen: [Q_GEWO, Q_AO138, Q_USTG27A, Q_USTG25E, Q_USTG19, Q_USTG3C, Q_USTG18J, Q_VERPACK6, Q_VERPACK7, Q_VERPACK13, Q_ELEKTRO6, PSTTG, Q_BZST_USTID, Q_ZSVR, Q_EAR, Q_AMZ_START, Q_AMZ_PREIS],
     ctaTitle: "Dein Amazon-Start in der richtigen Reihenfolge",
-    ctaText: "Gewerbe, Fragebogen, USt-IdNr., LUCID, WEEE und OSS – plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
+    ctaText: "Gewerbe, Fragebogen, USt-IdNr., LUCID, WEEE und OSS, plus alle weiteren Tools und Guides im Abo, monatlich kündbar.",
+  },
+
+  // ── 4. Unter 18 gründen (12–17 Jahre & Eltern) ─────────────────────────
+  {
+    slug: "u18-gruenden",
+    seoTitle: "Unter 18 gründen (12 bis 17): Regeln & Eltern | GründerX",
+    seoDescription: "Ab 12 bis 17 eine Website, App oder ein Gewerbe starten: Was ohne Amt geht, wie Eltern zustimmen und wann das Familiengericht (§ 112 BGB) prüft.",
+    eyebrow: "Für 12 bis 17 Jahre · Jugendliche & Eltern",
+    heading: "Unter 18 starten. Klar für dich und deine Eltern.",
+    heroTitle: "Unter 18 starten.",
+    heroAccent: "Klar für dich und deine Eltern.",
+    screen: "gewerbe",
+    warumTitel: "Erst bauen und lernen, dann sauber mit den Eltern anmelden.",
+    lead: "Du bist zwischen 12 und 17 und willst deine erste Website, eine App oder ein kleines Projekt aufbauen? Wir zeigen dir und deinen Eltern in ruhiger Reihenfolge, was sofort geht und wann das Familiengericht nach § 112 BGB dazukommt.",
+    urgency: "Viele Jugendliche hängen an unsicheren Forenantworten oder gesperrten Zahlungskonten. Mit klaren Fakten für Jugendliche und Eltern wisst ihr vorher genau, welche Schritte zuerst kommen und was warten kann.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Darf man unter 18 in Deutschland ein eigenes Projekt oder Gewerbe starten?",
+      text: "Lernen, eine Website oder App bauen und testen darfst du sofort ohne Anmeldung. Sobald du dauerhaft mit Gewinnabsicht Geld verdienen willst, müssen deine Eltern zustimmen und für ein selbstständiges Gewerbe prüft das Familiengericht nach § 112 BGB.",
+    },
+    faelle: {
+      eyebrow: "Überblick nach Phase (Stand 25.11.2026)",
+      titel: "Was unter 18 sofort geht und wann Amt und Gericht dazukommen",
+      lead: "Konkrete Trennung für Jugendliche zwischen 12 und 17 Jahren und ihre Eltern.",
+      kopf: ["Vorhaben", "Gewerbe nötig?", "Eltern / Gericht", "Typische Kosten"],
+      zeilen: [
+        ["Website oder App bauen & testen (ohne Einnahmen)", "Nein", "Eltern informieren", "0 € bis ~12 €/Jahr Domain"],
+        ["Regelmäßige eigene Einnahmen (Gewerbe auf deinen Namen)", "Ja (§ 14 GewO)", "Eltern + Familiengericht (§ 112 BGB)", "ca. 20 bis 65 € Gewerbe + Gerichtsgebühr"],
+        ["App Store / Stripe / TikTok Shop Account", "Je nach Plattform", "Viele Zahlungsanbieter erst ab 18", "Bedingungen vor Launch prüfen"],
+      ],
+      fuss: "Stand 25.11.2026. Quellen: § 112 BGB, § 14 GewO. Software zur Orientierung, keine Rechtsberatung.",
+      link: { to: "/quiz/u18-check", label: "U18-Check in 45 Sekunden machen" },
+    },
+    outcomes: [
+      "Klare Trennung: Was du heute schon ohne Gewerbe bauen und testen darfst",
+      "Komplette Eltern- und Familiengericht-Checkliste (§ 112 BGB) mit ausfüllbarer Vorlage",
+      "Realistische Übersicht zu Altersgrenzen bei App Store, Stripe, PayPal und TikTok",
+      "Familienversicherung und Kleinunternehmerregelung verständlich erklärt",
+    ],
+    wegHeading: "Dein Weg unter 18 in der richtigen Reihenfolge",
+    weg: [
+      { title: "Idee bauen & testen", description: "Website, App oder erstes Produkt aufbauen, bevor der erste Euro fließt.", meta: "Sofort ohne Amt" },
+      { title: "Eltern einbinden", description: "Konzept, Zeitaufwand neben der Schule und Kosten gemeinsam klären.", meta: "Vor dem Start" },
+      { title: "Antrag beim Familiengericht (§ 112 BGB)", description: "Nur nötig, wenn du ein eigenes Gewerbe auf deinen Namen führen willst.", meta: "Vorlage im Guide" },
+      { title: "Gewerbeanmeldung & Finanzamt", description: "GewA1-Formular und Fragebogen zur steuerlichen Erfassung binnen eines Monats.", meta: "Nach Genehmigung" },
+    ],
+    freeTools: [
+      { to: "/gruendungskosten-rechner", title: "Gründungskosten-Rechner", desc: "Echte Gebühren für Start und Anmeldung auf einen Blick." },
+      { to: "/rechtsform-finden", title: "Rechtsform-Finder", desc: "Einzelunternehmen und Freiberuf einfach vergleichen." },
+      { to: "/tools/brand-check", title: "Brand-Check", desc: "Projektname gegen Marken und Domains vorab prüfen." },
+    ],
+    tools: [
+      { slug: "gewerbe-check", title: "Gewerbe-Check", desc: "Prüfen, ob deine Idee überhaupt ein Gewerbe braucht." },
+      { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "Ausfüllhilfe für das Formular GewA1." },
+      { slug: "steuer-abc", title: "Steuer-ABC", desc: "Grundbegriffe ohne Fachchinesisch erklärt." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", title: "Einzelunternehmen gründen", desc: "Ablauf, Kosten und Steuern einfach erklärt." },
+      { to: "/ratgeber/kleinunternehmer-2026", title: "Kleinunternehmerregelung 2026", desc: "Die Grenzen 25.000 € und 100.000 € im Überblick." },
+    ],
+    guides: [
+      { to: "/guides/einzelunternehmen-gruendung", title: "Guide: Einzelunternehmen (mit U18-Spezial)", desc: "Inklusive ausfüllbarer Vorlage für das Familiengericht." },
+      { to: "/guides/erste-webseite-seo", title: "Guide: Erste Webseite erstellen", desc: "Schritt für Schritt online gehen." },
+      { to: "/guides/eigene-app-launchen", title: "Guide: Eigene App launchen", desc: "Von der ersten Idee bis zum Store-Review." },
+    ],
+    faq: [
+      { q: "Brauche ich zum Website- oder App-Bauen schon ein Gewerbe?", a: "Nein. Solange du nur baust, lernst und noch keine dauerhaften Einnahmen mit Gewinnabsicht erzielst, brauchst du kein Gewerbe." },
+      { q: "Warum müssen meine Eltern immer dabei sein?", a: "Bis zum 18. Geburtstag vertreten dich deine Eltern rechtlich. Verträge, Anträge und das Verfahren nach § 112 BGB beim Familiengericht laufen nur mit ihrer Zustimmung." },
+      { q: "Kostet das Familiengericht etwas?", a: "Es fallen moderate Gerichtsgebühren an, je nach Gericht häufig im niedrigen zweistelligen bis unteren dreistelligen Bereich. Genaue Kosten nennt das zuständige Amtsgericht." },
+    ],
+    quellen: [
+      { label: "§ 112 BGB: Selbstständiger Betrieb eines Erwerbsgeschäfts", url: `${GII}/bgb/__112.html` },
+      Q_GEWO,
+      Q_AO138,
+      Q_USTG19,
+    ],
+    ctaTitle: "Gemeinsam mit deinen Eltern sauber starten",
+    ctaText: "Alle Guides für Website, App, Creator und U18-Anmeldung Schritt für Schritt an einem Ort.",
+  },
+
+  // ── 5. Studierende & Azubis (18–25 Jahre) ──────────────────────────────
+  {
+    slug: "studenten-azubis",
+    seoTitle: "Gründen im Studium & Ausbildung (18 bis 25) | GründerX",
+    seoDescription: "Als Student oder Azubi nebenbei gründen: Familienversicherung, Werkstudenten-Grenzen, BAföG, Gewerbeanmeldung und Kleinunternehmerregelung 2026.",
+    eyebrow: "Für 18 bis 25 Jahre · Studium & Ausbildung",
+    heading: "Neben Studium oder Ausbildung starten. Ohne böse Überraschung.",
+    heroTitle: "Neben Studium oder Ausbildung starten.",
+    heroAccent: "Ohne böse Überraschung.",
+    screen: "schwellen",
+    warumTitel: "Als Student oder Azubi zählen Grenzen, die andere nicht haben.",
+    lead: "Familienversicherung, BAföG, Ausbildungsbetrieb und Kleinunternehmerregelung: Wir sortieren die Reihenfolge, damit dein erstes Projekt neben Hörsaal oder Ausbildung sauber läuft.",
+    urgency: "Ein paar Hundert Euro Gewinn zu viel im falschen Monat können bei der Familienversicherung oder beim BAföG teure Folgen haben. Wer die Grenzen vorher kennt, plant ruhig und sicher.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Darf ich im Studium oder in der Ausbildung ein Gewerbe anmelden?",
+      text: "Ja. Im Studium brauchst du keine Erlaubnis der Hochschule, musst aber Krankenkasse (Familienversicherung / Werkstudentenstatus) und ggf. BAföG-Freibeträge im Blick behalten. In der Ausbildung prüfst du zuerst deinen Ausbildungsvertrag und informierst den Betrieb.",
+    },
+    outcomes: [
+      "Klarer Überblick über Familienversicherung, 20-Stunden-Regel und BAföG-Anrechnung",
+      "Schnelle Entscheidung zwischen Freiberuf, Einzelunternehmen und Kleinunternehmerregelung",
+      "Fragebogen zur steuerlichen Erfassung Zeile für Zeile ausgefüllt",
+      "Erste eigene Website, App oder erster Online-Shop als fertiges Ziel",
+    ],
+    wegHeading: "Dein Start neben Studium oder Ausbildung",
+    weg: [
+      { title: "Grenzen prüfen", description: "Familienversicherung, BAföG und ggf. Ausbildungsvertrag vorher checken.", meta: "Zuerst" },
+      { title: "Rechtsform & Anmeldung", description: "Freiberuf oder Einzelunternehmen anmelden.", meta: "Ab ca. 20 bis 65 € Amt" },
+      { title: "ELSTER-Fragebogen", description: "Binnen eines Monats abgeben und Kleinunternehmerregelung prüfen.", meta: "1 Monat Frist" },
+      { title: "Erste Einnahme sauber verbuchen", description: "Getrenntes Konto und einfache EÜR ab dem ersten Beleg.", meta: "Laufend" },
+    ],
+    freeTools: [
+      { to: "/rechtsform-finden", title: "Rechtsform-Finder", desc: "Einzelunternehmen, Freiberuf oder GbR vergleichen." },
+      { to: "/gruendungskosten-rechner", title: "Gründungskosten-Rechner", desc: "Startkosten realistisch berechnen." },
+      { to: "/elster-zertifikat-beantragen", title: "ELSTER-Zertifikat-Guide", desc: "Zugang zum Finanzamt-Portal ohne Umwege anlegen." },
+    ],
+    tools: [
+      { slug: "schwellen-check", title: "Schwellen-Check", desc: "Alle wichtigen Umsatz- und Meldegrenzen im Blick." },
+      { slug: "fse-wizard", title: "Fragebogen-Begleiter", desc: "ELSTER-Fragebogen Zeile für Zeile ausfüllen." },
+      { slug: "brutto-netto-solo", title: "Brutto-Netto-Rechner", desc: "Prüfen, was vom Gewinn wirklich übrig bleibt." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", title: "Einzelunternehmen gründen", desc: "Alle Schritte von Gewerbeamt bis Finanzamt." },
+      { to: "/ratgeber/kleinunternehmer-2026", title: "Kleinunternehmer 2026", desc: "Wann sich die 25.000-€-Regel lohnt." },
+    ],
+    guides: [
+      { to: "/guides/einzelunternehmen-gruendung", title: "Guide: Einzelunternehmen gründen", desc: "Der Standardweg für den Start allein." },
+      { to: "/guides/freiberufler-anmelden", title: "Guide: Freiberufler anmelden", desc: "Ohne Gewerbeamt für Design, IT, Text und Beratung." },
+      { to: "/guides/eigene-app-launchen", title: "Guide: Eigene App launchen", desc: "Vom ersten Code bis in die Stores." },
+    ],
+    faq: [
+      { q: "Verliere ich meine Familienversicherung durch ein Gewerbe?", a: "Solange dein regelmäßiges monatliches Gesamteinkommen unter der gesetzlichen Grenze deiner Krankenkasse bleibt und du nicht hauptberuflich selbstständig bist, bleibst du familienversichert. Vor dem Start kurz bei der eigenen Kasse nachfragen." },
+      { q: "Muss ich als Student einen Steuerberater bezahlen?", a: "Bei kleinen Umsätzen und Einnahmen-Überschuss-Rechnung (EÜR) kommen viele am Anfang ohne Steuerberater aus. Sobald Auslandsgeschäfte oder hohe Umsätze dazukommen, lohnt sich eine fachliche Prüfung." },
+    ],
+    quellen: [Q_GEWO, Q_AO138, Q_USTG19, PSTTG],
+    ctaTitle: "Dein erstes Projekt neben Studium oder Ausbildung",
+    ctaText: "Kurze Schritte, klare Grenzen und alle Guides für Website, App, Shop und Steuern.",
+  },
+
+  // ── 6. Nebengewerbe neben dem Hauptjob ─────────────────────────────────
+  {
+    slug: "nebengewerbe",
+    seoTitle: "Nebengewerbe neben dem Job anmelden 2026 | GründerX",
+    seoDescription: "Nebengewerbe neben dem Hauptjob starten: Arbeitgeber informieren, Krankenkasse, Gewerbeamt, ELSTER-Fragebogen und 24.500 € Freibetrag richtig verstehen.",
+    eyebrow: "Für Angestellte · Nebengewerbe",
+    heading: "Tagsüber Job. Abends dein eigenes Projekt.",
+    heroTitle: "Tagsüber Job.",
+    heroAccent: "Abends dein eigenes Projekt.",
+    screen: "fse",
+    warumTitel: "70 % aller Gründungen starten nebenberuflich.",
+    lead: "Du willst erst neben deinem Hauptjob testen, ob dein Produkt oder deine Dienstleistung trägt? Wir zeigen dir genau, was du dem Arbeitgeber, der Krankenkasse und dem Finanzamt in welcher Reihenfolge meldest.",
+    urgency: "Der häufigste Irrtum im Nebengewerbe: Viele denken, bis 24.500 € Gewinn falle gar keine Steuer an, und vergessen die Einkommensteuer auf Gehalt plus Gewinn. Mit klarem Überblick legst du von Anfang an richtig zurück.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Was brauche ich zuerst für ein Nebengewerbe neben meinem Hauptjob?",
+      text: "Zuerst prüfst du deinen Arbeitsvertrag und informierst den Arbeitgeber. Danach meldest du das Gewerbe beim Gewerbeamt an (§ 14 GewO), gibst innerhalb eines Monats den Fragebogen über ELSTER ab (§ 138 AO) und gibst deiner Krankenkasse kurz Bescheid.",
+    },
+    outcomes: [
+      "Arbeitsvertrag, Arbeitgeber-Mitteilung und Krankenkasse sauber geklärt",
+      "Unterschied zwischen 24.500 € Gewerbesteuer-Freibetrag und Einkommensteuer verstanden",
+      "Fragebogen zur steuerlichen Erfassung ohne Hänger in ELSTER erledigt",
+      "Alle Steuer-Fristen und Rücklagen im eigenen Kalender",
+    ],
+    wegHeading: "Nebengewerbe in 5 klaren Schritten",
+    weg: [
+      { title: "Arbeitsvertrag & Arbeitgeber", description: "Keine Konkurrenz zum Arbeitgeber, Nebentätigkeit sachlich anzeigen.", meta: "Zuerst" },
+      { title: "Krankenkasse informieren", description: "Solange der Hauptjob überwiegt, bleibt es meist bei den regulären Beiträgen.", meta: "Vor Start" },
+      { title: "Gewerbe anmelden (GewA1)", description: "Beim lokalen Gewerbeamt oder online im Portal deines Bundeslands.", meta: "ca. 20 bis 65 €" },
+      { title: "ELSTER-Fragebogen abgeben", description: "Innerhalb eines Monats nach Start, inklusive Kleinunternehmer-Wahl.", meta: "1 Monat Frist" },
+      { title: "Rücklage & Belege ordnen", description: "Separates Konto und monatliche Ablage für die EÜR.", meta: "Ab Tag 1" },
+    ],
+    freeTools: [
+      { to: "/rechtsform-finden", title: "Rechtsform-Finder", desc: "Prüfen, ob Einzelunternehmen oder UG passt." },
+      { to: "/gruendungskosten-rechner", title: "Gründungskosten-Rechner", desc: "Alle einmaligen und laufenden Kosten vorab rechnen." },
+      { to: "/elster-zertifikat-beantragen", title: "ELSTER-Zertifikat-Guide", desc: "Zugang für den Fragebogen direkt einrichten." },
+    ],
+    tools: [
+      { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "GewA1 sauber vorbereiten." },
+      { slug: "fse-wizard", title: "Fragebogen-Begleiter", desc: "ELSTER Zeile für Zeile ausfüllen." },
+      { slug: "steuerkalender", title: "Steuerkalender", desc: "Keine Abgabefrist neben dem Hauptjob verpassen." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", title: "Einzelunternehmen gründen", desc: "Gewerbe vs. Freiberuf und alle Anmeldungen." },
+      { to: "/ratgeber/kleinunternehmer-2026", title: "Kleinunternehmer 2026", desc: "25.000 € / 100.000 € und 5-Jahres-Bindung." },
+    ],
+    guides: [
+      { to: "/guides/einzelunternehmen-gruendung", title: "Guide: Einzelunternehmen gründen", desc: "Vom ersten Schritt bis zum fertigen Setup." },
+      { to: "/guides/elster-fse-fillout", title: "Guide: ELSTER-Fragebogen ausfüllen", desc: "Ohne Behörden-Deutsch durch alle Zeilen." },
+      { to: "/guides/buchhaltung-setup", title: "Guide: Buchhaltung einrichten", desc: "In einer Stunde für das ganze Jahr aufgestellt." },
+    ],
+    faq: [
+      { q: "Muss ich ab dem ersten Euro Steuern auf mein Nebengewerbe zahlen?", a: "Dein Gewinn aus dem Nebengewerbe wird bei der Einkommensteuer zu deinem Gehalt addiert. Der Freibetrag von 24.500 € (§ 11 GewStG) gilt nur für die Gewerbesteuer." },
+      { q: "Darf mein Arbeitgeber das Nebengewerbe verbieten?", a: "Nur bei konkreten Gründen wie direkter Konkurrenz, Verstoß gegen das Arbeitszeitgesetz oder Beeinträchtigung deiner Hauptarbeit. Eine rechtzeitige Anzeige im Vertrag prüfen." },
+    ],
+    quellen: [Q_GEWO, Q_AO138, Q_USTG19, { label: "§ 11 GewStG: 24.500 € Freibetrag", url: `${GII}/gewstg/__11.html` }, PSTTG],
+    ctaTitle: "Dein Nebengewerbe ohne Feierabend-Chaos",
+    ctaText: "In kurzen 10-Minuten-Schritten abends erledigen und jeden Fortschritt im Cockpit abhaken.",
+  },
+
+  // ── 7. Eigene Website oder App starten ─────────────────────────────────
+  {
+    slug: "webseite-und-app",
+    seoTitle: "Eigene Website oder App starten & launchen (2026) | GründerX",
+    seoDescription: "Von der Idee bis zur fertigen Website oder App im App Store und Play Store: Marken-Check, Impressum, SEO, Store-Accounts und Steuern auf Auszahlungen.",
+    eyebrow: "Für Builder · Website & App",
+    heading: "Deine eigene Website oder App. Von der Idee bis zum Launch.",
+    heroTitle: "Deine eigene Website oder App.",
+    heroAccent: "Von der Idee bis zum Launch.",
+    screen: "dashboard",
+    warumTitel: "Technik geht schnell. Die Hürden sitzen bei Stores, Recht und Steuern.",
+    lead: "Ob du 15, 30 oder 60 bist: Mit unseren Guides kommst du Schritt für Schritt zu deiner fertigen Website oder eigenen App im Apple App Store und Google Play Store.",
+    urgency: "Googles 12-Tester-Pflicht für neue Entwicklerkonten, Markenkonflikte beim App-Namen oder falsch gebuchte Apple-/Google-Auszahlungen kosten schnell Wochen. Hier arbeitest du alles in fester Reihenfolge ab.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Was brauche ich, bevor meine Website oder App live geht?",
+      text: "Prüfe zuerst Name und Domain gegen Markenrechte (DPMA/EUIPO), lege Impressum und Datenschutz nach deutschem Recht an und beantrage für Apps rechtzeitig Apple Developer und Google Play Console (inkl. USt-IdNr. für Store-Auszahlungen).",
+    },
+    outcomes: [
+      "Geprüfter Projektname ohne Konflikt bei Marken, Domains und App-Store-Namen",
+      "Sauberes Setup für Impressum, Datenschutz und Sichtbarkeit bei Google & KI-Suche",
+      "Kompletter Ablauf für Apple App Review, Google Play 12-Tester-Pflicht und Abo-Preise",
+      "Steuerliche Grundlagen für App-Store- und Stripe-Auszahlungen (USt-IdNr. & ZM)",
+    ],
+    wegHeading: "In 5 Schritten zur fertigen Website oder App",
+    weg: [
+      { title: "Name & Domain prüfen", description: "Brand-Check gegen DPMA, EUIPO, Domains und App Store.", meta: "Gratis-Check" },
+      { title: "Erste Version bauen", description: "Klares Ziel für Nutzer definieren und mobil zuerst umsetzen.", meta: "Fokus" },
+      { title: "Recht & Pflichtseiten", description: "Impressum (§ 5 DDG), Datenschutz und Store-Angaben ergänzen.", meta: "Vor Launch" },
+      { title: "Sichtbarkeit & Store-Review", description: "Search Console, Sitemap oder Apple/Google Review bestehen.", meta: "Go Live" },
+      { title: "Einnahmen sauber anmelden", description: "Gewerbe/Freiberuf, USt-IdNr. und laufende Buchhaltung.", meta: "Vor Auszahlung" },
+    ],
+    freeTools: [
+      { to: "/tools/brand-check", title: "Brand-Check", desc: "Name gegen DPMA, EUIPO, Domains und App Store prüfen." },
+      { to: "/ust-id-beantragen", title: "USt-IdNr.-Guide", desc: "Wichtig für Auszahlungen von Apple und Google (Irland)." },
+      { to: "/gruendungskosten-rechner", title: "Gründungskosten-Rechner", desc: "Store-Gebühren und Startkosten sauber kalkulieren." },
+    ],
+    tools: [
+      { slug: "app-umsatz-rechner", title: "App-Store-Umsatz-Rechner", desc: "Provision (15 % / 30 %) und Auszahlung genau durchrechnen." },
+      { slug: "brand-check", title: "Brand-Check", desc: "Marken-, Domain- und Handle-Prüfung in einem Lauf." },
+      { slug: "rechnungs-generator", title: "Rechnungs-Generator", desc: "Saubere Rechnungen als PDF erstellen." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/marke-anmelden-dpma", title: "Marke anmelden beim DPMA", desc: "Wann sich Markenschutz für App oder Website lohnt." },
+      { to: "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", title: "Gewerbe oder Freiberuf", desc: "Einordnung für Software, Apps und Webprojekte." },
+    ],
+    guides: [
+      { to: "/guides/erste-webseite-seo", title: "Guide: Erste Webseite & SEO", desc: "Live bringen, indexieren und gefunden werden." },
+      { to: "/guides/eigene-app-launchen", title: "Guide: Eigene App launchen", desc: "Apple App Store & Google Play komplett durchlaufen." },
+      { to: "/guides/b2b-saas-spezifika", title: "Guide: SaaS & Software-Business", desc: "Preise, Abos und wiederkehrende Umsätze." },
+    ],
+    faq: [
+      { q: "Muss ich programmieren können, um heute eine Website oder App zu starten?", a: "Nein. Im Guide zeigen wir sowohl den Weg mit KI- und No-Code-Werkzeugen als auch klassische Entwicklung, immer mit Fokus auf die echten Launch-Pflichten." },
+      { q: "Brauche ich für App-Store-Einnahmen eine USt-IdNr.?", a: "Für Auszahlungen von Apple (Irland) oder Google (Irland) greift bei B2B-Leistungen häufig Reverse-Charge, wofür eine USt-IdNr. und eine Zusammenfassende Meldung (ZM) relevant sind." },
+    ],
+    quellen: [
+      { label: "§ 5 DDG: Allgemeine Informationspflichten (Impressum)", url: `${GII}/ddg/__5.html` },
+      Q_USTG27A,
+      Q_AO138,
+    ],
+    ctaTitle: "Website oder App wirklich fertigstellen",
+    ctaText: "Klick dich durch jeden Schritt im interaktiven Lern-Studio und hake deinen Launch ab.",
+  },
+
+  // ── 8. Gründen ab 50 bis 70 ────────────────────────────────────────────
+  {
+    slug: "gruenden-ab-50",
+    seoTitle: "Gründen ab 50 bis 70: Freiberuf & Neustart | GründerX",
+    seoDescription: "Mit 50 bis 70 selbstständig starten oder neben der Rente beraten: Freiberuf, Einzelunternehmen, Krankenversicherung und Steuern ruhig und ohne Fachjargon.",
+    eyebrow: "Für 50 bis 70 Jahre · Erfahrung & Neustart",
+    heading: "Jahrzehnte Erfahrung. Jetzt einfach in dein eigenes Angebot bringen.",
+    heroTitle: "Jahrzehnte Erfahrung.",
+    heroAccent: "Jetzt einfach in dein eigenes Angebot bringen.",
+    screen: "rechnung",
+    warumTitel: "Klare Schritte ohne Fachchinesisch und ohne Hektik.",
+    lead: "Ob Beratung aus dem bisherigen Beruf, ein kleines Online-Angebot, Handwerk oder eine Tätigkeit neben bzw. vor der Rente: Wir führen dich ruhig, übersichtlich und mit großer Schrift durch jede Anmeldung.",
+    urgency: "Wer mit 50 bis 70 startet, hat das Wissen längst im Kopf, scheut aber oft ELSTER, Krankenkassen-Regeln und Formulare. Genau dafür gibt es die feste Reihenfolge ohne Hektik.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Lohnt sich ein Start als Freiberufler oder Einzelunternehmen zwischen 50 und 70?",
+      text: "Ja, denn du brauchst weder hohes Startkapital noch eine komplizierte GmbH. Viele starten schlank als Freiberufler oder Kleinunternehmer mit geringen laufenden Kosten und nutzen ihre Berufserfahrung direkt.",
+    },
+    outcomes: [
+      "Schnell geklärt: Freiberuf ohne Gewerbeamt oder schlankes Einzelunternehmen",
+      "Ruhige Schritt-für-Schritt-Hilfe für ELSTER-Fragebogen und erste PDF-Rechnung",
+      "Klare Orientierung zu Krankenversicherung, Renten-Hinzuverdienst und Rücklagen",
+      "Eigene Website oder Beratungsangebot ohne Technik-Überforderung",
+    ],
+    wegHeading: "Ruhig starten in 4 übersichtlichen Schritten",
+    weg: [
+      { title: "Freiberuf oder Gewerbe prüfen", description: "Beratung, Coaching, Lehre oder Gutachten sind oft freiberuflich.", meta: "15 Minuten" },
+      { title: "Finanzamt anmelden", description: "Fragebogen in ELSTER mit unserer Zeilenhilfe ausfüllen.", meta: "1 Monat Frist" },
+      { title: "Krankenkasse & Rente abstimmen", description: "Bei Teilzeit oder Rentenbezug kurz den eigenen Status bestätigen lassen.", meta: "Klarheit" },
+      { title: "Erste Rechnung & Belege", description: "Rechnung als PDF erstellen und monatlich Belege sammeln.", meta: "Startklar" },
+    ],
+    freeTools: [
+      { to: "/rechtsform-finden", title: "Rechtsform-Finder", desc: "Freiberuf und Einzelunternehmen direkt vergleichen." },
+      { to: "/businessplan-erstellen", title: "Businessplan-Generator", desc: "Dein Angebot strukturiert in wenigen Minuten festhalten." },
+      { to: "/gruendungskosten-rechner", title: "Kosten-Rechner", desc: "Alle einmaligen und laufenden Kosten vorab sehen." },
+    ],
+    tools: [
+      { slug: "rechnungs-generator", title: "Rechnungs-Generator (PDF)", desc: "Pflichtangaben automatisch geprüft, als PDF speicherbar." },
+      { slug: "fse-wizard", title: "Fragebogen-Begleiter", desc: "Verständliche Hilfe für jede ELSTER-Zeile." },
+      { slug: "kv-optimizer", title: "Krankenversicherung-Check", desc: "GKV- und PKV-Einfluss beim Start überblicken." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler", title: "Gewerbe oder Freiberuf?", desc: "Die wichtigsten Unterschiede klar erklärt." },
+      { to: "/ratgeber/brutto-netto-selbstaendig", title: "Brutto-Netto als Selbstständige:r", desc: "Was nach Steuern und Beiträgen bleibt." },
+    ],
+    guides: [
+      { to: "/guides/freiberufler-anmelden", title: "Guide: Freiberufler anmelden", desc: "Der schlanke Start für Beratung & Expertise." },
+      { to: "/guides/coach-1-on-1", title: "Guide: 1:1-Beratung aufbauen", desc: "Vom Angebot bis zur Abrechnung." },
+      { to: "/guides/erste-webseite-seo", title: "Guide: Einfache eigene Webseite", desc: "Ohne Vorkenntnisse professionell gefunden werden." },
+    ],
+    faq: [
+      { q: "Darf ich neben einer Altersrente selbstständig arbeiten?", a: "Bei der regulären Altersrente gelten in Deutschland seit 2023 keine Hinzuverdienstgrenzen mehr; bei Erwerbsminderungsrenten gelten eigene Grenzen. Steuerpflicht und Krankenversicherung prüfst du vorab mit Rententräger bzw. Steuerberater." },
+      { q: "Ist GründerX auch ohne Technik-Vorwissen bedienbar?", a: "Ja. Jeder Guide besteht aus kurzen Einzelschritten, die du nacheinander abhakst. Wenn ein Begriff unklar ist, erklärt Felix ihn direkt im Gespräch." },
+    ],
+    quellen: [Q_AO138, Q_USTG19, { label: "§ 18 EStG: Einkünfte aus selbstständiger Arbeit (Freiberuf)", url: `${GII}/estg/__18.html` }],
+    ctaTitle: "Ohne Hektik ins eigene Projekt starten",
+    ctaText: "Übersichtliche Guides, verständliche Sprache und klare Checklisten für PC und Handy.",
+  },
+
+  // ── 9. US-Setup, US-LLC & Amex US ──────────────────────────────────────
+  {
+    slug: "us-setup",
+    seoTitle: "US-LLC, US-Bank & Amex US aus Deutschland | GründerX",
+    seoDescription: "Amex US per Global Transfer, Cloud Residence, Utility-Bill, Tello eSIM, US-Bankkonto (Wise-Risiko vs. Chase/Bank of America) und US-LLC ehrlich erklärt.",
+    eyebrow: "International · US-Setup & Amex US",
+    heading: "US-Setup & Amex US aus Deutschland. Mit echten Fakten statt Gerüchten.",
+    heroTitle: "US-Setup & Amex US aus Deutschland.",
+    heroAccent: "Mit echten Fakten statt Gerüchten.",
+    screen: "dashboard",
+    warumTitel: "Bei US-Banken und Amex US zählt jedes echte Detail.",
+    lead: "Wir trennen sauber zwischen sicheren Wegen und Risiko-Abkürzungen: echte US-Wohnadresse (z. B. Cloud Residence), Utility-Bill, Tello eSIM für den Amex-Anruf, Chase/Bank of America vs. Wise und Global Transfer.",
+    urgency: "Viele Anleitungen im Netz empfehlen Briefkasten-Adressen, VoIP-Nummern oder verschweigen das Wise-Risiko bei Bankprüfungen. Das führt zu abgelehnten Anträgen. Hier bekommst du die realistische Reihenfolge.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Wie bekomme ich als Deutscher eine private US-Amex?",
+      text: "Mit einer mindestens 3 Monate aktiven deutschen Amex über Amex Global Transfer. Dafür brauchst du in der Praxis eine echte US-Wohnadresse (z. B. Cloud Residence, ca. 300 €/Quartal) inkl. Utility-Bill, eine US-eSIM für den Verifizierungsanruf (z. B. Tello) und ein US-Bankkonto (sicher: Chase/Bank of America per Filialbesuch + Reisepass; Wise nur auf eigenes Risiko).",
+    },
+    faelle: {
+      eyebrow: "Kosten & Risiken im Vergleich (Stand 25.11.2026)",
+      titel: "Was dein US-Amex-Setup konkret kostet und wo Risiken liegen",
+      lead: "Alle Pflicht-Bausteine in der echten Reihenfolge, bevor du einen Antrag abschickst.",
+      kopf: ["Baustein", "Praxis-Anbieter", "Kosten / Aufwand", "Risiko-Einordnung"],
+      zeilen: [
+        ["US-Wohnadresse + Utility-Bill", "z. B. Cloud Residence", "ca. 300 € / Quartal", "Sicherer als CMRA-Briefkästen"],
+        ["US-Telefonnummer (Anrufe/SMS)", "Tello per eSIM (Wi-Fi Calling)", "ab ca. 6 bis 10 $ / Monat", "Pflicht, weil Amex regelmäßig anruft"],
+        ["US-Bankkonto (sicher)", "Chase oder Bank of America", "Filialbesuch in den USA + Reisepass", "Sicher bei Amex-Bankprüfungen"],
+        ["US-Bankkonto (Risiko-Weg)", "Wise USD Account", "0 € Grundgebühr", "Klappt ohne Prüfung; bei Rückfrage durch"],
+      ],
+      fuss: "Stand 25.11.2026. Konditionen, Prüfregeln und Gebühren können sich bei Anbietern und American Express jederzeit ändern.",
+      link: { to: "/listicles/amex-us-privat-vorteile", label: "Alle 7 Vorteile der privaten US-Amex lesen" },
+    },
+    outcomes: [
+      "Kompletter Amex-US-Guide für privat (Global Transfer) und den Weg zur US-Business-Amex",
+      "7 Vorteile der privaten US-Amex: 4x Restaurants in DE, 2x/Jahr DE-zu-US-Transfer, 1:1 zu Hilton/Avios",
+      "Ehrlicher Bankkonto-Vergleich: Wise-Risiko vs. Chase / Bank of America Filialbesuch",
+      "US-LLC, EIN (Form SS-4) und steuerliche Grenzen bei Wohnsitz in Deutschland",
+    ],
+    wegHeading: "Dein US-Amex-Setup in der richtigen Reihenfolge",
+    weg: [
+      { title: "US-Wohnadresse & Utility-Bill", description: "Echte Adresse wie Cloud Residence (~300 €/Quartal) plus Adressnachweis.", meta: "Schritt 1" },
+      { title: "Tello eSIM einrichten", description: "Echte US-Nummer aus Deutschland nutzen, weil Amex regelmäßig anruft.", meta: "Schritt 2" },
+      { title: "US-Bankkonto klären", description: "Chase/Bank of America vor Ort mit Pass (sicher) oder Wise (Risiko bei Prüfung).", meta: "Schritt 3" },
+      { title: "Global Transfer & Punkte nutzen", description: "Einstieg z. B. mit US Amex Gold, 4x Restaurants in DE & 2x/Jahr DE→US Transfer.", meta: "Schritt 4" },
+    ],
+    freeTools: [
+      { to: "/tools/brand-check", title: "Brand-Check", desc: "Marken- und Domain-Verfügbarkeit international prüfen." },
+      { to: "/rechtsform-finden", title: "Rechtsform-Finder", desc: "Deutsche Rechtsform vs. Auslandsstruktur einordnen." },
+      { to: "/gruendungskosten-rechner", title: "Kosten-Rechner", desc: "Setup- und laufende Kosten realistisch planen." },
+    ],
+    tools: [
+      { slug: "us-kreditkarten", title: "US-Kreditkarten-Übersicht", desc: "Privat- und Business-Karten mit ehrlichen Fallstricken." },
+      { slug: "us-llc-wizard", title: "US-LLC-Wizard", desc: "Wyoming, Delaware und New Mexico im Vergleich." },
+      { slug: "us-hk-banking", title: "Internationales Banking", desc: "US-Konten und Anforderungen für Non-Residents." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/us-llc-gruenden-deutschland", title: "US-LLC aus Deutschland gründen", desc: "Kosten, Formulare und deutsche Steuerregeln." },
+    ],
+    guides: [
+      { to: "/guides/amex-us-beantragen", title: "Guide: Amex US beantragen (Privat & Business)", desc: "Global Transfer, Cloud Residence, Tello eSIM & Bankkonto." },
+      { to: "/guides/us-accounts-deutscher", title: "Guide: US-Accounts als Deutscher", desc: "Amazon US, TikTok Shop US und Konten." },
+    ],
+    faq: [
+      { q: "Reicht Wise als US-Bankkonto für die US-Amex?", a: "Du kannst es mit Wise versuchen: Kommt keine Bankprüfung von Amex, hast du Glück. Kommt eine Rückfrage, scheitert Wise in der Regel. Wirklich sicher ist nur ein echtes US-Filialkonto (z. B. Chase oder Bank of America) per Filialbesuch in den USA mit Reisepass." },
+      { q: "Warum brauche ich eine US-eSIM wie Tello?", a: "Weil American Express neue Antragsteller regelmäßig telefonisch verifiziert. Mit Tello per eSIM und Wi-Fi Calling nimmst du US-Anrufe zuverlässig in Deutschland an." },
+    ],
+    quellen: [
+      { label: "American Express US: Global Card Relationship", url: "https://www.americanexpress.com/us/credit-cards/features-benefits/us-newcomers/" },
+      { label: "Tello Mobile", url: "https://tello.com" },
+    ],
+    ctaTitle: "US-Amex & US-Setup sauber vorbereiten",
+    ctaText: "Im Amex-US-Guide hakst du Adresse, eSIM, Bankkonto, Global Transfer und Business-Schritt für Schritt ab.",
+  },
+
+  // ── 10. Freelancer & Agenturen ─────────────────────────────────────────
+  {
+    slug: "freelancer-agentur",
+    seoTitle: "Freelancer & Agentur starten: Steuern & Start | GründerX",
+    seoDescription: "Als Freelancer oder kleine Agentur starten: Freiberuf vs. Gewerbe, realistischer Stundensatz, erste Rechnung, Scheinselbstständigkeit und Künstlersozialabgabe.",
+    eyebrow: "Für Freelancer · Berater · Agenturen",
+    heading: "Deine Leistung verkaufen. Mit sauberem Stundensatz und klaren Rechnungen.",
+    heroTitle: "Deine Leistung verkaufen.",
+    heroAccent: "Mit sauberem Stundensatz und klaren Rechnungen.",
+    screen: "rechnung",
+    warumTitel: "Wer zu günstig anbietet oder Pflichten übersieht, zahlt doppelt.",
+    lead: "Ob Design, Entwicklung, Marketing, Text oder Beratung: Wir klären Freiberuf vs. Gewerbe, deinen realistischen Stundensatz, deine erste korrekte Rechnung und typische Stolpersteine wie Scheinselbstständigkeit.",
+    urgency: "Viele Freelancer kalkulieren ohne Rücklage für Steuer, Krankheit und Akquise-Zeit oder übersehen die Künstlersozialabgabe, sobald sie selbst Kreative beauftragen. Einmal sauber durchgerechnet, läuft dein Alltag ruhig.",
+    stand: { text: "Stand: 25.11.2026", iso: "2026-11-25" },
+    antwort: {
+      frage: "Bin ich als Freelancer automatisch Freiberufler?",
+      text: "Nein. Nur Tätigkeiten nach § 18 EStG (z. B. bestimmte Beratungs-, Design-, Lehr-, Schreib- oder Ingenieurberufe) zählen als Freiberuf. Klassische Vermittlung, Handel oder gemischte Agentur-Pakete werden oft als Gewerbe eingestuft.",
+    },
+    outcomes: [
+      "Saubere Einordnung zwischen Freiberuf (§ 18 EStG) und Gewerbe",
+      "Realistischer Stundensatz inklusive Steuer, Krankenversicherung und Urlaubstagen",
+      "Korrekte PDF-Rechnungen und Vorlage für Zahlungserinnerungen",
+      "Check auf Scheinselbstständigkeit und Künstlersozialabgabe (KSA)",
+    ],
+    wegHeading: "Dein Agentur- & Freelancer-Start",
+    weg: [
+      { title: "Freiberuf vs. Gewerbe klären", description: "Tätigkeit genau beschreiben, bevor das Formular ans Finanzamt geht.", meta: "Schritt 1" },
+      { title: "Stundensatz kalkulieren", description: "Netto-Ziel rückwärts auf realistische abrechenbare Tage umrechnen.", meta: "Schritt 2" },
+      { title: "Fragebogen & USt-IdNr.", description: "ELSTER-Fragebogen fristgerecht abgeben und USt-IdNr. mitbeantragen.", meta: "1 Monat Frist" },
+      { title: "Erste Rechnung & Rücklage", description: "Pflichtangaben prüfen und Steuer-Anteil direkt beiseitelegen.", meta: "Ab Auftrag 1" },
+    ],
+    freeTools: [
+      { to: "/rechtsform-finden", title: "Rechtsform-Finder", desc: "Freiberuf, Einzelunternehmen oder UG abgleichen." },
+      { to: "/ust-id-beantragen", title: "USt-IdNr.-Guide", desc: "Wann du sie für EU-Kunden brauchst." },
+      { to: "/businessplan-erstellen", title: "Businessplan-Generator", desc: "Leistungen und Kalkulation sauber strukturieren." },
+    ],
+    tools: [
+      { slug: "stundensatz-rechner", title: "Stundensatz-Rechner", desc: "Echten Tagessatz und Stundensatz berechnen." },
+      { slug: "rechnungs-generator", title: "Rechnungs-Generator", desc: "Fertige Rechnungen als PDF inklusive E-Rechnungs-Hinweis." },
+      { slug: "scheinselbststaendigkeit", title: "Scheinselbstständigkeits-Check", desc: "Risiken bei nur einem Hauptauftraggeber erkennen." },
+    ],
+    ratgeber: [
+      { to: "/ratgeber/e-rechnung-pflicht-b2b-2026", title: "E-Rechnung im B2B (2026 bis 2028)", desc: "Was für deine B2B-Rechnungen gilt." },
+      { to: "/ratgeber/brutto-netto-selbstaendig", title: "Brutto-Netto für Selbstständige", desc: "Rücklagen realistisch planen." },
+    ],
+    guides: [
+      { to: "/guides/freiberufler-anmelden", title: "Guide: Freiberufler anmelden", desc: "Direkt ans Finanzamt ohne Gewerbeamt." },
+      { to: "/guides/agency-services-setup", title: "Guide: Agentur & Dienstleistung", desc: "Struktur für Kundenprojekte und Team." },
+    ],
+    faq: [
+      { q: "Muss ich als Freelancer schon E-Rechnungen schreiben?", a: "Empfangen musst du E-Rechnungen im B2B-Bereich bereits; für das Ausstellen gelten gesetzliche Übergangsfristen bis Ende 2026 bzw. Ende 2027 (für Vorjahresumsatz bis 800.000 € nach § 27 Abs. 38 UStG)." },
+      { q: "Wann wird die Künstlersozialabgabe für meine Agentur relevant?", a: "Wenn du nicht nur gelegentlich selbstständige Designer, Texter, Fotografen oder Webdesigner beauftragst und die Entgelte 1.000 € im Jahr übersteigen (§ 24 KSVG)." },
+    ],
+    quellen: [
+      { label: "§ 18 EStG: Selbstständige Arbeit", url: `${GII}/estg/__18.html` },
+      { label: "§ 27 Abs. 38 UStG: E-Rechnung Übergangsfristen", url: `${GII}/ustg_1980/__27.html` },
+      { label: "§ 24 KSVG: Künstlersozialabgabe", url: `${GII}/ksvg/__24.html` },
+    ],
+    ctaTitle: "Sauber starten als Freelancer oder Agentur",
+    ctaText: "Rechner, Rechnungs-Generator, Fristen und Guides für dein Dienstleistungs-Business.",
   },
 ];
 

@@ -117,9 +117,9 @@ const QUELLEN: QuelleInfo[] = [
     paragraph: "§23 EStG",
     betragsArt: "gewinn",
     wenigerAls: true,
-    unterSchwelle: "Gegenstände des täglichen Gebrauchs (Kleidung, Möbel, Handy, Auto) sind gar kein §23-Fall (§23 Abs. 1 Satz 1 Nr. 2 Satz 2 EStG) — ihr Verkauf ist steuerfrei. Für andere Wirtschaftsgüter (z. B. Sammlerstücke, Gold): steuerfrei wenn (a) Spekulationsfrist 1 Jahr eingehalten ODER (b) Gesamtgewinn aller §23-Geschäfte weniger als 1.000 € pro Jahr (Freigrenze, KEIN Freibetrag — ab 1.000 € Gewinn ist der volle Betrag steuerpflichtig).",
+    unterSchwelle: "Gegenstände des täglichen Gebrauchs (Kleidung, Möbel, Handy, Auto) sind gar kein §23-Fall (§23 Abs. 1 Satz 1 Nr. 2 Satz 2 EStG), ihr Verkauf ist steuerfrei. Für andere Wirtschaftsgüter (z. B. Sammlerstücke, Gold): steuerfrei wenn (a) Spekulationsfrist 1 Jahr eingehalten ODER (b) Gesamtgewinn aller §23-Geschäfte weniger als 1.000 € pro Jahr (Freigrenze, KEIN Freibetrag, ab 1.000 € Gewinn ist der volle Betrag steuerpflichtig).",
     ueberSchwelle: "Voller Gewinn steuerpflichtig mit deinem persönlichen ESt-Satz. Verluste aus §23-Geschäften können nur mit anderen §23-Gewinnen verrechnet werden (Vortrag möglich).",
-    warnung: "DAC7-Meldung: Plattformen wie eBay, Vinted, Kleinanzeigen sind seit 2023 verpflichtet, das Finanzamt zu informieren wenn du ≥ 30 Verkäufe ODER ≥ 2.000 € Umsatz pro Jahr hast. Auch wenn steuerfrei — die Meldung kommt.",
+    warnung: "DAC7-Meldung: Plattformen wie eBay, Vinted, Kleinanzeigen sind seit 2023 verpflichtet, das Finanzamt zu informieren wenn du ≥ 30 Verkäufe ODER ≥ 2.000 € Umsatz pro Jahr hast. Auch wenn steuerfrei, die Meldung kommt.",
   },
   {
     v: "ebay-handel",
@@ -128,9 +128,9 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.KU_VORJAHR,
     schwellenName: "§19 UStG Kleinunternehmer 25k Vorjahr / 100k aktuell",
     paragraph: "§15 EStG + §19 UStG",
-    unterSchwelle: "Gewerbeanmeldung trotzdem Pflicht (nachhaltige Gewinnerzielungsabsicht §15 EStG). Aber: USt-Kleinunternehmer-Regelung möglich — keine USt-Ausweisung, keine Vorsteuer.",
+    unterSchwelle: "Gewerbeanmeldung trotzdem Pflicht (nachhaltige Gewinnerzielungsabsicht §15 EStG). Aber: USt-Kleinunternehmer-Regelung möglich, keine USt-Ausweisung, keine Vorsteuer.",
     ueberSchwelle: "Voller USt-Pflichtbetrieb: 19/7 % USt erheben, an FA abführen, monatliche/quartalsweise USt-VA. Plus weiterhin ESt + ggf. GewSt > 24.500 € Gewinn.",
-    warnung: "Wer regelmäßig handelt (3+ ähnliche Verkäufe/J mit Gewinnabsicht) ist gewerblich — auch wenn 'nur Hobby'. Bei Bestriebsprüfung droht Nachzahlung für mehrere Jahre.",
+    warnung: "Wer regelmäßig handelt (3+ ähnliche Verkäufe/J mit Gewinnabsicht) ist gewerblich, auch wenn 'nur Hobby'. Bei Bestriebsprüfung droht Nachzahlung für mehrere Jahre.",
   },
   {
     v: "freelance-side",
@@ -139,9 +139,9 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.KU_VORJAHR,
     schwellenName: "§19 UStG Kleinunternehmer 25k Vorjahr / 100k aktuell",
     paragraph: "§15 oder §18 EStG",
-    unterSchwelle: "Anmeldung nötig (Gewerbe ODER Freiberuf §18 EStG — siehe Berufs-Check). USt-Kleinunternehmer-Regelung möglich. ESt auf Gewinn (= Einnahmen - Betriebsausgaben) im Rahmen deines persönlichen Steuersatzes.",
+    unterSchwelle: "Anmeldung nötig (Gewerbe ODER Freiberuf §18 EStG, siehe Berufs-Check). USt-Kleinunternehmer-Regelung möglich. ESt auf Gewinn (= Einnahmen - Betriebsausgaben) im Rahmen deines persönlichen Steuersatzes.",
     ueberSchwelle: "Voller USt-Pflichtbetrieb. Bei Freiberuf trotz höherem Umsatz keine GewSt. Bei Gewerbe: GewSt ab 24.500 € Gewinn.",
-    warnung: "Wenn du angestellt bist UND nebenbei freelancest: erst Arbeitgeber informieren (Wettbewerbsklauseln, NK-Recht). Bei >18 h/Woche freelance gilt das oft als 2. Hauptberuf — KV-Folgen!",
+    warnung: "Wenn du angestellt bist UND nebenbei freelancest: erst Arbeitgeber informieren (Wettbewerbsklauseln, NK-Recht). Bei >18 h/Woche freelance gilt das oft als 2. Hauptberuf, KV-Folgen!",
   },
   {
     v: "uebungsleiter",
@@ -150,7 +150,7 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.UEBUNGSLEITER_PAUSCHALE,
     schwellenName: "§3 Nr. 26 EStG Übungsleiter-Pauschale",
     paragraph: "§3 Nr. 26 EStG",
-    unterSchwelle: "Bis 3.300 €/Jahr STEUER-FREI (Freibetrag, nicht Freigrenze — auch bei 3.301 € sind die ersten 3.300 € frei). Voraussetzung: nebenberuflich + gemeinnütziger Auftraggeber (Verein, gemeinnützige Org).",
+    unterSchwelle: "Bis 3.300 €/Jahr STEUER-FREI (Freibetrag, nicht Freigrenze, auch bei 3.301 € sind die ersten 3.300 € frei). Voraussetzung: nebenberuflich + gemeinnütziger Auftraggeber (Verein, gemeinnützige Org).",
     ueberSchwelle: "Nur der Betrag über 3.300 € wird besteuert. Bei Gewinnerzielungsabsicht: gewerblich oder freiberuflich (Lehrer-ähnlich) anmelden.",
     warnung: "Übungsleiter UND Ehrenamt kombinierbar! Du kannst von beiden Pauschalen profitieren (Voraussetzung: getrennte Tätigkeiten / Auftraggeber).",
   },
@@ -176,7 +176,7 @@ const QUELLEN: QuelleInfo[] = [
     wenigerAls: true,
     unterSchwelle: "Steuerfrei wenn (a) > 1 Jahr gehalten ODER (b) Gesamtgewinn < 1.000 €/Jahr (Freigrenze). FIFO-Methode für Kauf/Verkauf-Zuordnung.",
     ueberSchwelle: "Voller Gewinn steuerpflichtig mit persönlichem ESt-Satz (i.d.R. höher als die 25 % Abgeltungsteuer für Kapitalerträge). Verluste vortragbar.",
-    warnung: "Staking/Lending = KEINE 10-Jahres-Frist — es bleibt bei 1 Jahr (§23 EStG; BMF 06.03.2025, BFH IX R 3/22). Plus: ab 2026 Pflicht zur Plattform-Meldung (CARF — Crypto-Asset Reporting Framework, OECD-Standard).",
+    warnung: "Staking/Lending = KEINE 10-Jahres-Frist, es bleibt bei 1 Jahr (§23 EStG; BMF 06.03.2025, BFH IX R 3/22). Plus: ab 2026 Pflicht zur Plattform-Meldung (CARF, Crypto-Asset Reporting Framework, OECD-Standard).",
   },
   {
     v: "kapitalertraege",
@@ -185,7 +185,7 @@ const QUELLEN: QuelleInfo[] = [
     schwelle: SCHWELLEN_2026.SPARERPAUSCHBETRAG_SINGLE,
     schwellenName: "§20 EStG Sparerpauschbetrag",
     paragraph: "§20 EStG",
-    unterSchwelle: "1.000 € Single / 2.000 € verheiratet STEUER-FREI. Freistellungsauftrag bei der Bank stellen — dann Bank zieht keine 25 % Abgeltungsteuer ab.",
+    unterSchwelle: "1.000 € Single / 2.000 € verheiratet STEUER-FREI. Freistellungsauftrag bei der Bank stellen, dann Bank zieht keine 25 % Abgeltungsteuer ab.",
     ueberSchwelle: "Abgeltungsteuer 25 % + SolZ 5,5 % = 26,375 % wird direkt von Bank einbehalten. Bei niedrigerem ESt-Satz: Günstigerprüfung in Anlage KAP beantragen.",
     warnung: "Sparerpauschbetrag gilt nur für ALLE Kapitalerträge SUMMIERT. Wenn auf mehrere Banken verteilt: Freistellungsaufträge entsprechend splitten.",
   },
@@ -219,7 +219,7 @@ const QUELLEN: QuelleInfo[] = [
     label: "YouTube / Twitch / TikTok (Werbe-/Sponsor-Einnahmen)",
     emoji: "🎬",
     schwelle: 0,
-    schwellenName: "Sofort Gewerbe — keine Freigrenze",
+    schwellenName: "Sofort Gewerbe, keine Freigrenze",
     paragraph: "§15 EStG",
     unterSchwelle: "Auch der erste AdSense-Cent ist gewerblich. KEINE Freigrenze, Anmelde-Pflicht ab Tag 1 wenn nachhaltige Gewinnerzielungsabsicht.",
     ueberSchwelle: "Vollständig gewerblich. Gewerbeanmeldung + EÜR + ESt + ggf. USt + ggf. GewSt > 24.500 €.",
@@ -261,7 +261,7 @@ const SchwellenCheck = () => {
   return (
     <CockpitShell
       eyebrow="🌱 Erste Schritte · für komplette Anfänger:innen"
-      title="Side-Hustle-Schwellen: wann muss ich was melden?"
+      title="Nebenerwerb-Schwellen: wann muss ich was melden?"
       subtitle="Alle wichtigen Freibeträge, Freigrenzen und Pflicht-Schwellen für Anfänger:innen auf einer Seite. Mit Live-Check je Einkommensquelle und Warnung zur DAC7-Plattform-Meldung."
     >
       <BeginnerHero />
@@ -434,7 +434,7 @@ const SchwellenCheck = () => {
                             <p className="mt-2 flex items-start gap-1.5 text-sm font-medium text-warning">
                               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                               <span>
-                                Vorsicht: du näherst dich der Freigrenze. Erinnerung — Freigrenze ≠ Freibetrag! Schon 1 € über der Grenze macht den GESAMTEN Betrag steuerpflichtig.
+                                Vorsicht: du näherst dich der Freigrenze. Erinnerung, Freigrenze ≠ Freibetrag! Schon 1 € über der Grenze macht den GESAMTEN Betrag steuerpflichtig.
                               </span>
                             </p>
                           )}
@@ -509,16 +509,16 @@ const SchwellenCheck = () => {
             <strong className="text-foreground">Übungsleiter (3.300 €) + Ehrenamt (960 €)</strong> kumulierbar bei unterschiedlichen Tätigkeiten → 4.260 € steuerfrei möglich
           </KombiZeile>
           <KombiZeile tone="danger">
-            <strong className="text-foreground">§22 Nr. 3 Sonstige (256 €) + Gewerbe</strong> nicht kumulierbar — sobald nachhaltig → Gewerbe
+            <strong className="text-foreground">§22 Nr. 3 Sonstige (256 €) + Gewerbe</strong> nicht kumulierbar, sobald nachhaltig → Gewerbe
           </KombiZeile>
           <KombiZeile tone="warning">
             <strong className="text-foreground">Kleinunternehmer + Freiberuf</strong> = ja. Abfärbetheorie (§15 Abs. 3 Nr. 1 EStG) gilt nur für Personengesellschaften (GbR, PartG): dort macht gewerbliche Nebentätigkeit ALLES gewerblich. Als Einzelunternehmer:in kannst du Freiberuf und Gewerbe getrennt führen (getrennte Aufzeichnungen)
           </KombiZeile>
           <KombiZeile tone="warning">
-            <strong className="text-foreground">Sparerpauschbetrag (1.000 €) + Crypto-Freigrenze (1.000 €)</strong> sind separat — du kannst beide voll nutzen
+            <strong className="text-foreground">Sparerpauschbetrag (1.000 €) + Crypto-Freigrenze (1.000 €)</strong> sind separat, du kannst beide voll nutzen
           </KombiZeile>
           <KombiZeile tone="success">
-            <strong className="text-foreground">Hauptberuf-Anstellung + nebenberuflicher Side-Hustle</strong> → separate Anlage S/G, ESt-Progression auf Summe. Sozial-Versicherungs-rechtlich: nur wenn nebenberuf {">"} 50 % Hauptberuf-Brutto wird er pflichtversichert.
+            <strong className="text-foreground">Hauptberuf-Anstellung + nebenberuflicher Nebenerwerb</strong> → separate Anlage S/G, ESt-Progression auf Summe. Sozial-Versicherungs-rechtlich: nur wenn nebenberuf {">"} 50 % Hauptberuf-Brutto wird er pflichtversichert.
           </KombiZeile>
         </ul>
       </ToolSection>
@@ -592,7 +592,7 @@ const BeginnerHero = () => (
   <section className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
     <h2 className="text-base font-semibold tracking-tight">Was ist das hier?</h2>
     <p className="mt-1.5 max-w-[80ch] text-sm leading-relaxed text-muted-foreground">
-      Du fragst dich: „Wenn ich nur 200 € nebenbei verdiene — muss ich das versteuern?" oder „Mein Verein zahlt mir 500 € Übungsleiter-Honorar — steuerfrei?". Dieses Tool zeigt dir alle relevanten Freibeträge und Freigrenzen für Side-Hustles, plus die DAC7-Plattform-Meldepflicht (gilt seit 2023 für eBay, Vinted etc.).
+      Du fragst dich: „Wenn ich nur 200 € nebenbei verdiene, muss ich das versteuern?" oder „Mein Verein zahlt mir 500 € Übungsleiter-Honorar, steuerfrei?". Dieses Tool zeigt dir alle relevanten Freibeträge und Freigrenzen für Nebenerwerbs, plus die DAC7-Plattform-Meldepflicht (gilt seit 2023 für eBay, Vinted etc.).
     </p>
     <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
       <div className="rounded-xl border border-success/25 bg-success-soft p-3.5">
@@ -624,16 +624,16 @@ const Glossar = () => (
     </summary>
     <dl className="divide-y divide-border/70 border-t border-border/70 px-5 md:px-6">
       {[
-        { begriff: "Freibetrag vs. Freigrenze", erklaerung: "Freibetrag (z.B. Übungsleiter 3.300 €): bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Freigrenze (z.B. §23 EStG 1.000 €): bei Überschreitung wird der GESAMTE Betrag steuerpflichtig — extrem tückisch! Schon 1 € drüber → alles versteuert." },
+        { begriff: "Freibetrag vs. Freigrenze", erklaerung: "Freibetrag (z.B. Übungsleiter 3.300 €): bis Schwelle steuerfrei, NUR der Mehrbetrag wird besteuert. Freigrenze (z.B. §23 EStG 1.000 €): bei Überschreitung wird der GESAMTE Betrag steuerpflichtig, extrem tückisch! Schon 1 € drüber → alles versteuert." },
         { begriff: "§22 Nr. 3 EStG (Sonstige Einkünfte)", erklaerung: "Auffangtatbestand für gelegentliche Einnahmen, die kein Lohn / Gewinn aus Selbstständigkeit / Kapitalertrag etc. sind. 256 €/J Freigrenze. Beispiele: Vermittlungs-Tipps, Reichweiten-Awards, gelegentliche Vermietung." },
         { begriff: "§3 Nr. 26 EStG (Übungsleiter-Pauschale)", erklaerung: "3.300 €/Jahr Freibetrag für nebenberufliche pädagogische / künstlerische / pflegerische Tätigkeit bei gemeinnützigen Auftraggebern. Typisch: Sport-Trainer im Verein, Yoga-Kurse Volkshochschule, Nachhilfe Schule." },
         { begriff: "§3 Nr. 26a EStG (Ehrenamtspauschale)", erklaerung: "960 €/Jahr Freibetrag für nebenberufliche ehrenamtliche Tätigkeit bei gemeinnützigen Organisationen. Kombinierbar mit Übungsleiter-Pauschale bei unterschiedlichen Tätigkeiten." },
         { begriff: "§23 EStG (Privates Veräußerungsgeschäft)", erklaerung: "Gewinne aus dem Verkauf von Privatvermögen (Crypto, Antiquitäten, Gold). Steuerfrei wenn (a) >1 Jahr gehalten ODER (b) Gesamtgewinn aller §23-Geschäfte unter 1.000 €/J. Bei Immobilien: 10 Jahre Haltefrist." },
-        { begriff: "DAC7 (EU-Plattform-Meldepflicht)", erklaerung: "EU-Richtlinie 2021/514, seit 2023 in Kraft. Plattformen wie eBay, Vinted, Kleinanzeigen, Airbnb, Uber müssen das FA informieren bei ≥ 30 Verkäufen ODER ≥ 2.000 € Umsatz pro Jahr. Auch wenn deine Verkäufe steuerfrei sind — die Meldung kommt." },
+        { begriff: "DAC7 (EU-Plattform-Meldepflicht)", erklaerung: "EU-Richtlinie 2021/514, seit 2023 in Kraft. Plattformen wie eBay, Vinted, Kleinanzeigen, Airbnb, Uber müssen das FA informieren bei ≥ 30 Verkäufen ODER ≥ 2.000 € Umsatz pro Jahr. Auch wenn deine Verkäufe steuerfrei sind, die Meldung kommt." },
         { begriff: "Sparerpauschbetrag §20 EStG", erklaerung: "1.000 € Single / 2.000 € Verheiratet steuerfreier Kapitalertrag. Freistellungsauftrag bei jeder Bank stellen, damit keine 25 % Abgeltungsteuer einbehalten wird. Bei mehreren Banken: Aufträge entsprechend splitten." },
         { begriff: "Nachhaltige Gewinnerzielungsabsicht", erklaerung: "Kern-Kriterium für 'Gewerbe' nach §15 EStG. Du planst, auf Dauer Gewinn zu machen (auch wenn die ersten Jahre Verluste). Faustregel FA: bei 3+ Wiederholungen pro Jahr von ähnlichen Geschäften → nachhaltig." },
         { begriff: "Abgeltungsteuer", erklaerung: "Pauschale 25 % Steuer auf Kapitalerträge (Zinsen, Dividenden, ETF-Gewinne) plus 5,5 % Solidaritätszuschlag = effektiv 26,375 %. Wird i.d.R. direkt von der Bank einbehalten und abgeführt. Bei niedrigem persönlichen Steuersatz: Günstigerprüfung in Anlage KAP." },
-        { begriff: "CARF (Crypto-Asset Reporting Framework)", erklaerung: "OECD-Standard für Krypto-Meldepflicht ähnlich DAC7 für klassische Plattformen. Greift schrittweise ab 2025/26 — Crypto-Börsen müssen das FA informieren. Auch internationale Börsen wie Binance, Coinbase betroffen." },
+        { begriff: "CARF (Crypto-Asset Reporting Framework)", erklaerung: "OECD-Standard für Krypto-Meldepflicht ähnlich DAC7 für klassische Plattformen. Greift schrittweise ab 2025/26, Crypto-Börsen müssen das FA informieren. Auch internationale Börsen wie Binance, Coinbase betroffen." },
       ].map((g) => (
         <div key={g.begriff} className="py-4">
           <dt className="text-sm font-semibold">{g.begriff}</dt>

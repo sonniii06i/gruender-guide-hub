@@ -187,7 +187,7 @@ const IpBoxVergleich = () => {
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="text-base font-semibold leading-snug">{s.country}</h3>
-                  <p className="mt-0.5 text-sm text-muted-foreground">{s.regimeName.split(" — ")[0]}</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{s.regimeName.split(", ")[0]}</p>
                 </div>
                 <ToneBadge tone={FIT_TONE[s.fitForGermans]} className="shrink-0">
                   {s.fitForGermans}
@@ -228,7 +228,7 @@ const IpBoxVergleich = () => {
           {[
             "BEPS-Nexus-Ansatz: Steuervorteil nur im Verhältnis zur eigenen F&E der Gesellschaft",
             "Urheberrechtlich geschützte Software qualifiziert nach dem OECD-Nexus-Ansatz in allen EU-IP-Boxen (auch CY, IE und HU); Marken und andere Marketing-IP qualifizieren nirgends",
-            "Nexus-Quotient: begünstigt ist nur der Anteil (eigene F&E-Kosten × 130 %, höchstens bis zu den Gesamtkosten) / gesamte F&E-Kosten des IP-Assets — zugekaufte F&E und Konzern-Auftragsforschung senken ihn",
+            "Nexus-Quotient: begünstigt ist nur der Anteil (eigene F&E-Kosten × 130 %, höchstens bis zu den Gesamtkosten) / gesamte F&E-Kosten des IP-Assets, zugekaufte F&E und Konzern-Auftragsforschung senken ihn",
             "Die Buchhaltung muss IP-Einkünfte getrennt von den übrigen Einkünften erfassen",
             "F&E-Tagebuch und Ausgaben-Tracking je IP-Asset sind Pflicht",
             "Verrechnungspreis-Dokumentation nach § 90 Abs. 3 AO bei konzerninternen Lizenzen ist Pflicht",

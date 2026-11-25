@@ -18,11 +18,11 @@ const SITE = "https://gruenderx.de";
 const faqs = [
   {
     q: "Sind die Gründer-Tools wirklich kostenlos?",
-    a: "Zum Kennenlernen ja: Bei jedem Generator (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die beiden Amazon-Widerspruchs-Generatoren) ist eine Nutzung kostenlos – du gibst deine E-Mail-Adresse an und bekommst das fertige Dokument samt PDF. Beim WEEE-Check, Brand-Check und LUCID-Wizard ist je eine Prüfung kostenlos. Unbegrenzt nutzt du alle Tools mit dem GründerX-Abo.",
+    a: "Zum Kennenlernen ja: Bei jedem Generator (Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die beiden Amazon-Widerspruchs-Generatoren) ist eine Nutzung kostenlos. Du gibst deine E-Mail-Adresse an und bekommst das fertige Dokument samt PDF. Beim WEEE-Check, Brand-Check und LUCID-Wizard ist je eine Prüfung kostenlos. Unbegrenzt nutzt du alle Tools mit dem GründerX-Abo.",
   },
   {
     q: "Muss ich ein Konto anlegen?",
-    a: "Nein. Für die kostenlosen Tools brauchst du nur deine E-Mail-Adresse. Ein GründerX-Konto entsteht erst mit dem Abo – nach der Zahlung.",
+    a: "Nein. Für die kostenlosen Tools brauchst du nur deine E-Mail-Adresse. Ein GründerX-Konto entsteht erst mit dem Abo nach der Zahlung.",
   },
   {
     q: "Was passiert mit meiner E-Mail-Adresse?",
@@ -32,8 +32,8 @@ const faqs = [
 
 const steps = [
   { icon: Sparkles, title: "Angaben eingeben", desc: "Beantworte ein paar einfache Fragen im Schritt-für-Schritt-Assistenten." },
-  { icon: Lock, title: "E-Mail angeben", desc: "Das erste fertige Ergebnis je Tool gibt es gegen deine E-Mail-Adresse – ohne Konto, ohne Zahlung." },
-  { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF herunter und starte durch." },
+  { icon: Lock, title: "E-Mail angeben", desc: "Das erste fertige Ergebnis je Tool gibt es gegen deine E-Mail-Adresse, ohne Konto und ohne Zahlung." },
+  { icon: Rocket, title: "Loslegen", desc: "Lade dein Ergebnis als PDF herunter und setze direkt den nächsten Schritt um." },
 ];
 
 export default function GratisTools() {
@@ -53,7 +53,7 @@ export default function GratisTools() {
     <div className="min-h-screen bg-background">
       <Seo
         title="Kostenlose Gründer-Tools: Steuer, Businessplan | GründerX"
-        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto; unbegrenzt im Abo."
+        description="Erstelle Businessplan, Gründungskosten-Übersicht und Rechtsform-Empfehlung Schritt für Schritt. 1 kostenlose Nutzung je Generator, nur E-Mail nötig, ohne Konto."
         path="/gratis-tools"
         type="website"
         jsonLd={jsonLd}
@@ -133,7 +133,7 @@ export default function GratisTools() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="mb-2 text-2xl font-semibold text-foreground">Checks aus dem Cockpit: {TRIAL_CLAIM}</h2>
           <p className="text-sm text-muted-foreground mb-6">
-            Diese Tools gehören zum Abo. Eine Prüfung pro Tool ist kostenlos – das Ergebnis gibt es gegen deine
+            Diese Tools gehören zum Abo. Eine Prüfung pro Tool ist kostenlos; das Ergebnis gibt es gegen deine
             E-Mail-Adresse.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

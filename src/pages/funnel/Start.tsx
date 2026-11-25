@@ -18,10 +18,10 @@ import { PLANS, formatEurCents, CANCEL_NOTE, NOT_INCLUDED } from "@/config/prici
 const MONAT = formatEurCents(PLANS.gruenderx.grossCents);
 
 const DRIN: { titel: string; text: string }[] = [
-  { titel: "Fragebogen-Begleiter", text: "Alle 24 Teilseiten des ELSTER-Fragebogens zur steuerlichen Erfassung in der Reihenfolge, in der ELSTER sie abfragt – mit den echten Zeilennummern." },
+  { titel: "Fragebogen-Begleiter", text: "Alle 24 Teilseiten des ELSTER-Fragebogens zur steuerlichen Erfassung in der Reihenfolge, in der ELSTER sie abfragt, mit den echten Zeilennummern." },
   { titel: "Gewerbeanmeldung-Wizard", text: "Schritt für Schritt zum ausgefüllten GewA1, bevor du zum Gewerbeamt gehst." },
   { titel: "Steuer- und Fristenkalender", text: "Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation." },
-  { titel: "Marketplace-Pflichten", text: "LUCID-Wizard, WEEE/EAR-Check, OSS-Hinweise und Guides für Amazon und TikTok Shop – in der richtigen Reihenfolge." },
+  { titel: "Marketplace-Pflichten", text: "LUCID-Wizard, WEEE/EAR-Check, OSS-Hinweise und Guides für Amazon und TikTok Shop, in der richtigen Reihenfolge." },
   { titel: "Felix, dein KI-Co-Pilot", text: "Fragen zu Gründung, Steuern und Marketplaces im Chat, mit Quellen und nächsten Schritten." },
   { titel: "Rechnungs-Generator", text: "Rechnungen als PDF mit Live-Check der Pflichtangaben, auch als Kleinunternehmer." },
 ];
@@ -35,7 +35,7 @@ const VERGLEICH: [string, string, string, string][] = [
 ];
 
 const FAQ: { q: string; a: string }[] = [
-  { q: "Noch ein Abo?", a: `Du startest mit 7 Tagen für 1 €. Danach läuft GründerX für ${MONAT} im Monat – ${CANCEL_NOTE}` },
+  { q: "Noch ein Abo?", a: `Du startest mit 7 Tagen für 1 €. Danach läuft GründerX für ${MONAT} im Monat, ${CANCEL_NOTE}` },
   { q: "Was passiert nach den 7 Tagen?", a: `Ohne Kündigung geht der Zugang in den Monatszugang über (${MONAT}/Monat). Kündigen kannst du in den 7 Tagen und danach jederzeit zum Ende der laufenden Periode im Konto unter Profil → Abrechnung.` },
   { q: "Ersetzt GründerX den Steuerberater?", a: NOT_INCLUDED + " Du kannst GründerX auch nutzen, um vorbereitet zum Steuerberater zu gehen." },
   { q: "Ich verkaufe nur nebenbei. Brauche ich das?", a: "Wer nebenbei regelmäßig mit Gewinnabsicht verkauft, braucht in der Regel ein Gewerbe und muss den Fragebogen zur steuerlichen Erfassung innerhalb eines Monats nach Beginn abgeben (§ 138 Abs. 4 AO). Genau für diesen Einstieg ist GründerX gebaut." },
@@ -47,7 +47,7 @@ const Start = () => (
   <FunnelShell kopfRechts={<span className="hidden text-sm text-muted-foreground sm:inline">7 Tage für 1 €</span>}>
     <Seo
       title="GründerX: Gewerbe und Fragebogen Zeile für Zeile"
-      description={`Gewerbe anmelden, Fragebogen zur steuerlichen Erfassung, Fristen, LUCID und WEEE – Schritt für Schritt. 7 Tage für 1 €, danach ${MONAT}/Monat, jederzeit kündbar.`}
+      description={`Gewerbe anmelden, Fragebogen zur steuerlichen Erfassung, Fristen, LUCID und WEEE, Schritt für Schritt. 7 Tage für 1 €, danach ${MONAT}/Monat, jederzeit kündbar.`}
       path="/start"
       noindex
     />
@@ -61,10 +61,10 @@ const Start = () => (
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
             70 % aller Gründungen 2025 waren nebenberuflich. Nach der Idee kommt der Papierkram: Fragebogen zur steuerlichen
-            Erfassung, Fristen, die richtige Reihenfolge. GründerX führt dich durch – vom Gewerbe bis zum ersten Listing.
+            Erfassung, Fristen, die richtige Reihenfolge. GründerX führt dich durch, vom Gewerbe bis zum ersten Listing.
           </p>
           <ul className="mt-6 space-y-2 text-sm">
-            {["Fragebogen: alle 24 Teilseiten mit echten ELSTER-Zeilennummern", "Gewerbeanmeldung, Fristen, LUCID, WEEE, OSS in der richtigen Reihenfolge", "Felix beantwortet Fragen mit Quellen, rund um die Uhr"].map((t) => (
+            {["Fragebogen: alle 24 Teilseiten mit echten ELSTER-Zeilennummern", "Gewerbeanmeldung, Fristen, LUCID, WEEE, OSS in der richtigen Reihenfolge", "Felix beantwortet Fragen mit Quellen direkt im Cockpit"].map((t) => (
               <li key={t} className="flex gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />{t}</li>
             ))}
           </ul>
@@ -81,7 +81,7 @@ const Start = () => (
           {[
             ["Ein Monat Frist", "Den Fragebogen zur steuerlichen Erfassung musst du innerhalb eines Monats nach Beginn der Tätigkeit abgeben (§ 138 Abs. 4 AO)."],
             ["Ein Kreuz, fünf Jahre", "Wer auf die Kleinunternehmerregelung verzichtet, ist mindestens fünf Kalenderjahre daran gebunden (§ 19 Abs. 3 UStG)."],
-            ["Keiner erklärt es dir", "Ein Nutzer im ELSTER-Forum (März 2024): Der Support habe ihn ans Forum verwiesen – „Man kann und darf mir inhaltlich nicht helfen.“"],
+            ["Keiner erklärt es dir", "Ein Nutzer im ELSTER-Forum (März 2024): Der Support habe ihn ans Forum verwiesen, „Man kann und darf mir inhaltlich nicht helfen.“"],
           ].map(([t, x]) => (
             <div key={t} className="rounded-2xl border border-border bg-card p-6 shadow-card">
               <h3 className="text-base font-semibold">{t}</h3>
@@ -130,7 +130,7 @@ const Start = () => (
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-muted-foreground">Ein Steuerberater darf dich im Einzelfall beraten und haftet dafür – GründerX nicht. Für komplexe Fälle ist er die richtige Wahl.</p>
+        <p className="mt-3 text-xs text-muted-foreground">Ein Steuerberater darf dich im Einzelfall beraten und haftet dafür, GründerX nicht. Für komplexe Fälle ist er die richtige Wahl.</p>
       </div>
     </section>
 

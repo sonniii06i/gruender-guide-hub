@@ -69,7 +69,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Was ist der Unterschied zwischen Monats- und Jahreszugang?",
-    a: `Der Funktionsumfang ist gleich. Der Jahreszugang wird einmal im Jahr abgerechnet und kostet ${formatEurCents(PLANS["gruenderx-year"].grossCents)} statt 12 × ${formatEurCents(PLANS.gruenderx.grossCents)} = ${formatEurCents(PLANS["gruenderx-year"].anchorCents!)} – du sparst ${formatEurCents(yearSaving(PLANS["gruenderx-year"]))}.`,
+    a: `Der Funktionsumfang ist gleich. Der Jahreszugang wird einmal im Jahr abgerechnet und kostet ${formatEurCents(PLANS["gruenderx-year"].grossCents)} statt 12 × ${formatEurCents(PLANS.gruenderx.grossCents)} = ${formatEurCents(PLANS["gruenderx-year"].anchorCents!)}. Du sparst ${formatEurCents(yearSaving(PLANS["gruenderx-year"]))}.`,
   },
   {
     q: "Gibt es einen Gutschein?",
@@ -148,7 +148,7 @@ const Preise = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`Preise – GründerX ab ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat inkl. USt.`}
+        title={`Preise: GründerX ab ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat inkl. USt.`}
         description={`GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr. Endpreise inkl. USt., jederzeit kündbar.`}
         path="/preise"
         type="product"
@@ -183,7 +183,7 @@ const Preise = () => {
               return (
                 <div
                   key={p.key}
-                  className="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 md:p-8"
+                  className="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-md md:p-8"
                 >
                   <div>
                     <h3 className="text-xl font-semibold">{p.title}</h3>

@@ -12,8 +12,8 @@ import { PaywallGate } from "./components/PaywallGate.tsx";
 import { AdminGate } from "./components/AdminGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
 
-// Eager: Routen die jeder User durchläuft (Auth/Onboarding/Dashboard/Playbooks)
-import Index from "./pages/Index.tsx";
+// Alle großen Routen lazy laden, damit eingeloggte Nutzer auf /dashboard nie die Marketing-Startseite mitladen müssen.
+const Index = lazy(() => import("./pages/Index.tsx"));
 const Auth = lazy(() => import("./pages/Auth.tsx"));
 const Willkommen = lazy(() => import("./pages/Willkommen.tsx"));
 const ZahlungErfolgreich = lazy(() => import("./pages/ZahlungErfolgreich.tsx"));
@@ -188,8 +188,21 @@ const FreeToolRoute = lazy(() => import("./pages/FreeToolRoute.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
 const VorlageDetail = lazy(() => import("./pages/VorlageDetail.tsx"));
 const VorlagenKategorie = lazy(() => import("./pages/VorlagenKategorie.tsx"));
+const ListiclesIndex = lazy(() => import("./pages/ListiclesIndex.tsx"));
+const ListicleDetail = lazy(() => import("./pages/ListicleDetail.tsx"));
+const QuizIndex = lazy(() => import("./pages/QuizIndex.tsx"));
+const QuizPlay = lazy(() => import("./pages/QuizPlay.tsx"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 15 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const RouteTracker = () => { useTrackPageview(); return null; };
 
@@ -342,7 +355,7 @@ const App = () => (
                 <Route path="/cockpit/bafa-beratung" element={<PaywallGate title="BAFA-Beratungsförderung"><BafaBeratungCheck /></PaywallGate>} />
                 <Route path="/cockpit/gruendungszuschuss" element={<PaywallGate title="Gründungszuschuss-Check"><GruendungszuschussCheck /></PaywallGate>} />
                 <Route path="/cockpit/gewerbe-check" element={<PaywallGate title="Brauche ich ein Gewerbe?"><GewerbeCheck /></PaywallGate>} />
-                <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Side-Hustle-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
+                <Route path="/cockpit/schwellen-check" element={<PaywallGate title="Nebenerwerb-Schwellen-Check"><SchwellenCheck /></PaywallGate>} />
                 <Route path="/cockpit/steuer-abc" element={<PaywallGate title="Steuer-ABC Glossar"><SteuerABC /></PaywallGate>} />
                 <Route path="/cockpit/brutto-netto-solo" element={<PaywallGate title="Brutto-Netto Solo-Selbstständig"><BruttoNettoSolo /></PaywallGate>} />
                 <Route path="/cockpit/stundensatz-rechner" element={<PaywallGate title="Stundensatz-Rechner für Anfänger"><StundensatzRechner /></PaywallGate>} />
@@ -421,10 +434,23 @@ const App = () => (
               <Route path="/preise" element={<Preise />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/:slug" element={<GuideLanding />} />
-              {/* Zielgruppen-Landings (25.10.2026) */}
+              {/* Zielgruppen-Landings (12-70 & Use Cases) */}
               <Route path="/influencer" element={<ZielgruppeLanding slug="influencer" />} />
               <Route path="/tiktok-shop" element={<ZielgruppeLanding slug="tiktok-shop" />} />
               <Route path="/amazon-haendler" element={<ZielgruppeLanding slug="amazon-haendler" />} />
+              <Route path="/u18-gruenden" element={<ZielgruppeLanding slug="u18-gruenden" />} />
+              <Route path="/studenten-azubis" element={<ZielgruppeLanding slug="studenten-azubis" />} />
+              <Route path="/nebengewerbe" element={<ZielgruppeLanding slug="nebengewerbe" />} />
+              <Route path="/webseite-und-app" element={<ZielgruppeLanding slug="webseite-und-app" />} />
+              <Route path="/gruenden-ab-50" element={<ZielgruppeLanding slug="gruenden-ab-50" />} />
+              <Route path="/us-setup" element={<ZielgruppeLanding slug="us-setup" />} />
+              <Route path="/freelancer-agentur" element={<ZielgruppeLanding slug="freelancer-agentur" />} />
+              {/* Interaktive Quizze, Umfragen & Listicles (SEO + Gamification) */}
+              <Route path="/quiz" element={<QuizIndex />} />
+              <Route path="/quiz/:slug" element={<QuizPlay />} />
+              <Route path="/umfrage/:slug" element={<QuizPlay />} />
+              <Route path="/listicles" element={<ListiclesIndex />} />
+              <Route path="/listicles/:slug" element={<ListicleDetail />} />
               <Route path="/tipps-bestaetigt" element={<TippsBestaetigt />} />
               {/* Kostenlose Lead-Magnet-Tools (Ergebnis gegen E-Mail, kein Konto) */}
               <Route path="/gratis-tools" element={<GratisTools />} />

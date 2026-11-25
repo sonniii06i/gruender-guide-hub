@@ -4,9 +4,9 @@ import type { LandingCopy } from "./landingCopy";
 export const TOOL_COPY: Record<string, LandingCopy> = {
   "mahnung": {
     "seoTitle": "Mahnung schreiben: Vorlage mit Verzugszinsen 2026",
-    "seoDescription": "Zahlungserinnerung und Mahnung als PDF – mit korrekten Verzugszinsen (Basiszins 1,52 %), 40-€-Pauschale bei Geschäftskunden und dem richtigen Verzugsbeginn.",
+    "seoDescription": "Zahlungserinnerung und Mahnung als PDF, mit korrekten Verzugszinsen (Basiszins 1,52 %), 40-€-Pauschale bei Geschäftskunden und dem richtigen Verzugsbeginn.",
     "lead": "Der Mahnungs-Generator erstellt Zahlungserinnerung, erste, zweite und letzte Mahnung als PDF und rechnet Verzugszinsen, Pauschale und Verzugsbeginn nach den aktuellen Regeln des BGB.",
-    "urgency": "Unbezahlte Rechnungen sind für Gründer oft existenzbedrohend – und viele verschenken Geld, weil sie Verzugszinsen und die 40-€-Pauschale bei Geschäftskunden nicht verlangen oder den Verzug falsch berechnen. Mit dem Mahnungs-Generator von GründerX mahnst du korrekt und mit dem richtigen Ton.",
+    "urgency": "Unbezahlte Rechnungen sind für Gründer oft existenzbedrohend, und viele verschenken Geld, weil sie Verzugszinsen und die 40-€-Pauschale bei Geschäftskunden nicht verlangen oder den Verzug falsch berechnen. Mit dem Mahnungs-Generator von GründerX mahnst du korrekt und mit dem richtigen Ton.",
     "outcomes": [
         "Vier Mahnstufen von freundlich bis Mahnbescheid-Ankündigung",
         "Verzugszinsen je Halbjahr mit aktuellem Basiszins",
@@ -17,9 +17,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
 },
   "kleinunternehmer-waechter": {
     "seoTitle": "Kleinunternehmer-Grenze 2026: Umsatz-Wächter",
-    "seoDescription": "25.000 € oder 100.000 €? Behalte deinen Umsatz im Blick und erfahre, wann du die Kleinunternehmergrenze reißt – nach den neuen Regeln seit 2025.",
+    "seoDescription": "25.000 € oder 100.000 €? Behalte deinen Umsatz im Blick und erfahre, wann du die Kleinunternehmergrenze reißt, nach den neuen Regeln seit 2025.",
     "lead": "Der Wächter zeigt dir Monat für Monat, wie nah du an der Kleinunternehmergrenze bist, wann du sie bei gleichem Tempo erreichst und was dann passiert.",
-    "urgency": "Seit 2025 ist schon der Umsatz, mit dem du die Grenze überschreitest, voll umsatzsteuerpflichtig – nicht erst das Folgejahr. Wer es zu spät merkt, schuldet die Steuer auf Rechnungen, die er ohne Umsatzsteuer gestellt hat. Im Gründungsjahr liegt die Grenze sogar bei nur 25.000 €.",
+    "urgency": "Seit 2025 ist schon der Umsatz, mit dem du die Grenze überschreitest, voll umsatzsteuerpflichtig, nicht erst das Folgejahr. Wer es zu spät merkt, schuldet die Steuer auf Rechnungen, die er ohne Umsatzsteuer gestellt hat. Im Gründungsjahr liegt die Grenze sogar bei nur 25.000 €.",
     "outcomes": [
         "Fortschritt bis zur Grenze mit Monatsverlauf",
         "Prognose, in welchem Monat du die Grenze erreichst",
@@ -30,8 +30,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
 },
   "steuerkalender": {
     "seoTitle": "Steuerkalender für Selbstständige & Gründer 2026/27",
-    "seoDescription": "Alle Steuertermine der nächsten 12 Monate für deine Rechtsform: USt-Voranmeldung, Vorauszahlungen, Lohnsteuer, Abgabefristen – mit Feiertagen und Kalender-Export.",
-    "lead": "Der Steuerkalender zeigt dir jeden Abgabe- und Zahlungstermin der nächsten zwölf Monate – passend zu Rechtsform, Umsatzsteuer-Rhythmus, Mitarbeitern und Steuerberater – und schickt alles mit Erinnerung in deinen Kalender.",
+    "seoDescription": "Alle Steuertermine der nächsten 12 Monate für deine Rechtsform: USt-Voranmeldung, Vorauszahlungen, Lohnsteuer, Abgabefristen, mit Feiertagen und Kalender-Export.",
+    "lead": "Der Steuerkalender zeigt dir jeden Abgabe- und Zahlungstermin der nächsten zwölf Monate, passend zu Rechtsform, Umsatzsteuer-Rhythmus, Mitarbeitern und Steuerberater, und schickt alles mit Erinnerung in deinen Kalender.",
     "urgency": "Wer eine Voranmeldung zu spät abgibt, riskiert Verspätungszuschläge, wer zu spät zahlt, Säumniszuschläge von 1 % pro angefangenem Monat. Dazu kommen Sonderfälle wie die Rückkehr der monatlichen Voranmeldung für Neugründer ab 2027. Mit dem Steuerkalender von GründerX verpasst du keinen Termin mehr.",
     "outcomes": [
         "Alle Steuertermine der nächsten 12 Monate für deine Situation",
@@ -43,9 +43,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
 },
   "scheinselbststaendigkeit": {
     "seoTitle": "Scheinselbstständigkeit prüfen: Check für Freelancer",
-    "seoDescription": "Bin ich scheinselbstständig? Risiko-Check nach den Kriterien der Rentenversicherung plus Rentenversicherungspflicht bei einem Auftraggeber – mit Beiträgen 2026.",
-    "lead": "Der Check zeigt dir anhand der Kriterien der Deutschen Rentenversicherung, wie hoch dein Risiko der Scheinselbstständigkeit ist – und ob du als Selbstständiger mit einem Hauptkunden rentenversicherungspflichtig bist.",
-    "urgency": "Wird eine Scheinselbstständigkeit festgestellt, muss der Auftraggeber Sozialversicherungsbeiträge für bis zu vier Jahre nachzahlen – Aufträge brechen deshalb oft schlagartig weg. Und auch echte Selbstständige mit nur einem Hauptkunden sind rentenversicherungspflichtig, ohne es zu wissen. Mit dem Check von GründerX weißt du in fünf Minuten, wo du stehst.",
+    "seoDescription": "Bin ich scheinselbstständig? Risiko-Check nach den Kriterien der Rentenversicherung plus Rentenversicherungspflicht bei einem Auftraggeber, mit Beiträgen 2026.",
+    "lead": "Der Check zeigt dir anhand der Kriterien der Deutschen Rentenversicherung, wie hoch dein Risiko der Scheinselbstständigkeit ist, und ob du als Selbstständiger mit einem Hauptkunden rentenversicherungspflichtig bist.",
+    "urgency": "Wird eine Scheinselbstständigkeit festgestellt, muss der Auftraggeber Sozialversicherungsbeiträge für bis zu vier Jahre nachzahlen, Aufträge brechen deshalb oft schlagartig weg. Und auch echte Selbstständige mit nur einem Hauptkunden sind rentenversicherungspflichtig, ohne es zu wissen. Mit dem Check von GründerX weißt du in fünf Minuten, wo du stehst.",
     "outcomes": [
         "Risiko-Ampel nach den Indizien der Rentenversicherung",
         "Prüfung der Rentenversicherungspflicht (5/6-Regel, Mitarbeiter, 603-€-Grenze)",
@@ -56,8 +56,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
 },
   "gz-phase2": {
     "seoTitle": "Gründungszuschuss Phase 2 beantragen: Bericht-Vorlage",
-    "seoDescription": "Bericht über deine Geschäftstätigkeit für Phase 2 des Gründungszuschusses: Aktivitäten, Einnahmen und Ausgaben, Ausblick – mit Prüfung und PDF.",
-    "lead": "Für Phase 2 des Gründungszuschusses verlangt die Arbeitsagentur einen Bericht über deine bisherige Geschäftstätigkeit. Hier erstellst du ihn strukturiert – mit Einnahmen und Ausgaben je Monat – als fertiges PDF.",
+    "seoDescription": "Bericht über deine Geschäftstätigkeit für Phase 2 des Gründungszuschusses: Aktivitäten, Einnahmen und Ausgaben, Ausblick, mit Prüfung und PDF.",
+    "lead": "Für Phase 2 des Gründungszuschusses verlangt die Arbeitsagentur einen Bericht über deine bisherige Geschäftstätigkeit. Hier erstellst du ihn strukturiert, mit Einnahmen und Ausgaben je Monat, als fertiges PDF.",
     "urgency": "Phase 2 ist eine Ermessensleistung: 2.700 € gibt es nur, wenn du eine intensive, hauptberufliche Tätigkeit nachweist. Ein dünner Bericht ohne Zahlen ist der schnellste Weg zur Ablehnung. Mit der Vorlage von GründerX lieferst du genau das, was in den Fachlichen Weisungen steht.",
     "outcomes": [
         "Bericht mit allen Pflichtinhalten nach den Fachlichen Weisungen",
@@ -71,7 +71,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "KfW-StartGeld: Bankgespräch vorbereiten & Rate rechnen",
     "seoDescription": "ERP-Gründerkredit StartGeld bis 200.000 €: Raten mit aktuellen KfW-Zinsen rechnen, Unterlagen abhaken und die typischen Bankfragen vorbereiten.",
     "lead": "Das Tool rechnet deine Raten für den KfW-Gründerkredit StartGeld mit den aktuellen Maximalzinsen, hakt die Unterlagen ab, die Bank und KfW sehen wollen, und hilft dir, die typischen Fragen im Bankgespräch vorzubereiten.",
-    "urgency": "Den Gründerkredit beantragst du über deine Hausbank – und die entscheidet im Gespräch, ob sie den Antrag überhaupt weiterreicht. Wer Kapitaldienst, Sicherheiten und Umsatzplanung nicht sauber erklären kann, bekommt eine Absage, obwohl die KfW 80 % des Risikos übernimmt. Mit der Gesprächsmappe von GründerX gehst du vorbereitet hinein.",
+    "urgency": "Den Gründerkredit beantragst du über deine Hausbank, und die entscheidet im Gespräch, ob sie den Antrag überhaupt weiterreicht. Wer Kapitaldienst, Sicherheiten und Umsatzplanung nicht sauber erklären kann, bekommt eine Absage, obwohl die KfW 80 % des Risikos übernimmt. Mit der Gesprächsmappe von GründerX gehst du vorbereitet hinein.",
     "outcomes": [
         "Raten in tilgungsfreier Zeit und danach, Zinsen gesamt",
         "Unterlagen-Checkliste nach KfW und IHK",
@@ -84,7 +84,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "Pitch-Deck erstellen: 10 Folien für Wettbewerbe",
     "seoDescription": "Pitch-Deck für Businessplan-Wettbewerbe, Accelerator und Investoren: 10 Folien mit Jury-Check, 16:9-PDF und 60-Sekunden-Elevator-Pitch.",
     "lead": "Der Generator führt dich durch die zehn Folien, die Jurys und Investoren erwarten, prüft live auf die typischen Schwächen und erzeugt ein fertiges 16:9-PDF samt Elevator-Pitch.",
-    "urgency": "Jurys bei Gründungswettbewerben und Accelerator-Programmen sichten Dutzende Decks – meist in wenigen Minuten pro Bewerbung. Folien voller Text, Marktgrößen ohne Quelle und Traction ohne Zahlen fallen dabei als Erstes raus. Mit dem Pitch-Deck-Generator von GründerX baust du ein Deck, das diese Fehler gar nicht erst macht.",
+    "urgency": "Jurys bei Gründungswettbewerben und Accelerator-Programmen sichten Dutzende Decks, meist in wenigen Minuten pro Bewerbung. Folien voller Text, Marktgrößen ohne Quelle und Traction ohne Zahlen fallen dabei als Erstes raus. Mit dem Pitch-Deck-Generator von GründerX baust du ein Deck, das diese Fehler gar nicht erst macht.",
     "outcomes": [
         "Alle 10 Standardfolien strukturiert ausgefüllt",
         "Live-Jury-Check auf Länge, Quellen, Zahlen und Ask",
@@ -95,9 +95,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
 },
   "gruendungsunterlagen": {
     "seoTitle": "Finanzplan für den Gründungszuschuss erstellen",
-    "seoDescription": "Kapitalbedarf, Rentabilitätsvorschau, Liquiditätsplan und Lebenshaltungskosten für IHK, Arbeitsagentur, Jobcenter und Bank – mit Tragfähigkeits-Ampel und PDF.",
+    "seoDescription": "Kapitalbedarf, Rentabilitätsvorschau, Liquiditätsplan und Lebenshaltungskosten für IHK, Arbeitsagentur, Jobcenter und Bank, mit Tragfähigkeits-Ampel und PDF.",
     "lead": "Der Finanzplan-Generator rechnet aus deinen Zahlen alles, was für die Tragfähigkeitsbescheinigung und den Bankkredit verlangt wird: Kapitalbedarf, Finanzierung, Rentabilität über drei Jahre, Liquidität über zwölf Monate und deine privaten Lebenshaltungskosten.",
-    "urgency": "Für den Gründungszuschuss, das Einstiegsgeld und jeden Gründerkredit brauchst du eine Stellungnahme zur Tragfähigkeit – und die steht und fällt mit dem Zahlenteil. Zu optimistische Umsätze, eine fehlende Liquiditätsplanung und zu knapp kalkulierte Betriebsmittel sind die häufigsten Mängel, die IHKs nennen. Mit dem Finanzplan-Generator von GründerX siehst du sofort, ob deine Liquidität irgendwo ins Minus rutscht und welcher Mindestumsatz dich trägt.",
+    "urgency": "Für den Gründungszuschuss, das Einstiegsgeld und jeden Gründerkredit brauchst du eine Stellungnahme zur Tragfähigkeit, und die steht und fällt mit dem Zahlenteil. Zu optimistische Umsätze, eine fehlende Liquiditätsplanung und zu knapp kalkulierte Betriebsmittel sind die häufigsten Mängel, die IHKs nennen. Mit dem Finanzplan-Generator von GründerX siehst du sofort, ob deine Liquidität irgendwo ins Minus rutscht und welcher Mindestumsatz dich trägt.",
     "outcomes": [
         "Kapitalbedarfs- und Finanzierungsplan mit Finanzierungslücke",
         "Rentabilitätsvorschau über 3 Jahre inklusive Steuerrücklage",
@@ -109,7 +109,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "einstiegsgeld": {
     "seoTitle": "Einstiegsgeld-Rechner 2026: Gründen aus Grundsicherung",
     "seoDescription": "Wie viel Einstiegsgeld gibt es für die Gründung? Höchstbetrag nach § 16b SGB II und ESGV mit Regelbedarfen 2026, plus bis zu 5.000 € Ausstattungszuschuss.",
-    "lead": "Der Rechner zeigt dir den Höchstbetrag des Einstiegsgelds für deine Situation – Grundbetrag, Zuschläge für Langzeitarbeitslosigkeit und Bedarfsgemeinschaft, Deckel und Förderdauer – nach den Regelbedarfen 2026.",
+    "lead": "Der Rechner zeigt dir den Höchstbetrag des Einstiegsgelds für deine Situation, Grundbetrag, Zuschläge für Langzeitarbeitslosigkeit und Bedarfsgemeinschaft, Deckel und Förderdauer, nach den Regelbedarfen 2026.",
     "urgency": "Wer aus dem Grundsicherungsgeld gründet, kann bis zu 24 Monate Einstiegsgeld zusätzlich bekommen und bis zu 5.000 € für Ausstattung. Beides sind Ermessensleistungen: Wer mit klaren Zahlen und einem tragfähigen Plan ins Jobcenter geht, hat bessere Karten. Mit dem Einstiegsgeld-Rechner von GründerX kennst du deinen Rahmen, bevor du das Gespräch führst.",
     "outcomes": [
         "Dein monatlicher Höchstbetrag nach Einstiegsgeld-Verordnung",
@@ -122,11 +122,11 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "bafa-beratung": {
     "seoTitle": "BAFA-Beratungsförderung 2026: Check & Rechner",
     "seoDescription": "Bis 80 % Zuschuss zur Unternehmensberatung, max. 2.800 €. Richtlinie bis 31.12.2028 verlängert, neue Regeln ab 2027. Prüf deine Förderfähigkeit und rechne deinen Zuschuss aus.",
-    "lead": "Der Check prüft deine Förderfähigkeit nach der aktuellen BAFA-Richtlinie und rechnet deinen Zuschuss nach Region und Umsatzsteuer-Status aus – inklusive Ablauf über Leitstelle und Informationsgespräch.",
+    "lead": "Der Check prüft deine Förderfähigkeit nach der aktuellen BAFA-Richtlinie und rechnet deinen Zuschuss nach Region und Umsatzsteuer-Status aus, inklusive Ablauf über Leitstelle und Informationsgespräch.",
     "urgency": "Die Förderrichtlinie ist bis 31.12.2028 verlängert; für Anträge ab 01.01.2027 entfällt das Pflicht-Informationsgespräch, und beantragt wird nur noch über ELSTER-Konto oder BundID. Der häufigste Fehler kostet die ganze Förderung: Wer den Beratungsvertrag vor dem Informationsschreiben unterschreibt, bekommt nichts. Mit dem BAFA-Check von GründerX weißt du in zwei Minuten, ob und wie viel du bekommst und was du in welcher Reihenfolge tun musst.",
     "outcomes": [
         "Förderfähigkeits-Ampel nach der Richtlinie in der Fassung vom 15.10.2026",
-        "Zuschuss in Euro nach Region – 50 % oder 80 %",
+        "Zuschuss in Euro nach Region, 50 % oder 80 %",
         "Richtiger Ablauf: Informationsgespräch, Antrag, Vertrag, Nachweis",
         "Was sich für Anträge ab 01.01.2027 ändert"
     ],
@@ -136,7 +136,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "Gründungszuschuss 2026: Check, Rechner & Antrag",
     "seoDescription": "Bekommst du den Gründungszuschuss? Prüf alle Voraussetzungen nach § 93 SGB III, rechne Phase 1 + 2 aus und stell den Antrag in der richtigen Reihenfolge.",
     "lead": "Der Check für alle, die aus dem Arbeitslosengeld I gründen: Voraussetzungen als Ampel, Höhe von Phase 1 und 2, die richtige Antrags-Reihenfolge und eine Checkliste aller Unterlagen.",
-    "urgency": "Der häufigste Fehler beim Gründungszuschuss ist nicht inhaltlich, sondern zeitlich: Wer vor dem Antrag schon Räume mietet oder Ware einkauft, verliert den Anspruch – rückwirkend gibt es nur in Härtefällen etwas. Dazu müssen am Gründungstag noch mindestens 150 Tage Arbeitslosengeld übrig sein. Mit dem Gründungszuschuss-Check von GründerX weißt du in zwei Minuten, ob es passt und was du in welcher Reihenfolge tun musst.",
+    "urgency": "Der häufigste Fehler beim Gründungszuschuss ist nicht inhaltlich, sondern zeitlich: Wer vor dem Antrag schon Räume mietet oder Ware einkauft, verliert den Anspruch, rückwirkend gibt es nur in Härtefällen etwas. Dazu müssen am Gründungstag noch mindestens 150 Tage Arbeitslosengeld übrig sein. Mit dem Gründungszuschuss-Check von GründerX weißt du in zwei Minuten, ob es passt und was du in welcher Reihenfolge tun musst.",
     "outcomes": [
       "Ampel-Ergebnis zu allen gesetzlichen Voraussetzungen mit Paragraf",
       "Deine Förderhöhe für Phase 1 und Phase 2 in Euro",
@@ -147,9 +147,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "gewerbe-check": {
     "seoTitle": "Brauche ich ein Gewerbe? Check in 2 Minuten",
-    "seoDescription": "Hobby, Freiberufler oder Gewerbe? Beantworte ein paar Fragen und erfahre, ob du anmelden musst – inkl. Gewinnerzielungsabsicht & §22 EStG.",
+    "seoDescription": "Hobby, Freiberufler oder Gewerbe? Beantworte ein paar Fragen und erfahre, ob du anmelden musst, inkl. Gewinnerzielungsabsicht & §22 EStG.",
     "lead": "Der Decision-Tree für Anfänger ohne Gewerbe: Du beantwortest ein paar Fragen und erfährst, ob du ein Gewerbe brauchst, freiberuflich bist oder noch im Hobby-Bereich liegst.",
-    "urgency": "Viele starten ihren Side-Hustle und merken erst beim Brief vom Finanzamt, dass sie längst hätten anmelden müssen. Eine verspätete Gewerbeanmeldung kann ein Bußgeld kosten – und Steuernachzahlungen kommen oft Jahre später geballt. Klär mit dem Gewerbe-Check von GründerX in wenigen Minuten, was für dich gilt, bevor das Amt es für dich entscheidet.",
+    "urgency": "Viele starten ihren Nebenerwerb und merken erst beim Brief vom Finanzamt, dass sie längst hätten anmelden müssen. Eine verspätete Gewerbeanmeldung kann ein Bußgeld kosten, und Steuernachzahlungen kommen oft Jahre später geballt. Klär mit dem Gewerbe-Check von GründerX in wenigen Minuten, was für dich gilt, bevor das Amt es für dich entscheidet.",
     "outcomes": [
       "Klare Einordnung: Hobby, Freiberufler oder Gewerbe",
       "Verständnis, was Gewinnerzielungsabsicht und Liebhaberei für dich bedeuten",
@@ -159,22 +159,22 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Der Check gibt dir eine Orientierung und ersetzt keine individuelle Steuer- oder Rechtsberatung."
   },
   "schwellen-check": {
-    "seoTitle": "Side-Hustle-Schwellen-Check: Freibeträge 2026",
+    "seoTitle": "Nebenerwerb-Schwellen-Check: Freibeträge 2026",
     "seoDescription": "Alle Freibeträge & Freigrenzen 2026 auf einen Blick: §22, Crypto, Kleinunternehmer, DAC7. Sieh sofort, welche Grenze für dich gilt.",
-    "lead": "Der Überblick über alle relevanten Freibeträge und Freigrenzen 2026 für Nebenverdienste – damit du weißt, ab wann du wirklich Steuern zahlst oder gemeldet wirst.",
-    "urgency": "Plattformen wie eBay, Vinted oder Etsy melden seit der DAC7-Pflicht automatisch ans Finanzamt – ab 30 Verkäufen oder 2.000 € im Jahr. Wer seine Freigrenzen nicht kennt, zahlt entweder zu viel Steuern oder bekommt unerwartet Post vom Amt. Mit dem Schwellen-Check von GründerX siehst du sofort, welche Grenzen für deinen Side-Hustle zählen.",
+    "lead": "Der Überblick über alle relevanten Freibeträge und Freigrenzen 2026 für Nebenverdienste, damit du weißt, ab wann du wirklich Steuern zahlst oder gemeldet wirst.",
+    "urgency": "Plattformen wie eBay, Vinted oder Etsy melden seit der DAC7-Pflicht automatisch ans Finanzamt, ab 30 Verkäufen oder 2.000 € im Jahr. Wer seine Freigrenzen nicht kennt, zahlt entweder zu viel Steuern oder bekommt unerwartet Post vom Amt. Mit dem Schwellen-Check von GründerX siehst du sofort, welche Grenzen für deinen Nebenerwerb zählen.",
     "outcomes": [
       "Überblick über alle Freibeträge und Freigrenzen 2026 für dich",
       "Klarheit, ab welchem Betrag dein Nebenverdienst steuerpflichtig wird",
       "Wissen, ob und ab wann dich eine Plattform via DAC7 ans Finanzamt meldet",
       "Einschätzung, ob du in die Kleinunternehmer-Grenzen passt"
     ],
-    "disclaimer": "Die Werte sind allgemeine Orientierung – deine konkrete Steuersituation klärt am sichersten ein Steuerberater."
+    "disclaimer": "Die Werte sind allgemeine Orientierung, deine konkrete Steuersituation klärt am sichersten ein Steuerberater."
   },
   "gewerbeanmeldung-wizard": {
     "seoTitle": "Gewerbeanmeldung-Wizard: GewA1 richtig ausfüllen",
-    "seoDescription": "Füll das amtliche Gewerbe-Formular GewA1 in 8 Schritten korrekt aus – mit WZ-Branchenschlüssel und Tätigkeits-Check. Ohne Rätselraten.",
-    "lead": "Ein 8-Schritte-Wizard, der das amtliche GewA1-Formular mit deinen Daten füllt – von Person und Anschrift bis Rechtsform, Tätigkeit und Branchenschlüssel.",
+    "seoDescription": "Füll das amtliche Gewerbe-Formular GewA1 in 8 Schritten korrekt aus, mit WZ-Branchenschlüssel und Tätigkeits-Check. Ohne Rätselraten.",
+    "lead": "Ein 8-Schritte-Wizard, der das amtliche GewA1-Formular mit deinen Daten füllt, von Person und Anschrift bis Rechtsform, Tätigkeit und Branchenschlüssel.",
     "urgency": "Eine schlampig ausgefüllte Gewerbeanmeldung führt zu Rückfragen, falschen Branchenschlüsseln und unnötigen Verzögerungen beim Start. Genau die Tätigkeitsbeschreibung und der WZ-2008-Schlüssel sind die Felder, an denen Anfänger am häufigsten scheitern. Mit dem Gewerbeanmeldung-Wizard von GründerX füllst du das Formular einmal sauber aus und gehst vorbereitet zum Amt.",
     "outcomes": [
       "Ein vollständig ausgefülltes GewA1-Formular mit deinen Daten",
@@ -187,20 +187,20 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "erste-schritte-roadmap": {
     "seoTitle": "Erste-Schritte-Roadmap: 90-Tage-Plan zum Start",
     "seoDescription": "Deine persönliche 30/60/90-Tage-Timeline mit allen Pflicht-Aufgaben: Finanzamt, KV, Konto, USt-ID. Nichts mehr vergessen.",
-    "lead": "Eine personalisierte 30/60/90-Tage-Timeline mit 15 bis 25 Aufgaben – von der Finanzamt-Anmeldung über die KV-Wahl bis zum Geschäftskonto, sortiert nach Muss, Soll und Kann.",
-    "urgency": "Beim Gründen warten Dutzende Aufgaben gleichzeitig – und genau bei den Pflichtterminen wie Finanzamt-Anmeldung oder USt-Voranmeldung wird es teuer, wenn man eine Frist verpasst. Ohne klare Reihenfolge verzettelst du dich oder vergisst etwas Wichtiges. Die Erste-Schritte-Roadmap von GründerX gibt dir die volle Liste in der richtigen Reihenfolge, abhakbar Schritt für Schritt.",
+    "lead": "Eine personalisierte 30/60/90-Tage-Timeline mit 15 bis 25 Aufgaben, von der Finanzamt-Anmeldung über die KV-Wahl bis zum Geschäftskonto, sortiert nach Muss, Soll und Kann.",
+    "urgency": "Beim Gründen warten Dutzende Aufgaben gleichzeitig, und genau bei den Pflichtterminen wie Finanzamt-Anmeldung oder USt-Voranmeldung wird es teuer, wenn man eine Frist verpasst. Ohne klare Reihenfolge verzettelst du dich oder vergisst etwas Wichtiges. Die Erste-Schritte-Roadmap von GründerX gibt dir die volle Liste in der richtigen Reihenfolge, abhakbar Schritt für Schritt.",
     "outcomes": [
       "Eine persönliche 30/60/90-Tage-Timeline mit allen relevanten Aufgaben",
       "Klare Priorisierung nach Muss, Soll und Kann",
       "Status-Tracking, das festhält, was schon erledigt ist",
       "Sicherheit, dass du keine wichtige Frist oder Anmeldung übersiehst"
     ],
-    "disclaimer": "Die Roadmap ist eine allgemeine Orientierung – einzelne Pflichten können je nach Situation abweichen."
+    "disclaimer": "Die Roadmap ist eine allgemeine Orientierung, einzelne Pflichten können je nach Situation abweichen."
   },
   "fse-wizard": {
     "seoTitle": "FsE-Begleiter: Fragebogen steuerliche Erfassung",
-    "seoDescription": "Den ELSTER-Fragebogen zur steuerlichen Erfassung Feld für Feld erklärt – inkl. Empfehlungen zu Kleinunternehmer, EÜR & Ist-Versteuerung.",
-    "lead": "Ein Walkthrough durch alle 22 Teilseiten und rund 300 Felder des ELSTER-Fragebogens zur steuerlichen Erfassung – du füllst direkt in ELSTER aus, diese Seite erklärt parallel jedes Feld.",
+    "seoDescription": "Den ELSTER-Fragebogen zur steuerlichen Erfassung Feld für Feld erklärt, inkl. Empfehlungen zu Kleinunternehmer, EÜR & Ist-Versteuerung.",
+    "lead": "Ein Walkthrough durch alle 22 Teilseiten und rund 300 Felder des ELSTER-Fragebogens zur steuerlichen Erfassung, du füllst direkt in ELSTER aus, diese Seite erklärt parallel jedes Feld.",
     "urgency": "Der Fragebogen zur steuerlichen Erfassung entscheidet über Weichen, die du jahrelang spürst: Kleinunternehmer nach §19, EÜR oder Bilanz, Soll- oder Ist-Versteuerung. Ein falsches Kreuz hier kostet dich später Liquidität oder unnötigen Aufwand. Der FsE-Begleiter von GründerX führt dich Feld für Feld durch und gibt dir bei den vier bindenden Entscheidungen eine klare Empfehlung.",
     "outcomes": [
       "Verständnis jedes einzelnen FsE-Felds in ELSTER-Reihenfolge",
@@ -213,7 +213,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "fse-kapitalgesellschaft": {
     "seoTitle": "FsE Kapitalgesellschaft: GmbH & UG bei ELSTER",
     "seoDescription": "Der ELSTER-Fragebogen für GmbH, UG, AG & eG Seite für Seite erklärt: Stammkapital, Anteilseigner, Organschaft, USt-IdNr & OSS.",
-    "lead": "Ein Walkthrough durch alle 23 Teilseiten des ELSTER-Fragebogens zur steuerlichen Erfassung für Kapitalgesellschaften – mit Zeilennummern und Erklärung, während du in ELSTER ausfüllst.",
+    "lead": "Ein Walkthrough durch alle 23 Teilseiten des ELSTER-Fragebogens zur steuerlichen Erfassung für Kapitalgesellschaften, mit Zeilennummern und Erklärung, während du in ELSTER ausfüllst.",
     "urgency": "Bei einer GmbH oder UG ist der steuerliche Fragebogen komplexer als beim Solo-Start: Stammkapital, Anteilseigner, Sach- oder Bargründung und Organschaft müssen sitzen. Fehler hier ziehen Rückfragen vom Finanzamt nach sich und verzögern den operativen Start deiner Gesellschaft. Mit dem FsE-Begleiter für Kapitalgesellschaften von GründerX gehst du jede Teilseite vorbereitet durch.",
     "outcomes": [
       "Verständnis aller 23 Teilseiten in ELSTER-Reihenfolge",
@@ -221,12 +221,12 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
       "Saubere Angaben zu Soll-/Ist-Versteuerung, USt-IdNr und OSS",
       "Ein zügiger, rückfragearmer FsE-Prozess für deine Gesellschaft"
     ],
-    "disclaimer": "Bei Kapitalgesellschaften gehört der Fragebogen meist in fachkundige Hände – diese Seite erklärt, ersetzt aber keine Steuerberatung."
+    "disclaimer": "Bei Kapitalgesellschaften gehört der Fragebogen meist in fachkundige Hände, diese Seite erklärt, ersetzt aber keine Steuerberatung."
   },
   "fse-personengesellschaft": {
     "seoTitle": "FsE Personengesellschaft: GbR, OHG & KG erklärt",
     "seoDescription": "Der ELSTER-Fragebogen für GbR, OHG & KG Seite für Seite: Beteiligte, Gewinnanteile, gesonderte Feststellung, USt & OSS verständlich erklärt.",
-    "lead": "Ein Walkthrough durch alle 22 Teilseiten des ELSTER-Fragebogens für Personengesellschaften – mit Zeilennummern, während du selbst in ELSTER ausfüllst.",
+    "lead": "Ein Walkthrough durch alle 22 Teilseiten des ELSTER-Fragebogens für Personengesellschaften, mit Zeilennummern, während du selbst in ELSTER ausfüllst.",
     "urgency": "Bei GbR, OHG oder KG kommt eine Hürde dazu, die Solo-Gründer nicht kennen: die gesonderte und einheitliche Feststellung mit den Gewinnanteilen aller Beteiligten. Wer Vertretung und Gewinnverteilung falsch angibt, handelt sich Ärger mit dem Finanzamt und unter den Partnern ein. Der FsE-Begleiter für Personengesellschaften von GründerX führt euch sauber durch jede Teilseite.",
     "outcomes": [
       "Verständnis aller 22 Teilseiten in ELSTER-Reihenfolge",
@@ -238,34 +238,34 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "stb-cost-benefit": {
     "seoTitle": "Steuerberater nötig? Cost-Benefit-Check",
-    "seoDescription": "Voll-StB, DIY oder Hybrid – welche Variante ist für deinen Umsatz am günstigsten? Vergleich mit StBVV-Gebühren und Zeitkosten in Minuten.",
-    "lead": "Ein 3-Szenarien-Vergleich, der dir zeigt, ob sich ein Steuerberater für dich lohnt – Voll-StB, DIY mit Software oder Hybrid, gerechnet mit echten Mittelgebühren und deinem Zeitaufwand.",
-    "urgency": "Ein Steuerberater kann ein paar hundert Euro im Jahr kosten – oder mehrere tausend. Wer pauschal alles abgibt, zahlt oft zu viel; wer alles selbst macht, verliert wertvolle Stunden und riskiert Fehler. Mit dem Cost-Benefit-Check von GründerX siehst du schwarz auf weiß, welche Variante bei deinem Umsatz und Gewinn am günstigsten ist.",
+    "seoDescription": "Voll-StB, DIY oder Hybrid, welche Variante ist für deinen Umsatz am günstigsten? Vergleich mit StBVV-Gebühren und Zeitkosten in Minuten.",
+    "lead": "Ein 3-Szenarien-Vergleich, der dir zeigt, ob sich ein Steuerberater für dich lohnt, Voll-StB, DIY mit Software oder Hybrid, gerechnet mit echten Mittelgebühren und deinem Zeitaufwand.",
+    "urgency": "Ein Steuerberater kann ein paar hundert Euro im Jahr kosten, oder mehrere tausend. Wer pauschal alles abgibt, zahlt oft zu viel; wer alles selbst macht, verliert wertvolle Stunden und riskiert Fehler. Mit dem Cost-Benefit-Check von GründerX siehst du schwarz auf weiß, welche Variante bei deinem Umsatz und Gewinn am günstigsten ist.",
     "outcomes": [
       "Ein Kostenvergleich der drei Varianten für deine Zahlen",
       "Transparenz über StBVV-Mittelgebühren und deine Eigenzeit-Kosten",
       "Eine klare Empfehlung, welche Option für dich am günstigsten ist",
       "Eine fundierte Grundlage für das Gespräch mit einem Steuerberater"
     ],
-    "disclaimer": "Die Gebühren sind Richtwerte – das individuelle Honorar legt dein Steuerberater nach StBVV fest."
+    "disclaimer": "Die Gebühren sind Richtwerte, das individuelle Honorar legt dein Steuerberater nach StBVV fest."
   },
   "buchhaltungssoftware-guide": {
     "seoTitle": "Buchhaltungssoftware-Guide: Lexware, sevDesk & Co",
     "seoDescription": "Lexware Office, sevDesk oder ELSTER direkt? Funktionen, Kosten 2026 und welches Tool zu Solo, E-Commerce oder Kleinunternehmer passt.",
-    "lead": "Ein Vergleich von Lexware Office, sevDesk und ELSTER-direkt – mit Funktionen, Kosten-Richtwerten 2026 und einer Empfehlung, welches Tool zu deinem Profil passt.",
-    "urgency": "Die falsche Buchhaltungssoftware kostet dich jeden Monat Geld für Funktionen, die du nicht brauchst – oder Nerven, weil das Tool zu deinem Geschäft nicht passt. Gerade als Solo, E-Commerce-Brand oder Kleinunternehmer hast du sehr unterschiedliche Anforderungen. Der Buchhaltungssoftware-Guide von GründerX hilft dir, einmal richtig zu wählen, statt später mühsam umzuziehen.",
+    "lead": "Ein Vergleich von Lexware Office, sevDesk und ELSTER-direkt, mit Funktionen, Kosten-Richtwerten 2026 und einer Empfehlung, welches Tool zu deinem Profil passt.",
+    "urgency": "Die falsche Buchhaltungssoftware kostet dich jeden Monat Geld für Funktionen, die du nicht brauchst, oder Nerven, weil das Tool zu deinem Geschäft nicht passt. Gerade als Solo, E-Commerce-Brand oder Kleinunternehmer hast du sehr unterschiedliche Anforderungen. Der Buchhaltungssoftware-Guide von GründerX hilft dir, einmal richtig zu wählen, statt später mühsam umzuziehen.",
     "outcomes": [
       "Ein klarer Funktions- und Kostenvergleich der gängigen Tools",
       "Eine Empfehlung passend zu deinem Profil (Solo, E-Commerce, Kleinunternehmer)",
       "Verständnis, wie du buchst und per ELSTER abgibst",
       "Eine sichere Entscheidung ohne teuren Software-Umzug später"
     ],
-    "disclaimer": "Kosten und Funktionen können sich ändern – prüfe vor Abschluss die aktuellen Angaben der Anbieter."
+    "disclaimer": "Kosten und Funktionen können sich ändern, prüfe vor Abschluss die aktuellen Angaben der Anbieter."
   },
   "ust-voranmeldung": {
     "seoTitle": "USt-Voranmeldung: ELSTER-Vordruck Schritt für Schritt",
     "seoDescription": "Die Umsatzsteuer-Voranmeldung in ELSTER richtig ausfüllen: alle Kennzahlen erklärt, Fristen und Dauerfristverlängerung mit Rechner.",
-    "lead": "Ein Walkthrough durch den echten ELSTER-Vordruck USt 1 A – alle relevanten Kennzahlen erklärt, plus Fristen und Dauerfristverlängerung mit Rechner.",
+    "lead": "Ein Walkthrough durch den echten ELSTER-Vordruck USt 1 A, alle relevanten Kennzahlen erklärt, plus Fristen und Dauerfristverlängerung mit Rechner.",
     "urgency": "Die USt-Voranmeldung hat feste Fristen, und das Finanzamt kennt bei Verspätung wenig Gnade: Verspätungszuschläge und Säumniszuschläge sammeln sich schnell an. Wer die Kennzahlen nicht versteht, trägt falsch ein und zahlt drauf. Mit dem USt-Voranmeldung-Walkthrough von GründerX füllst du den Vordruck sicher aus und kennst deine Fristen.",
     "outcomes": [
       "Verständnis aller relevanten Kennzahlen im Vordruck USt 1 A",
@@ -277,9 +277,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "anlage-euer": {
     "seoTitle": "Anlage EÜR: Gewinnermittlung Zeile für Zeile",
-    "seoDescription": "Die Anlage EÜR in ELSTER Zeile für Zeile erklärt – §4 Abs. 3 EStG für Solo & E-Commerce, Brutto-Methode plus Mini-Gewinnrechner.",
-    "lead": "Ein Walkthrough durch die echte ELSTER-Anlage EÜR – Zeile für Zeile, mit den relevanten Feldern für Solo und E-Commerce und einem Mini-Gewinnrechner.",
-    "urgency": "Die Anlage EÜR ist deine jährliche Gewinnermittlung – und die Zahl darin ist die Basis für deine Einkommensteuer. Wer Betriebsausgaben in die falschen Zeilen schreibt oder die Brutto-Methode missversteht, verschenkt Abzüge oder riskiert eine Korrektur. Der Anlage-EÜR-Walkthrough von GründerX führt dich Zeile für Zeile durch, damit dein Gewinn am Ende stimmt.",
+    "seoDescription": "Die Anlage EÜR in ELSTER Zeile für Zeile erklärt, §4 Abs. 3 EStG für Solo & E-Commerce, Brutto-Methode plus Mini-Gewinnrechner.",
+    "lead": "Ein Walkthrough durch die echte ELSTER-Anlage EÜR, Zeile für Zeile, mit den relevanten Feldern für Solo und E-Commerce und einem Mini-Gewinnrechner.",
+    "urgency": "Die Anlage EÜR ist deine jährliche Gewinnermittlung, und die Zahl darin ist die Basis für deine Einkommensteuer. Wer Betriebsausgaben in die falschen Zeilen schreibt oder die Brutto-Methode missversteht, verschenkt Abzüge oder riskiert eine Korrektur. Der Anlage-EÜR-Walkthrough von GründerX führt dich Zeile für Zeile durch, damit dein Gewinn am Ende stimmt.",
     "outcomes": [
       "Verständnis der relevanten EÜR-Zeilen für dein Geschäft",
       "Klarheit über die Brutto-Methode bei deinen Ausgaben",
@@ -292,20 +292,20 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "Stundensatz-Rechner: Was du wirklich nehmen musst",
     "seoDescription": "Berechne deinen realistischen Stundensatz rückwärts aus Wunsch-Netto, KV und Rücklagen. Schluss mit dem 30-€-Anfängerfehler.",
     "lead": "Ein Rückwärts-Rechner, der aus deinem Wunsch-Netto, Lebenshaltung, Krankenversicherung und Rücklage den Stundensatz ableitet, den du tatsächlich brauchst.",
-    "urgency": "Der teuerste Anfängerfehler: den eigenen Stundensatz am alten Vollzeit-Brutto festmachen und 30 € pro Stunde nehmen. Was dabei untergeht, sind Steuern, Krankenversicherung, Rücklagen und die Tatsache, dass nur ein Teil deiner Zeit abrechenbar ist – am Ende arbeitest du für Mindestlohn. Der Stundensatz-Rechner von GründerX zeigt dir, was du wirklich nehmen musst, um davon leben zu können.",
+    "urgency": "Der teuerste Anfängerfehler: den eigenen Stundensatz am alten Vollzeit-Brutto festmachen und 30 € pro Stunde nehmen. Was dabei untergeht, sind Steuern, Krankenversicherung, Rücklagen und die Tatsache, dass nur ein Teil deiner Zeit abrechenbar ist, am Ende arbeitest du für Mindestlohn. Der Stundensatz-Rechner von GründerX zeigt dir, was du wirklich nehmen musst, um davon leben zu können.",
     "outcomes": [
       "Ein konkreter, realistischer Stundensatz für deine Angebote",
       "Verständnis, wie KV, Steuern und Rücklagen deinen Satz beeinflussen",
       "Klarheit über deine wirklich abrechenbaren Stunden",
       "Eine belastbare Basis für deine Preisverhandlungen"
     ],
-    "disclaimer": "Das Ergebnis ist ein Orientierungswert – deine tatsächlichen Kosten und Auslastung können abweichen."
+    "disclaimer": "Das Ergebnis ist ein Orientierungswert, deine tatsächlichen Kosten und Auslastung können abweichen."
   },
   "rechnungs-generator": {
     "seoTitle": "Rechnungs-Generator: §14-konforme Rechnung als PDF",
-    "seoDescription": "Schreib deine erste rechtssichere Rechnung: §14 UStG-konform mit allen Pflichtangaben, 4 USt-Modi und PDF-Download. Profil wird gespeichert.",
-    "lead": "Ein Generator für deine erste richtige Rechnung – §14-UStG-konform mit vier Umsatzsteuer-Modi, Live-Pflichtangaben-Check und PDF-Download.",
-    "urgency": "Eine Rechnung ohne die gesetzlichen Pflichtangaben kann dazu führen, dass dein Kunde den Vorsteuerabzug verliert und du nachbessern musst – peinlich und ärgerlich beim ersten Auftrag. Auch der richtige USt-Modus, ob Standard, Kleinunternehmer oder Reverse-Charge, will getroffen sein. Mit dem Rechnungs-Generator von GründerX schreibst du deine erste Rechnung von Anfang an korrekt.",
+    "seoDescription": "Schreib deine erste saubere Rechnung: §14 UStG-konform mit allen Pflichtangaben, 4 USt-Modi und PDF-Download. Profil wird gespeichert.",
+    "lead": "Ein Generator für deine erste richtige Rechnung, §14-UStG-konform mit vier Umsatzsteuer-Modi, Live-Pflichtangaben-Check und PDF-Download.",
+    "urgency": "Eine Rechnung ohne die gesetzlichen Pflichtangaben kann dazu führen, dass dein Kunde den Vorsteuerabzug verliert und du nachbessern musst, peinlich und ärgerlich beim ersten Auftrag. Auch der richtige USt-Modus, ob Standard, Kleinunternehmer oder Reverse-Charge, will getroffen sein. Mit dem Rechnungs-Generator von GründerX schreibst du deine erste Rechnung von Anfang an korrekt.",
     "outcomes": [
       "Eine fertige, §14-UStG-konforme Rechnung als PDF",
       "Den richtigen USt-Modus für deinen Fall ausgewählt",
@@ -316,11 +316,11 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "brutto-netto-solo": {
     "seoTitle": "Brutto-Netto-Rechner für Solo-Selbstständige",
-    "seoDescription": "Berechne als Selbstständiger, was vom Umsatz wirklich übrig bleibt: Gewinn, ESt, SolZ, GewSt und KV/PV bis zum Netto – Schritt für Schritt.",
+    "seoDescription": "Berechne als Selbstständiger, was vom Umsatz wirklich übrig bleibt: Gewinn, ESt, SolZ, GewSt und KV/PV bis zum Netto, Schritt für Schritt.",
     "lead": "Der Brutto-Netto-Rechner für Solo-Selbstständige zeigt dir, was nach allen Steuern und Beiträgen vom Umsatz tatsächlich auf deinem Konto landet.",
     "urgency": "Viele Solo-Selbstständige planen mit dem Umsatz und erleben beim Steuerbescheid eine böse Überraschung. Wer ESt-Progression, SolZ und freiwillige KV/PV nicht einkalkuliert, verkalkuliert sich schnell um Tausende Euro im Jahr. Rechne dein echtes Netto jetzt mit GründerX durch, bevor du Preise und Entnahmen festlegst.",
     "outcomes": [
-      "Du kennst dein realistisches Netto vom Umsatz – nicht nur den Gewinn",
+      "Du kennst dein realistisches Netto vom Umsatz, nicht nur den Gewinn",
       "Du siehst die einzelnen Abzüge transparent: ESt, SolZ, ggf. GewSt, KV/PV",
       "Du erkennst, ob deine Preise deine Steuerlast und Beiträge wirklich decken",
       "Du vergleichst fair, was du als Angestellter beim gleichen AG-Total netto hättest"
@@ -329,9 +329,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "versicherungs-basis-check": {
     "seoTitle": "Versicherungs-Check für Selbstständige",
-    "seoDescription": "Finde heraus, welche Versicherungen du als Solo-Selbstständiger wirklich brauchst: 11 Typen nach Pflicht, dringend und sinnvoll sortiert – neutral.",
-    "lead": "Der Versicherungs-Basis-Check sortiert dir nach 7 Fragen 11 Versicherungs-Typen nach Priorität – von Pflicht bis optional, ohne Verkaufsabsicht.",
-    "urgency": "Als Solo-Selbstständiger trägst du jedes Risiko allein. Eine fehlende Berufshaftpflicht oder Berufsunfähigkeitsabsicherung kann im Schadensfall die Existenz kosten – während du anderswo für Policen zahlst, die du gar nicht brauchst. Mach jetzt den Basis-Check mit GründerX und sieh klar, was wirklich zählt.",
+    "seoDescription": "Finde heraus, welche Versicherungen du als Solo-Selbstständiger wirklich brauchst: 11 Typen nach Pflicht, dringend und sinnvoll sortiert, neutral.",
+    "lead": "Der Versicherungs-Basis-Check sortiert dir nach 7 Fragen 11 Versicherungs-Typen nach Priorität, von Pflicht bis optional, ohne Verkaufsabsicht.",
+    "urgency": "Als Solo-Selbstständiger trägst du jedes Risiko allein. Eine fehlende Berufshaftpflicht oder Berufsunfähigkeitsabsicherung kann im Schadensfall die Existenz kosten, während du anderswo für Policen zahlst, die du gar nicht brauchst. Mach jetzt den Basis-Check mit GründerX und sieh klar, was wirklich zählt.",
     "outcomes": [
       "Du weißt, welche Versicherungen Pflicht, dringend, sinnvoll oder verzichtbar sind",
       "Du verstehst dank Schadenbeispielen, wovor jede Police dich konkret schützt",
@@ -342,8 +342,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "steuer-abc": {
     "seoTitle": "Steuer-ABC: Steuerbegriffe einfach erklärt",
-    "seoDescription": "Über 60 deutsche Steuerbegriffe einfach erklärt – von ESt, EÜR und Anlage S bis Reverse Charge §13b. Suchbar, mit §-Verweisen und Tool-Links.",
-    "lead": "Das Steuer-ABC erklärt dir über 60 deutsche Steuerbegriffe verständlich – mit Paragrafen-Verweisen und Direktlinks zum passenden Rechner.",
+    "seoDescription": "Über 60 deutsche Steuerbegriffe einfach erklärt, von ESt, EÜR und Anlage S bis Reverse Charge §13b. Suchbar, mit §-Verweisen und Tool-Links.",
+    "lead": "Das Steuer-ABC erklärt dir über 60 deutsche Steuerbegriffe verständlich, mit Paragrafen-Verweisen und Direktlinks zum passenden Rechner.",
     "urgency": "Steuerbriefe und Buchhaltungssoftware werfen mit Fachbegriffen um sich, und ein Missverständnis bei §13b oder der EÜR kann teuer werden. Statt im Netz Halbwissen zusammenzusuchen, schlägst du jeden Begriff sofort sauber nach. Nutze das Steuer-ABC von GründerX als dein Nachschlagewerk fürs ganze Jahr.",
     "outcomes": [
       "Du verstehst über 60 Steuerbegriffe in Klartext statt Behördendeutsch",
@@ -355,9 +355,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "rechtsform-wizard": {
     "seoTitle": "Rechtsform-Wizard: Einzelunternehmen bis GmbH",
-    "seoDescription": "Finde die passende Rechtsform für dein Business: vom Einzelunternehmer über UG und GmbH bis zur Holding – mit klarer Empfehlung Schritt für Schritt.",
+    "seoDescription": "Finde die passende Rechtsform für dein Business: vom Einzelunternehmer über UG und GmbH bis zur Holding, mit klarer Empfehlung Schritt für Schritt.",
     "lead": "Der Rechtsform-Wizard führt dich vom Einzelunternehmen über UG und GmbH bis zur Holding und zeigt, welche Struktur zu deiner Lage passt.",
-    "urgency": "Die falsche Rechtsform kostet dich Jahr für Jahr unnötig Steuern, Haftungsrisiko oder Flexibilität – und ein späterer Wechsel ist teuer und aufwendig. Je früher du richtig aufgestellt bist, desto mehr sparst du dir an Umbau und Beraterkosten. Klär deine Rechtsform jetzt mit dem Wizard von GründerX.",
+    "urgency": "Die falsche Rechtsform kostet dich Jahr für Jahr unnötig Steuern, Haftungsrisiko oder Flexibilität, und ein späterer Wechsel ist teuer und aufwendig. Je früher du richtig aufgestellt bist, desto mehr sparst du dir an Umbau und Beraterkosten. Klär deine Rechtsform jetzt mit dem Wizard von GründerX.",
     "outcomes": [
       "Du kennst die passende Rechtsform für deine aktuelle Situation",
       "Du verstehst die Unterschiede zwischen Einzelunternehmen, UG, GmbH und Holding",
@@ -368,8 +368,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "holding-designer": {
     "seoTitle": "Holding-Struktur-Designer mit Steuer-Effekt",
-    "seoDescription": "Vergleiche 8 echte Holding-Strukturen – von 2-Stufen über Familien-Pool bis IP-Holding – mit Steuer-Effekt, Sperrfristen und Empfehlungs-Wizard.",
-    "lead": "Der Holding-Designer stellt dir 8 reale Holding-Strukturen mit Steuer-Effekt, Sperrfristen und Praxisbeispielen vor – inklusive Empfehlungs-Wizard.",
+    "seoDescription": "Vergleiche 8 echte Holding-Strukturen, von 2-Stufen über Familien-Pool bis IP-Holding, mit Steuer-Effekt, Sperrfristen und Empfehlungs-Wizard.",
+    "lead": "Der Holding-Designer stellt dir 8 reale Holding-Strukturen mit Steuer-Effekt, Sperrfristen und Praxisbeispielen vor, inklusive Empfehlungs-Wizard.",
     "urgency": "Ohne durchdachte Holding-Struktur zahlst du auf Gewinnausschüttungen und Verkäufe oft deutlich mehr Steuern als nötig. Wer Sperrfristen oder den passenden Aufbau übersieht, verschenkt langfristig fünf- bis sechsstellige Beträge. Vergleiche die Strukturen jetzt mit GründerX, bevor du dein Konstrukt aufsetzt.",
     "outcomes": [
       "Du überblickst 8 Holding-Strukturen vom 2-Stufen-Modell bis zur Stiftung",
@@ -383,7 +383,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "IP-Box-Vergleich: 9 EU/CH Patentboxen",
     "seoDescription": "Vergleiche 9 EU- und CH-Patentboxen von 2,5% bis 9% mit Live-Steuerberechnung, BEPS-Nexus, AStG-Risiko und Mindest-Royalties im Überblick.",
     "lead": "Der IP-Box-Vergleich zeigt dir 9 EU- und CH-Patentboxen mit Live-Steuerberechnung, BEPS-Nexus und AStG-Risiko auf einen Blick.",
-    "urgency": "Wer seine IP-Erträge über die falsche oder gar keine Patentbox laufen lässt, verschenkt erhebliche Steuervorteile – oder tappt in die AStG-Hinzurechnungsfalle. Ohne sauberen Nexus-Check kann ein Konstrukt im Nachhinein kippen. Vergleiche die Boxen jetzt faktenbasiert mit GründerX, bevor du dich festlegst.",
+    "urgency": "Wer seine IP-Erträge über die falsche oder gar keine Patentbox laufen lässt, verschenkt erhebliche Steuervorteile, oder tappt in die AStG-Hinzurechnungsfalle. Ohne sauberen Nexus-Check kann ein Konstrukt im Nachhinein kippen. Vergleiche die Boxen jetzt faktenbasiert mit GründerX, bevor du dich festlegst.",
     "outcomes": [
       "Du vergleichst 9 Patentboxen von CY 2,5% bis NL 9% direkt nebeneinander",
       "Du siehst per Live-Berechnung den Steuer-Effekt auf deine IP-Erträge",
@@ -394,9 +394,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "eu-alternativen": {
     "seoTitle": "EU- & CH-Alternativen für Firmensitz & Holding",
-    "seoDescription": "Vergleiche 13 Länder von EE 0% bis CH 11,9% plus 5 Multi-Jurisdiktions-Konstrukte für Firmensitz und Holding – mit Steuerlast und Modellen.",
+    "seoDescription": "Vergleiche 13 Länder von EE 0% bis CH 11,9% plus 5 Multi-Jurisdiktions-Konstrukte für Firmensitz und Holding, mit Steuerlast und Modellen.",
     "lead": "Die EU-/CH-Alternativen geben dir 13 Länder von Estland bis Schweiz und 5 Multi-Jurisdiktions-Konstrukte mit ihren Steuer-Eckdaten an die Hand.",
-    "urgency": "Standortwahl ist eine der teuersten Entscheidungen im Steuerrecht – und mit unbedachten Auslandskonstrukten riskierst du Wegzugsbesteuerung und AStG-Ärger. Wer die Optionen nicht kennt, lässt entweder Geld liegen oder läuft in eine Falle. Verschaff dir den Überblick jetzt mit GründerX, bevor du an einen Standort denkst.",
+    "urgency": "Standortwahl ist eine der teuersten Entscheidungen im Steuerrecht, und mit unbedachten Auslandskonstrukten riskierst du Wegzugsbesteuerung und AStG-Ärger. Wer die Optionen nicht kennt, lässt entweder Geld liegen oder läuft in eine Falle. Verschaff dir den Überblick jetzt mit GründerX, bevor du an einen Standort denkst.",
     "outcomes": [
       "Du überblickst 13 EU-/CH-Standorte mit ihren steuerlichen Eckdaten",
       "Du verstehst Spezialmodelle wie EE-Thesaurierung 0% oder AT FlexCo",
@@ -408,7 +408,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "entscheidungs-engine": {
     "seoTitle": "Struktur-Entscheidungs-Engine für Gründer",
     "seoDescription": "9 Fragen, klare Antwort: Die Entscheidungs-Engine vergleicht alle Strukturen von Einzel über GmbH bis Holding und liefert deine Top-3-Empfehlungen.",
-    "lead": "Die Entscheidungs-Engine fragt dich 9 Punkte ab und liefert quer über alle Strukturen deine drei besten Optionen – mit Begründung.",
+    "lead": "Die Entscheidungs-Engine fragt dich 9 Punkte ab und liefert quer über alle Strukturen deine drei besten Optionen, mit Begründung.",
     "urgency": "Zwischen Einzelunternehmen, Holding, Familien-Pool oder US-LLC verliert man schnell den Überblick und entscheidet aus dem Bauch. Eine schlecht gewählte Struktur bremst Wachstum und kostet später teure Korrekturen. Lass dir jetzt von der Engine bei GründerX deine Top-3 mit klarer Begründung berechnen.",
     "outcomes": [
       "Du erhältst nach 9 Fragen deine drei passendsten Strukturen",
@@ -420,9 +420,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "auszahlung-optimizer": {
     "seoTitle": "Gewinn-Auszahlungs-Optimizer für GmbH-Inhaber",
-    "seoDescription": "Vergleiche 7 Wege, Gewinn aus der GmbH zu entnehmen – von GF-Gehalt über Dividende und Holding bis Pension – mit konkreter Steuerberechnung.",
+    "seoDescription": "Vergleiche 7 Wege, Gewinn aus der GmbH zu entnehmen, von GF-Gehalt über Dividende und Holding bis Pension, mit konkreter Steuerberechnung.",
     "lead": "Der Auszahlungs-Optimizer vergleicht 7 Wege, Gewinn aus deiner GmbH zu holen, jeweils mit konkreter Steuer-Berechnung pro Variante.",
-    "urgency": "Wie du Gewinn entnimmst, entscheidet darüber, wie viel das Finanzamt mitnimmt – und der naheliegende Weg ist selten der günstigste. Wer Gehalt, Dividende und Holding-Route nicht durchrechnet, verschenkt bei jeder Ausschüttung Geld. Rechne deine optimale Auszahlung jetzt mit GründerX durch.",
+    "urgency": "Wie du Gewinn entnimmst, entscheidet darüber, wie viel das Finanzamt mitnimmt, und der naheliegende Weg ist selten der günstigste. Wer Gehalt, Dividende und Holding-Route nicht durchrechnet, verschenkt bei jeder Ausschüttung Geld. Rechne deine optimale Auszahlung jetzt mit GründerX durch.",
     "outcomes": [
       "Du vergleichst 7 Auszahlungswege mit ihrer jeweiligen Steuerlast",
       "Du siehst pro Variante konkret, was netto bei dir ankommt",
@@ -433,8 +433,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "frist-kalender": {
     "seoTitle": "Steuer-Frist-Kalender für Selbstständige",
-    "seoDescription": "Behalte alle Steuerfristen im Blick: USt-VA, ESt, KSt und GewSt – personalisiert nach deiner Rechtsform, damit du keine Deadline mehr verpasst.",
-    "lead": "Der Frist-Kalender zeigt dir alle relevanten Steuerfristen – USt-VA, ESt, KSt, GewSt – personalisiert nach deiner Rechtsform.",
+    "seoDescription": "Behalte alle Steuerfristen im Blick: USt-VA, ESt, KSt und GewSt, personalisiert nach deiner Rechtsform, damit du keine Deadline mehr verpasst.",
+    "lead": "Der Frist-Kalender zeigt dir alle relevanten Steuerfristen, USt-VA, ESt, KSt, GewSt, personalisiert nach deiner Rechtsform.",
     "urgency": "Verpasste Steuerfristen bedeuten Verspätungszuschläge, Säumniszuschläge und im schlimmsten Fall Schätzungen durch das Finanzamt. Eine einzige übersehene USt-Voranmeldung kann dich bares Geld und Nerven kosten. Lass dir deine Fristen jetzt von GründerX nach Rechtsform sortieren und nie wieder eine verpassen.",
     "outcomes": [
       "Du hast alle Steuerfristen passend zu deiner Rechtsform an einem Ort",
@@ -446,7 +446,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "amazon-buchungen": {
     "seoTitle": "Amazon-Buchungstexte mit SKR03/04-Konto",
-    "seoDescription": "Schlüssle über 130 Amazon-Buchungscodes wie AMA-SG-DE, FBAFees oder MZNFS auf – mit passendem SKR03/04-Konto und USt-Behandlung per Live-Lookup.",
+    "seoDescription": "Schlüssle über 130 Amazon-Buchungscodes wie AMA-SG-DE, FBAFees oder MZNFS auf, mit passendem SKR03/04-Konto und USt-Behandlung per Live-Lookup.",
     "lead": "Der Amazon-Buchungstexte-Lookup übersetzt dir über 130 Codes wie AMA-SG-DE oder FBAFees direkt ins richtige SKR03/04-Konto samt USt-Behandlung.",
     "urgency": "Amazon-Abrechnungen sind ein Buchungs-Dschungel, und falsch verbuchte Codes führen zu falscher Umsatzsteuer und Stress in der Betriebsprüfung. Jede Stunde Rätselraten über AMA-BG-IT oder MZNFS ist verlorene Zeit. Schlag deine Buchungstexte jetzt in Sekunden mit GründerX nach.",
     "outcomes": [
@@ -460,8 +460,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "pre-year-end": {
     "seoTitle": "Pre-Year-End-Steuercheck mit 7 Hebeln",
     "seoDescription": "Senke deine Steuerlast vor Jahresende: 7 Hebel von IAB über Investitionen bis Verlustverrechnung mit Live-Berechnung und Ersparnis-Summe.",
-    "lead": "Der Pre-Year-End-Check prüft 7 Steuer-Hebel ab November – von IAB bis Spendenabzug – mit Live-Berechnung und Gesamt-Ersparnis.",
-    "urgency": "Die meisten Steuer-Hebel funktionieren nur bis zum 31. Dezember – wer im November nicht handelt, lässt die Ersparnis ungenutzt verstreichen. IAB, vorgezogene Investitionen oder Verlustverrechnung sind nach Silvester für das Jahr verloren. Prüf deine Hebel jetzt mit GründerX und sichere dir die Ersparnis, solange du noch kannst.",
+    "lead": "Der Pre-Year-End-Check prüft 7 Steuer-Hebel ab November, von IAB bis Spendenabzug, mit Live-Berechnung und Gesamt-Ersparnis.",
+    "urgency": "Die meisten Steuer-Hebel funktionieren nur bis zum 31. Dezember, wer im November nicht handelt, lässt die Ersparnis ungenutzt verstreichen. IAB, vorgezogene Investitionen oder Verlustverrechnung sind nach Silvester für das Jahr verloren. Prüf deine Hebel jetzt mit GründerX und sichere dir die Ersparnis, solange du noch kannst.",
     "outcomes": [
       "Du kennst 7 konkrete Hebel, um deine Steuerlast vor Jahresende zu senken",
       "Du siehst per Live-Berechnung, was jeder Hebel dir bringt",
@@ -474,7 +474,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "IAB-Rechner nach §7g EStG für Gründer",
     "seoDescription": "Berechne deinen Investitionsabzugsbetrag nach §7g EStG bis 200.000 €: Voraussetzungs-Check, 3-Jahres-Auflösungsplan und Live-Steuerersparnis.",
     "lead": "Der IAB-Rechner ermittelt deinen Investitionsabzugsbetrag nach §7g EStG bis 200.000 €, prüft die Voraussetzungen und zeigt die Steuerersparnis.",
-    "urgency": "Der Investitionsabzugsbetrag verschiebt Steuerlast in die Zukunft und gibt dir heute Liquidität für Investitionen – wer ihn nicht nutzt, verschenkt diesen Vorteil. Werden Gewinngrenzen oder die 3-Jahres-Frist übersehen, droht die teure Rückabwicklung. Rechne deinen IAB jetzt sauber mit GründerX durch.",
+    "urgency": "Der Investitionsabzugsbetrag verschiebt Steuerlast in die Zukunft und gibt dir heute Liquidität für Investitionen, wer ihn nicht nutzt, verschenkt diesen Vorteil. Werden Gewinngrenzen oder die 3-Jahres-Frist übersehen, droht die teure Rückabwicklung. Rechne deinen IAB jetzt sauber mit GründerX durch.",
     "outcomes": [
       "Du kennst deinen möglichen IAB bis zu 200.000 € nach §7g EStG",
       "Du prüfst per Check, ob du die Gewinn- bzw. Bilanzgrenzen einhältst",
@@ -563,8 +563,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "quartal-schaetzung": {
     "seoTitle": "Steuervorauszahlung berechnen: Quartals-Schätzung",
-    "seoDescription": "ESt, KSt, GewSt und SolZ für Q1-Q4 schätzen, Termine 10.3/10.6/10.9/10.12 im Blick. Plane deine Rücklage und vermeide Nachzahlungs-Schocks.",
-    "lead": "Die Quartals-Steuerschätzung berechnet deine Vorauszahlungen für ESt, KSt, GewSt und SolZ über alle vier Quartale samt Cashflow-Plan. Für Gründer und Unternehmer, die ihre Steuertermine ohne Liquiditätsschock managen wollen.",
+    "seoDescription": "ESt, KSt, GewSt und SolZ für Q1-Q4 schätzen, Termine 10.3/10.6/10.9/10.12 im Blick. Plane deine Rücklage und vermeide ungeplante Nachzahlungen.",
+    "lead": "Die Quartals-Steuerschätzung berechnet deine Vorauszahlungen für ESt, KSt, GewSt und SolZ über alle vier Quartale samt Cashflow-Plan. Für Gründer und Unternehmer, die ihre Steuertermine ohne LiquiditätsÜberraschung managen wollen.",
     "urgency": "Steuervorauszahlungen treffen viele Unternehmer unvorbereitet und reißen Löcher in die Liquidität. Wer keine Rücklage bildet und Anpassungsanträge verpasst, zahlt entweder drauf oder verschenkt Cash an zu hohe Vorauszahlungen. Plane deine Quartale jetzt mit GründerX, statt von jedem Termin überrascht zu werden.",
     "outcomes": [
       "Vorauszahlungen für ESt, KSt, GewSt und SolZ je Quartal berechnet",
@@ -577,15 +577,15 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "amazon-erstattungen": {
     "seoTitle": "Amazon Erstattungen automatisch zurückholen",
     "seoDescription": "Verlorene FBA-Ware, Wareneingangs-Differenzen & unterbezahlte Erstattungen automatisch als Amazon-Cases mit KI-Antworten zurückholen. Gewinn wie in Sellerboard.",
-    "lead": "Amazon erstattet verlorene Ware, Wareneingangs-Differenzen und beschädigte Retouren nur selten von allein. Diese Seller-Automation spürt jeden erstattungsfähigen Fall auf und reicht ihn als fertigen Amazon-Case mit KI-Antwort ein – umgesetzt in unserem Tool Arbitragex.",
-    "urgency": "Den meisten Amazon-Sellern entgehen laufend 1–3 % vom Umsatz: verlorene FBA-Ware, nicht verbuchte Wareneingänge, beschädigte Retouren und unterbezahlte Erstattungen. Von Hand findet das kaum jemand, und Amazons Erstattungsfristen laufen unbemerkt ab. Ein vollautomatischer Case-Poller holt dieses Geld zurück, während du dich aufs Verkaufen konzentrierst.",
+    "lead": "Amazon erstattet verlorene Ware, Wareneingangs-Differenzen und beschädigte Retouren nur selten von allein. Diese Seller-Automation spürt jeden erstattungsfähigen Fall auf und reicht ihn als fertigen Amazon-Case mit KI-Antwort ein, umgesetzt in unserem Tool Arbitragex.",
+    "urgency": "Den meisten Amazon-Sellern entgehen laufend 1-3 % vom Umsatz: verlorene FBA-Ware, nicht verbuchte Wareneingänge, beschädigte Retouren und unterbezahlte Erstattungen. Von Hand findet das kaum jemand, und Amazons Erstattungsfristen laufen unbemerkt ab. Ein vollautomatischer Case-Poller holt dieses Geld zurück, während du dich aufs Verkaufen konzentrierst.",
     "outcomes": [
       "Verlorene und beschädigte FBA-Ware, Wareneingangs-Differenzen und unterbezahlte Erstattungen automatisch aufgespürt",
-      "Fertige Amazon-Cases inklusive KI-Antworten auf Rückfragen – du prüfst nur",
+      "Fertige Amazon-Cases inklusive KI-Antworten auf Rückfragen, du prüfst nur",
       "Ein vollautomatischer Case-Poller, der laufend neue Erstattungsfälle einreicht",
       "Gewinn, Bestand und Erstattungen in einem Dashboard wie in Sellerboard"
     ],
-    "disclaimer": "Die Erstattungs-Automation läuft in unserem Seller-Tool Arbitragex (arbitragex.de). Höhe und Genehmigung einzelner Erstattungen entscheidet allein Amazon – Ergebnisse können abweichen."
+    "disclaimer": "Die Erstattungs-Automation läuft in unserem Seller-Tool Arbitragex (arbitragex.de). Höhe und Genehmigung einzelner Erstattungen entscheidet allein Amazon, Ergebnisse können abweichen."
   },
   "amazon-parser": {
     "seoTitle": "Amazon Settlement Report buchen: SKR03/04-Parser",
@@ -655,8 +655,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "shop-profit-rechner": {
     "seoTitle": "Shop-Profit-Rechner: Marge je Bestellung berechnen",
     "seoDescription": "Einkaufspreis brutto rein, Verkaufspreis brutto rein: Vorsteuer und USt raus, Versand, PayPal-Gebühren und Klickkosten gegengerechnet. Sieh, was je Bestellung bleibt.",
-    "lead": "Der Shop-Profit-Rechner zeigt für den eigenen Onlineshop, was nach Umsatzsteuer, Wareneinsatz, Versand, PayPal-Gebühren und Klickkosten je Bestellung übrig bleibt — und wie viele Klicks eine Bestellung überhaupt tragen kann.",
-    "urgency": "Die zwei teuersten Rechenfehler im eigenen Shop: den Bruttopreis des Lieferanten gegen den Bruttopreis im Shop rechnen, und Werbung als Monatsbudget statt als Kosten je Bestellung sehen. Bei 0,51 € pro Klick und 2 % Conversion-Rate stecken 25,50 € Werbung in jeder einzelnen Bestellung — mehr, als viele für ihre komplette Marge halten. Rechne mit GründerX einmal sauber durch, bevor du das nächste Kampagnen-Budget hochdrehst.",
+    "lead": "Der Shop-Profit-Rechner zeigt für den eigenen Onlineshop, was nach Umsatzsteuer, Wareneinsatz, Versand, PayPal-Gebühren und Klickkosten je Bestellung übrig bleibt, und wie viele Klicks eine Bestellung überhaupt tragen kann.",
+    "urgency": "Die zwei teuersten Rechenfehler im eigenen Shop: den Bruttopreis des Lieferanten gegen den Bruttopreis im Shop rechnen, und Werbung als Monatsbudget statt als Kosten je Bestellung sehen. Bei 0,51 € pro Klick und 2 % Conversion-Rate stecken 25,50 € Werbung in jeder einzelnen Bestellung, mehr, als viele für ihre komplette Marge halten. Rechne mit GründerX einmal sauber durch, bevor du das nächste Kampagnen-Budget hochdrehst.",
     "outcomes": [
       "Gewinn und Nettomarge je Bestellung, brutto eingegeben und netto gerechnet",
       "Vorsteuer im Einkauf und Umsatzsteuer im Verkauf sauber getrennt",
@@ -680,12 +680,12 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "datev-export": {
     "seoTitle": "Steuerberater-Übergabe: alle Unterlagen sauber bündeln",
-    "seoDescription": "Übergib deinem Steuerberater alles in einem Bundle: 30+ Pflicht-Posten, Manifest-PDF mit Mandantendaten und fertiger E-Mail. Spar dir das Hin und Her.",
-    "lead": "Stellt dir ein vollständiges Übergabe-Bundle für den Steuerberater zusammen: über 30 Pflicht-Posten in fünf Gruppen, eine Manifest-PDF mit Mandantendaten und Periode plus E-Mail-Helper mit fertigem Body. Für Gründer, E-Commerce und Solo-Selbstständige, die ihren Jahresabschluss oder die monatliche Übergabe stressfrei abwickeln wollen.",
+    "seoDescription": "Übergib deinem Steuerberater alles in einem Bundle: 30+ Pflicht-Posten, Manifest-PDF mit Unternehmensdaten und fertiger E-Mail. Spar dir das Hin und Her.",
+    "lead": "Stellt dir ein vollständiges Übergabe-Bundle für den Steuerberater zusammen: über 30 Pflicht-Posten in fünf Gruppen, eine Manifest-PDF mit Unternehmensdaten und Periode plus E-Mail-Helper mit fertigem Body. Für Gründer, E-Commerce und Solo-Selbstständige, die ihren Jahresabschluss oder die monatliche Übergabe geordnet abwickeln wollen.",
     "urgency": "Jede Rückfrage deines Steuerberaters kostet dich Zeit und manchmal extra Honorar. Wenn Belege fehlen oder unsortiert ankommen, zieht sich die Buchhaltung und du zahlst doppelt. Stell dein Übergabe-Bundle jetzt mit GründerX zusammen und gib alles auf einmal sauber raus.",
     "outcomes": [
       "Eine Checkliste mit 30+ Posten in fünf klaren Gruppen, nichts vergessen",
-      "Eine Manifest-PDF mit Mandantendaten, Periode und allen Anhängen",
+      "Eine Manifest-PDF mit Unternehmensdaten, Periode und allen Anhängen",
       "Eine fertige Übergabe-E-Mail, die du nur noch abschicken musst",
       "Weniger Rückfragen und schnellere Bearbeitung durch den Steuerberater",
       "Ein wiederholbarer Ablauf für jede Periode statt jedes Mal Chaos"
@@ -862,9 +862,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "vergleich-email": {
     "seoTitle": "E-Mail-Marketing-Tools Vergleich: Klaviyo & Co.",
-    "seoDescription": "Klaviyo, Brevo oder ActiveCampaign? Vergleiche die wichtigsten E-Mail-Tools nach Preis, Features & E-Commerce-Eignung – und triff die richtige Wahl.",
+    "seoDescription": "Klaviyo, Brevo oder ActiveCampaign? Vergleiche die wichtigsten E-Mail-Tools nach Preis, Features & E-Commerce-Eignung, und triff die richtige Wahl.",
     "lead": "Die Anbieter-Vergleichs-Engine stellt Klaviyo, Brevo und ActiveCampaign gegenüber, damit du als Gründer oder Shop-Betreiber das passende E-Mail-Marketing-Tool findest.",
-    "urgency": "E-Mail bleibt der profitabelste Kanal im E-Commerce – aber das falsche Tool kostet dich Monat für Monat zu viel und bremst deine Automationen. Je länger du auf der falschen Plattform sitzt, desto teurer wird der spätere Umzug. Vergleiche jetzt mit GründerX und entscheide einmal richtig.",
+    "urgency": "E-Mail bleibt der profitabelste Kanal im E-Commerce, aber das falsche Tool kostet dich Monat für Monat zu viel und bremst deine Automationen. Je länger du auf der falschen Plattform sitzt, desto teurer wird der spätere Umzug. Vergleiche jetzt mit GründerX und entscheide einmal richtig.",
     "outcomes": [
       "Klaviyo, Brevo und ActiveCampaign nach Preis und Funktionsumfang gegenübergestellt",
       "Klarheit, welches Tool zu deiner Shop-Größe und Listengröße passt",
@@ -877,7 +877,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "Tracking-Tools Vergleich: Hyros, Triple Whale & Co.",
     "seoDescription": "Hyros, Triple Whale oder Wicked Reports? Vergleiche die führenden Attribution-Tools für E-Commerce nach Preis, Genauigkeit & Setup-Aufwand.",
     "lead": "Diese Vergleichs-Engine stellt Hyros, Triple Whale und Wicked Reports gegenüber, damit du das richtige Attribution- und Tracking-Tool für deinen Shop wählst.",
-    "urgency": "Ohne sauberes Tracking verbrennst du Werbebudget blind – du skalierst Kampagnen, die gar nicht profitabel sind. Jeder Monat mit falscher Attribution bedeutet Fehlentscheidungen im Ad-Spend. Vergleiche jetzt die Tracking-Tools mit GründerX und sieh endlich, was wirklich verkauft.",
+    "urgency": "Ohne sauberes Tracking verbrennst du Werbebudget blind, du skalierst Kampagnen, die gar nicht profitabel sind. Jeder Monat mit falscher Attribution bedeutet Fehlentscheidungen im Ad-Spend. Vergleiche jetzt die Tracking-Tools mit GründerX und sieh endlich, was wirklich verkauft.",
     "outcomes": [
       "Hyros, Triple Whale und Wicked Reports direkt gegenübergestellt",
       "Klarheit über Attributionsgenauigkeit, Setup-Aufwand und Kosten",
@@ -889,11 +889,11 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "stb-marketplace": {
     "seoTitle": "Steuerberater-Auswahl: E-Com, Crypto & Holding",
     "seoDescription": "Den richtigen Steuerberater finden: Wizard mit 5 Spezialisierungen, Honorar-Ranges, Erst-Termin-Fragen & Red-Flags für E-Com, Crypto & Holding.",
-    "lead": "Der StB-Auswahl-Wizard führt dich durch 5 Spezialisierungen – von E-Commerce über Crypto bis Holding und International – mit Pflicht-Knowledge, Honorar-Range und Red-Flags.",
-    "urgency": "Ein Steuerberater ohne E-Com- oder Crypto-Erfahrung kann dich teure Fehler kosten – falsche Umsatzsteuer, übersehene Fristen, unnötige Nachzahlungen. Je länger du beim falschen Berater bleibst, desto schwerer wird der Wechsel. Bereite dein Erst-Gespräch jetzt mit GründerX vor und erkenne den richtigen StB.",
+    "lead": "Der StB-Auswahl-Wizard führt dich durch 5 Spezialisierungen, von E-Commerce über Crypto bis Holding und International, mit Pflicht-Knowledge, Honorar-Range und Red-Flags.",
+    "urgency": "Ein Steuerberater ohne E-Com- oder Crypto-Erfahrung kann dich teure Fehler kosten, falsche Umsatzsteuer, übersehene Fristen, unnötige Nachzahlungen. Je länger du beim falschen Berater bleibst, desto schwerer wird der Wechsel. Bereite dein Erst-Gespräch jetzt mit GründerX vor und erkenne den richtigen StB.",
     "outcomes": [
       "Die passende Steuerberater-Spezialisierung für dein Geschäftsmodell identifiziert",
-      "Konkreter Fragen-Katalog fürs Erstgespräch zum Mitnehmen",
+      "Konkreter Fragen-Katalog fürs ersten Gespräch zum Mitnehmen",
       "Realistische Honorar-Ranges, um Angebote einzuordnen",
       "Red-Flags, an denen du ungeeignete Berater sofort erkennst"
     ],
@@ -902,8 +902,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "ecom-roadmap": {
     "seoTitle": "E-Commerce Brand-Roadmap: Compliance 2026",
     "seoDescription": "Brand launchen in Beauty, Supplement, Electronics & Co.? Kategorie-Roadmap mit DE/EU/US-Compliance-Stack 2026 und den typischen Stolperfallen.",
-    "lead": "Die ECom-Brand-Roadmap zeigt dir je nach Kategorie – Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet oder Hardware – den kompletten DE/EU/US-Compliance-Stack 2026.",
-    "urgency": "Eine fehlende Registrierung oder Kennzeichnung kann deinen Launch stoppen, bevor er startet – Abmahnungen und gesperrte Amazon-Listings inklusive. Jeder übersehene Compliance-Punkt wird nach dem Launch teurer. Plane deinen Brand-Start jetzt mit der Roadmap von GründerX und gründe rechtssicher.",
+    "lead": "Die ECom-Brand-Roadmap zeigt dir je nach Kategorie, Beauty, Supplement, Electronics, Toys, Apparel, Food, Pet oder Hardware, den kompletten DE/EU/US-Compliance-Stack 2026.",
+    "urgency": "Eine fehlende Registrierung oder Kennzeichnung kann deinen Launch stoppen, bevor er startet, Abmahnungen und gesperrte Amazon-Listings inklusive. Jeder übersehene Compliance-Punkt wird nach dem Launch teurer. Plane deinen Brand-Start jetzt mit der Roadmap von GründerX und gründe sauber aufgesetzt.",
     "outcomes": [
       "Kompletter Compliance-Stack für deine Produktkategorie auf einen Blick",
       "Klarheit über DE-, EU- und US-Anforderungen 2026",
@@ -915,8 +915,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "lucid-wizard": {
     "seoTitle": "Verpackungslizenz-Rechner 2026: Kosten & duale Systeme",
     "seoDescription": "LUCID-Verpackungslizenz schnell berechnen: Material-Mengen eingeben, Kostenspanne & Anbieter-Empfehlung aus 9 dualen Systemen erhalten. Tarife 2026.",
-    "lead": "Der LUCID-Wizard berechnet in 5 Schritten deine Verpackungslizenz-Kosten und empfiehlt dir das passende duale System aus 9 Anbietern – mit Tarifen 2026.",
-    "urgency": "Ohne LUCID-Registrierung und Lizenzierung drohen Verkaufsverbote und Bußgelder – und Marktplätze sperren nicht registrierte Händler. Je länger du Mengen ohne Lizenz verschickst, desto höher das Risiko. Berechne deine Verpackungslizenz jetzt mit GründerX und werde sauber compliant.",
+    "lead": "Der LUCID-Wizard berechnet in 5 Schritten deine Verpackungslizenz-Kosten und empfiehlt dir das passende duale System aus 9 Anbietern, mit Tarifen 2026.",
+    "urgency": "Ohne LUCID-Registrierung und Lizenzierung drohen Verkaufsverbote und Bußgelder, und Marktplätze sperren nicht registrierte Händler. Je länger du Mengen ohne Lizenz verschickst, desto höher das Risiko. Berechne deine Verpackungslizenz jetzt mit GründerX und werde sauber compliant.",
     "outcomes": [
       "Konkrete Kostenspanne für deine Verpackungslizenz nach Material-Mengen",
       "Empfehlung des passenden dualen Systems aus 9 Anbietern",
@@ -927,9 +927,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "ce-rohs": {
     "seoTitle": "CE/RoHS-Konformitätserklärung erstellen (PDF)",
-    "seoDescription": "CE- & RoHS-Konformitätserklärung als PDF generieren – für Elektronik, Spielzeug, Maschinen & mehr, inklusive GPSR und Battery-Regulation.",
-    "lead": "Der CE/RoHS-Generator erstellt dir die Konformitätserklärung als PDF für 8 Produkt-Kategorien – von Elektronik über Spielzeug bis Wearable, inklusive GPSR und Battery-Reg.",
-    "urgency": "Ohne gültige Konformitätserklärung darfst du dein Produkt in der EU nicht verkaufen – fehlt sie, drohen Marktrücknahme und Abmahnung. Seit GPSR prüfen Marktplätze strenger als je zuvor. Erstelle deine CE/RoHS-Erklärung jetzt mit GründerX und mach dein Produkt verkaufsfertig.",
+    "seoDescription": "CE- & RoHS-Konformitätserklärung als PDF generieren, für Elektronik, Spielzeug, Maschinen & mehr, inklusive GPSR und Battery-Regulation.",
+    "lead": "Der CE/RoHS-Generator erstellt dir die Konformitätserklärung als PDF für 8 Produkt-Kategorien, von Elektronik über Spielzeug bis Wearable, inklusive GPSR und Battery-Reg.",
+    "urgency": "Ohne gültige Konformitätserklärung darfst du dein Produkt in der EU nicht verkaufen, fehlt sie, drohen Marktrücknahme und Abmahnung. Seit GPSR prüfen Marktplätze strenger als je zuvor. Erstelle deine CE/RoHS-Erklärung jetzt mit GründerX und mach dein Produkt verkaufsfertig.",
     "outcomes": [
       "Fertige CE/RoHS-Konformitätserklärung als PDF zum Download",
       "Passende Vorlage für eine von 8 Produkt-Kategorien",
@@ -942,7 +942,7 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "seoTitle": "WEEE / EAR-Register-Check: Marke prüfen",
     "seoDescription": "Ist eine Marke im EAR-Verzeichnis registriert? Live-Check der offiziellen stiftung ear: WEEE-Nummer, Hersteller, Kategorie & Status.",
     "lead": "Der WEEE/EAR-Check fragt das offizielle Verzeichnis der stiftung ear live ab und zeigt dir WEEE-Nummer, Hersteller, Kategorie und ob eine Marke aktiv registriert ist.",
-    "urgency": "Wer Elektrogeräte ohne WEEE-Registrierung verkauft, riskiert Abmahnungen und gesperrte Listings – und auch Lieferanten-Marken sind nicht immer sauber registriert. Jeder ungeprüfte Artikel ist ein Risiko. Prüfe Marken jetzt live mit GründerX, bevor du listest oder einkaufst.",
+    "urgency": "Wer Elektrogeräte ohne WEEE-Registrierung verkauft, riskiert Abmahnungen und gesperrte Listings, und auch Lieferanten-Marken sind nicht immer sauber registriert. Jeder ungeprüfte Artikel ist ein Risiko. Prüfe Marken jetzt live mit GründerX, bevor du listest oder einkaufst.",
     "outcomes": [
       "Live-Auskunft, ob eine Marke im EAR-Verzeichnis registriert ist",
       "WEEE-Reg.-Nr., Hersteller bzw. Bevollmächtigter direkt sichtbar",
@@ -954,8 +954,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   "labor-vergleich": {
     "seoTitle": "Labor-Vergleich: 44 ISO-17025-Labore DE/EU",
     "seoDescription": "Das richtige Prüflabor finden: 44 ISO-17025-Labore für Kosmetik, Food, Electronics & Co. mit Use-Case-Stacks und Kosten-Ballparks.",
-    "lead": "Der Labor-Vergleich listet 44 etablierte ISO-17025-Labore in DE und EU für 14 Kategorien – von Kosmetik über Food bis MDR – mit 8 fertigen Use-Case-Stacks.",
-    "urgency": "Ohne die richtigen Prüfungen darf dein Produkt nicht in den Verkauf – und das falsche Labor kostet dich Wochen und unnötiges Geld. Jeder Tag ohne Prüfbericht verschiebt deinen Launch. Finde dein passendes Labor jetzt mit GründerX und bring dein Produkt schneller in den Markt.",
+    "lead": "Der Labor-Vergleich listet 44 etablierte ISO-17025-Labore in DE und EU für 14 Kategorien, von Kosmetik über Food bis MDR, mit 8 fertigen Use-Case-Stacks.",
+    "urgency": "Ohne die richtigen Prüfungen darf dein Produkt nicht in den Verkauf, und das falsche Labor kostet dich Wochen und unnötiges Geld. Jeder Tag ohne Prüfbericht verschiebt deinen Launch. Finde dein passendes Labor jetzt mit GründerX und bring dein Produkt schneller in den Markt.",
     "outcomes": [
       "44 ISO-17025-Labore nach 14 Kategorien gefiltert",
       "Passender Use-Case-Stack für dein Produkt vorgeschlagen",
@@ -966,9 +966,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "visa-helper": {
     "seoTitle": "Visa-Helper: Aufenthaltstitel & Auswandern",
-    "seoDescription": "Visa & Aufenthaltstitel in beide Richtungen: 6 Titel nach Deutschland, 27 Visa weltweit raus – mit Profil-Score und §6 AStG Wegzugs-Block.",
-    "lead": "Der Visa-Helper deckt beide Richtungen ab: 6 Aufenthaltstitel nach Deutschland mit Profil-Score und 27 Visa-Optionen weltweit – inklusive §6-AStG-Wegzugs-Warnung.",
-    "urgency": "Beim Visa- oder Wegzugs-Thema entscheidet die Reihenfolge der Schritte – ein übersehener Punkt wie die Wegzugsbesteuerung kann dich fünfstellig kosten. Je später du planst, desto enger werden deine Optionen. Verschaff dir jetzt mit GründerX den Überblick, bevor du Fakten schaffst.",
+    "seoDescription": "Visa & Aufenthaltstitel in beide Richtungen: 6 Titel nach Deutschland, 27 Visa weltweit raus, mit Profil-Score und §6 AStG Wegzugs-Block.",
+    "lead": "Der Visa-Helper deckt beide Richtungen ab: 6 Aufenthaltstitel nach Deutschland mit Profil-Score und 27 Visa-Optionen weltweit, inklusive §6-AStG-Wegzugs-Warnung.",
+    "urgency": "Beim Visa- oder Wegzugs-Thema entscheidet die Reihenfolge der Schritte, ein übersehener Punkt wie die Wegzugsbesteuerung kann dich fünfstellig kosten. Je später du planst, desto enger werden deine Optionen. Verschaff dir jetzt mit GründerX den Überblick, bevor du Fakten schaffst.",
     "outcomes": [
       "Passende Aufenthaltstitel oder Auswanderungs-Visa für dein Profil",
       "Profil-Score, der dir die realistischen Optionen zeigt",
@@ -979,9 +979,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "foerderung-db": {
     "seoTitle": "Förderprogramme-Datenbank: 40+ in 12 Ländern",
-    "seoDescription": "Förderung für dein Startup finden: 40+ Programme in 12 Ländern – KfW, EXIST, EIC, YC, SEIS/EIS – filterbar nach Land, Typ und Phase.",
-    "lead": "Die Förderung-Datenbank bündelt über 40 Programme in 12 Ländern – von KfW und EXIST über EIC bis YC und SEIS/EIS – filterbar nach Land, Typ und Gründungsphase.",
-    "urgency": "Viele Förderungen musst du beantragen, bevor du startest – wer zu spät kommt, verliert oft den Anspruch komplett. Jeder Monat ohne passendes Programm ist verschenktes Kapital. Finde jetzt mit GründerX die Förderung, die zu deiner Phase passt, und sichere dir den Vorsprung.",
+    "seoDescription": "Förderung für dein Startup finden: 40+ Programme in 12 Ländern, KfW, EXIST, EIC, YC, SEIS/EIS, filterbar nach Land, Typ und Phase.",
+    "lead": "Die Förderung-Datenbank bündelt über 40 Programme in 12 Ländern, von KfW und EXIST über EIC bis YC und SEIS/EIS, filterbar nach Land, Typ und Gründungsphase.",
+    "urgency": "Viele Förderungen musst du beantragen, bevor du startest, wer zu spät kommt, verliert oft den Anspruch komplett. Jeder Monat ohne passendes Programm ist verschenktes Kapital. Finde jetzt mit GründerX die Förderung, die zu deiner Phase passt, und sichere dir den Vorsprung.",
     "outcomes": [
       "Über 40 Förderprogramme aus 12 Ländern im Überblick",
       "Gefiltert nach Land, Typ und deiner Gründungsphase",
@@ -992,9 +992,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "us-llc-wizard": {
     "seoTitle": "US-LLC gründen: Setup-Wizard in 10 Schritten",
-    "seoDescription": "US-LLC sauber aufsetzen: Wizard von Bundesstaat über EIN und W-8BEN-E bis Bank – inklusive Form-5472-$25k-Falle und Kostenrechner.",
-    "lead": "Der US-LLC-Wizard führt dich in 10 Schritten durch den Setup – von Bundesstaat, Name und Agent über EIN und W-8BEN-E bis zum Bankkonto, inklusive Kostenrechner.",
-    "urgency": "Eine US-LLC ist schnell gegründet – aber die Form-5472-Pflicht wird gern übersehen, und das kostet 25.000 Dollar Strafe pro Versäumnis. Jeder Schritt in falscher Reihenfolge verzögert dein Banking. Setz deine LLC jetzt strukturiert mit GründerX auf und umgeh die teuren Fallen.",
+    "seoDescription": "US-LLC sauber aufsetzen: Wizard von Bundesstaat über EIN und W-8BEN-E bis Bank, inklusive Form-5472-$25k-Falle und Kostenrechner.",
+    "lead": "Der US-LLC-Wizard führt dich in 10 Schritten durch den Setup, von Bundesstaat, Name und Agent über EIN und W-8BEN-E bis zum Bankkonto, inklusive Kostenrechner.",
+    "urgency": "Eine US-LLC ist schnell gegründet, aber die Form-5472-Pflicht wird gern übersehen, und das kostet 25.000 Dollar Strafe pro Versäumnis. Jeder Schritt in falscher Reihenfolge verzögert dein Banking. Setz deine LLC jetzt strukturiert mit GründerX auf und umgeh die teuren Fallen.",
     "outcomes": [
       "Strukturierter 10-Schritte-Fahrplan für dein US-LLC-Setup",
       "Klarheit über EIN, BOI-Status und W-8BEN-E",
@@ -1005,9 +1005,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "hk-limited-wizard": {
     "seoTitle": "Hongkong-Limited gründen: Setup-Wizard",
-    "seoDescription": "HK-Limited sauber aufsetzen: Wizard von Director über NNC1+BR und SCR bis Profits Tax & Bank – mit Two-Tier-Sätzen 8,25 % / 16,5 %.",
-    "lead": "Der HK-Limited-Wizard führt dich in 11 Schritten durch die Gründung – von Director und CompSec über NNC1, BR und SCR bis zu Profits Tax, FSIE und Bankkonto.",
-    "urgency": "Eine Hongkong-Limited bietet attraktive Steuersätze – aber FSIE-Regeln und SCR-Pflichten entscheiden, ob du sie überhaupt nutzen darfst. Wer Schritte überspringt, riskiert Ablehnung beim Banking. Setz deine HK-Limited jetzt geführt mit GründerX auf und mach es von Anfang an richtig.",
+    "seoDescription": "HK-Limited sauber aufsetzen: Wizard von Director über NNC1+BR und SCR bis Profits Tax & Bank, mit Two-Tier-Sätzen 8,25 % / 16,5 %.",
+    "lead": "Der HK-Limited-Wizard führt dich in 11 Schritten durch die Gründung, von Director und CompSec über NNC1, BR und SCR bis zu Profits Tax, FSIE und Bankkonto.",
+    "urgency": "Eine Hongkong-Limited bietet attraktive Steuersätze, aber FSIE-Regeln und SCR-Pflichten entscheiden, ob du sie überhaupt nutzen darfst. Wer Schritte überspringt, riskiert Ablehnung beim Banking. Setz deine HK-Limited jetzt geführt mit GründerX auf und mach es von Anfang an richtig.",
     "outcomes": [
       "Geführter 11-Schritte-Fahrplan für die HK-Limited-Gründung",
       "Überblick über NNC1, BR, SCR und CompSec-Pflichten",
@@ -1018,9 +1018,9 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
   },
   "us-tax-helper": {
     "seoTitle": "US-Tax-Helper: Welche IRS-Filings brauche ich?",
-    "seoDescription": "Welche US-Steuern gelten für deine Struktur? Pflicht-Filings IRS & State – Form 5472, 1120, 1065, 1040-NR – mit Fristen und PDF-Checkliste.",
-    "lead": "Der US-Tax-Helper zeigt dir je nach Setup – SMLLC, Partnership, C-Corp oder US-Person – alle Pflicht-Filings bei IRS und State mit Fristen und PDF-Checkliste.",
-    "urgency": "Bei US-Steuern hängt alles an deiner Struktur – das falsche oder fehlende Formular wie die Form 5472 kann 25.000 Dollar Strafe auslösen. Jede verpasste Frist wird teuer. Finde jetzt mit GründerX heraus, welche Filings für dich gelten, und reich rechtzeitig ein.",
+    "seoDescription": "Welche US-Steuern gelten für deine Struktur? Pflicht-Filings IRS & State, Form 5472, 1120, 1065, 1040-NR, mit Fristen und PDF-Checkliste.",
+    "lead": "Der US-Tax-Helper zeigt dir je nach Setup, SMLLC, Partnership, C-Corp oder US-Person, alle Pflicht-Filings bei IRS und State mit Fristen und PDF-Checkliste.",
+    "urgency": "Bei US-Steuern hängt alles an deiner Struktur, das falsche oder fehlende Formular wie die Form 5472 kann 25.000 Dollar Strafe auslösen. Jede verpasste Frist wird teuer. Finde jetzt mit GründerX heraus, welche Filings für dich gelten, und reich rechtzeitig ein.",
     "outcomes": [
       "Alle Pflicht-Filings für dein konkretes US-Setup aufgelistet",
       "Fristen zu Form 5472, 1120, 1065 und 1040-NR im Blick",
@@ -1100,14 +1100,14 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Berechnungen sind vereinfachte Modelle und ersetzen keine steuerliche Beratung im Einzelfall."
   },
   "us-kreditkarten": {
-    "seoTitle": "US-Kreditkarten & Miles: 22 Karten + MR-Transfer-Hack",
-    "seoDescription": "22 US-Karten, 15 Miles-Sweet-Spots und der DE-US Amex-MR-Transfer-Hack mit FX-Bonus. Velocity-Strategie für hohe Sign-up-Bonusse.",
+    "seoTitle": "US-Kreditkarten & Miles: 22 Karten + MR-Transfer-Strategie",
+    "seoDescription": "22 US-Karten, 15 Miles-Sweet-Spots und der DE-US Amex-MR-Transfer-Strategie mit FX-Bonus. Velocity-Strategie für hohe Sign-up-Bonusse.",
     "lead": "Dieses Tool bündelt 22 US-Kreditkarten, 15 Miles-Sweet-Spots und konkrete Punkte-Strategien für Gründer mit US-Setup. Für alle, die ihre Geschäfts- und Reiseausgaben hebeln wollen.",
     "urgency": "Wer eine US-Struktur hat, aber keine Karten-Strategie fährt, lässt jedes Jahr tausende Euro an Sign-up-Bonussen und Miles liegen. Die Sweet-Spots ändern sich, der MR-Transfer-Vorteil nicht ewig. Hol dir jetzt mit GründerX den Überblick, bevor sich die besten Angebote schließen.",
     "outcomes": [
       "Vergleich von 22 US-Kreditkarten an einem Ort",
       "15 Miles-Sweet-Spots für maximalen Punkt-Wert",
-      "Der DE-zu-US Amex-MR-Transfer-Hack mit FX-Bonus erklärt",
+      "Der DE-zu-US Amex-MR-Transfer-Strategie mit FX-Bonus erklärt",
       "Velocity-Strategie zur Maximierung der Jahres-Bonusse",
       "Klare Reihenfolge, welche Karte du wann öffnest"
     ],
@@ -1170,31 +1170,31 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Ein Beratungsgespräch vermittelt allgemeine Einordnung und ersetzt keine individuelle Steuer- oder Rechtsberatung im Einzelfall."
   },
   "app-umsatz-rechner": {
-    "seoTitle": "App-Store-Umsatz-Rechner – was bleibt von 9,99 €?",
+    "seoTitle": "App-Store-Umsatz-Rechner, was bleibt von 9,99 €?",
     "seoDescription": "Apple & Google App-Umsatz durchrechnen: USt + Store-Provision (15/30 %) raus, MRR, Abo-LTV mit Churn und Break-even gegen deine Entwicklungskosten.",
-    "lead": "Der Rechner zeigt dir, was von deinem App-Store-Preis wirklich bei dir ankommt – und ob sich deine App-Idee trägt: Netto-Erlös pro Zahler, MRR-Verlauf, Abo-LTV mit Churn und der Break-even-Monat gegen deine Entwicklungskosten.",
-    "urgency": "Die meisten App-Gründer rechnen mit dem Store-Preis – und wundern sich über die Auszahlung: Von 9,99 € führt der Store erst die Umsatzsteuer ab, dann gehen 15–30 % Provision runter, übrig bleiben ~7,14 €. Wer damit nicht kalkuliert, bewertet Agentur-Angebote falsch, setzt Preise zu niedrig an und merkt erst nach Monaten, dass die App sich nie tragen kann. Rechne es in 2 Minuten durch, bevor du Geld in Entwicklung oder Ads steckst.",
+    "lead": "Der Rechner zeigt dir, was von deinem App-Store-Preis wirklich bei dir ankommt, und ob sich deine App-Idee trägt: Netto-Erlös pro Zahler, MRR-Verlauf, Abo-LTV mit Churn und der Break-even-Monat gegen deine Entwicklungskosten.",
+    "urgency": "Die meisten App-Gründer rechnen mit dem Store-Preis, und wundern sich über die Auszahlung: Von 9,99 € führt der Store erst die Umsatzsteuer ab, dann gehen 15-30 % Provision runter, übrig bleiben ~7,14 €. Wer damit nicht kalkuliert, bewertet Agentur-Angebote falsch, setzt Preise zu niedrig an und merkt erst nach Monaten, dass die App sich nie tragen kann. Rechne es in 2 Minuten durch, bevor du Geld in Entwicklung oder Ads steckst.",
     "outcomes": [
       "Dein echter Netto-Erlös pro Zahler nach USt und Store-Provision",
       "MRR-Simulation über 36 Monate mit Downloads, Conversion und Churn",
-      "Abo-LTV – die Basis für deine Ads-Kalkulation",
+      "Abo-LTV, die Basis für deine Ads-Kalkulation",
       "Break-even-Monat gegen deine Entwicklungskosten",
       "Klarheit, ob Small Business Program (15 % statt 30 %) für dich greift"
     ],
     "disclaimer": "Vereinfachte Modell-Rechnung mit 19 % DE-USt; reale Auszahlungen variieren je Käuferland und Abrechnungszyklus. Keine Steuerberatung."
   },
   "runway-rechner": {
-    "seoTitle": "Runway-Rechner – wie lange reicht dein Geld?",
+    "seoTitle": "Runway-Rechner, wie lange reicht dein Geld?",
     "seoDescription": "Burn-Rate & Runway berechnen: Cash + Kosten + Umsatz-Wachstum → simulierter Runway, Cash-Tiefpunkt und Default Alive or Default Dead. Für jeden Gründer.",
-    "lead": "Das wichtigste Dashboard jedes jungen Unternehmens in einem Rechner: Wie viele Monate reicht dein Cash – und holt der wachsende Umsatz die Kosten ein, bevor es ausgeht? Mit Burn-Rate, Cash-Tiefpunkt und Paul Grahams Default-Alive-Check.",
-    "urgency": "Startups sterben nicht an schlechten Ideen, sondern daran, dass das Geld ausgeht – und zwar meist überraschend, weil niemand den Runway ehrlich gerechnet hat (Privatentnahme vergessen, Wachstum überschätzt, Steuern ignoriert). Wer bei 12 Monaten Runway gegensteuert, hat alle Optionen; wer es bei 3 Monaten merkt, verhandelt aus Schwäche. Der Rechner zeigt dir in 2 Minuten, in welchem Modus du wirklich bist.",
+    "lead": "Das wichtigste Dashboard jedes jungen Unternehmens in einem Rechner: Wie viele Monate reicht dein Cash, und holt der wachsende Umsatz die Kosten ein, bevor es ausgeht? Mit Burn-Rate, Cash-Tiefpunkt und Paul Grahams Default-Alive-Check.",
+    "urgency": "Startups sterben nicht an schlechten Ideen, sondern daran, dass das Geld ausgeht, und zwar meist überraschend, weil niemand den Runway ehrlich gerechnet hat (Privatentnahme vergessen, Wachstum überschätzt, Steuern ignoriert). Wer bei 12 Monaten Runway gegensteuert, hat alle Optionen; wer es bei 3 Monaten merkt, verhandelt aus Schwäche. Der Rechner zeigt dir in 2 Minuten, in welchem Modus du wirklich bist.",
     "outcomes": [
-      "Dein Runway in Monaten – simuliert, nicht nur Cash ÷ Burn",
+      "Dein Runway in Monaten, simuliert, nicht nur Cash ÷ Burn",
       "Ehrliche Burn-Rate inklusive Privatentnahme",
-      "Default Alive oder Default Dead – wirst du rechtzeitig profitabel?",
+      "Default Alive oder Default Dead, wirst du rechtzeitig profitabel?",
       "Cash-Tiefpunkt: wie viel Puffer du wirklich brauchst",
       "Konkrete Handlungs-Stufen je nach Runway-Länge"
     ],
-    "disclaimer": "Modell-Rechnung mit konstanten Annahmen – reale Geschäfte sind saisonal. Ersetzt keine Liquiditätsplanung mit Steuerberater."
+    "disclaimer": "Modell-Rechnung mit konstanten Annahmen, reale Geschäfte sind saisonal. Ersetzt keine Liquiditätsplanung mit Steuerberater."
   }
 };

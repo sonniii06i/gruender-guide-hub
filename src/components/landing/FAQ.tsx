@@ -1,100 +1,93 @@
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { PLANS, FOUNDER_SATZ, formatEurCents, netCentsOf } from "@/config/pricing";
-import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
-
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN, GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 
 const faqs = [
   {
-    q: "Welche Rechtsform passt zu mir – Einzelunternehmen, UG, GmbH oder Holding?",
-    a: "Felix vergleicht Einzelunternehmen, UG, GmbH und Holding-Konstrukte anhand deines Umsatzes, deines Risikos und deiner Pläne (Reinvest, Ausschüttung, Exit) – inklusive Wechsel-Wegweiser, wann sich ein Upgrade rechnet.",
+    q: "Für wen ist GründerX gedacht? Geht das auch unter 18 oder ab 50?",
+    a: `Ja. GründerX ist bewusst für alle von 12 bis 70 gebaut. Beim Start wählst du deine Altersgruppe und dein Ziel, dann schlagen wir passende Guides vor. Alle ${GUIDE_COUNT} Guides bleiben jederzeit für jeden offen. Unter 18 weisen wir immer klar darauf hin, wo Eltern und Familiengericht einbezogen werden müssen.`,
   },
   {
-    q: "Hilft GründerX bei US-LLC oder HK-Limited?",
-    a: "Ja. Bundesstaaten-Vergleich (Wyoming, Delaware, New Mexico, Nevada), Registered-Agent-Auswahl, EIN- und ITIN-Antrag, BOI-Status (seit 26.03.2025 für US-LLCs entfallen), Form 5472/1120-Reminder sowie Banking (Mercury, Wise, Relay, Brex). Für Hong Kong: Setup, Profits-Tax, Offshore-Status, Audited Accounts und Banking (Statrys, Airwallex, Currenxie) – inkl. deutscher CFC-Regelungen.",
+    q: "Wie funktionieren die interaktiven Guides und Arbeitsfenster?",
+    a: "Jeder Guide ist in kurze, klare Schritte aufgebaut, ähnlich wie ein interaktiver Kurs. Statt langer Textwände bekommst du pro Schritt genau eine Aufgabe, einen kurzen Selbst-Check mit XP und direkte Arbeitsfenster (Rechner, Wizards, Checklisten oder Notizen), die du ohne Tab-Wechsel im selben Screen öffnest.",
   },
   {
-    q: "Welche Marketplaces deckt GründerX ab?",
-    a: "Schritt-für-Schritt-Setup für Amazon Seller, Kaufland, Shopify, Stripe und PayPal Business – inkl. Verifizierung, EU-Setup, Domain, Payment und Versand. Plus Plattform-Vergleich, welcher Channel zu welchem Produkt passt.",
+    q: "Gibt es GründerX auch für das Handy und als App?",
+    a: "Ja. Die gesamte Oberfläche ist zuerst für das Handy gedacht, mit unterer App-Navigation und großen Tippflächen. Du kannst GründerX direkt im mobilen Browser nutzen, auf den Homescreen legen oder über unsere App-Umgebung für iOS und Android verwenden.",
   },
   {
-    q: "Was deckt die Steuer-Funktion ab?",
-    a: "DE-Steuer-Cockpit mit Frist-Kalender (USt, ESt, KSt, GewSt, GuV), Dokumenten-Pflicht-Übersicht, IAB-Rechner, Kfz (1 % vs. Fahrtenbuch), Reisekosten-Logger, Pre-Year-End-Check, OSS-Anmeldung sowie US- und HK-Tax-Helper inkl. W-8BEN für Whop & Co.",
+    q: "Welche Rechtsform passt zu mir: Einzelunternehmen, UG, GmbH oder Holding?",
+    a: "Unser Rechtsform-Finder und Felix vergleichen Einzelunternehmen, UG, GmbH und Holding anhand deines Umsatzes, deines Risikos und deiner Pläne. Du siehst Kosten, Haftung und Pflichten direkt nebeneinander und triffst die Entscheidung selbst.",
   },
   {
-    q: "Wie hilft ihr bei eigener Brand und Compliance?",
-    a: "Kategorie-Guides für Elektronik (WEEE/EAR, CE, RoHS), Health & Supplements (NEM-Anzeige BVL, NRV, HCV), Beauty (CPNP, MoCRA), Spielzeug (EN 71, REACH), Apparel (Textilkennzeichnung) und Lebensmittel (LMIV). Plus Anmelde-Wizards für LUCID-Verpackungen, BattDG und GPSR.",
+    q: "Gibt es einen ehrlichen Guide für Amex US (Privat & Business) und US-LLC?",
+    a: "Ja. Im Amex-US-Guide und im US-Setup-Bereich führen wir dich durch den Global Transfer aus Deutschland, echte US-Adresse (z. B. Cloud Residence mit Utility-Nachweis), US-Rufnummer per Tello eSIM für Verifizierungsanrufe, den Unterschied zwischen Wise (Risiko bei Bankprüfung) und Filialbanken wie Chase oder Bank of America sowie die nächsten Schritte zur US Business Amex.",
   },
   {
-    q: "Kann ich vor dem Launch Marken, Domain und Social-Handles prüfen?",
-    a: "Ja. Brand-Launch-Tools mit Marken-Check (DPMA, EUIPO, USPTO), Domain-Check (.de/.com/.io), Social-Handles (Instagram, TikTok, YouTube, X), App-Store-Check und einem Risiko-Score mit Empfehlung.",
-  },
-  {
-    q: "Hilft GründerX bei Amazon-Buchhaltung?",
-    a: "Ja – Settlement-Report-Parser (Amazon-CSV → Buchungen), DATEV/Lexoffice-Mapping (SKR03/SKR04), USt-Behandlung inkl. Reverse-Charge für EU-/US-Werbung und ein Marge-Tracker pro SKU.",
+    q: "Welche Online-Shops, Webseiten und Marketplaces deckt GründerX ab?",
+    a: "Vom Bau der ersten eigenen Webseite oder App (inkl. SEO für Google und KI-Suche wie ChatGPT) bis zum Setup für Shopify, Amazon Seller, Kaufland, Stripe und PayPal Business samt Verpackungsregister LUCID, WEEE und GPSR.",
   },
   {
     q: "Welche Anbieter werden verglichen?",
-    a: `${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien, jeweils mit Stärken und Schwächen aus Reddit, DTC-Slack und E-Commerce-Foren. Darunter: Banking DE (Qonto, Holvi, Finom, Kontist, Deutsche Bank, Commerzbank, Sparkasse, Volksbank, Postbank, HVB, Targobank, DKB, Fyrst, N26, Revolut, Vivid, Bunq), Banking US (Mercury, Wise, Relay, Brex, Novo, Bluevine, Found), Versand DACH (DHL, DPD, GLS, Hermes, UPS, Sendcloud), Buchhaltung (lexoffice, sevDesk, Candis, BuchhaltungsButler, Accountable, smartsteuer), 3PL/Fulfillment (byrd, ShipBob, Warehousing1, Logward), LUCID (Lizenzero, Reclay), Email-Marketing (Klaviyo, Brevo, Mailchimp, MailerLite, Omnisend, Postmark, ActiveCampaign), Tracking (Triple Whale, Hyros, Northbeam, Polar Analytics, RockerBox), Shop-Systeme (Shopify, Shopware, WooCommerce, BigCommerce, Lightspeed), Domains (Cloudflare Registrar, Namecheap, IONOS, ALL-INKL, INWX, Porkbun), Workspace/Email (Google Workspace, Microsoft 365, mailbox.org, Proton, Fastmail), Geschäftsfahrzeug (Sixt Leasing, ALD/Ayvens, VW/Mercedes/BMW Financial Services, Vehiculum, LeasePlan, FINN), Haftpflichtversicherung (Hiscox, exali, mailo, Andsafe, Adam Riese, Allianz, AXA, HDI, thinksurance, VOV) und Rechtsschutz (Roland, ARAG, DAS, Advocard, DEURAG, HDI). Die Liste wird automatisiert geprüft: neue Anbieter werden vorgeschlagen, tote Links gemeldet, Preise nachgezogen.`,
+    a: `${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien mit Stärken, Schwächen und aktuellen Preisen: Banking DE (u. a. Qonto, Holvi, Finom, Kontist, N26, Revolut), Banking US (Mercury, Wise, Relay, Brex, Chase, Bank of America), Versand DACH, Buchhaltung (Lexware Office, sevDesk, Accountable, BuchhaltungsButler), LUCID, Shop-Systeme, Domains, Versicherungen und Rechtsschutz.`,
   },
   {
     q: "Was kostet GründerX?",
-    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr – im Jahreszugang zwei Monate geschenkt. Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (monatlich netto ${formatEurCents(netCentsOf(PLANS.gruenderx.grossCents))}); an der Kasse wird nichts aufgeschlagen. Alle Details auf der Preisseite unter /preise.`,
+    a: `GründerX kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr (zwei Monate günstiger als zwölf Monatszahlungen). Alle Beträge sind Endpreise inklusive 19 % Umsatzsteuer (monatlich netto ${formatEurCents(netCentsOf(PLANS.gruenderx.grossCents))}). Alle Details stehen auf /preise.`,
   },
   {
-    q: "Kann ich monatlich kündigen oder binde ich mich lange?",
-    a: `GründerX ist ein Abo, das du jederzeit im Konto zum Ende der laufenden Abrechnungsperiode kündigst – keine Mindestlaufzeit über die gebuchte Periode hinaus. ${FOUNDER_SATZ} Das Jahresabo ist außerdem dauerhaft um zwei Monatsbeiträge günstiger als zwölf Monatszahlungen.`,
+    q: "Kann ich monatlich kündigen und gibt es einen Rabatt über die Quizze?",
+    a: `Ja. Du kündigst jederzeit selbst im Konto zum Ende der laufenden Abrechnungsperiode, ohne lange Bindung. ${FOUNDER_SATZ} In unseren kostenlosen Quizzen und Umfragen schaltest du denselben Aktionscode direkt nach deinem Ergebnis frei.`,
   },
   {
-    q: "Muss ich sofort zahlen oder kann ich GründerX erst ausprobieren?",
-    a: "Das Konto legst du kostenlos an. Alle Tools, Guides und Felix schaltest du mit dem Abo frei, für Neukunden zum Start 7 Tage für 1 €. Ausprobieren kannst du außerdem ohne Konto: WEEE-Check, Brand-Check sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos, das Ergebnis jeweils gegen deine E-Mail-Adresse. Den Verpackungslizenz-Rechner (LUCID-Wizard) nutzt du sogar unbegrenzt und ohne E-Mail. Mit dem Abo sind alle Tools, die Guides und Felix ab dem ersten Tag freigeschaltet, ohne Abrechnung pro Wizard oder pro Frage.",
+    q: "Kann ich GründerX erst kostenlos testen?",
+    a: `Ja, ohne Konto: Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder, WEEE-Check, Brand-Check, LUCID-Wizard sowie alle Quizze und Listicles kannst du direkt ausprobieren. Mit dem Abo schaltest du alle ${TOOL_COUNT} Tools, alle ${GUIDE_COUNT} interaktiven Guides und Felix unbegrenzt frei.`,
   },
   {
-    q: "Ich habe null Vorwissen – ist GründerX trotzdem für mich?",
-    a: "Gerade dann. Die Wizards erklären jeden Schritt in Klartext statt Behörden-Deutsch, vom ELSTER-Fragebogen bis zur ersten Rechnung. Felix beantwortet deine Fragen im Chat, wenn du irgendwo hängst – du brauchst weder Steuer- noch Rechtsvorwissen.",
-  },
-  {
-    q: "Übernehmt ihr Behördengänge wie die Gewerbeanmeldung?",
-    a: "Nein. Wir geben dir Checklisten, ausgefüllte Formular-Vorlagen und Schritt-für-Schritt-Anleitungen – die Einreichung beim Gewerbeamt oder Finanzamt machst du selbst. Felix sorgt dafür, dass nichts fehlt.",
+    q: "Übernehmt ihr Behördengänge oder Steuerberatung?",
+    a: "Nein. Wir liefern dir klare Schritt-für-Schritt-Anleitungen, ausgefüllte Vorlagen und Rechner. Die Einreichung beim Gewerbeamt, Finanzamt oder Notar machst du selbst. Individuelle Steuer- oder Rechtsberatung ersetzen wir nicht.",
   },
   {
     q: "Sind meine Daten sicher?",
-    a: "Deine Konto- und Projektdaten liegen verschlüsselt in einer Datenbank in der EU (Supabase, Frankfurt). Fragen an den KI-Assistenten Felix und KI-Textfunktionen werden zur Beantwortung an KI-Anbieter übermittelt, teils in den USA (abgesichert über das EU-US Data Privacy Framework bzw. EU-Standardvertragsklauseln) – Details in der Datenschutzerklärung. Deine Daten werden nicht zum Training fremder Modelle verwendet.",
+    a: "Deine Konto- und Projektdaten liegen verschlüsselt in einer Datenbank in der EU (Supabase, Frankfurt). Fragen an den KI-Assistenten Felix werden zur Beantwortung an KI-Anbieter übermittelt (abgesichert über EU-US Data Privacy Framework bzw. EU-Standardvertragsklauseln). Deine Daten werden nicht zum Training fremder Modelle verwendet.",
   },
 ];
 
 export const FAQ = () => (
-  <section id="faq" className="border-y border-border/70 bg-secondary/50 py-14 md:py-20">
-    <div className="container grid max-w-6xl gap-10 lg:grid-cols-[0.8fr,1.2fr] lg:gap-16">
+  <section id="faq" className="border-y border-border bg-secondary/45 py-14 md:py-20">
+    <div className="container grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.78fr,1.22fr] lg:gap-14">
       <div>
-        <h2 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-primary md:text-[3rem]">Häufige Fragen.</h2>
-        <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground">
-          Mehr Antworten auf der{" "}
-          <Link to="/faq" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+        <p className="mb-2.5 inline-flex items-center rounded-full border border-border bg-card px-3 py-0.5 text-[12.5px] font-semibold text-primary shadow-sm">
+          Klare Antworten
+        </p>
+        <h2 className="text-balance text-2xl font-semibold leading-[1.12] tracking-[-0.02em] text-primary md:text-[2.25rem]">
+          Häufige Fragen.
+        </h2>
+        <p className="mt-4 max-w-sm text-base leading-relaxed text-muted-foreground md:text-lg">
+          Noch mehr Details findest du auf der{" "}
+          <Link to="/faq" className="font-semibold text-accent-blue underline-offset-4 hover:underline">
             FAQ-Seite
           </Link>
-          . Etwas anderes? Schreib uns über{" "}
-          <Link to="/kontakt" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+          . Etwas offen geblieben? Schreib uns über{" "}
+          <Link to="/kontakt" className="font-semibold text-accent-blue underline-offset-4 hover:underline">
             Kontakt
           </Link>
           .
         </p>
       </div>
 
-      {/*
-        Natives <details> statt Radix-Accordion: Radix rendert geschlossene
-        Inhalte GAR NICHT ins DOM. Auf der Startseite standen deshalb nur die
-        Fragen im prerenderten HTML, keine einzige Antwort — genau der Teil,
-        der Einwände abbaut, war für den Index unsichtbar.
-      */}
-      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+      {/* Natives <details>, damit jede Antwort im vorgerenderten HTML für Google & KI-Suche steht. */}
+      <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-card">
         {faqs.map((f, i) => (
-          <details key={i} className="group px-6 [&_summary::-webkit-details-marker]:hidden">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left font-semibold transition-colors hover:text-accent-blue">
-              {f.q}
-              <Plus className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
+          <details key={i} className="group px-5 sm:px-6 [&_summary::-webkit-details-marker]:hidden">
+            <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-semibold text-foreground transition-colors hover:text-accent-blue">
+              <span>{f.q}</span>
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-transform duration-200 group-open:rotate-45 group-open:bg-primary group-open:text-primary-foreground">
+                <Plus className="h-4 w-4" aria-hidden="true" />
+              </span>
             </summary>
-            <p className="-mt-1 pb-5 leading-relaxed text-muted-foreground">{f.a}</p>
+            <p className="-mt-1 pb-5 text-[15px] leading-relaxed text-muted-foreground">{f.a}</p>
           </details>
         ))}
       </div>

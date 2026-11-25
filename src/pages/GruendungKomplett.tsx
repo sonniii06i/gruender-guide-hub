@@ -51,7 +51,7 @@ const ETAPPEN = [
     text:
       "Rechtsform-Wizard, Gewerbe-Check und Gewerbeanmeldung-Assistent, dazu der " +
       "Gründungskosten-Rechner. Am Ende steht, welche Form zur Lage passt und was " +
-      "sie tatsächlich kostet — vor dem Gang zum Amt, nicht danach.",
+      "sie tatsächlich kostet, vor dem Gang zum Amt, nicht danach.",
   },
   {
     icon: Wallet,
@@ -74,7 +74,7 @@ const ETAPPEN = [
     titel: "Dranbleiben",
     text:
       "Fristenkalender, Steuer-ABC und die Rechnung, ob sich eine Steuerkanzlei " +
-      "zum jeweiligen Zeitpunkt lohnt. Denn nach der Gründung hört es nicht auf — " +
+      "zum jeweiligen Zeitpunkt lohnt. Denn nach der Gründung hört es nicht auf, " +
       "es fängt an, regelmäßig zu werden.",
   },
 ];
@@ -111,7 +111,7 @@ const GruendungKomplett = () => {
     <div className="relative min-h-screen bg-background">
       <Seo
         title="Vom Gewerbeschein bis zur Umsatzsteuer-Voranmeldung | GründerX"
-        description={`${TOOL_COUNT} Werkzeuge für die Unternehmensgründung: Rechtsform, Gewerbeanmeldung, Geschäftskonto, Buchhaltung, Umsatzsteuer-Voranmeldung und EÜR — in der Reihenfolge, in der sie gebraucht werden.`}
+        description={`${TOOL_COUNT} Werkzeuge für die Unternehmensgründung: Rechtsform, Gewerbeanmeldung, Geschäftskonto, Buchhaltung, Umsatzsteuer-Voranmeldung und EÜR, in der Reihenfolge, in der sie gebraucht werden.`}
         path="/gruendung-komplett"
         noindex
       />
@@ -146,7 +146,7 @@ const GruendungKomplett = () => {
             <strong className="font-semibold text-foreground">
               Rechtsform, Geschäftskonto, Buchhaltung, Umsatzsteuer-Voranmeldung, EÜR
             </strong>{" "}
-            — und die Fristen dazu.
+           , und die Fristen dazu.
           </p>
 
           <div className="mt-9 flex justify-center">
@@ -195,8 +195,7 @@ const GruendungKomplett = () => {
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               Keine dieser Quellen ist falsch. Nur sagt keine davon, was als Nächstes
-              dran ist — und genau daran scheitert es meistens. Nicht am einzelnen
-              Schritt, sondern an der Reihenfolge.
+              dran ist, und genau an der Reihenfolge hängt es in der Praxis am häufigsten.
             </p>
           </div>
           <div className="self-start rounded-2xl border border-border bg-card p-6 shadow-card">

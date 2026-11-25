@@ -12,6 +12,8 @@ export interface CachedProfile {
   /** Phase und Rechtsform aus dem Onboarding – steuern den Fahrplan im Cockpit (lib/startplan). */
   founder_stage?: string | null;
   legal_form?: string | null;
+  /** Altersgruppe (12-17, 18-25, 26-39, 40-54, 55-70) für passende Guide-Vorschläge. */
+  age_group?: string | null;
 }
 
 export const PROFILE_CACHE_KEY = (uid: string) => `gx-profile-${uid}`;

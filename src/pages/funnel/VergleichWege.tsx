@@ -143,7 +143,7 @@ const VergleichWege = () => (
         <p className="mt-3 max-w-3xl leading-relaxed text-muted-foreground">
           70 % aller Gründungen 2025 liefen im Nebenerwerb. Nach der Gewerbeanmeldung bleibt ein Monat für den Fragebogen
           zur steuerlichen Erfassung, und genau dort hängen viele. Im ELSTER-Anwenderforum beschreibt es jemand so:
-          „Man kann und darf mir inhaltlich nicht helfen“ – gemeint ist die ELSTER-Hotline. Es bleiben drei Wege: selbst
+          „Man kann und darf mir inhaltlich nicht helfen“, gemeint ist die ELSTER-Hotline. Es bleiben drei Wege: selbst
           einlesen, einen Steuerberater beauftragen oder ein Werkzeug nehmen, das dich durchführt.
         </p>
       </section>
@@ -280,7 +280,7 @@ const VergleichWege = () => (
           <li><Link to="/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler" className="font-medium text-foreground underline underline-offset-2">Einzelunternehmen gründen</Link>: Anmeldung, Kosten, Steuern</li>
           <li><Link to="/guides/elster-fse-fillout" className="font-medium text-foreground underline underline-offset-2">Fragebogen in ELSTER ausfüllen</Link>: die Ausfüllhilfe</li>
           <li><Link to="/tools/fse-wizard" className="font-medium text-foreground underline underline-offset-2">Fragebogen-Begleiter</Link> und <Link to="/tools/gewerbeanmeldung-wizard" className="font-medium text-foreground underline underline-offset-2">Gewerbeanmeldung-Wizard</Link></li>
-          <li><Link to="/ratgeber/ug-oder-gmbh" className="font-medium text-foreground underline underline-offset-2">UG oder GmbH?</Link> – wenn es keine Einzelfirma bleiben soll</li>
+          <li><Link to="/ratgeber/ug-oder-gmbh" className="font-medium text-foreground underline underline-offset-2">UG oder GmbH?</Link>, wenn es keine Einzelfirma bleiben soll</li>
           <li><Link to="/preise" className="font-medium text-foreground underline underline-offset-2">Preise von GründerX</Link></li>
         </ul>
 
@@ -302,7 +302,7 @@ const VergleichWege = () => (
             So entsteht diese Seite: mit KI-Unterstützung recherchiert und geschrieben, die Rechtsgrundlagen am Gesetzes- und
             Verordnungstext geprüft, Stand {VERGLEICH_STAND.text}. Autor und verantwortlich für den Inhalt:{" "}
             <Link to="/impressum" className="font-semibold text-foreground hover:underline">Sonni Buttke</Link>, Gründer von GründerX. Der
-            Vergleich enthält das eigene Produkt. Keine Steuer- oder Rechtsberatung – im Einzelfall Steuerberater fragen.
+            Vergleich enthält das eigene Produkt. Keine Steuer- oder Rechtsberatung, im Einzelfall Steuerberater fragen.
           </span>
         </p>
       </section>

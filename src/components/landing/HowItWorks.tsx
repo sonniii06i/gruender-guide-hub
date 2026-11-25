@@ -1,18 +1,18 @@
 const steps = [
   {
     n: "01",
-    title: "Registrieren",
-    desc: "Schalte den Zugang frei. Danach legst du in 60 Sekunden dein Konto an.",
+    title: "Alter & Ziel wählen",
+    desc: "Sag uns kurz, wie alt du bist (12 bis 70) und was am Ende stehen soll: Website, App, Shop, Gewerbe oder US-Amex.",
   },
   {
     n: "02",
-    title: "Mit Felix chatten",
-    desc: "Beschreibe dein Vorhaben. Felix erstellt deinen Gründungs-Fahrplan und zeigt dir, welche Dokumente du brauchst.",
+    title: "Schritt für Schritt klicken",
+    desc: "Jeder Guide zeigt dir einen kurzen Schritt pro Screen. Formulare und Rechner öffnest du direkt im Fenster daneben.",
   },
   {
     n: "03",
-    title: "Unternehmen läuft",
-    desc: "Du startest, GründerX zeigt dir Schritt für Schritt, was bei Steuern und Setup ansteht, und erinnert dich an Fristen. Software, keine Steuer- oder Rechtsberatung.",
+    title: "Ziel erreichen & XP sammeln",
+    desc: "Du hakst jede Pflicht ab, siehst deinen Fortschritt und hältst alle Fristen im Blick. GründerX ist Software und keine Steuer- oder Rechtsberatung.",
   },
 ];
 

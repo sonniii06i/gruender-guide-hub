@@ -489,7 +489,7 @@ export function calculateAll(s: Setup): StructureCalc[] {
   // 10) Niederlande BV
   // ==========================================================
   if ((s.international === "eu" || s.international === "global") && profit >= 200000) {
-    // NL-Tarif stufig: 19 % bis 200.000 €, 25,8 % auf den übersteigenden Teil (Belastingdienst)
+    // NL-Tarif stufig: 19 % bis 200.000 € bis 25,8 % auf den übersteigenden Teil (Belastingdienst)
     const steuer = 0.19 * Math.min(profit, 200000) + 0.258 * Math.max(0, profit - 200000);
     const taxRate = profit > 0 ? steuer / profit : 0;
     const verfuegbar = profit - steuer;

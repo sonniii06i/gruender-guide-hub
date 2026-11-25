@@ -36,11 +36,11 @@ export function toolCopyFallback(t: {
 }): LandingCopy {
   const cat = t.categoryTitle.replace(/^[^\wÄÖÜäöü]+/, "").trim();
   return {
-    seoTitle: clip(`${t.title} – einfach erklärt | GründerX`, 60),
+    seoTitle: clip(`${t.title}, einfach erklärt | GründerX`, 60),
     seoDescription: clip(t.desc, 160),
     lead: t.desc,
     urgency:
-      `Als Gründer zählt jede Entscheidung — und genau hier verlieren die meisten Zeit, Geld oder Nerven. ` +
+      `Als Gründer zählt jede Entscheidung, und genau hier verlieren die meisten Zeit, Geld oder Nerven. ` +
       `Mit „${t.title}" im GründerX-Cockpit machst du es in Minuten richtig, statt teure Fehler zu riskieren. Jetzt freischalten und sofort loslegen.`,
     outcomes: [
       `Klarheit, was bei „${t.title}" konkret zu tun ist`,
@@ -48,7 +48,7 @@ export function toolCopyFallback(t: {
       `Zugriff auf alle weiteren GründerX-Tools & Guides`,
     ],
     disclaimer:
-      `GründerX ersetzt keine individuelle Rechts- oder Steuerberatung. Die Inhalte sind sorgfältig recherchiert, dienen aber der Orientierung — im Zweifel ziehst du eine Fachperson hinzu.`,
+      `GründerX ersetzt keine individuelle Rechts- oder Steuerberatung. Die Inhalte sind sorgfältig recherchiert, dienen aber der Orientierung, im Zweifel ziehst du eine Fachperson hinzu.`,
   };
 }
 
@@ -65,17 +65,17 @@ export function guideCopyFallback(g: {
   return {
     seoTitle: clip(`So funktioniert: ${g.title} | GründerX`, 60),
     seoDescription: clip(`${g.tagline}. Schritt für Schritt in ${g.steps} Schritten (${g.duration}). ${g.outcome}`, 160),
-    lead: `${g.tagline}. Schritt-für-Schritt-Begleitung in ${g.steps} Schritten — verständlich, ohne Behörden-Deutsch.`,
+    lead: `${g.tagline}. Schritt-für-Schritt-Begleitung in ${g.steps} Schritten, verständlich, ohne Behörden-Deutsch.`,
     urgency:
-      `Die meisten verschieben „${g.title}" wochenlang, weil unklar ist, wo man anfängt — und machen dann teure Anfängerfehler. ` +
+      `Die meisten verschieben „${g.title}" wochenlang, weil unklar ist, wo man anfängt, und machen dann teure Anfängerfehler. ` +
       `Mit dem GründerX-Guide gehst du jeden Schritt in der richtigen Reihenfolge durch und kommst sicher ans Ziel. Jetzt freischalten.`,
     outcomes: [
       g.outcome,
-      `Alle ${g.steps} Schritte in der richtigen Reihenfolge — nichts vergessen`,
+      `Alle ${g.steps} Schritte in der richtigen Reihenfolge, nichts vergessen`,
       `Zeit- und Kostenrahmen vorab klar (${g.duration})`,
     ],
     disclaimer:
-      `Dieser Guide ist eine strukturierte Orientierungshilfe, keine Rechts- oder Steuerberatung. Behörden-Anforderungen können sich ändern — im Zweifel prüfst du den aktuellen Stand bzw. ziehst eine Fachperson hinzu.`,
+      `Dieser Guide ist eine strukturierte Orientierungshilfe, keine Rechts- oder Steuerberatung. Behörden-Anforderungen können sich ändern, im Zweifel prüfst du den aktuellen Stand bzw. ziehst eine Fachperson hinzu.`,
   };
 }
 

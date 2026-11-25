@@ -3,10 +3,10 @@ import type { LandingCopy } from "./landingCopy";
 // Bespoke-Landing-Copy pro Guide-Slug. Generiert; fehlt ein Slug, greift der Fallback.
 export const GUIDE_COPY: Record<string, LandingCopy> = {
   "gmbh-gruendung": {
-    "seoTitle": "GmbH gründen 2026 – Anleitung, Ablauf & Kosten",
-    "seoDescription": "GmbH in Deutschland gründen: vom Notar bis zum Handelsregister-Eintrag. Schritt für Schritt zu Konto, Steuernummer & Gewerbeschein in 4–6 Wochen.",
-    "lead": "Dieser Guide führt dich Schritt für Schritt von der Idee zur eingetragenen GmbH – Notartermin, Stammkapital, Handelsregister und alle Pflicht-Anmeldungen inklusive. Für Gründer, die sauber mit Haftungsbeschränkung starten wollen.",
-    "urgency": "Die GmbH ist die Rechtsform für ernsthaftes Wachstum – aber genau hier passieren die teuren Fehler. Ein schiefer Gesellschaftsvertrag, eine vergessene Anmeldung oder ein falsch eingezahltes Stammkapital kosten dich Wochen, zusätzliche Notargebühren und im schlimmsten Fall die persönliche Haftung. Jede verschobene Woche ist Umsatz, den du nicht abrechnen kannst. Geh den Weg Schritt für Schritt mit GründerX und hab am Ende eine GmbH, die rechtlich und steuerlich von Tag eins sauber steht.",
+    "seoTitle": "GmbH gründen 2026, Anleitung, Ablauf & Kosten",
+    "seoDescription": "GmbH in Deutschland gründen: vom Notar bis zum Handelsregister-Eintrag. Schritt für Schritt zu Konto, Steuernummer & Gewerbeschein in 4-6 Wochen.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt von der Idee zur eingetragenen GmbH, Notartermin, Stammkapital, Handelsregister und alle Pflicht-Anmeldungen inklusive. Für Gründer, die sauber mit Haftungsbeschränkung starten wollen.",
+    "urgency": "Die GmbH ist die Rechtsform für ernsthaftes Wachstum, aber genau hier passieren die teuren Fehler. Ein schiefer Gesellschaftsvertrag, eine vergessene Anmeldung oder ein falsch eingezahltes Stammkapital kosten dich Wochen, zusätzliche Notargebühren und im schlimmsten Fall die persönliche Haftung. Jede verschobene Woche ist Umsatz, den du nicht abrechnen kannst. Geh den Weg Schritt für Schritt mit GründerX und hab am Ende eine GmbH, die rechtlich und steuerlich von Tag eins sauber steht.",
     "outcomes": [
       "Eine im Handelsregister eingetragene GmbH mit eigener Rechtspersönlichkeit",
       "Geschäftskonto mit eingezahltem Stammkapital und Einzahlungsbestätigung",
@@ -14,13 +14,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Gewerbeschein und alle Pflicht-Anmeldungen (IHK, ggf. Berufsgenossenschaft)",
       "Notariell beurkundeter Gesellschaftsvertrag und Geschäftsführer-Bestellung"
     ],
-    "disclaimer": "Dieser Guide ist eine strukturierte Orientierung, keine Rechts- oder Steuerberatung – Notar-, Handelsregister- und Behörden-Anforderungen können sich ändern."
+    "disclaimer": "Dieser Guide ist eine strukturierte Orientierung, keine Rechts- oder Steuerberatung, Notar-, Handelsregister- und Behörden-Anforderungen können sich ändern."
   },
   "ug-gruendung": {
-    "seoTitle": "UG gründen 2026 – Anleitung, Kosten & Ablauf",
-    "seoDescription": "UG (haftungsbeschränkt) gründen ab 1 € Stammkapital: schnell & günstig zur eingetragenen Mini-GmbH mit Konto und Steuernummer in 3–5 Wochen.",
-    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du eine UG (haftungsbeschränkt) günstig per Musterprotokoll oder mit Individualsatzung gründest – inklusive Geschäftskonto, Steuernummer und Roadmap zur späteren GmbH. Ideal für Gründer mit kleinem Budget.",
-    "urgency": "Die UG ist der schnellste Weg zur Haftungsbeschränkung – schon ab 1 € Stammkapital. Doch wer beim Musterprotokoll falsch abbiegt oder die Rücklagenpflicht ignoriert, baut sich Probleme ein, die später bei der GmbH-Umwandlung teuer werden. Jede Woche ohne Haftungsschutz ist ein vermeidbares Risiko für dein Privatvermögen. Geh die Gründung Schritt für Schritt mit GründerX und starte mit einer UG, die sauber sitzt und auf Wachstum vorbereitet ist.",
+    "seoTitle": "UG gründen 2026, Anleitung, Kosten & Ablauf",
+    "seoDescription": "UG (haftungsbeschränkt) gründen ab 1 € Stammkapital: schnell & günstig zur eingetragenen Mini-GmbH mit Konto und Steuernummer in 3-5 Wochen.",
+    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du eine UG (haftungsbeschränkt) günstig per Musterprotokoll oder mit Individualsatzung gründest, inklusive Geschäftskonto, Steuernummer und Roadmap zur späteren GmbH. Ideal für Gründer mit kleinem Budget.",
+    "urgency": "Die UG ist der schnellste Weg zur Haftungsbeschränkung, schon ab 1 € Stammkapital. Doch wer beim Musterprotokoll falsch abbiegt oder die Rücklagenpflicht ignoriert, baut sich Probleme ein, die später bei der GmbH-Umwandlung teuer werden. Jede Woche ohne Haftungsschutz ist ein vermeidbares Risiko für dein Privatvermögen. Geh die Gründung Schritt für Schritt mit GründerX und starte mit einer UG, die sauber sitzt und auf Wachstum vorbereitet ist.",
     "outcomes": [
       "Eine im Handelsregister eingetragene UG (haftungsbeschränkt)",
       "Geschäftskonto mit eingezahltem Stammkapital",
@@ -28,13 +28,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Gewerbe- und IHK-Anmeldung sowie Eintrag im Transparenzregister",
       "Konkrete Roadmap und Rücklagen-Plan zur späteren Umwandlung in eine GmbH"
     ],
-    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung – Musterprotokoll- und Behörden-Vorgaben können sich ändern."
+    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung, Musterprotokoll- und Behörden-Vorgaben können sich ändern."
   },
   "einzelunternehmen-gruendung": {
-    "seoTitle": "Einzelunternehmen gründen – Anleitung & Kosten",
-    "seoDescription": "Einzelunternehmen anmelden – der schnellste Weg ins Business. Mit GewA1, Steuernummer & Konto in 1–3 Wochen, inkl. Familiengericht-Antrag für U18.",
-    "lead": "Dieser Guide bringt dich Schritt für Schritt zum angemeldeten Einzelunternehmen – mit ausgefülltem GewA1-Formular, Steuernummer und Geschäftskonto. Inklusive Spezial-Track für Minderjährige mit familiengerichtlicher Genehmigung.",
-    "urgency": "Ein Einzelunternehmen ist in Tagen angemeldet – aber genau die scheinbar simplen Schritte stolpern viele: falsch ausgefülltes GewA1, vergessene Finanzamt-Anmeldung oder bei U18 ein fehlender Familiengerichts-Beschluss, der das ganze Business blockiert. Jeder Tag ohne Anmeldung ist Umsatz, den du nicht legal abrechnen kannst – und Verzug kann ein Bußgeld kosten. Geh die Anmeldung Schritt für Schritt mit GründerX und sei in Tagen statt Wochen offiziell startklar.",
+    "seoTitle": "Einzelunternehmen gründen, Anleitung & Kosten",
+    "seoDescription": "Einzelunternehmen anmelden, der schnellste Weg ins Business. Mit GewA1, Steuernummer & Konto in 1-3 Wochen, inkl. Familiengericht-Antrag für U18.",
+    "lead": "Dieser Guide bringt dich Schritt für Schritt zum angemeldeten Einzelunternehmen, mit ausgefülltem GewA1-Formular, Steuernummer und Geschäftskonto. Inklusive Spezial-Track für Minderjährige mit familiengerichtlicher Genehmigung.",
+    "urgency": "Ein Einzelunternehmen ist in Tagen angemeldet, aber genau die scheinbar simplen Schritte stolpern viele: falsch ausgefülltes GewA1, vergessene Finanzamt-Anmeldung oder bei U18 ein fehlender Familiengerichts-Beschluss, der das ganze Business blockiert. Jeder Tag ohne Anmeldung ist Umsatz, den du nicht legal abrechnen kannst, und Verzug kann ein Bußgeld kosten. Geh die Anmeldung Schritt für Schritt mit GründerX und sei in Tagen statt Wochen offiziell startklar.",
     "outcomes": [
       "Angemeldetes Einzelunternehmen mit ausgefülltem GewA1 und Gewerbeschein",
       "Steuernummer und eingereichter Fragebogen zur steuerlichen Erfassung",
@@ -42,13 +42,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Klärung der Kleinunternehmer-Frage nach §19 UStG",
       "Bei U18: gestellter Familiengericht-Antrag und Genehmigungs-Beschluss"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechts- oder Steuerberatung – Gewerbeamt- und Familiengericht-Anforderungen können je nach Bundesland abweichen."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechts- oder Steuerberatung, Gewerbeamt- und Familiengericht-Anforderungen können je nach Bundesland abweichen."
   },
   "holding": {
-    "seoTitle": "Holding gründen 2026 – Struktur, Steuer & Kosten",
-    "seoDescription": "Holding-Struktur aufbauen: Holding-GmbH + operative GmbH für ~1,5 % Steuer auf Ausschüttungen (§ 8b KStG, ab 15 % Beteiligung). Schritt für Schritt zur 2-Stufen-Struktur in 6–10 Wochen.",
-    "lead": "Dieser Guide erklärt dir Schritt für Schritt, wie du eine Holding-GmbH über deiner operativen GmbH aufbaust – für rund 1,5 % Steuer auf Ausschüttungen und gezielten Vermögensaufbau in der Holding. Für Gründer, die langfristig clever strukturieren.",
-    "urgency": "Eine Holding-Struktur spart bei Ausschüttungen und Exit massiv Steuern – aber nur, wenn die Reihenfolge stimmt. Wer die operative GmbH zuerst gründet und die Holding nachschiebt, verschenkt das Steuerprivileg oder löst eine Schenkungssteuer aus. Solche Fehler lassen sich später kaum noch heilen und kosten fünfstellig. Bau die zweistufige Struktur Schritt für Schritt mit GründerX in der richtigen Abfolge auf und sichere dir die steuerlichen Vorteile von Anfang an.",
+    "seoTitle": "Holding gründen 2026, Struktur, Steuer & Kosten",
+    "seoDescription": "Holding-Struktur aufbauen: Holding-GmbH + operative GmbH für ~1,5 % Steuer auf Ausschüttungen (§ 8b KStG, ab 15 % Beteiligung). Schritt für Schritt zur 2-Stufen-Struktur in 6-10 Wochen.",
+    "lead": "Dieser Guide erklärt dir Schritt für Schritt, wie du eine Holding-GmbH über deiner operativen GmbH aufbaust, für rund 1,5 % Steuer auf Ausschüttungen und gezielten Vermögensaufbau in der Holding. Für Gründer, die langfristig clever strukturieren.",
+    "urgency": "Eine Holding-Struktur spart bei Ausschüttungen und Exit massiv Steuern, aber nur, wenn die Reihenfolge stimmt. Wer die operative GmbH zuerst gründet und die Holding nachschiebt, verschenkt das Steuerprivileg oder löst eine Schenkungssteuer aus. Solche Fehler lassen sich später kaum noch heilen und kosten fünfstellig. Bau die zweistufige Struktur Schritt für Schritt mit GründerX in der richtigen Abfolge auf und sichere dir die steuerlichen Vorteile von Anfang an.",
     "outcomes": [
       "Eingetragene Holding-GmbH mit 25.000 € Stammkapital als Muttergesellschaft",
       "Operative GmbH, deren Anteile von der Holding gehalten werden",
@@ -56,27 +56,27 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Saubere Beteiligungs-Dokumentation und Konzern-Buchhaltungs-Setup",
       "Strategie für Vermögensaufbau und Reinvestition innerhalb der Holding"
     ],
-    "disclaimer": "Dieser Guide gibt strukturierte Orientierung und ersetzt keine Steuer- oder Rechtsberatung – Holding-Gestaltungen sind komplex und steuerliche Rahmenbedingungen können sich ändern."
+    "disclaimer": "Dieser Guide gibt strukturierte Orientierung und ersetzt keine Steuer- oder Rechtsberatung, Holding-Gestaltungen sind komplex und steuerliche Rahmenbedingungen können sich ändern."
   },
   "kleinunternehmer": {
     "seoTitle": "Kleinunternehmer-Regelung §19 UStG nutzen",
-    "seoDescription": "Kleinunternehmer-Regelung clever nutzen: keine Umsatzsteuer nach §19 UStG. Saubere Anmeldung & Roadmap zur Regelbesteuerung – in 1 Woche erledigt.",
-    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Kleinunternehmer-Regelung nach §19 UStG – von der korrekten Anmeldung bis zur Roadmap, wann sich der Wechsel zur Regelbesteuerung lohnt. Für Gründer mit kleinem Umsatz, die es einfach halten wollen.",
-    "urgency": "Die Kleinunternehmer-Regelung spart dir Umsatzsteuer-Voranmeldungen und Bürokratie – aber sie ist nicht für jeden die richtige Wahl. Wer sie blind ankreuzt, verschenkt bei hohen Anfangsinvestitionen den Vorsteuerabzug oder rutscht unbemerkt über die Umsatzgrenze und schuldet dem Finanzamt rückwirkend USt. Diese Fehler kosten bares Geld. Triff die Entscheidung Schritt für Schritt mit GründerX – mit klarer Anmeldung und einer Roadmap, die zu deinem Geschäft passt.",
+    "seoDescription": "Kleinunternehmer-Regelung clever nutzen: keine Umsatzsteuer nach §19 UStG. Saubere Anmeldung & Roadmap zur Regelbesteuerung, in 1 Woche erledigt.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Kleinunternehmer-Regelung nach §19 UStG, von der korrekten Anmeldung bis zur Roadmap, wann sich der Wechsel zur Regelbesteuerung lohnt. Für Gründer mit kleinem Umsatz, die es einfach halten wollen.",
+    "urgency": "Die Kleinunternehmer-Regelung spart dir Umsatzsteuer-Voranmeldungen und Bürokratie, aber sie ist nicht für jeden die richtige Wahl. Wer sie blind ankreuzt, verschenkt bei hohen Anfangsinvestitionen den Vorsteuerabzug oder rutscht unbemerkt über die Umsatzgrenze und schuldet dem Finanzamt rückwirkend USt. Diese Fehler kosten bares Geld. Triff die Entscheidung Schritt für Schritt mit GründerX, mit klarer Anmeldung und einer Roadmap, die zu deinem Geschäft passt.",
     "outcomes": [
       "Korrekt im Fragebogen zur steuerlichen Erfassung gewählte §19-Option",
-      "Verständnis, wann sich die Regelung lohnt – und wann nicht",
+      "Verständnis, wann sich die Regelung lohnt, und wann nicht",
       "Rechnungs-Vorlage mit dem korrekten §19-UStG-Hinweis",
       "Überblick über die aktuellen Umsatzgrenzen und Folgen beim Überschreiten",
       "Klare Roadmap für den Wechsel zur Regelbesteuerung"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuerberatung – Umsatzgrenzen und Vorgaben des §19 UStG können sich ändern."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuerberatung, Umsatzgrenzen und Vorgaben des §19 UStG können sich ändern."
   },
   "marke-anmelden": {
-    "seoTitle": "Marke anmelden 2026 – DPMA, EUIPO & Kosten",
+    "seoTitle": "Marke anmelden 2026, DPMA, EUIPO & Kosten",
     "seoDescription": "Marke anmelden bei DPMA, EUIPO oder WIPO: Schritt für Schritt zu 10 Jahren Schutz für deine Brand ab 290 €. Inkl. Domain-Check & Watch-Setup.",
-    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du deine Marke bei DPMA, EUIPO oder international über Madrid (WIPO) anmeldest – inklusive Marken-Typ-Wahl, Domain-Check, Klassen-Auswahl und Watch-Setup. Für Brands, die ihren Namen rechtssicher schützen wollen.",
-    "urgency": "Ein Markenname ohne Schutz ist offen für jeden – und im E-Commerce wird genau das ausgenutzt. Meldet ein anderer deine Brand zuerst an, kannst du Abmahnungen kassieren oder musst deinen eigenen Namen aufgeben, nachdem du Tausende in Marketing gesteckt hast. Falsch gewählte Nizza-Klassen lassen den Schutz ins Leere laufen. Sichere deine Marke Schritt für Schritt mit GründerX – sauber recherchiert, richtig klassifiziert und mit Watch-Strategie für die nächsten 10 Jahre.",
+    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du deine Marke bei DPMA, EUIPO oder international über Madrid (WIPO) anmeldest, inklusive Marken-Typ-Wahl, Domain-Check, Klassen-Auswahl und Watch-Setup. Für Brands, die ihren Namen sauber aufgesetzt schützen wollen.",
+    "urgency": "Ein Markenname ohne Schutz ist offen für jeden, und im E-Commerce wird genau das ausgenutzt. Meldet ein anderer deine Brand zuerst an, kannst du Abmahnungen kassieren oder musst deinen eigenen Namen aufgeben, nachdem du Tausende in Marketing gesteckt hast. Falsch gewählte Nizza-Klassen lassen den Schutz ins Leere laufen. Sichere deine Marke Schritt für Schritt mit GründerX, sauber recherchiert, richtig klassifiziert und mit Watch-Strategie für die nächsten 10 Jahre.",
     "outcomes": [
       "Eingetragene Marke bei DPMA (290 €), EUIPO (850 €) oder Madrid (ab 653 CHF)",
       "10 Jahre Markenschutz, sauber in den richtigen Nizza-Klassen abgesichert",
@@ -84,27 +84,27 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Anmeldefähig vorbereitete Wort- oder Wort-Bild-Marke mit Logo-Datei",
       "Eingerichteter Marken-Watch und Strategie zur rechtserhaltenden Benutzung"
     ],
-    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine markenrechtliche Beratung – Ähnlichkeits-Beurteilungen und Amtsanforderungen können im Einzelfall abweichen."
+    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine markenrechtliche Beratung, Ähnlichkeits-Beurteilungen und Amtsanforderungen können im Einzelfall abweichen."
   },
   "shopify-launch": {
-    "seoTitle": "Shopify-Store erstellen 2026 – Anleitung & Kosten",
-    "seoDescription": "Shopify-Brand launchen: vom Account bis zum ersten Sale. Alle Settings, Apps, DACH-Rechtstexte & Cost-Hacks für deinen Live-Store in 4–8 Wochen.",
-    "lead": "Dieser Guide bringt dich Schritt für Schritt vom leeren Shopify-Account zum ersten Sale – mit Zahlungs-Setup, allen DACH-Compliance-Anmeldungen, Tracking, App-Auswahl und Cost-Saving-Hacks bei der Plan-Wahl. Für angehende D2C-Brands.",
-    "urgency": "Ein Shopify-Store ist schnell aufgesetzt – aber genau die Settings, die niemand zeigt, kosten dich Geld und Sichtbarkeit. Falscher Plan? Du verschenkst 0,3–2 % an Transaction-Fees bei jedem Verkauf. Fehlende Rechtstexte oder Cookie-Banner? Direkte Abmahnung, bevor der erste Kunde kauft. Jeder Tag offline ist kein Umsatz. Bau deinen Store Schritt für Schritt mit GründerX – compliant, kostenoptimiert und mit funktionierendem Tracking ab dem ersten Klick.",
+    "seoTitle": "Shopify-Store erstellen 2026, Anleitung & Kosten",
+    "seoDescription": "Shopify-Brand launchen: vom Account bis zum ersten Sale. Alle Settings, Apps, DACH-Rechtstexte & Cost-Tipps für deinen Live-Store in 4-8 Wochen.",
+    "lead": "Dieser Guide bringt dich Schritt für Schritt vom leeren Shopify-Account zum ersten Sale, mit Zahlungs-Setup, allen DACH-Compliance-Anmeldungen, Tracking, App-Auswahl und Spar-Optionen bei der Plan-Wahl. Für angehende D2C-Brands.",
+    "urgency": "Ein Shopify-Store ist schnell aufgesetzt, aber genau die Settings, die niemand zeigt, kosten dich Geld und Sichtbarkeit. Falscher Plan? Du verschenkst 0,3-2 % an Transaction-Fees bei jedem Verkauf. Fehlende Rechtstexte oder Cookie-Banner? Direkte Abmahnung, bevor der erste Kunde kauft. Jeder Tag offline ist kein Umsatz. Bau deinen Store Schritt für Schritt mit GründerX, compliant, kostenoptimiert und mit funktionierendem Tracking ab dem ersten Klick.",
     "outcomes": [
       "Live geschalteter Shopify-Store mit eigener Domain und Theme",
       "Eingerichtetes Zahlungs-Setup (Shopify Payments / PayPal / Klarna)",
       "Alle Pflicht-Rechtstexte: Impressum, Datenschutz, AGB, Widerruf, Cookie-Banner",
       "Funktionierendes Conversion-Tracking (Meta, Google, GA4)",
-      "Optimal gewählter Plan mit 0,3–2 % gesparter Transaction-Fee"
+      "Optimal gewählter Plan mit 0,3-2 % gesparter Transaction-Fee"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechtsberatung – plattform- und rechtliche Anforderungen für den Online-Handel können sich ändern."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechtsberatung, plattform- und rechtliche Anforderungen für den Online-Handel können sich ändern."
   },
   "amazon-fba-launch": {
-    "seoTitle": "Amazon FBA starten 2026 – Anleitung & Kosten",
+    "seoTitle": "Amazon FBA starten 2026, Anleitung & Kosten",
     "seoDescription": "Amazon FBA Brand launchen (DE/EU): von Produkt-Recherche über Sourcing & QC bis zum ersten Sale. End-to-End-Bauanleitung mit Listing, A+ & PPC.",
-    "lead": "Dieser Guide führt dich Schritt für Schritt durch den kompletten Amazon-FBA-Launch – von Produkt-Recherche über Sourcing, Qualitätskontrolle und Versand bis zum ersten organischen Sale mit eigener Marke, A+ Content und PPC. Für Seller, die in DE/EU eine Brand aufbauen.",
-    "urgency": "Amazon FBA ist die schnellste Bühne für eine Produkt-Marke – aber auch die teuerste, wenn man Fehler macht. Eine 5.000–15.000 € Erstbestellung beim falschen Lieferanten, ein Listing ohne EAN-Strategie oder vergessene LUCID/WEEE/BattDG-Registrierungen können dein Geld binden, das Listing sperren oder Bußgelder auslösen. Geh den Launch Schritt für Schritt mit GründerX – mit sauberem Sourcing, QC und Compliance, damit dein Kapital in Verkäufe fließt, nicht in vermeidbare Fehler.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt durch den kompletten Amazon-FBA-Launch, von Produkt-Recherche über Sourcing, Qualitätskontrolle und Versand bis zum ersten organischen Sale mit eigener Marke, A+ Content und PPC. Für Seller, die in DE/EU eine Brand aufbauen.",
+    "urgency": "Amazon FBA ist die schnellste Bühne für eine Produkt-Marke, aber auch die teuerste, wenn man Fehler macht. Eine 5.000-15.000 € Erstbestellung beim falschen Lieferanten, ein Listing ohne EAN-Strategie oder vergessene LUCID/WEEE/BattDG-Registrierungen können dein Geld binden, das Listing sperren oder Bußgelder auslösen. Geh den Launch Schritt für Schritt mit GründerX, mit sauberem Sourcing, QC und Compliance, damit dein Kapital in Verkäufe fließt, nicht in vermeidbare Fehler.",
     "outcomes": [
       "Live geschaltetes Amazon-FBA-Listing mit eigener angemeldeter Marke",
       "Eingelagerte, qualitätsgeprüfte Ware im Amazon-Fulfillment-Center",
@@ -112,13 +112,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Laufende PPC-Kampagnen und Account-Health-Monitoring",
       "Alle Compliance-Registrierungen: LUCID/VerpackDG, WEEE und BattDG"
     ],
-    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts-, Steuer- oder Compliance-Beratung – Amazon-Richtlinien und gesetzliche Pflichten können sich ändern."
+    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts-, Steuer- oder Compliance-Beratung, Amazon-Richtlinien und gesetzliche Pflichten können sich ändern."
   },
   "kaufland-launch": {
-    "seoTitle": "Kaufland Marketplace verkaufen – Anleitung 2026",
-    "seoDescription": "Auf Kaufland Global Marketplace verkaufen (DE/AT/CZ/SK/PL): Seller-Account, Mirakl-Connector, Buy-Box & OSS. Live in 3–6 Wochen – schneller als FBA.",
-    "lead": "Dieser Guide zeigt dir Schritt für Schritt den Verkaufsstart auf dem Kaufland Global Marketplace – vom Seller-Account über Sortiment-Listing und Mirakl-Connector bis Buy-Box-Optimierung und OSS für EU-Verkäufe nach DE/AT/CZ/SK/PL. Für Händler, die über eine Plattform expandieren wollen.",
-    "urgency": "Kaufland ist Deutschlands drittgrößter Marktplatz und öffnet dir mit einem Account gleich fünf DACH+CEE-Märkte – schneller und günstiger als ein FBA-Aufbau. Doch wer EANs falsch listet, den Mirakl-Connector unsauber anbindet oder OSS für die EU-Verkäufe vergisst, riskiert Performance-Score-Abstürze und Steuerprobleme in mehreren Ländern. Geh den Launch Schritt für Schritt mit GründerX und verkaufe in Wochen statt Monaten – sauber integriert und EU-steuerlich korrekt aufgestellt.",
+    "seoTitle": "Kaufland Marketplace verkaufen, Anleitung 2026",
+    "seoDescription": "Auf Kaufland Global Marketplace verkaufen (DE/AT/CZ/SK/PL): Seller-Account, Mirakl-Connector, Buy-Box & OSS. Live in 3-6 Wochen, schneller als FBA.",
+    "lead": "Dieser Guide zeigt dir Schritt für Schritt den Verkaufsstart auf dem Kaufland Global Marketplace, vom Seller-Account über Sortiment-Listing und Mirakl-Connector bis Buy-Box-Optimierung und OSS für EU-Verkäufe nach DE/AT/CZ/SK/PL. Für Händler, die über eine Plattform expandieren wollen.",
+    "urgency": "Kaufland ist Deutschlands drittgrößter Marktplatz und öffnet dir mit einem Account gleich fünf DACH+CEE-Märkte, schneller und günstiger als ein FBA-Aufbau. Doch wer EANs falsch listet, den Mirakl-Connector unsauber anbindet oder OSS für die EU-Verkäufe vergisst, riskiert Performance-Score-Abstürze und Steuerprobleme in mehreren Ländern. Geh den Launch Schritt für Schritt mit GründerX und verkaufe in Wochen statt Monaten, sauber integriert und EU-steuerlich korrekt aufgestellt.",
     "outcomes": [
       "Freigeschalteter Kaufland-Seller-Account mit gelistetem Sortiment",
       "Angebundener Mirakl-Connector (z. B. Plentymarkets/Shopware)",
@@ -126,27 +126,27 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Eingerichtetes OSS-Verfahren für deine EU-Verkäufe nach AT/CZ/SK/PL",
       "Versand-Setup (z. B. Sendcloud) und korrekte Rechnungsstellung"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuer- oder Rechtsberatung – Marktplatz-Regeln und EU-Steuerpflichten (OSS) können sich ändern."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuer- oder Rechtsberatung, Marktplatz-Regeln und EU-Steuerpflichten (OSS) können sich ändern."
   },
   "creator-setup": {
-    "seoTitle": "Creator werden 2026 – Setup, Steuer & Monetization",
-    "seoDescription": "Creator-/Influencer-Setup: Gewerbe, Monetization (TikTok Shop/YT/Meta), Mediakit, Pricing & Werbekennzeichnung. In 2–4 Wochen sauber aufgestellt.",
-    "lead": "Dieser Guide bringt dich Schritt für Schritt zum sauberen Creator-Setup – von der Gewerbe-Anmeldung über Plattform-Monetization (TikTok Shop, YouTube, Meta) bis Mediakit, Pricing pro Follower-Range, Brand-Deal-Verträgen und korrekter Werbekennzeichnung. Für Creator, die professionell monetarisieren.",
-    "urgency": "Sobald du Geld mit Content verdienst, bist du gewerblich tätig – und das Finanzamt sowie die Wettbewerbszentrale schauen genau hin. Vergessene Anmeldung, fehlende Werbekennzeichnung oder ein schwammiger Brand-Deal-Vertrag können Abmahnungen, Steuernachzahlungen und geplatzte Deals bedeuten. Und ohne Pricing-Tabelle verkaufst du dich unter Wert. Bau dein Setup Schritt für Schritt mit GründerX – angemeldet, korrekt gekennzeichnet und mit Preisen, die deinen Wert abbilden.",
+    "seoTitle": "Creator werden 2026, Setup, Steuer & Monetization",
+    "seoDescription": "Creator-/Influencer-Setup: Gewerbe, Monetization (TikTok Shop/YT/Meta), Mediakit, Pricing & Werbekennzeichnung. In 2-4 Wochen sauber aufgestellt.",
+    "lead": "Dieser Guide bringt dich Schritt für Schritt zum sauberen Creator-Setup, von der Gewerbe-Anmeldung über Plattform-Monetization (TikTok Shop, YouTube, Meta) bis Mediakit, Pricing pro Follower-Range, Brand-Deal-Verträgen und korrekter Werbekennzeichnung. Für Creator, die professionell monetarisieren.",
+    "urgency": "Sobald du Geld mit Content verdienst, bist du gewerblich tätig, und das Finanzamt sowie die Wettbewerbszentrale schauen genau hin. Vergessene Anmeldung, fehlende Werbekennzeichnung oder ein schwammiger Brand-Deal-Vertrag können Abmahnungen, Steuernachzahlungen und geplatzte Deals bedeuten. Und ohne Pricing-Tabelle verkaufst du dich unter Wert. Bau dein Setup Schritt für Schritt mit GründerX, angemeldet, korrekt gekennzeichnet und mit Preisen, die deinen Wert abbilden.",
     "outcomes": [
       "Angemeldete gewerbliche Tätigkeit mit Steuernummer und Konto-Setup",
       "Mediakit und Pricing-Tabelle pro Follower-Range",
       "Aktivierte Plattform-Monetization und Affiliate (TikTok Shop/YT/Meta)",
-      "Rechtssichere Brand-Deal-Vertragsvorlage und korrekte Werbekennzeichnung",
+      "Saubere Brand-Deal-Vertragsvorlage und korrekte Werbekennzeichnung",
       "Geklärte Steuersituation inkl. Kleinunternehmer-Frage"
     ],
-    "disclaimer": "Dieser Guide gibt strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung – Kennzeichnungspflichten und Plattform-Regeln können sich ändern."
+    "disclaimer": "Dieser Guide gibt strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung, Kennzeichnungspflichten und Plattform-Regeln können sich ändern."
   },
   "us-llc": {
-    "seoTitle": "US-LLC gründen 2026 – Anleitung für Deutsche",
-    "seoDescription": "US-LLC gründen (Wyoming/Delaware/New Mexico) als Nicht-US-Founder: Schritt für Schritt zu EIN, US-Bankkonto und korrekter US/DE-Steuer in 4–8 Wochen.",
-    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Gründung einer US-LLC als Nicht-US-Gründer – mit allen Postadressen für SS-4, Form 5472 und W-7, EIN-Beantragung, US-Bankkonto und sauberer US/DE-Steuer-Einordnung. Für Founder, die in den US-Markt wollen.",
-    "urgency": "Eine US-LLC öffnet dir Stripe, US-Banking und den US-Markt – aber die Pflichten dahinter unterschätzen viele. Ein vergessenes Form 5472 kann 25.000 $ Strafe kosten, und eine falsche steuerliche Einordnung führt zu Doppelbesteuerung in DE und USA. Geh die Gründung Schritt für Schritt mit GründerX – mit allen richtigen Adressen und Formularen, damit deine LLC funktioniert, statt teure US-Strafen zu produzieren.",
+    "seoTitle": "US-LLC gründen 2026, Anleitung für Deutsche",
+    "seoDescription": "US-LLC gründen (Wyoming/Delaware/New Mexico) als Nicht-US-Founder: Schritt für Schritt zu EIN, US-Bankkonto und korrekter US/DE-Steuer in 4-8 Wochen.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Gründung einer US-LLC als Nicht-US-Gründer, mit allen Postadressen für SS-4, Form 5472 und W-7, EIN-Beantragung, US-Bankkonto und sauberer US/DE-Steuer-Einordnung. Für Founder, die in den US-Markt wollen.",
+    "urgency": "Eine US-LLC öffnet dir Stripe, US-Banking und den US-Markt, aber die Pflichten dahinter unterschätzen viele. Ein vergessenes Form 5472 kann 25.000 $ Strafe kosten, und eine falsche steuerliche Einordnung führt zu Doppelbesteuerung in DE und USA. Geh die Gründung Schritt für Schritt mit GründerX, mit allen richtigen Adressen und Formularen, damit deine LLC funktioniert, statt teure US-Strafen zu produzieren.",
     "outcomes": [
       "Registrierte US-LLC im gewählten State (Wyoming/Delaware/New Mexico)",
       "EIN (Steuernummer) vom IRS über Form SS-4",
@@ -154,13 +154,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Erledigte Pflichtmeldungen: Form 5472/1120 und ggf. W-7 (BOI entfällt seit 26.03.2025)",
       "Klare US/DE-Steuer-Einordnung zur Vermeidung von Doppelbesteuerung"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechts- oder Steuerberatung – US- und deutsche Steuer- sowie Meldepflichten sind komplex und können sich ändern."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechts- oder Steuerberatung, US- und deutsche Steuer- sowie Meldepflichten sind komplex und können sich ändern."
   },
   "hk-limited": {
-    "seoTitle": "Hong Kong Limited gründen – Anleitung & Steuer",
+    "seoTitle": "Hong Kong Limited gründen, Anleitung & Steuer",
     "seoDescription": "HK-Limited gründen mit Substanz: Two-Tiered Profits Tax & ggf. Offshore-Status (0 %). Schritt für Schritt zu Bankkonto, BR-Certificate & Audit-Setup.",
-    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Gründung einer Hong Kong Limited mit Substanz – von Registrierung, BR-Certificate und Significant-Controllers-Register über das Bankkonto bis zur Two-Tiered Profits Tax und ggf. Offshore-Status. Für erfahrene Founder mit internationalem Geschäft.",
-    "urgency": "Eine HK-Limited kann mit Two-Tiered Profits Tax oder Offshore-Status extrem steuereffizient sein – aber die Compliance ist anspruchsvoll und unverzeihlich. Ein verpasster Annual Return, ein fehlendes Audit oder ein schlecht vorbereiteter Offshore-Antrag führen zu Strafen, abgelehnten Bankkonten oder dem Verlust des Steuervorteils. Auch die deutsche Seite (Wegzug, AStG, Substanz) muss stimmen. Bau die HK-Limited Schritt für Schritt mit GründerX auf – mit echter Substanz und sauberer Audit- und Bank-Vorbereitung.",
+    "lead": "Dieser Guide führt dich Schritt für Schritt durch die Gründung einer Hong Kong Limited mit Substanz, von Registrierung, BR-Certificate und Significant-Controllers-Register über das Bankkonto bis zur Two-Tiered Profits Tax und ggf. Offshore-Status. Für erfahrene Founder mit internationalem Geschäft.",
+    "urgency": "Eine HK-Limited kann mit Two-Tiered Profits Tax oder Offshore-Status extrem steuereffizient sein, aber die Compliance ist anspruchsvoll und unverzeihlich. Ein verpasster Annual Return, ein fehlendes Audit oder ein schlecht vorbereiteter Offshore-Antrag führen zu Strafen, abgelehnten Bankkonten oder dem Verlust des Steuervorteils. Auch die deutsche Seite (Wegzug, AStG, Substanz) muss stimmen. Bau die HK-Limited Schritt für Schritt mit GründerX auf, mit echter Substanz und sauberer Audit- und Bank-Vorbereitung.",
     "outcomes": [
       "Registrierte HK-Limited mit Business-Registration-Certificate",
       "Eröffnetes Geschäftsbankkonto nach bestandenem KYC",
@@ -168,26 +168,26 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Eingerichteter Audit-Prozess für die jährliche Prüfungspflicht",
       "Geprüfte Eignung für Offshore-Profits-Tax-Status (0 % Profits Tax)"
     ],
-    "disclaimer": "Dieser Guide gibt strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung – HK- und deutsche Steuer-, Substanz- und Meldepflichten sind komplex und können sich ändern."
+    "disclaimer": "Dieser Guide gibt strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung, HK- und deutsche Steuer-, Substanz- und Meldepflichten sind komplex und können sich ändern."
   },
   "dsgvo-shop": {
     "seoTitle": "DSGVO, AGB & Impressum für Online-Shops 2026",
-    "seoDescription": "Abmahnsicherer Online-Shop: Impressum, Datenschutz, AGB, Widerruf, Cookie-Banner & AVV. Alle Pflicht-Texte in 1–2 Wochen, bevor der erste Kunde kauft.",
-    "lead": "Dieser Guide bringt dich Schritt für Schritt zu allen Pflicht-Rechtstexten für deinen Online-Shop – Impressum, Datenschutzerklärung, AGB, Widerrufsbelehrung, Cookie-Consent-Banner und AVVs mit allen Daten-Verarbeitern. Für Shop-Betreiber, die abmahnsicher starten wollen.",
-    "urgency": "Im deutschen E-Commerce wird abgemahnt, bevor du den ersten Umsatz siehst – ein fehlendes Impressum, eine lückenhafte Datenschutzerklärung oder ein nicht DSGVO-konformer Cookie-Banner reichen. Eine einzige Abmahnung kostet schnell mehrere hundert bis tausend Euro plus Unterlassungserklärung, und ohne AVVs verstößt du bei jedem Tool gegen die DSGVO. Setz die Pflicht-Texte Schritt für Schritt mit GründerX auf – vollständig und abmahnsicher, bevor der erste Kunde kauft.",
+    "seoDescription": "Sauber geprüfter Online-Shop: Impressum, Datenschutz, AGB, Widerruf, Cookie-Banner & AVV. Alle Pflicht-Texte in 1-2 Wochen, bevor der erste Kunde kauft.",
+    "lead": "Dieser Guide bringt dich Schritt für Schritt zu allen Pflicht-Rechtstexten für deinen Online-Shop, Impressum, Datenschutzerklärung, AGB, Widerrufsbelehrung, Cookie-Consent-Banner und AVVs mit allen Daten-Verarbeitern. Für Shop-Betreiber, die sauber geprüft starten wollen.",
+    "urgency": "Im deutschen E-Commerce wird abgemahnt, bevor du den ersten Umsatz siehst, ein fehlendes Impressum, eine lückenhafte Datenschutzerklärung oder ein nicht DSGVO-konformer Cookie-Banner reichen. Eine einzige Abmahnung kostet schnell mehrere hundert bis tausend Euro plus Unterlassungserklärung, und ohne AVVs verstößt du bei jedem Tool gegen die DSGVO. Setz die Pflicht-Texte Schritt für Schritt mit GründerX auf, vollständig und sauber geprüft, bevor der erste Kunde kauft.",
     "outcomes": [
       "Vollständiges, korrektes Impressum nach §5 DDG (vormals §5 TMG)",
       "Auf deine Tools zugeschnittene Datenschutzerklärung",
-      "AGB und rechtssichere Widerrufsbelehrung mit Muster-Formular",
+      "AGB und saubere Widerrufsbelehrung mit Muster-Formular",
       "DSGVO-konformer Cookie-Consent-Banner mit Opt-in",
       "Abgeschlossene AVVs mit allen Auftragsverarbeitern"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechtsberatung – Pflichtangaben und DSGVO-Anforderungen für Online-Shops können sich ändern."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Rechtsberatung, Pflichtangaben und DSGVO-Anforderungen für Online-Shops können sich ändern."
   },
   "gpsr-compliance": {
-    "seoTitle": "GPSR-Compliance 2026 – Pflichten, Kosten & Anleitung",
-    "seoDescription": "GPSR (EU 2023/988) richtig umsetzen: EU-Responsible-Person, Risk-Assessment, Technical Doc & konforme Listings. In 2–4 Wochen rechtssicher verkaufen.",
-    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du deinen EU-Vertrieb GPSR-konform aufstellst — für Online-Händler, Hersteller und Importeure, die Produkte im EU-Markt verkaufen.",
+    "seoTitle": "GPSR-Compliance 2026, Pflichten, Kosten & Anleitung",
+    "seoDescription": "GPSR (EU 2023/988) richtig umsetzen: EU-Responsible-Person, Risk-Assessment, Technical Doc & konforme Listings. In 2-4 Wochen sauber aufgesetzt verkaufen.",
+    "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du deinen EU-Vertrieb GPSR-konform aufstellst, für Online-Händler, Hersteller und Importeure, die Produkte im EU-Markt verkaufen.",
     "urgency": "Die GPSR gilt verbindlich seit dem 13.12.2024 für jedes Produkt im EU-Markt. Fehlt eine EU-Responsible-Person oder das Risk-Assessment, drohen Listing-Sperren bei Amazon und Co., Bußgelder und im Ernstfall der Verkaufsstopp. Wer das jetzt aufschiebt, riskiert eingefrorene Umsätze mitten im laufenden Geschäft. Bring deine Compliance Schritt für Schritt mit GründerX sauber auf den Stand.",
     "outcomes": [
       "Eine benannte EU-Responsible-Person für deine Produkte (relevant für Non-EU-Seller)",
@@ -196,13 +196,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Ein funktionierendes Recall- und Beschwerde-System",
       "Marketplace-konforme Listings mit allen Pflichtangaben"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung und ersetzt keine Rechtsberatung — die konkreten Anforderungen können je nach Produkt und Marktplatz variieren und sich ändern."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung und ersetzt keine Rechtsberatung, die konkreten Anforderungen können je nach Produkt und Marktplatz variieren und sich ändern."
   },
   "oss-anmeldung": {
-    "seoTitle": "OSS-Anmeldung beim BZSt – Anleitung & Kosten 2026",
-    "seoDescription": "One-Stop-Shop richtig anmelden: eine USt-Meldung in DE statt 27 USt-IDs. Freiwillig, relevant ab 10.000 € EU-Fernverkäufen. In 2–4 Wochen sauber registriert.",
-    "lead": "Dieser Guide führt dich durch die OSS-Registrierung beim BZSt und die quartalsweise Meldung — für E-Commerce-Händler mit grenzüberschreitenden B2C-Verkäufen in der EU.",
-    "urgency": "Sobald deine EU-weiten B2C-Verkäufe 10.000 € im Jahr übersteigen, bist du meldepflichtig. Ohne OSS müsstest du dich in jedem Zielland einzeln umsatzsteuerlich registrieren — und falsch abgeführte Umsatzsteuer kann teure Nachzahlungen und Säumniszuschläge auslösen. Je länger du wartest, desto mehr Quartale musst du rückwirkend korrigieren. Registrier dich Schritt für Schritt mit GründerX richtig.",
+    "seoTitle": "OSS-Anmeldung beim BZSt, Anleitung & Kosten 2026",
+    "seoDescription": "One-Stop-Shop richtig anmelden: eine USt-Meldung in DE statt 27 USt-IDs. Freiwillig, relevant ab 10.000 € EU-Fernverkäufen. In 2-4 Wochen sauber registriert.",
+    "lead": "Dieser Guide führt dich durch die OSS-Registrierung beim BZSt und die quartalsweise Meldung, für E-Commerce-Händler mit grenzüberschreitenden B2C-Verkäufen in der EU.",
+    "urgency": "Sobald deine EU-weiten B2C-Verkäufe 10.000 € im Jahr übersteigen, bist du meldepflichtig. Ohne OSS müsstest du dich in jedem Zielland einzeln umsatzsteuerlich registrieren, und falsch abgeführte Umsatzsteuer kann teure Nachzahlungen und Säumniszuschläge auslösen. Je länger du wartest, desto mehr Quartale musst du rückwirkend korrigieren. Registrier dich Schritt für Schritt mit GründerX richtig.",
     "outcomes": [
       "Eine aktive OSS-Registrierung beim Bundeszentralamt für Steuern",
       "Eine korrekte, fristgerechte Quartalsmeldung aller EU-B2C-Verkäufe",
@@ -210,13 +210,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Ein sauberer Workflow zwischen Buchhaltung und OSS-Meldung",
       "Eine USt-konforme Grundlage für deine EU-Skalierung"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung — steuerliche Anforderungen und Schwellenwerte können sich ändern und hängen von deinem Einzelfall ab."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung, steuerliche Anforderungen und Schwellenwerte können sich ändern und hängen von deinem Einzelfall ab."
   },
   "pan-eu-fba": {
-    "seoTitle": "Pan-EU FBA Setup 2026 – Anleitung, Kosten & USt",
-    "seoDescription": "Amazon Pan-EU FBA aufsetzen: USt-Registrierungen, OSS, Übersetzungen & Pricing für 7 Länder. Pan-EU vs. EFN vs. CEE — was wann lohnt.",
-    "lead": "Dieser Guide erklärt dir die komplette Pan-EU-FBA-Einrichtung samt USt-IDs, Übersetzungen und Compliance — für Amazon-Seller, die von DE aus auf bis zu 7 EU-Länder skalieren wollen.",
-    "urgency": "Aktivierst du Pan-EU ohne die nötigen USt-Registrierungen, verschickt Amazon deine Ware in fremde Lager und du bist sofort in mehreren Ländern meldepflichtig — fehlende Registrierungen führen zu Account-Risiken und Nachzahlungen. Die USt-Bearbeitung in EU-Ländern dauert Wochen bis Monate, das lässt sich nicht kurzfristig nachholen. Plan deine Länder-Reihenfolge Schritt für Schritt mit GründerX.",
+    "seoTitle": "Pan-EU FBA Setup 2026, Anleitung, Kosten & USt",
+    "seoDescription": "Amazon Pan-EU FBA aufsetzen: USt-Registrierungen, OSS, Übersetzungen & Pricing für 7 Länder. Pan-EU vs. EFN vs. CEE, was wann lohnt.",
+    "lead": "Dieser Guide erklärt dir die komplette Pan-EU-FBA-Einrichtung samt USt-IDs, Übersetzungen und Compliance, für Amazon-Seller, die von DE aus auf bis zu 7 EU-Länder skalieren wollen.",
+    "urgency": "Aktivierst du Pan-EU ohne die nötigen USt-Registrierungen, verschickt Amazon deine Ware in fremde Lager und du bist sofort in mehreren Ländern meldepflichtig, fehlende Registrierungen führen zu Account-Risiken und Nachzahlungen. Die USt-Bearbeitung in EU-Ländern dauert Wochen bis Monate, das lässt sich nicht kurzfristig nachholen. Plan deine Länder-Reihenfolge Schritt für Schritt mit GründerX.",
     "outcomes": [
       "Eine bewusste Entscheidung zwischen Pan-EU, EFN und CEE",
       "USt-Registrierungen in allen relevanten Ziel-Ländern plus OSS",
@@ -224,27 +224,27 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Länderspezifisches Pricing inklusive korrekter Umsatzsteuer",
       "Eine aktive Pan-EU-FBA-Konfiguration mit sauberer Compliance"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Steuer- oder Rechtsberatung — USt-Pflichten und Amazon-Vorgaben unterscheiden sich je Land und können sich ändern."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Steuer- oder Rechtsberatung, USt-Pflichten und Amazon-Vorgaben unterscheiden sich je Land und können sich ändern."
   },
   "tiktok-shop-starten": {
-    "seoTitle": "TikTok Shop starten 2026 – Anmeldung & Pflichten",
-    "seoDescription": "TikTok Shop in Deutschland starten: Gewerbe, Steuernummer, Registrierungsweg, LUCID, WEEE, Plattform-Meldung und Affiliate-Provisionen – Schritt für Schritt.",
-    "lead": "Dieser Guide bringt dich in der richtigen Reihenfolge zum ersten Verkauf oder zur ersten Provision im TikTok Shop – Gewerbe, Fragebogen, der passende Registrierungsweg, Produktpflichten und eine saubere Buchhaltung inklusive. Für Verkäufer:innen, Creator-Affiliates und alle, die beides machen.",
+    "seoTitle": "TikTok Shop starten 2026, Anmeldung & Pflichten",
+    "seoDescription": "TikTok Shop in Deutschland starten: Gewerbe, Steuernummer, Registrierungsweg, LUCID, WEEE, Plattform-Meldung und Affiliate-Provisionen, Schritt für Schritt.",
+    "lead": "Dieser Guide bringt dich in der richtigen Reihenfolge zum ersten Verkauf oder zur ersten Provision im TikTok Shop, Gewerbe, Fragebogen, der passende Registrierungsweg, Produktpflichten und eine saubere Buchhaltung inklusive. Für Verkäufer:innen, Creator-Affiliates und alle, die beides machen.",
     "urgency": "TikTok Shop läuft in Deutschland seit März 2025, laut TikTok sind über 25.000 Verkäufer:innen aktiv. Wer ohne Steuernummer, ohne LUCID-Registrierung oder mit dem falschen Registrierungsweg startet, bleibt in der Verifizierung hängen oder darf betroffene Produkte gar nicht anbieten. Und ab 30 Verkäufen oder 2.000 € im Jahr meldet die Plattform deine Umsätze ans Bundeszentralamt für Steuern. Bau dein Setup mit GründerX Schritt für Schritt, bevor das erste Video viral geht.",
     "outcomes": [
-      "Gewerbe und Steuernummer – und der richtige Registrierungsweg bei TikTok",
+      "Gewerbe und Steuernummer, und der richtige Registrierungsweg bei TikTok",
       "Erledigte Produktpflichten: LUCID, bei Elektro WEEE, Produktsicherheit",
       "Klare Kleinunternehmer-Entscheidung",
       "Creator-Affiliates und eigene Provisionen sauber erfasst",
       "Verkäufe, Gebühren und Provisionen getrennt gebucht"
     ],
-    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuer- oder Rechtsberatung – TikTok-Richtlinien und Registrierungsvoraussetzungen können sich ändern."
+    "disclaimer": "Dieser Guide ist strukturierte Orientierung, keine Steuer- oder Rechtsberatung, TikTok-Richtlinien und Registrierungsvoraussetzungen können sich ändern."
   },
   "tiktok-shop-launch": {
-    "seoTitle": "TikTok Shop Launch 2026 – Anleitung für Brands",
-    "seoDescription": "TikTok Shop in DACH/EU starten: Shop-Tab, Produkt-Listings, Live-Shopping & Affiliate-Programm aufsetzen. In 3–6 Wochen zu den ersten Sales.",
-    "lead": "Dieser Guide bringt dich Schritt für Schritt zum aktiven TikTok-Shop-Brand-Account mit Listings, Live-Shopping und Affiliate-Programm — für Brands, Creator und D2C-Händler im DACH-Raum.",
-    "urgency": "TikTok Shop ist aktuell einer der reichweitenstärksten neuen Verkaufskanäle mit hoher Discovery-Conversion — wer früh sauber aufsetzt, profitiert von günstiger organischer Reichweite, bevor der Kanal teurer wird. Ein chaotischer Launch mit fehlerhaften Listings kostet dich Sichtbarkeit und Vertrauen, die du später teuer zurückkaufen musst. Bau deinen Shop Schritt für Schritt mit GründerX auf.",
+    "seoTitle": "TikTok Shop Launch 2026, Anleitung für Brands",
+    "seoDescription": "TikTok Shop in DACH/EU starten: Shop-Tab, Produkt-Listings, Live-Shopping & Affiliate-Programm aufsetzen. In 3-6 Wochen zu den ersten Sales.",
+    "lead": "Dieser Guide bringt dich Schritt für Schritt zum aktiven TikTok-Shop-Brand-Account mit Listings, Live-Shopping und Affiliate-Programm, für Brands, Creator und D2C-Händler im DACH-Raum.",
+    "urgency": "TikTok Shop ist aktuell einer der reichweitenstärksten neuen Verkaufskanäle mit hoher Discovery-Conversion, wer früh sauber aufsetzt, profitiert von günstiger organischer Reichweite, bevor der Kanal teurer wird. Ein chaotischer Launch mit fehlerhaften Listings kostet dich Sichtbarkeit und Vertrauen, die du später teuer zurückkaufen musst. Bau deinen Shop Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Ein verifizierter TikTok Shop Brand-Account mit aktivem Shop-Tab",
       "Konvertierende Produkt-Listings mit Bildern und Videos",
@@ -252,13 +252,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Ein laufendes Affiliate-Programm mit Creator-Provisionen",
       "Deine ersten nachvollziehbaren Sales über den Kanal"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung — TikTok-Shop-Richtlinien, Gebühren und Verfügbarkeit in einzelnen Ländern können sich jederzeit ändern."
+    "disclaimer": "Dieser Guide dient der Orientierung, TikTok-Shop-Richtlinien, Gebühren und Verfügbarkeit in einzelnen Ländern können sich jederzeit ändern."
   },
   "email-marketing-stack": {
-    "seoTitle": "Email-Marketing-Stack aufbauen 2026 – Anleitung",
-    "seoDescription": "Klaviyo, MailerLite oder Brevo aufsetzen: Welcome, Cart-Recovery & Win-Back DSGVO-konform. 20–40 % vom DTC-Umsatz aus Email in 2–4 Wochen.",
-    "lead": "Dieser Guide zeigt dir den Aufbau eines kompletten Email-Stacks mit allen wichtigen Flows — für D2C-Shops und Online-Händler, die wiederkehrenden Umsatz aus E-Mail holen wollen.",
-    "urgency": "Bei vielen D2C-Brands kommen 20–40 % des Umsatzes aus Email — jeder Tag ohne automatisierte Flows ist verschenkter Umsatz aus Traffic, den du längst bezahlt hast. Verlassene Warenkörbe und kalte Leads gehen ohne Welcome- und Cart-Recovery-Strecke dauerhaft verloren. Und ein nicht DSGVO-konformes Setup kann zur Abmahnung werden. Bau deinen Stack Schritt für Schritt mit GründerX auf.",
+    "seoTitle": "Email-Marketing-Stack aufbauen 2026, Anleitung",
+    "seoDescription": "Klaviyo, MailerLite oder Brevo aufsetzen: Welcome, Cart-Recovery & Win-Back DSGVO-konform. 20-40 % vom DTC-Umsatz aus Email in 2-4 Wochen.",
+    "lead": "Dieser Guide zeigt dir den Aufbau eines kompletten Email-Stacks mit allen wichtigen Flows, für D2C-Shops und Online-Händler, die wiederkehrenden Umsatz aus E-Mail holen wollen.",
+    "urgency": "Bei vielen D2C-Brands kommen 20-40 % des Umsatzes aus Email, jeder Tag ohne automatisierte Flows ist verschenkter Umsatz aus Traffic, den du längst bezahlt hast. Verlassene Warenkörbe und kalte Leads gehen ohne Welcome- und Cart-Recovery-Strecke dauerhaft verloren. Und ein nicht DSGVO-konformes Setup kann zur Abmahnung werden. Bau deinen Stack Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Ein aktiver Email-Anbieter mit verifizierter Domain und Tracking",
       "Welcome-, Cart-Recovery- und Browse-Abandonment-Flows live",
@@ -266,13 +266,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Ein DSGVO-konformes Opt-in mit Double-Opt-in und Pop-up",
       "Ein wiederholbarer Newsletter-Prozess mit Segmentierung"
     ],
-    "disclaimer": "Dieser Guide bietet praktische Orientierung und ersetzt keine Rechtsberatung — datenschutzrechtliche Anforderungen können sich ändern und hängen von deinem Einzelfall ab."
+    "disclaimer": "Dieser Guide bietet praktische Orientierung und ersetzt keine Rechtsberatung, datenschutzrechtliche Anforderungen können sich ändern und hängen von deinem Einzelfall ab."
   },
   "buchhaltung-setup": {
     "seoTitle": "Buchhaltung-Setup 2026: Lexoffice, sevDesk, DATEV",
-    "seoDescription": "Buchhaltungstool wählen & einrichten: Bank-Sync, GoBD-Belege, USt-VA & E-Rechnung. Lexoffice vs. sevDesk vs. DATEV in 1–3 Wochen startklar.",
-    "lead": "Dieser Guide hilft dir bei Tool-Wahl und Einrichtung deiner Buchhaltung samt Bank-Sync und StB-Anbindung — für Gründer, Solo-Selbstständige und kleine Teams.",
-    "urgency": "Belege im Schuhkarton und Excel-Listen sind nicht GoBD-konform und kosten dich bei jeder Betriebsprüfung Nerven und Geld. Seit 2025 gilt zudem die E-Rechnungs-Pflicht im B2B — wer nicht empfangs- und revisionsfähig aufgestellt ist, gerät schnell in Verzug. Je länger du das aufschiebst, desto teurer wird die nachträgliche Migration. Richte dein System Schritt für Schritt mit GründerX ein.",
+    "seoDescription": "Buchhaltungstool wählen & einrichten: Bank-Sync, GoBD-Belege, USt-VA & E-Rechnung. Lexoffice vs. sevDesk vs. DATEV in 1-3 Wochen startklar.",
+    "lead": "Dieser Guide hilft dir bei Tool-Wahl und Einrichtung deiner Buchhaltung samt Bank-Sync und StB-Anbindung, für Gründer, Solo-Selbstständige und kleine Teams.",
+    "urgency": "Belege im Schuhkarton und Excel-Listen sind nicht GoBD-konform und kosten dich bei jeder Betriebsprüfung Nerven und Geld. Seit 2025 gilt zudem die E-Rechnungs-Pflicht im B2B, wer nicht empfangs- und revisionsfähig aufgestellt ist, gerät schnell in Verzug. Je länger du das aufschiebst, desto teurer wird die nachträgliche Migration. Richte dein System Schritt für Schritt mit GründerX ein.",
     "outcomes": [
       "Ein passendes Buchhaltungstool für deine Unternehmensgröße",
       "Automatischer Bank-Sync mit zugeordneten Transaktionen",
@@ -280,13 +280,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "USt-Voranmeldung per Export und sauberer StB-Schnittstelle",
       "Ein Setup, das die E-Rechnungs-Pflicht ab 2025 erfüllt"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung — buchhalterische und gesetzliche Anforderungen können sich ändern und hängen von deinem Einzelfall ab."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuerberatung, buchhalterische und gesetzliche Anforderungen können sich ändern und hängen von deinem Einzelfall ab."
   },
   "wegzugsbesteuerung": {
-    "seoTitle": "Wegzugsbesteuerung §6 AStG vermeiden – Strategien",
-    "seoDescription": "Wegzugsteuer bei GmbH-Anteilen vermeiden: Stundung, Holding-Restrukturierung & Substanz im Zielland. 12–24 Monate Vorlauf richtig planen.",
-    "lead": "Dieser Guide erklärt die Strategien rund um §6 AStG bei einem Wegzug aus Deutschland — für GmbH-Gesellschafter und Unternehmer, die einen Umzug ins Ausland planen.",
-    "urgency": "Bei einem Wegzug mit GmbH-Anteilen gelten diese steuerlich als verkauft — du zahlst Steuer auf einen Gewinn, den du gar nicht realisiert hast. Ohne Vorbereitung kann das sechsstellige Beträge kosten. Stundung, Holding-Strukturen und Substanz-Aufbau brauchen 12–24 Monate Vorlauf und lassen sich kurz vor dem Umzug nicht mehr sauber aufsetzen. Plan deinen Wegzug rechtzeitig Schritt für Schritt mit GründerX.",
+    "seoTitle": "Wegzugsbesteuerung §6 AStG vermeiden, Strategien",
+    "seoDescription": "Wegzugsteuer bei GmbH-Anteilen vermeiden: Stundung, Holding-Restrukturierung & Substanz im Zielland. 12-24 Monate Vorlauf richtig planen.",
+    "lead": "Dieser Guide erklärt die Strategien rund um §6 AStG bei einem Wegzug aus Deutschland, für GmbH-Gesellschafter und Unternehmer, die einen Umzug ins Ausland planen.",
+    "urgency": "Bei einem Wegzug mit GmbH-Anteilen gelten diese steuerlich als verkauft, du zahlst Steuer auf einen Gewinn, den du gar nicht realisiert hast. Ohne Vorbereitung kann das sechsstellige Beträge kosten. Stundung, Holding-Strukturen und Substanz-Aufbau brauchen 12-24 Monate Vorlauf und lassen sich kurz vor dem Umzug nicht mehr sauber aufsetzen. Plan deinen Wegzug rechtzeitig Schritt für Schritt mit GründerX.",
     "outcomes": [
       "Klarheit, ob und in welcher Höhe §6 AStG dich betrifft",
       "Ein vorbereiteter Stundungs-Antrag für deinen Fall",
@@ -294,13 +294,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Ein realistischer Plan für Substanz-Aufbau im Zielland",
       "Eine minimierte oder vermiedene Wegzugsteuer-Belastung"
     ],
-    "disclaimer": "Dieser Guide bietet ausschließlich Orientierung und ersetzt keine individuelle Steuer- oder Rechtsberatung — internationale Steuerregeln sind komplex und können sich ändern."
+    "disclaimer": "Dieser Guide bietet ausschließlich Orientierung und ersetzt keine individuelle Steuer- oder Rechtsberatung, internationale Steuerregeln sind komplex und können sich ändern."
   },
   "mitarbeiter-beteiligung": {
     "seoTitle": "Mitarbeiterbeteiligung 2026: VSOP, ESOP & Anteile",
-    "seoDescription": "Talente halten ohne Cash: Virtual Stock, ESOP oder echte Anteile mit Vesting & §19a EStG. Beteiligungsprogramm in 4–8 Wochen aufsetzen.",
-    "lead": "Dieser Guide vergleicht VSOP, ESOP und echte Anteile und führt dich durch die Umsetzung — für Startup-Gründer, die Talente langfristig binden wollen.",
-    "urgency": "Gute Leute bleiben, wenn sie am Erfolg beteiligt sind — ohne Beteiligungsmodell verlierst du Schlüsselpersonen an besser strukturierte Wettbewerber. Ein schlecht aufgesetztes Programm kann dagegen ungewollte Steuerlast beim Mitarbeiter (Dry-Income) oder juristische Streitfälle auslösen. Das Zukunftsfinanzierungsgesetz und §19a EStG bieten 2026 echte Vorteile, wenn du sie richtig nutzt. Setz dein Programm Schritt für Schritt mit GründerX auf.",
+    "seoDescription": "Talente halten ohne Cash: Virtual Stock, ESOP oder echte Anteile mit Vesting & §19a EStG. Beteiligungsprogramm in 4-8 Wochen aufsetzen.",
+    "lead": "Dieser Guide vergleicht VSOP, ESOP und echte Anteile und führt dich durch die Umsetzung, für Startup-Gründer, die Talente langfristig binden wollen.",
+    "urgency": "Gute Leute bleiben, wenn sie am Erfolg beteiligt sind, ohne Beteiligungsmodell verlierst du Schlüsselpersonen an besser strukturierte Wettbewerber. Ein schlecht aufgesetztes Programm kann dagegen ungewollte Steuerlast beim Mitarbeiter (Dry-Income) oder juristische Streitfälle auslösen. Das Zukunftsfinanzierungsgesetz und §19a EStG bieten 2026 echte Vorteile, wenn du sie richtig nutzt. Setz dein Programm Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Eine fundierte Wahl zwischen VSOP, ESOP und echten Anteilen",
       "Ein klarer Vesting-Schedule mit Cliff und Bad-Leaver-Regeln",
@@ -308,13 +308,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Saubere juristische Dokumentation des Programms",
       "Ein verständliches Modell, das du Kandidaten erklären kannst"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechts- oder Steuerberatung — die Regeln zur Mitarbeiterbeteiligung sind komplex und können sich ändern."
+    "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Rechts- oder Steuerberatung, die Regeln zur Mitarbeiterbeteiligung sind komplex und können sich ändern."
   },
   "co-founder-agreement": {
     "seoTitle": "Co-Founder-Agreement: Equity, Vesting & Konflikte",
-    "seoDescription": "Founder-Streit vermeiden: Equity-Split, 4-Jahres-Vesting, Cliff & Bad-Leaver sauber regeln. Co-Founder-Agreement in 2–4 Wochen aufsetzen.",
-    "lead": "Dieser Guide führt dich durch ein wasserdichtes Co-Founder-Agreement mit Equity, Vesting und Konfliktregeln — für Gründerteams, die vor dem Wachstum klare Verhältnisse schaffen wollen.",
-    "urgency": "Founder-Streit ist einer der häufigsten Startup-Killer — ohne klares Agreement kann ein aussteigender Mitgründer mit voller Equity gehen und deine Cap-Table für jeden Investor unbrauchbar machen. Solche Konflikte lassen sich im Nachhinein kaum noch fair lösen. Genau deshalb regelst du Vesting, Cliff und Exit-Klauseln, solange das Verhältnis noch gut ist. Setz euer Agreement Schritt für Schritt mit GründerX auf.",
+    "seoDescription": "Founder-Streit vermeiden: Equity-Split, 4-Jahres-Vesting, Cliff & Bad-Leaver sauber regeln. Co-Founder-Agreement in 2-4 Wochen aufsetzen.",
+    "lead": "Dieser Guide führt dich durch ein wasserdichtes Co-Founder-Agreement mit Equity, Vesting und Konfliktregeln, für Gründerteams, die vor dem Wachstum klare Verhältnisse schaffen wollen.",
+    "urgency": "Founder-Streit ist einer der häufigsten Startup-Killer, ohne klares Agreement kann ein aussteigender Mitgründer mit voller Equity gehen und deine Cap-Table für jeden Investor unbrauchbar machen. Solche Konflikte lassen sich im Nachhinein kaum noch fair lösen. Genau deshalb regelst du Vesting, Cliff und Exit-Klauseln, solange das Verhältnis noch gut ist. Setz euer Agreement Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Ein fair begründeter Equity-Split zwischen den Gründern",
       "Ein 4-Jahres-Vesting mit Cliff für alle Beteiligten",
@@ -322,13 +322,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Drag-Along- und Tag-Along-Regelungen für den Exit-Fall",
       "Ein definierter Mechanismus zur Konfliktlösung"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung — die konkrete Ausgestaltung sollte juristisch geprüft werden und hängt von eurer Rechtsform ab."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung, die konkrete Ausgestaltung sollte juristisch geprüft werden und hängt von eurer Rechtsform ab."
   },
   "foerderung-stipendium": {
     "seoTitle": "Förderungen für Gründer: KfW, EXIST & INVEST 2026",
-    "seoDescription": "Bis zu 250k+ € Förder-Cash sichern: KfW-StartGeld, EXIST, INVEST & Länderstipendien — meist non-dilutiv. Anträge Schritt für Schritt stellen.",
-    "lead": "Dieser Guide zeigt dir, welche Förderprogramme zu dir passen und wie du sie beantragst — für Gründer, die Cash-Runway ohne Anteilsverlust aufbauen wollen.",
-    "urgency": "Viele Förderprogramme sind non-dilutiv — du bekommst Kapital, ohne Anteile abzugeben. Programme wie EXIST oder INVEST haben jedoch enge Fristen und Voraussetzungen, und nach der Gründung oder dem ersten Umsatz bist du oft schon raus. Wer zu spät beantragt, lässt fünf- bis sechsstellige Beträge liegen. Bau deinen Förder-Stack Schritt für Schritt mit GründerX auf.",
+    "seoDescription": "Bis zu 250k+ € Förder-Cash sichern: KfW-StartGeld, EXIST, INVEST & Länderstipendien, meist non-dilutiv. Anträge Schritt für Schritt stellen.",
+    "lead": "Dieser Guide zeigt dir, welche Förderprogramme zu dir passen und wie du sie beantragst, für Gründer, die Cash-Runway ohne Anteilsverlust aufbauen wollen.",
+    "urgency": "Viele Förderprogramme sind non-dilutiv, du bekommst Kapital, ohne Anteile abzugeben. Programme wie EXIST oder INVEST haben jedoch enge Fristen und Voraussetzungen, und nach der Gründung oder dem ersten Umsatz bist du oft schon raus. Wer zu spät beantragt, lässt fünf- bis sechsstellige Beträge liegen. Bau deinen Förder-Stack Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Eine Übersicht der für dich relevanten Förderprogramme",
       "Geklärte Förderfähigkeit und Timing je Programm",
@@ -336,13 +336,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Mehr Cash-Runway ohne Verwässerung deiner Anteile",
       "Klarheit über Reporting- und Verwendungs-Pflichten"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung — Förderbedingungen, Fristen und Programme ändern sich regelmäßig und sind im Einzelfall mit der jeweiligen Förderstelle zu klären."
+    "disclaimer": "Dieser Guide dient der Orientierung, Förderbedingungen, Fristen und Programme ändern sich regelmäßig und sind im Einzelfall mit der jeweiligen Förderstelle zu klären."
   },
   "vc-pitch-deck": {
     "seoTitle": "VC-Runde vorbereiten: Pitch-Deck & Term-Sheet 2026",
     "seoDescription": "Series-A-ready werden: Pitch-Deck, Cap-Table, Datenraum & Term-Sheet-Basics. Von der Vorbereitung bis zum Closing Schritt für Schritt.",
-    "lead": "Dieser Guide bereitet dich auf eine VC-Runde vor — von Pitch-Deck über Cap-Table und Datenraum bis Term-Sheet — für Gründer, die institutionelles Kapital aufnehmen wollen.",
-    "urgency": "Investoren entscheiden in Minuten — ein schwaches Deck oder eine unsaubere Cap-Table killt dein Investment, bevor es ein Gespräch gibt. Schlecht verhandelte Term-Sheet-Klauseln kosten dich später Kontrolle und Anteile, die du nicht zurückbekommst. Wer unvorbereitet in Gespräche geht, verbrennt Investoren-Kontakte, die endlich sind. Mach deine Runde Schritt für Schritt mit GründerX startklar.",
+    "lead": "Dieser Guide bereitet dich auf eine VC-Runde vor, von Pitch-Deck über Cap-Table und Datenraum bis Term-Sheet, für Gründer, die institutionelles Kapital aufnehmen wollen.",
+    "urgency": "Investoren entscheiden in Minuten, ein schwaches Deck oder eine unsaubere Cap-Table killt dein Investment, bevor es ein Gespräch gibt. Schlecht verhandelte Term-Sheet-Klauseln kosten dich später Kontrolle und Anteile, die du nicht zurückbekommst. Wer unvorbereitet in Gespräche geht, verbrennt Investoren-Kontakte, die endlich sind. Mach deine Runde Schritt für Schritt mit GründerX startklar.",
     "outcomes": [
       "Ein überzeugendes Pitch-Deck mit den 12 Kern-Slides",
       "Eine saubere Cap-Table in einem geeigneten Tool",
@@ -350,13 +350,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Eine recherchierte, passende Investorenliste",
       "Verständnis der wichtigsten Term-Sheet-Standards"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung — Term-Sheets und Beteiligungsverträge sollten vor Unterschrift juristisch geprüft werden."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung, Term-Sheets und Beteiligungsverträge sollten vor Unterschrift juristisch geprüft werden."
   },
   "performance-marketing-stack": {
     "seoTitle": "Performance-Marketing-Stack 2026: Meta, TikTok, Google",
-    "seoDescription": "Ad-Accounts, Pixel, CAPI, server-side Tracking, GA4 & Attribution sauber aufsetzen. Foundation für skalierbaren Ad-Spend in 3–6 Wochen.",
-    "lead": "Dieser Guide bringt dir den kompletten Performance-Stack inklusive Tracking und Attribution bei — für D2C-Brands und Performance-Marketer, die skalierbaren Ad-Spend fahren wollen.",
-    "urgency": "Ohne sauberes Server-Side-Tracking und CAPI verlierst du durch iOS-Restriktionen und Adblocker einen relevanten Teil deiner Conversion-Signale — und blinde Algorithmen verbrennen Budget. Jeder Euro Ad-Spend auf einem fehlerhaften Setup ist schlechter optimiert als nötig. Je länger du mit lückenhaftem Tracking skalierst, desto teurer wird der spätere Umbau. Bau deinen Stack Schritt für Schritt mit GründerX auf.",
+    "seoDescription": "Ad-Accounts, Pixel, CAPI, server-side Tracking, GA4 & Attribution sauber aufsetzen. Foundation für skalierbaren Ad-Spend in 3-6 Wochen.",
+    "lead": "Dieser Guide bringt dir den kompletten Performance-Stack inklusive Tracking und Attribution bei, für D2C-Brands und Performance-Marketer, die skalierbaren Ad-Spend fahren wollen.",
+    "urgency": "Ohne sauberes Server-Side-Tracking und CAPI verlierst du durch iOS-Restriktionen und Adblocker einen relevanten Teil deiner Conversion-Signale, und blinde Algorithmen verbrennen Budget. Jeder Euro Ad-Spend auf einem fehlerhaften Setup ist schlechter optimiert als nötig. Je länger du mit lückenhaftem Tracking skalierst, desto teurer wird der spätere Umbau. Bau deinen Stack Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Eingerichtete Ad-Accounts in Meta, TikTok und Google",
       "Pixel, Conversion-API und server-side GTM live",
@@ -364,13 +364,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Ein Attribution-Tool für ehrliche Kanal-Bewertung",
       "Ein Reporting-Dashboard als Entscheidungsgrundlage"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung — Tracking-Setups müssen DSGVO-konform mit Einwilligung umgesetzt werden, und Plattform-Vorgaben können sich ändern."
+    "disclaimer": "Dieser Guide dient der Orientierung, Tracking-Setups müssen DSGVO-konform mit Einwilligung umgesetzt werden, und Plattform-Vorgaben können sich ändern."
   },
   "hiring-erste-10": {
-    "seoTitle": "Erste 10 Mitarbeiter einstellen – Anleitung 2026",
-    "seoDescription": "Recruiting, Verträge & Onboarding rechtssicher aufsetzen: Stellenanzeige, ATS, Probezeit & Onboarding. Skalierbarer Hiring-Prozess für die ersten Hires.",
-    "lead": "Dieser Guide baut dir einen skalierbaren Hiring-Prozess von der Stellenanzeige bis zum Onboarding — für Gründer, die ihre ersten 10 Mitarbeiter rechtssicher einstellen.",
-    "urgency": "Deine ersten Hires prägen die Kultur und entscheiden über dein Wachstum — eine Fehlbesetzung kostet schnell ein Vielfaches eines Jahresgehalts an Zeit, Geld und Momentum. Fehlerhafte Arbeitsverträge oder falsch gehandhabte Probezeiten können zu teuren arbeitsrechtlichen Streitfällen führen. Ohne strukturierten Prozess wird jeder Hire zur Improvisation. Bau deinen Recruiting-Prozess Schritt für Schritt mit GründerX auf.",
+    "seoTitle": "Erste 10 Mitarbeiter einstellen, Anleitung 2026",
+    "seoDescription": "Recruiting, Verträge & Onboarding sauber aufgesetzt aufsetzen: Stellenanzeige, ATS, Probezeit & Onboarding. Skalierbarer Hiring-Prozess für die ersten Hires.",
+    "lead": "Dieser Guide baut dir einen skalierbaren Hiring-Prozess von der Stellenanzeige bis zum Onboarding, für Gründer, die ihre ersten 10 Mitarbeiter sauber aufgesetzt einstellen.",
+    "urgency": "Deine ersten Hires prägen die Kultur und entscheiden über dein Wachstum, eine Fehlbesetzung kostet schnell ein Vielfaches eines Jahresgehalts an Zeit, Geld und Momentum. Fehlerhafte Arbeitsverträge oder falsch gehandhabte Probezeiten können zu teuren arbeitsrechtlichen Streitfällen führen. Ohne strukturierten Prozess wird jeder Hire zur Improvisation. Bau deinen Recruiting-Prozess Schritt für Schritt mit GründerX auf.",
     "outcomes": [
       "Wiederverwendbare Stellenanzeigen-Templates",
       "Ein eingerichtetes ATS für deinen Bewerber-Funnel",
@@ -378,7 +378,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Klarheit über die wichtigsten arbeitsrechtlichen Pflichten",
       "Ein strukturiertes, wiederholbares Onboarding"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung — Arbeitsverträge und arbeitsrechtliche Vorgaben sollten im Einzelfall juristisch geprüft werden."
+    "disclaimer": "Dieser Guide bietet Orientierung und ersetzt keine Rechtsberatung, Arbeitsverträge und arbeitsrechtliche Vorgaben sollten im Einzelfall juristisch geprüft werden."
   },
   "cashflow-forecasting": {
     "seoTitle": "Cashflow-Forecasting: 13-Wochen-Plan & Runway",
@@ -434,7 +434,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Aktiver Backlink-Aufbau, der deine Domain-Autorität wachsen lässt",
       "Wachsender organischer Traffic-Kanal, der Paid-Abhängigkeit senkt"
     ],
-    "disclaimer": "Dieser Guide bietet Orientierung; Ranking-Ergebnisse sind nicht garantiert und Google-Algorithmen sowie Best Practices können sich jederzeit ändern."
+    "disclaimer": "Dieser Guide bietet Orientierung; Ranking-Ergebnisse sind nicht vorhersagbar und Google-Algorithmen sowie Best Practices können sich jederzeit ändern."
   },
   "b2b-saas-spezifika": {
     "seoTitle": "B2B-SaaS: Pricing, Customer-Success & Enterprise",
@@ -550,12 +550,12 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "creator-influencer-setup": {
     "seoTitle": "Creator & Influencer: Founder-Setup & Steuer-Trap",
-    "seoDescription": "Creator-Business sauber aufsetzen: Werbekennzeichnung, Steuer-Setup, Sample-Tax und Sponsoring-Verträge in 2-6 Wochen - rechtssicher monetarisieren.",
+    "seoDescription": "Creator-Business sauber aufsetzen: Werbekennzeichnung, Steuer-Setup, Sample-Tax und Sponsoring-Verträge in 2-6 Wochen - sauber aufgesetzt monetarisieren.",
     "lead": "Dieser Guide zeigt dir, wie du dein Creator-Business sauber aufsetzt: Werbekennzeichnung, Steuer-Setup, Sponsoring-Vertrags-Templates, Affiliate-Stack und die korrekte Behandlung von Geschenken und Samples. Für Creator, Influencer und Affiliates, die professionell monetarisieren wollen.",
     "urgency": "Fehlende Werbekennzeichnung kostet Abmahnungen, und kostenlose PR-Samples sind oft steuerpflichtige Einnahmen - eine Falle, die viele Creator erst bei der Nachzahlung bemerken. Wer ohne Verträge mit Brands arbeitet, steht bei Zahlungsausfall ohne Handhabe da. Setze Compliance und Steuer jetzt sauber auf. Mit GründerX gehst du das Creator-Setup Schritt für Schritt durch.",
     "outcomes": [
       "Geklärte Rechtsform für dein Creator-Business",
-      "Rechtssichere Werbekennzeichnung gegen Abmahnungen",
+      "Saubere Werbekennzeichnung gegen Abmahnungen",
       "Sponsoring-Vertrags-Templates für faire Brand-Deals",
       "Affiliate-Stack sauber aufgesetzt und tracking-fähig",
       "Steuer-Setup mit korrekter Behandlung von Geschenken und Sample-Tax"
@@ -565,11 +565,11 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "coach-experte-setup": {
     "seoTitle": "Coaching-Business gründen: Setup & FernUSG-Check",
     "seoDescription": "Coaching- oder Online-Kurs-Business sauber aufsetzen: Rechtsform, FernUSG-Falle, Plattform, AGB, Pricing & Launch-Funnel. In 2-8 Wochen live.",
-    "lead": "Dieser Guide bringt dein Wissens-Business rechtssicher an den Start — von Rechtsform und Freiberuf-Check über die gefürchtete FernUSG-Falle bis zu Kurs-Plattform, Verträgen, Pricing und Launch-Funnel. Für Coaches, Experten und Kursverkäufer, die nicht ins offene Messer laufen wollen.",
-    "urgency": "Wer Online-Kurse ohne FernUSG-Prüfung verkauft, riskiert nichtige Verträge und Rückzahlungen über Monate — ein Urteil kann das ganze Business kippen. Genau diese Lücke übersehen die meisten Coaches im Launch-Rausch. Je früher du Verträge, AGB und Plattform sauber aufsetzt, desto weniger musst du später teuer reparieren. Mit GründerX gehst du Schritt für Schritt durch das komplette Founder-Setup, bevor der erste Euro fließt.",
+    "lead": "Dieser Guide bringt dein Wissens-Business sauber aufgesetzt an den Start, von Rechtsform und Freiberuf-Check über die gefürchtete FernUSG-Falle bis zu Kurs-Plattform, Verträgen, Pricing und Launch-Funnel. Für Coaches, Experten und Kursverkäufer, die nicht ins offene Messer laufen wollen.",
+    "urgency": "Wer Online-Kurse ohne FernUSG-Prüfung verkauft, riskiert nichtige Verträge und Rückzahlungen über Monate, ein Urteil kann das ganze Business kippen. Genau diese Lücke übersehen die meisten Coaches im Launch-Rausch. Je früher du Verträge, AGB und Plattform sauber aufsetzt, desto weniger musst du später teuer reparieren. Mit GründerX gehst du Schritt für Schritt durch das komplette Founder-Setup, bevor der erste Euro fließt.",
     "outcomes": [
       "Rechtsform gewählt und Freiberuf-vs-Gewerbe-Frage für dein Coaching geklärt",
-      "FernUSG-Compliance geprüft — du weißt, ob dein Kurs zulassungspflichtig ist",
+      "FernUSG-Compliance geprüft, du weißt, ob dein Kurs zulassungspflichtig ist",
       "Kurs-Plattform aufgesetzt mit rechtskonformen AGB und Widerrufsbelehrung",
       "Pricing-Modell und Zahlungsabwicklung stehen",
       "Launch-Funnel skizziert und startklar für den ersten Verkauf"
@@ -578,23 +578,23 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "freiberufler-anmelden": {
     "seoTitle": "Freiberufler anmelden: Ohne Gewerbeschein starten",
-    "seoDescription": "Als Freiberufler anmelden ohne Gewerbeschein — nur Finanzamt nötig. Steuernummer, KSK- & Haftpflicht-Check und erste Rechnung in 1-3 Wochen.",
-    "lead": "Dieser Guide zeigt dir, wie du dich als Freiberufler oder Freelancer korrekt beim Finanzamt anmeldest — ohne Gewerbeschein. Für Selbstständige in Katalogberufen wie Designer, Texter, Entwickler, Berater und kreative Köpfe.",
-    "urgency": "Wer sich fälschlich als Gewerbe statt freiberuflich anmeldet, zahlt unnötig Gewerbesteuer und IHK-Beiträge — Geld, das du nie zurückbekommst. Auch die Abgrenzung zur KSK und eine fehlende Haftpflicht werden oft zu spät bedacht. Klärst du das vor dem Start, sparst du dir Nachzahlungen und Ärger mit dem Finanzamt. GründerX führt dich Schritt für Schritt durch Anmeldung, Status-Check und deine erste rechtssichere Rechnung.",
+    "seoDescription": "Als Freiberufler anmelden ohne Gewerbeschein, nur Finanzamt nötig. Steuernummer, KSK- & Haftpflicht-Check und erste Rechnung in 1-3 Wochen.",
+    "lead": "Dieser Guide zeigt dir, wie du dich als Freiberufler oder Freelancer korrekt beim Finanzamt anmeldest, ohne Gewerbeschein. Für Selbstständige in Katalogberufen wie Designer, Texter, Entwickler, Berater und kreative Köpfe.",
+    "urgency": "Wer sich fälschlich als Gewerbe statt freiberuflich anmeldet, zahlt unnötig Gewerbesteuer und IHK-Beiträge, Geld, das du nie zurückbekommst. Auch die Abgrenzung zur KSK und eine fehlende Haftpflicht werden oft zu spät bedacht. Klärst du das vor dem Start, sparst du dir Nachzahlungen und Ärger mit dem Finanzamt. GründerX führt dich Schritt für Schritt durch Anmeldung, Status-Check und deine erste saubere Rechnung.",
     "outcomes": [
       "Steuernummer als Freiberufler beim Finanzamt beantragt",
       "Geklärt, ob du wirklich freiberuflich oder doch gewerblich bist",
       "KSK-Pflicht und mögliche Mitgliedschaft geprüft",
       "Sinnvolle Berufshaftpflicht für deine Tätigkeit eingeordnet",
-      "Erste rechtssichere Rechnung mit allen Pflichtangaben erstellt"
+      "Erste saubere Rechnung mit allen Pflichtangaben erstellt"
     ],
     "disclaimer": "Dieser Guide dient der Orientierung und ersetzt keine Steuer- oder Rechtsberatung; die Einstufung als freiberuflich entscheidet im Zweifel das Finanzamt und kann sich je nach Tätigkeit unterscheiden."
   },
   "gbr-gruenden": {
     "seoTitle": "GbR gründen: Schritt für Schritt mit Mitgründer",
     "seoDescription": "GbR mit Mitgründer gründen ohne Notar: Vertrag, Steuernummer, Geschäftskonto & GmbH-Roadmap. Schnellste Rechtsform für 2+ Personen, in 1-2 Wochen.",
-    "lead": "Dieser Guide bringt dich und deinen Mitgründer mit der GbR schnell an den Start — Gesellschaftsvertrag, Steuernummer, Geschäftskonto und eine Roadmap zur späteren GmbH-Umwandlung. Für Teams ab zwei Personen, die ohne Notar loslegen wollen.",
-    "urgency": "Die GbR ist schnell gegründet, aber ihr haftet beide unbeschränkt mit eurem Privatvermögen — ohne sauberen Vertrag wird jeder Streit über Gewinne oder Ausstieg zur Falle. Genau hier scheitern viele Gründerteams. Ein klarer Gesellschaftsvertrag von Anfang an schützt euch vor teuren Konflikten und legt den Pfad zur GmbH schon fest. GründerX führt euch Schritt für Schritt durch Vertrag, Anmeldung und Konto.",
+    "lead": "Dieser Guide bringt dich und deinen Mitgründer mit der GbR schnell an den Start, Gesellschaftsvertrag, Steuernummer, Geschäftskonto und eine Roadmap zur späteren GmbH-Umwandlung. Für Teams ab zwei Personen, die ohne Notar loslegen wollen.",
+    "urgency": "Die GbR ist schnell gegründet, aber ihr haftet beide unbeschränkt mit eurem Privatvermögen, ohne sauberen Vertrag wird jeder Streit über Gewinne oder Ausstieg zur Falle. Genau hier scheitern viele Gründerteams. Ein klarer Gesellschaftsvertrag von Anfang an schützt euch vor teuren Konflikten und legt den Pfad zur GmbH schon fest. GründerX führt euch Schritt für Schritt durch Vertrag, Anmeldung und Konto.",
     "outcomes": [
       "GbR-Gesellschaftsvertrag mit klaren Regeln zu Gewinn, Stimmen und Ausstieg",
       "Gewerbe angemeldet und Steuernummer für die GbR beantragt",
@@ -607,8 +607,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "restaurant-eroeffnen": {
     "seoTitle": "Restaurant eröffnen: Konzession, TSE & Genehmigungen",
     "seoDescription": "Restaurant eröffnen Schritt für Schritt: Gaststättenkonzession, Hygiene, TSE-Kasse, GEMA & alle Schulungen. Komplett-Setup in 3-6 Monaten.",
-    "lead": "Dieser Guide führt dich durch die komplette Gastro-Eröffnung — Gaststättenkonzession, Hygienevorschriften, TSE-Kasse, GEMA und alle Pflichtschulungen und Versicherungen. Für angehende Gastronomen, die jede Sondergenehmigung im Griff haben wollen.",
-    "urgency": "In der Gastronomie kostet jede fehlende Genehmigung bares Geld: Ohne Konzession, TSE-Kasse oder Belehrung droht die Schließung am Eröffnungstag — und das Lebensmittelrecht kennt kein Pardon. Viele unterschätzen die Monate für Behördengänge und Schulungen. Wer früh plant, vermeidet teuren Leerstand und Bußgelder. GründerX führt dich Schritt für Schritt durch alle Konzessionen, Schulungen und die Kassenpflicht.",
+    "lead": "Dieser Guide führt dich durch die komplette Gastro-Eröffnung, Gaststättenkonzession, Hygienevorschriften, TSE-Kasse, GEMA und alle Pflichtschulungen und Versicherungen. Für angehende Gastronomen, die jede Sondergenehmigung im Griff haben wollen.",
+    "urgency": "In der Gastronomie kostet jede fehlende Genehmigung bares Geld: Ohne Konzession, TSE-Kasse oder Belehrung droht die Schließung am Eröffnungstag, und das Lebensmittelrecht kennt kein Pardon. Viele unterschätzen die Monate für Behördengänge und Schulungen. Wer früh plant, vermeidet teuren Leerstand und Bußgelder. GründerX führt dich Schritt für Schritt durch alle Konzessionen, Schulungen und die Kassenpflicht.",
     "outcomes": [
       "Gaststättenkonzession und Standort-Genehmigungen beantragt",
       "TSE-konforme Kasse eingerichtet und Belegpflicht erfüllt",
@@ -621,8 +621,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "handwerk-gruenden": {
     "seoTitle": "Handwerksbetrieb gründen: HWK & Meisterpflicht",
     "seoDescription": "Handwerksbetrieb gründen: Anlage A vs. B, Meisterpflicht & Handwerksrolle korrekt anmelden. Mit allen HWK- & BG-Pflichten, in 2-6 Wochen.",
-    "lead": "Dieser Guide bringt deinen Handwerksbetrieb sauber in die Handwerksrolle — Abgrenzung Anlage A vs. B, Meisterpflicht, HWK-Eintragung und BG-Anmeldung. Für Handwerker, die ihren Betrieb von Beginn an rechtssicher anmelden wollen.",
-    "urgency": "Wer ein zulassungspflichtiges Handwerk ohne Meistereintrag betreibt, riskiert ein Verbot und Bußgelder — und die falsche Einordnung in Anlage A oder B blockiert deinen Start. Diese Hürde übersehen viele bis zur ersten Kontrolle. Klärst du Meisterpflicht und Handwerksrolle vorab, sparst du dir Stillstand und Strafen. GründerX führt dich Schritt für Schritt durch Einstufung, HWK-Eintrag und alle BG-Pflichten.",
+    "lead": "Dieser Guide bringt deinen Handwerksbetrieb sauber in die Handwerksrolle, Abgrenzung Anlage A vs. B, Meisterpflicht, HWK-Eintragung und BG-Anmeldung. Für Handwerker, die ihren Betrieb von Beginn an sauber aufgesetzt anmelden wollen.",
+    "urgency": "Wer ein zulassungspflichtiges Handwerk ohne Meistereintrag betreibt, riskiert ein Verbot und Bußgelder, und die falsche Einordnung in Anlage A oder B blockiert deinen Start. Diese Hürde übersehen viele bis zur ersten Kontrolle. Klärst du Meisterpflicht und Handwerksrolle vorab, sparst du dir Stillstand und Strafen. GründerX führt dich Schritt für Schritt durch Einstufung, HWK-Eintrag und alle BG-Pflichten.",
     "outcomes": [
       "Geklärt, ob dein Handwerk in Anlage A, B1 oder B2 fällt",
       "Meisterpflicht geprüft und passende Ausübungsberechtigung gefunden",
@@ -635,8 +635,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "immobilien-gmbh": {
     "seoTitle": "Immobilien-GmbH gründen: erweiterte Kürzung nutzen",
     "seoDescription": "Vermögensverwaltende Immobilien-GmbH gründen: erweiterte Kürzung § 9 GewStG = nur 15,825 % Steuer auf Mieten. Setup in 6-10 Wochen.",
-    "lead": "Dieser Guide zeigt dir, wie du eine vermögensverwaltende Immobilien-GmbH mit erweiterter gewerbesteuerlicher Kürzung aufsetzt — sodass auf reine Mieterträge nur die Körperschaftsteuer anfällt. Für Vermieter und Investoren, die Mieteinnahmen steueroptimiert bündeln wollen.",
-    "urgency": "Die erweiterte Kürzung nach § 9 GewStG bringt enorme Vorteile — aber schon eine einzige schädliche Tätigkeit oder ein Formfehler im Satzungszweck kippt sie für das ganze Jahr. Wer das ohne Plan startet, verschenkt genau den Steuervorteil, für den die GmbH gedacht war. Sauber aufgesetzt sicherst du dir die 15,825-%-Belastung dauerhaft. GründerX führt dich Schritt für Schritt durch Gründung, Satzung und StB-Setup.",
+    "lead": "Dieser Guide zeigt dir, wie du eine vermögensverwaltende Immobilien-GmbH mit erweiterter gewerbesteuerlicher Kürzung aufsetzt, sodass auf reine Mieterträge nur die Körperschaftsteuer anfällt. Für Vermieter und Investoren, die Mieteinnahmen steueroptimiert bündeln wollen.",
+    "urgency": "Die erweiterte Kürzung nach § 9 GewStG bringt enorme Vorteile, aber schon eine einzige schädliche Tätigkeit oder ein Formfehler im Satzungszweck kippt sie für das ganze Jahr. Wer das ohne Plan startet, verschenkt genau den Steuervorteil, für den die GmbH gedacht war. Sauber aufgesetzt sicherst du dir die 15,825-%-Belastung dauerhaft. GründerX führt dich Schritt für Schritt durch Gründung, Satzung und StB-Setup.",
     "outcomes": [
       "Vermögensverwaltende GmbH mit kürzungssicherem Satzungszweck gegründet",
       "Erweiterte Kürzung nach § 9 GewStG korrekt beantragt",
@@ -649,10 +649,10 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "ag-gruenden": {
     "seoTitle": "AG gründen: Aktiengesellschaft für VC & ESOP",
     "seoDescription": "AG gründen Schritt für Schritt: Aufsichtsrat, Vorstand, Aktienregister & Gründungsprüfung. Für Startups mit VC-Plänen oder Aktien-Programmen.",
-    "lead": "Dieser Guide führt dich durch die Gründung einer Aktiengesellschaft — mit Aufsichtsrat, Vorstand, Aktienregister und Gründungsprüfung. Für ambitionierte Startups mit VC-Plänen, IPO-Ambitionen oder Mitarbeiter-Aktien-Programmen.",
-    "urgency": "Die AG bietet maximale Flexibilität für VC-Runden und Aktienprogramme, ist aber formaler und teurer als jede GmbH — Fehler bei Satzung, Gründungsprüfung oder Aufsichtsrat verzögern die Eintragung um Monate. Wer das unterschätzt, verbrennt Anwalts- und Notarkosten und verpasst Investoren-Timing. Sauber geplant gehst du runden-ready an den Markt. GründerX führt dich Schritt für Schritt durch Gründung, Organe und Aktienregister.",
+    "lead": "Dieser Guide führt dich durch die Gründung einer Aktiengesellschaft, mit Aufsichtsrat, Vorstand, Aktienregister und Gründungsprüfung. Für ambitionierte Startups mit VC-Plänen, IPO-Ambitionen oder Mitarbeiter-Aktien-Programmen.",
+    "urgency": "Die AG bietet maximale Flexibilität für VC-Runden und Aktienprogramme, ist aber formaler und teurer als jede GmbH, Fehler bei Satzung, Gründungsprüfung oder Aufsichtsrat verzögern die Eintragung um Monate. Wer das unterschätzt, verbrennt Anwalts- und Notarkosten und verpasst Investoren-Timing. Sauber geplant gehst du runden-ready an den Markt. GründerX führt dich Schritt für Schritt durch Gründung, Organe und Aktienregister.",
     "outcomes": [
-      "AG mit rechtssicherer Satzung notariell gegründet",
+      "AG mit klarer abgegrenzt Satzung notariell gegründet",
       "Vorstand und Aufsichtsrat korrekt bestellt",
       "Gründungsprüfung durchlaufen und Eintragung im Handelsregister erreicht",
       "Aktienregister und Kapitalstruktur sauber aufgesetzt",
@@ -663,8 +663,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "verein-gug": {
     "seoTitle": "Verein (e.V.) oder gUG gründen: Gemeinnützigkeit",
     "seoDescription": "e.V. oder gemeinnützige UG gründen: Satzung, Anerkennung der Gemeinnützigkeit & Spendenquittungen. Für Social Impact & NGOs, in 6-12 Wochen.",
-    "lead": "Dieser Guide zeigt dir, wie du einen e.V. oder eine gemeinnützige UG gründest und die Anerkennung der Gemeinnützigkeit beim Finanzamt erhältst — inklusive Berechtigung für Spendenquittungen. Für Social-Impact-Projekte, NGOs und Sportclubs.",
-    "urgency": "Ohne wasserdichte Satzung verweigert das Finanzamt die Gemeinnützigkeit — dann darfst du keine Spendenquittungen ausstellen und verlierst Förderungen und Steuervorteile. Genau an der Satzungsformulierung scheitern viele Initiativen. Wer die Mustervorgaben von Anfang an einhält, bekommt die Anerkennung sauber durch. GründerX führt dich Schritt für Schritt durch Satzung, Eintragung und Gemeinnützigkeits-Antrag.",
+    "lead": "Dieser Guide zeigt dir, wie du einen e.V. oder eine gemeinnützige UG gründest und die Anerkennung der Gemeinnützigkeit beim Finanzamt erhältst, inklusive Berechtigung für Spendenquittungen. Für Social-Impact-Projekte, NGOs und Sportclubs.",
+    "urgency": "Ohne wasserdichte Satzung verweigert das Finanzamt die Gemeinnützigkeit, dann darfst du keine Spendenquittungen ausstellen und verlierst Förderungen und Steuervorteile. Genau an der Satzungsformulierung scheitern viele Initiativen. Wer die Mustervorgaben von Anfang an einhält, bekommt die Anerkennung sauber durch. GründerX führt dich Schritt für Schritt durch Satzung, Eintragung und Gemeinnützigkeits-Antrag.",
     "outcomes": [
       "Rechtsform e.V. vs. gUG bewusst für dein Vorhaben gewählt",
       "Mustersatzung mit gemeinnützigem Zweck erstellt",
@@ -677,8 +677,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "unternehmenskauf": {
     "seoTitle": "Unternehmen kaufen: Asset vs. Share Deal & DD",
     "seoDescription": "Unternehmen kaufen Schritt für Schritt: Asset Deal vs. Share Deal, Due Diligence, Finanzierung & Übergabe. Mit 100-Tage-Plan, in 4-9 Monaten.",
-    "lead": "Dieser Guide führt dich durch den Kauf eines bestehenden Unternehmens — von Asset- vs. Share-Deal über Due Diligence und Finanzierung bis zur Übergabe und dem 100-Tage-Plan. Für Nachfolger und Käufer, die statt bei null lieber etabliert starten.",
-    "urgency": "Beim Unternehmenskauf übernimmst du im Share Deal auch verborgene Schulden, Altlasten und Risiken — eine schlampige Due Diligence kann dich teurer kommen als der Kaufpreis selbst. Diesen Punkt unterschätzen viele Käufer im Verhandlungseifer. Wer Struktur und Prüfung von Anfang an ernst nimmt, kauft sicher und finanzierbar. GründerX führt dich Schritt für Schritt durch Deal-Struktur, Prüfung, Finanzierung und Übernahme.",
+    "lead": "Dieser Guide führt dich durch den Kauf eines bestehenden Unternehmens, von Asset- vs. Share-Deal über Due Diligence und Finanzierung bis zur Übergabe und dem 100-Tage-Plan. Für Nachfolger und Käufer, die statt bei null lieber etabliert starten.",
+    "urgency": "Beim Unternehmenskauf übernimmst du im Share Deal auch verborgene Schulden, Altlasten und Risiken, eine schlampige Due Diligence kann dich teurer kommen als der Kaufpreis selbst. Diesen Punkt unterschätzen viele Käufer im Verhandlungseifer. Wer Struktur und Prüfung von Anfang an ernst nimmt, kauft sicher und finanzierbar. GründerX führt dich Schritt für Schritt durch Deal-Struktur, Prüfung, Finanzierung und Übernahme.",
     "outcomes": [
       "Asset Deal vs. Share Deal für deinen Fall bewertet",
       "Strukturierte Due Diligence zu Finanzen, Verträgen und Risiken durchgeführt",
@@ -691,8 +691,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "meta-ads-setup": {
     "seoTitle": "Meta Ads Setup: Pixel, CAPI & erste Kampagne",
     "seoDescription": "Meta Ads Manager click-by-click aufsetzen: Business Manager, Pixel, CAPI, Audiences & erste Conversion-Kampagne. Komplett in 4-6 Stunden live.",
-    "lead": "Dieser Guide führt dich click-by-click durch das komplette Meta-Ads-Setup — Business Manager, Pixel, Conversions API, Domain-Verifizierung, Custom Audiences, Lookalikes und deine erste publishbare Conversion-Kampagne. Für Shop-Betreiber und Werbetreibende, die sauber tracken wollen.",
-    "urgency": "Ohne korrekt eingerichteten Pixel und CAPI verbrennt Meta dein Budget auf falsche Zielgruppen — fehlerhaftes Tracking kostet dich täglich Geld und verfälscht jede Optimierung. Genau dieses Fundament wird im Eifer oft übersprungen. Wer Pixel, Domain und Audiences von Anfang an sauber aufsetzt, holt aus jedem Euro mehr raus. GründerX führt dich Schritt für Schritt bis zur ersten startklaren Kampagne.",
+    "lead": "Dieser Guide führt dich click-by-click durch das komplette Meta-Ads-Setup, Business Manager, Pixel, Conversions API, Domain-Verifizierung, Custom Audiences, Lookalikes und deine erste publishbare Conversion-Kampagne. Für Shop-Betreiber und Werbetreibende, die sauber tracken wollen.",
+    "urgency": "Ohne korrekt eingerichteten Pixel und CAPI verbrennt Meta dein Budget auf falsche Zielgruppen, fehlerhaftes Tracking kostet dich täglich Geld und verfälscht jede Optimierung. Genau dieses Fundament wird im Eifer oft übersprungen. Wer Pixel, Domain und Audiences von Anfang an sauber aufsetzt, holt aus jedem Euro mehr raus. GründerX führt dich Schritt für Schritt bis zur ersten startklaren Kampagne.",
     "outcomes": [
       "Business Manager und Werbekonto sauber strukturiert angelegt",
       "Meta-Pixel und Conversions API mit verifizierter Domain installiert",
@@ -705,8 +705,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "klaviyo-setup": {
     "seoTitle": "Klaviyo Setup: Bis zum Welcome-Flow live",
     "seoDescription": "Klaviyo Schritt für Schritt einrichten: Shop-Sync, DKIM-Sender-Domain, Pop-Up & Welcome-Flow. Erste Sales aus E-Mail in 7 Tagen, in 1 Tag live.",
-    "lead": "Dieser Guide bringt dein Klaviyo von null bis zum aktiven Welcome-Flow — Account, Shopify-/WooCommerce-Sync, DKIM-konforme Sender-Domain, Pop-Up und automatisierte Willkommensstrecke. Für Shop-Betreiber, die mit E-Mail wiederkehrenden Umsatz aufbauen wollen.",
-    "urgency": "Ohne authentifizierte Sender-Domain landen deine Mails im Spam — und jeder Tag ohne Pop-Up und Welcome-Flow bedeutet verlorene Subscriber und entgangene Sales, die du nie zurückholst. Diesen Hebel lassen viele Shops monatelang liegen. Einmal sauber aufgesetzt, verdient die Strecke automatisch im Hintergrund. GründerX führt dich an einem Tag durch Setup, Domain-Auth und Welcome-Flow.",
+    "lead": "Dieser Guide bringt dein Klaviyo von null bis zum aktiven Welcome-Flow, Account, Shopify-/WooCommerce-Sync, DKIM-konforme Sender-Domain, Pop-Up und automatisierte Willkommensstrecke. Für Shop-Betreiber, die mit E-Mail wiederkehrenden Umsatz aufbauen wollen.",
+    "urgency": "Ohne authentifizierte Sender-Domain landen deine Mails im Spam, und jeder Tag ohne Pop-Up und Welcome-Flow bedeutet verlorene Subscriber und entgangene Sales, die du nie zurückholst. Diesen Hebel lassen viele Shops monatelang liegen. Einmal sauber aufgesetzt, verdient die Strecke automatisch im Hintergrund. GründerX führt dich an einem Tag durch Setup, Domain-Auth und Welcome-Flow.",
     "outcomes": [
       "Klaviyo-Account mit Shopify- oder WooCommerce-Sync verbunden",
       "DKIM-konforme Sender-Domain eingerichtet für hohe Zustellraten",
@@ -719,8 +719,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   "google-ads-merchant-console-setup": {
     "seoTitle": "Google Ads, Merchant Center & Console Setup",
     "seoDescription": "Google Ads, Merchant Center & Search Console verknüpfen: Produkt-Feed, Property-Check & erste Search-Kampagne. Komplett-Setup in 1-2 Tagen.",
-    "lead": "Dieser Guide verknüpft alle drei Google-Properties — Ads, Merchant Center und Search Console — bis zum Produkt-Feed, verifizierter Property und erster publishbarer Search-Kampagne. Für Shop-Betreiber, die Paid, Shopping und SEO-Tracking sauber aufstellen wollen.",
-    "urgency": "Ein fehlerhafter Produkt-Feed oder eine unverknüpfte Search Console kostet dich Shopping-Sichtbarkeit und blinde SEO-Daten — Reichweite, die du ohne Fundament nie aufholst. Diese Verknüpfungen werden oft halbfertig liegengelassen. Wer alle drei Properties von Anfang an sauber koppelt, sieht jeden Klick und jeden Verkauf. GründerX führt dich Schritt für Schritt bis zur ersten aktiven Kampagne.",
+    "lead": "Dieser Guide verknüpft alle drei Google-Properties, Ads, Merchant Center und Search Console, bis zum Produkt-Feed, verifizierter Property und erster publishbarer Search-Kampagne. Für Shop-Betreiber, die Paid, Shopping und SEO-Tracking sauber aufstellen wollen.",
+    "urgency": "Ein fehlerhafter Produkt-Feed oder eine unverknüpfte Search Console kostet dich Shopping-Sichtbarkeit und blinde SEO-Daten, Reichweite, die du ohne Fundament nie aufholst. Diese Verknüpfungen werden oft halbfertig liegengelassen. Wer alle drei Properties von Anfang an sauber koppelt, sieht jeden Klick und jeden Verkauf. GründerX führt dich Schritt für Schritt bis zur ersten aktiven Kampagne.",
     "outcomes": [
       "Google-Ads-Konto angelegt und Abrechnung eingerichtet",
       "Merchant Center mit validem Produkt-Feed verbunden",
@@ -732,8 +732,8 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "seo-step-by-step": {
     "seoTitle": "SEO Step-by-Step: Von Setup bis Top-3-Rankings",
-    "seoDescription": "SEO click-by-click aufbauen: Technical, Content, Backlinks & Monitoring. Bis Money-Keywords Top-10 ranken — erste Rankings in 3-6 Monaten.",
-    "lead": "Dieser Guide baut deine SEO von Grund auf — Search Console, Sitemap, Schema-Markup, fünf Pillar-Content-Stücke und ein Backlink-Outreach-Prozess. Für Gründer und Shop-Betreiber, die organischen Traffic statt dauerhafter Ad-Kosten wollen.",
+    "seoDescription": "SEO click-by-click aufbauen: Technical, Content, Backlinks & Monitoring. Bis Money-Keywords Top-10 ranken, erste Rankings in 3-6 Monaten.",
+    "lead": "Dieser Guide baut deine SEO von Grund auf, Search Console, Sitemap, Schema-Markup, fünf Pillar-Content-Stücke und ein Backlink-Outreach-Prozess. Für Gründer und Shop-Betreiber, die organischen Traffic statt dauerhafter Ad-Kosten wollen.",
     "urgency": "SEO ist ein Marathon: Jeder Monat ohne saubere Foundation und Content ist verlorene Zeit, die Wettbewerber nutzen, um die Top-Plätze für deine Money-Keywords zu besetzen. Wer erst spät startet, kämpft jahrelang gegen den Vorsprung anderer. Früh angefangen, kompoundiert organischer Traffic kostenlos weiter. GründerX führt dich Schritt für Schritt durch Technical, Content, Backlinks und Monitoring.",
     "outcomes": [
       "Search Console, Sitemap und Schema-Markup sauber eingerichtet",
@@ -742,7 +742,7 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "Backlink-Outreach-Prozess aufgesetzt und am Laufen",
       "Monitoring aktiv, um Rankings und Fortschritt zu verfolgen"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht garantiert, hängen von Wettbewerb und Aufwand ab, und Google-Algorithmen ändern sich laufend."
+    "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht vorhersagbar, hängen von Wettbewerb und Aufwand ab, und Google-Algorithmen ändern sich laufend."
   },
   "tiktok-ads-setup": {
     "seoTitle": "TikTok Ads Setup: Konto, Pixel & erste Kampagne",
@@ -914,11 +914,11 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
   },
   "hiring-festanstellung": {
     "seoTitle": "Ersten Mitarbeiter einstellen: Festanstellung-Guide",
-    "seoDescription": "Erste Festanstellung sauber aufsetzen: KSchG-konformer Arbeitsvertrag, Sozialvers-Meldung und Onboarding. In 2-4 Wochen rechtssicher.",
+    "seoDescription": "Erste Festanstellung sauber aufsetzen: KSchG-konformer Arbeitsvertrag, Sozialvers-Meldung und Onboarding. In 2-4 Wochen sauber aufgesetzt.",
     "lead": "Dieser Guide bringt dich durch deine erste Festanstellung: KSchG-konformer Arbeitsvertrag, Sozialversicherungs-Meldung und korrektes Onboarding. Für Gründer und Solo-Selbstständige, die ihren ersten Vollzeit-Mitarbeiter einstellen wollen.",
     "urgency": "Der erste Hire ist der Schritt mit den höchsten rechtlichen Anforderungen: Ein fehlerhafter Arbeitsvertrag, eine verpasste Sozialversicherungs-Meldung oder ignoriertes KSchG können schnell vierstellige Nachzahlungen und Streit auslösen. Wer hier ohne sauberen Process startet, baut sich Risiken ein, die ein Jahr später teuer werden. Mit dem richtigen Setup wird aus deinem ersten Mitarbeiter ein echter Hebel statt eines Klotzes am Bein. Mit GründerX gehst du Vertrag, Meldung und Onboarding strukturiert durch.",
     "outcomes": [
-      "Erster Mitarbeiter rechtssicher eingestellt",
+      "Erster Mitarbeiter sauber aufgesetzt eingestellt",
       "KSchG-konformer Arbeitsvertrag aufgesetzt",
       "Sozialversicherungs-Meldung korrekt durchgeführt",
       "Sauberer Onboarding-Process etabliert",
@@ -927,13 +927,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Dieser Guide bietet praktische Orientierung, ersetzt keine Rechts- oder Steuerberatung; Arbeitsverträge sollten anwaltlich geprüft werden, und arbeits- sowie sozialversicherungsrechtliche Anforderungen können sich ändern."
   },
   "hiring-freelancer": {
-    "seoTitle": "Freelancer beauftragen: Werkvertrag rechtssicher",
-    "seoDescription": "Freelancer rechtssicher beauftragen: sauberer Werkvertrag, Scheinselbstständigkeit vermeiden, Statusfeststellung bei DRV-Risiko. In 1-2 Wochen.",
+    "seoTitle": "Freelancer beauftragen: Werkvertrag sauber aufgesetzt",
+    "seoDescription": "Freelancer sauber aufgesetzt beauftragen: sauberer Werkvertrag, Scheinselbstständigkeit vermeiden, Statusfeststellung bei DRV-Risiko. In 1-2 Wochen.",
     "lead": "Dieser Guide zeigt dir Schritt für Schritt, wie du als Gründer oder E-Commerce-Händler Freelancer über Werk- oder Dienstverträge beauftragst - und wie du die teure Scheinselbstständigkeits-Falle umgehst.",
     "urgency": "Wenn ein Freelancer faktisch wie ein Angestellter arbeitet, kann die Deutsche Rentenversicherung rückwirkend Sozialabgaben für bis zu vier Jahre nachfordern - plus Säumniszuschläge und im Ernstfall strafrechtliche Folgen. Gerade bei langfristigen 1-Klient-Beziehungen wird es schnell teuer, wenn der Vertrag und die gelebte Praxis nicht sauber sind. Bau deinen Freelancer-Pool von Anfang an richtig auf, statt später teuer nachzubessern. Mit GründerX gehst du jeden Schritt strukturiert durch und erkennst Risiko-Fälle, bevor sie zum Problem werden.",
     "outcomes": [
       "Live Freelancer-Pool mit 3-5 Subunternehmern und sauberen Verträgen",
-      "Rechtssichere Werk- bzw. Dienstverträge als Vorlage",
+      "Saubere Werk- bzw. Dienstverträge als Vorlage",
       "Klarheit über die Merkmale der Scheinselbstständigkeit",
       "Statusfeststellungs-Verfahren bei DRV-Risiko-Fällen eingeleitet",
       "Keine böse Überraschung bei einer DRV-Betriebsprüfung"
@@ -1092,13 +1092,13 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "On-Page-SEO für deine Keywords gesetzt",
       "Startklar, um organisch gefunden zu werden"
     ],
-    "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht garantiert und Suchmaschinen-Anforderungen können sich jederzeit ändern."
+    "disclaimer": "Dieser Guide dient der Orientierung; SEO-Ergebnisse sind nicht vorhersagbar und Suchmaschinen-Anforderungen können sich jederzeit ändern."
   },
   "eigene-app-launchen": {
-    "seoTitle": "Eigene App erstellen 2026 – App Store & Play Store Guide",
+    "seoTitle": "Eigene App erstellen 2026, App Store & Play Store Guide",
     "seoDescription": "Eigene App entwickeln und in Apple App Store + Google Play launchen: Tech-Stack, Developer-Accounts, Review bestehen, Monetarisierung & Steuern. Schritt für Schritt.",
-    "lead": "Dieser Guide führt dich von der App-Idee bis zur Live-App in beiden Stores – Tech-Stack-Wahl, Entwicklung (auch ohne Programmierkenntnisse mit KI-Tools), Apple- und Google-Developer-Accounts, Review bestehen, Abo-Monetarisierung, DSGVO-Rechtstexte und die korrekte steuerliche Verbuchung der Store-Auszahlungen.",
-    "urgency": "2026 ist die beste Zeit aller Zeiten, eine eigene App zu launchen – mit KI-Tools und Cross-Platform-Frameworks baust du heute allein, wofür früher eine Agentur 30.000 € verlangt hat. Aber die Stores sind ein Minenfeld für Erstgründer: Googles 12-Tester-Pflicht blockiert deinen Launch um Wochen, wenn du sie zu spät entdeckst, Apples Review lehnt Template-Apps gnadenlos ab, und wer die Store-Auszahlungen falsch verbucht, zahlt doppelt Umsatzsteuer. Jeder dieser Fehler kostet Wochen oder Geld – dieser Guide räumt sie in der richtigen Reihenfolge ab, damit deine App beim ersten ernsthaften Anlauf live geht.",
+    "lead": "Dieser Guide führt dich von der App-Idee bis zur Live-App in beiden Stores, Tech-Stack-Wahl, Entwicklung (auch ohne Programmierkenntnisse mit KI-Tools), Apple- und Google-Developer-Accounts, Review bestehen, Abo-Monetarisierung, DSGVO-Rechtstexte und die korrekte steuerliche Verbuchung der Store-Auszahlungen.",
+    "urgency": "2026 ist die beste Zeit aller Zeiten, eine eigene App zu launchen, mit KI-Tools und Cross-Platform-Frameworks baust du heute allein, wofür früher eine Agentur 30.000 € verlangt hat. Aber die Stores sind ein Minenfeld für Erstgründer: Googles 12-Tester-Pflicht blockiert deinen Launch um Wochen, wenn du sie zu spät entdeckst, Apples Review lehnt Template-Apps gnadenlos ab, und wer die Store-Auszahlungen falsch verbucht, zahlt doppelt Umsatzsteuer. Jeder dieser Fehler kostet Wochen oder Geld, dieser Guide räumt sie in der richtigen Reihenfolge ab, damit deine App beim ersten ernsthaften Anlauf live geht.",
     "outcomes": [
       "Deine App live im Apple App Store und Google Play Store",
       "Developer-Accounts korrekt aufgesetzt (inkl. D-U-N-S, Trader-Status und Googles 12-Tester-Pflicht)",
@@ -1107,6 +1107,20 @@ export const GUIDE_COPY: Record<string, LandingCopy> = {
       "DSGVO-konforme Rechtstexte, Privacy-Labels und Data-Safety-Angaben",
       "Store-Auszahlungen steuerlich korrekt verbucht (Reverse Charge, ZM, USt-IdNr.)"
     ],
-    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung – Store-Richtlinien, Gebühren und Review-Praxis von Apple und Google können sich jederzeit ändern."
+    "disclaimer": "Dieser Guide bietet strukturierte Orientierung und ersetzt keine Rechts- oder Steuerberatung, Store-Richtlinien, Gebühren und Review-Praxis von Apple und Google können sich jederzeit ändern."
+  },
+  "amex-us-beantragen": {
+    "seoTitle": "Amex US aus Deutschland beantragen (Global Transfer & Business)",
+    "seoDescription": "US-Amex aus Deutschland: Global Transfer, Cloud Residence, Utility-Bill, Tello eSIM und US-Bankkonto (Wise-Risiko vs. Chase/Bank of America). Stand 11/2026.",
+    "lead": "Wir zeigen dir Schritt für Schritt, was du für eine private US-Amex per Global Transfer und für den Weg zur US-Business-Amex wirklich brauchst: echte US-Adresse, Utility-Rechnung, Tello eSIM für den Amex-Anruf und ein passendes US-Bankkonto.",
+    "urgency": "Bei US-Karten scheitern die meisten an der Reihenfolge oder an falschen Abkürzungen: Briefkasten-Adresse statt echter Wohnadresse, VoIP statt echter eSIM oder ein Fintech-Konto, das bei einer Bankprüfung abgelehnt wird. Hier siehst du vor dem Antrag, welcher Weg sicher steht und wo echte Risiken liegen.",
+    "outcomes": [
+      "Klare Reihenfolge für US-Adresse (z. B. Cloud Residence), Utility-Bill und Tello eSIM",
+      "Ehrliche Einschätzung zum US-Bankkonto: Wise-Risiko vs. Chase oder Bank of America mit Filialbesuch und Reisepass",
+      "Vorbereitung auf den Global-Transfer-Antrag und den Verifizierungsanruf von Amex",
+      "Nutzung in Deutschland (4x Restaurants) und DE-zu-US-Punktetransfer (2x im Jahr) sauber verstanden",
+      "Klare Abgrenzung zur US-Business-Amex und zu EIN-only-Alternativen"
+    ],
+    "disclaimer": "Stand November 2026. GründerX ist Software und keine Rechts-, Finanz- oder Steuerberatung. Vergabekriterien, Gebühren und Transferkurse von American Express und US-Banken können sich jederzeit ändern."
   }
 };

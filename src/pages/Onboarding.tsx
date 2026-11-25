@@ -20,7 +20,7 @@ import {
   GRUENDUNGS_GUIDE, empfohleneToolSlugs, fahrplan, profilMerkmale, rechtsformVon, type PlanSchritt,
 } from "@/lib/startplan";
 import {
-  MODELL_OPTIONEN, PHASE_OPTIONEN, RECHTSFORM_OPTIONEN, SCHRITTE_AENDERN, SCHRITTE_NEU, SCHRITT_FERTIG,
+  ALTER_OPTIONEN, MODELL_OPTIONEN, PHASE_OPTIONEN, RECHTSFORM_OPTIONEN, SCHRITTE_AENDERN, SCHRITTE_NEU, SCHRITT_FERTIG,
   einstieg, fehlerIn, rechtsformOption, type OnbSchritt,
 } from "@/lib/onboarding";
 import { cn } from "@/lib/utils";
@@ -61,6 +61,7 @@ const Onboarding = () => {
   const [salutation, setSalutation] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [ageGroup, setAgeGroup] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [phone, setPhone] = useState("");
   const [modelle, setModelle] = useState<string[]>([]);
@@ -98,6 +99,7 @@ const Onboarding = () => {
         setSalutation(data.salutation ?? "");
         setFirstName(data.first_name ?? "");
         setLastName(data.last_name ?? "");
+        setAgeGroup((data as any).age_group ?? readProfileCache(user.id)?.age_group ?? "");
         setCompanyName(data.company_name ?? "");
         setPhone(data.phone ?? "");
         setModelle(m);
@@ -186,7 +188,11 @@ const Onboarding = () => {
       business_model: modelle.join(","),
       founder_stage: phase || null,
       legal_form: rechtsform || "unsure",
+      age_group: ageGroup || null,
     });
+    if (ageGroup) {
+      supabase.from("profiles").update({ age_group: ageGroup } as any).eq("id", user.id).then(() => undefined, () => undefined);
+    }
     // Gemeinsamen Zugangszustand sofort nachziehen, sonst leitet AppLayout
     // mit dem alten Stand zurück auf /onboarding.
     if (modus === "neu") void invalidateAccess({ onboardingCompleted: true });
@@ -266,7 +272,7 @@ const Onboarding = () => {
             geaendert={modus === "aendern"}
             hatZugang={hatZugang}
             tools={empfohleneToolSlugs(profil, 3).map((s) => TOOL_TITEL.get(s)).filter((t): t is string => !!t)}
-            guides={empfohleneGuides(profil.business_model, 3, (() => { const f = rechtsformVon(rechtsform); return f ? GRUENDUNGS_GUIDE[f] : null; })()).map((g) => g.title)}
+            guides={empfohleneGuides(profil.business_model, 3, (() => { const f = rechtsformVon(rechtsform); return f ? GRUENDUNGS_GUIDE[f] : null; })(), ageGroup).map((g) => g.title)}
             rundgangHinweis={modus === "neu" && hatZugang}
           />
         ) : (
@@ -289,15 +295,40 @@ const Onboarding = () => {
 
                 <div className="mt-7">
                   {schritt === "name" && (
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="ob-vorname">Vorname</Label>
-                        <Input ref={vornameRef} id="ob-vorname" name="given-name" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} aria-invalid={!!fehler && !firstName.trim()} />
+                    <div className="space-y-6">
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="ob-vorname">Vorname</Label>
+                          <Input ref={vornameRef} id="ob-vorname" name="given-name" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} aria-invalid={!!fehler && !firstName.trim()} />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="ob-nachname">Nachname</Label>
+                          <Input ref={nachnameRef} id="ob-nachname" name="family-name" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} aria-invalid={!!fehler && !!firstName.trim() && !lastName.trim()} />
+                        </div>
                       </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="ob-nachname">Nachname</Label>
-                        <Input ref={nachnameRef} id="ob-nachname" name="family-name" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} aria-invalid={!!fehler && !!firstName.trim() && !lastName.trim()} />
-                      </div>
+                      <fieldset>
+                        <legend className="mb-2 text-sm font-medium text-foreground">
+                          In welchem Alter befindest du dich? <span className="font-normal text-muted-foreground">(freiwillig, für passende Guide-Vorschläge)</span>
+                        </legend>
+                        <div className="grid gap-2 sm:grid-cols-2">
+                          {ALTER_OPTIONEN.map((o) => (
+                            <Wahl
+                              key={o.id}
+                              typ="radio"
+                              name="ageGroup"
+                              titel={o.titel}
+                              text={o.text}
+                              checked={ageGroup === o.id}
+                              onChange={() => setAgeGroup(o.id)}
+                            />
+                          ))}
+                        </div>
+                        {ageGroup === "12-17" && (
+                          <p className="mt-2.5 rounded-lg border border-brand-green/30 bg-brand-green-soft/60 px-3.5 py-2 text-xs text-foreground">
+                            Hinweis für Jugendliche und Eltern: Alle Guides stehen offen. Wo Verträge oder ein Gewerbe nötig sind, zeigen wir direkt den Ablauf mit Eltern und Familiengericht (§ 112 BGB).
+                          </p>
+                        )}
+                      </fieldset>
                     </div>
                   )}
 

@@ -97,7 +97,7 @@ const BANKS: Bank[] = [
     nonResident: "ja",
     bestFor: "Solo-Founder / Freelancer ohne formale GmbH/LLC · USD/GBP/EUR-Multi-Currency · Kein Business-Account-Wunsch",
     pros: [
-      "**€0 Setup-Fee, kein Monthly-Fee** — wirklich kostenlos",
+      "**€0 Setup-Fee, kein Monthly-Fee**, wirklich kostenlos",
       "Verifizierung per Ausweisfoto und Selfie, Debitkarte einmalig 7 €",
       "Multi-Currency-Wallets in 40 Währungen",
       "USD-Routing + Account-Number → von Stripe/Amazon US akzeptiert",
@@ -107,7 +107,7 @@ const BANKS: Bank[] = [
     cons: [
       "Kein dedicated Business-Banking (kein Multi-User, kein API)",
       "Wenn DE-Finanzamt 'Geschäftskonto' verlangt: lieber Wise Business oder Qonto",
-      "Closure-Risk medium (laut Nutzerberichten Address-Proof-Nachforderungen 2024–2026, auch bei Personal)",
+      "Closure-Risk medium (laut Nutzerberichten Address-Proof-Nachforderungen 2024-2026, auch bei Personal)",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: false, debitCard: true, apiAccess: false, crypto: false },
     setupRequirements: ["Pass / Personalausweis", "DE-Adress-Proof", "Selfie-Verification", "Debitkarte optional (einmalig 7 €)"],
@@ -136,7 +136,7 @@ const BANKS: Bank[] = [
     nonResident: "ja",
     bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,42 % netto (erst ab 20 Mio. $ Einlagen; Treasury nur ab 250.000 $ Guthaben, bei Sitz in DE oder einem der übrigen 11 Treasury-Länder und nicht für LLCs, die wie Einzelunternehmen besteuert werden) · DE-Founder mit Wyoming/Delaware-LLC",
     pros: [
-      "**$0 Setup + Monthly Standard-Plan** — wirklich kostenlos",
+      "**$0 Setup + Monthly Standard-Plan**, wirklich kostenlos",
       "Akzeptiert Gründer aus den meisten Ländern (außer Mercurys Sperrliste nach Wohnsitzland), bestehende oder geplante US-Geschäftstätigkeit nötig",
       "Sehr saubere App + Web-UI, API + Stripe-Integration",
       "Mercury Treasury: **bis 4,42 % netto** Yield laut Mercury (erst ab 20 Mio. $ Einlagen; 250k bis 2 Mio. $: 3,31 bis 4,10 % je nach Anlage), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Renditen Stand 13.11.2026; variabel, folgt dem US-Leitzins)",
@@ -207,7 +207,7 @@ const BANKS: Bank[] = [
     trustpilotUrl: "https://www.trustpilot.com/review/wise.com",
     g2Rating: 4.4,
     hiddenFees: [
-      "Address-Proof muss aktuell sein — wird laut Nutzerberichten regelmäßig neu verlangt!",
+      "Address-Proof muss aktuell sein, wird laut Nutzerberichten regelmäßig neu verlangt!",
       "Multi-Entity-Setups (mehrere LLCs/GmbHs unter selbem Director) deutlich höheres Closure-Risk",
       "Wise-Card-Withdrawal-Limit 250€/Mo, danach 2,69%",
       "KEIN FDIC-Schutz (Safeguarded ja, kein klassisches Insurance)",
@@ -232,7 +232,7 @@ const BANKS: Bank[] = [
     cons: [
       "**SSN kann verlangt werden:** Relays Hilfeseiten widersprechen sich (einmal SSN für jeden wirtschaftlich Berechtigten, einmal SSN oder Passnummer); vor dem Antrag beim Relay-Support klären",
       "**Thread Bank Fraud-Detection-Holds** dauern Wochen (Reddit-Cases bis Monate)",
-      "Verlangt 'operating presence in the U.S.' — schwammig, kann Ablehnung sein",
+      "Verlangt 'operating presence in the U.S.', schwammig, kann Ablehnung sein",
       "SWIFT-Auslandsüberweisungen $25 / $22 / $20 je Plan (lokale Netze $5 / $3 / $1,50)",
       "Weniger bekannt als Mercury; Prüfung laut Relay meist in 1 bis 2 Werktagen, bei Rückfragen länger",
     ],
@@ -261,7 +261,7 @@ const BANKS: Bank[] = [
     nonResident: "schwierig",
     bestFor: "VC-finanzierte Startups mit $50k+ Cash-Balance · Card-Spend >$10k/mo · NICHT für Solo/Bootstrap!",
     pros: [
-      "Kreditkarte (kein Cash-Vorab nötig) — gut für Werbe-Spend",
+      "Kreditkarte (kein Cash-Vorab nötig), gut für Werbe-Spend",
       "Cashback + Reward-Punkte für Tech-Vendor-Spending (AWS, GCP)",
       "Beste Expense-Management-Tools im US-Banking",
       "Treasury-Yield 3,62 % bis 3,97 % (3,97 % erst ab 20 Mio. $; variabel, laut brex.com, Stand 21.11.2026)",
@@ -269,8 +269,8 @@ const BANKS: Bank[] = [
     cons: [
       "**Solo-Founder + Bootstrap typisch ABGELEHNT** seit Juni 2022 (Mass-Closure 'tens of thousands' SMBs)",
       "**Karte mit Monatsabrechnung:** finanzierte Startups ab $50.000 Guthaben, Mittelstand ab $400.000 Monatsumsatz; sonst nur Tageszahlung (Zielgruppe: Investment, über $500.000 Jahresumsatz oder Empfehlung)",
-      "**Capital-One-Übernahme abgeschlossen 7. April 2026** — neue Risk-Models in Integration, Pricing kann kippen",
-      "Trustpilot 2,9/5 — eine der schlechtesten in dieser Liste",
+      "**Capital-One-Übernahme abgeschlossen 7. April 2026**, neue Risk-Models in Integration, Pricing kann kippen",
+      "Trustpilot 2,9/5, eine der schlechtesten in dieser Liste",
       "Solo-DE-Founder laut Nutzerberichten meist abgelehnt",
       "Konto in USD, keine eigenen Fremdwährungskonten wie bei Wise/Airwallex (Zahlungen laut Brex in über 30 Landeswährungen)",
     ],
@@ -285,7 +285,7 @@ const BANKS: Bank[] = [
     trustpilotUrl: "https://www.trustpilot.com/review/brex.com",
     g2Rating: 4.6,
     hiddenFees: [
-      "Premium-Plan $12 PRO USER/Monat — 10 MA = $120/mo",
+      "Premium-Plan $12 PRO USER/Monat, 10 MA = $120/mo",
       "Bei <$10k monthly Spend: aggressive Account-Reviews",
       "Capital-One Integration: Pricing/Features könnten 2026/2027 kippen",
     ],
@@ -312,7 +312,7 @@ const BANKS: Bank[] = [
     ],
     cons: [
       "**HKD 88/Mo Inactivity-Fee** wenn <5 ausgehende Payments/Monat",
-      "**HKD 450 Closure-Certificate-Fee** — wenn du wechselst",
+      "**HKD 450 Closure-Certificate-Fee**, wenn du wechselst",
       "**US-Bürger ausgeschlossen** (als Director und als Gesellschafter oder wirtschaftlich Berechtigte über 10 %)",
       "Crypto, Adult-Industry und Zahlungsdienstleister abgelehnt",
       "Kein Treasury/Yield",
@@ -344,7 +344,7 @@ const BANKS: Bank[] = [
     nonResident: "ja",
     bestFor: "Wachstums-Startups mit Multi-Currency-Treasury · API-Integration · 20+ Local-Currency-IBANs",
     pros: [
-      "**Globaler Multi-Currency-Player** — HK, AU, UK, US, EU unter einem Dach",
+      "**Globaler Multi-Currency-Player**, HK, AU, UK, US, EU unter einem Dach",
       "**20+ Local-Currency-IBANs** (lokale SEPA/ACH-Rails kostenlos)",
       "Beste API in Asien-Banking",
       "Sehr niedrige FX-Kosten (0,5% Major)",
@@ -361,7 +361,7 @@ const BANKS: Bank[] = [
     setupRequirements: ["DE-Gewerbeschein oder GmbH-Auszug", "Pass aller UBOs", "Business-Description", "Umsatz-Estimate"],
     url: "https://airwallex.com",
     closureRisk: "high",
-    closurePattern: "Stark steigende Reports Q1/Q2 2026 — Wallet-Holds 30-60 Tage mit Template-Antworten, dann finale Account-Suspension. iGaming/Forex/Crypto-Adjacent, plötzliche FX-Spikes, Multi-Entity-UBO.",
+    closurePattern: "Stark steigende Reports Q1/Q2 2026, Wallet-Holds 30-60 Tage mit Template-Antworten, dann finale Account-Suspension. iGaming/Forex/Crypto-Adjacent, plötzliche FX-Spikes, Multi-Entity-UBO.",
     freezeDuration: "30-90 Tage, auch endgültige Suspension möglich",
     trustpilotRating: 3.3,
     trustpilotCount: "~2.390",
@@ -394,22 +394,22 @@ const BANKS: Bank[] = [
       "**Visa Card NUR HK-incorporated Companies**",
       "'Compliance reasons'-Closures dokumentiert (vage Begründungen)",
       "Refund-Delays berichtet (Mai 2026 Cases noch unresolved)",
-      "Eher Trade-orientiert — weniger Tech-Startup-Features",
+      "Eher Trade-orientiert, weniger Tech-Startup-Features",
       "API begrenzt",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: false, debitCard: true, apiAccess: false, crypto: false },
     setupRequirements: ["HK/SG-Incorporation", "Pass aller UBOs", "Address-Proof", "Source-of-Funds (bei Volume)"],
     url: "https://currenxie.com",
     closureRisk: "medium",
-    closurePattern: "'Closed for compliance reasons, not at liberty to disclose' — Standard-Begründung. Verifizierungs-Loops bei plötzlicher Volume-Steigerung.",
+    closurePattern: "'Closed for compliance reasons, not at liberty to disclose', Standard-Begründung. Verifizierungs-Loops bei plötzlicher Volume-Steigerung.",
     freezeDuration: "14-60 Tage",
     trustpilotRating: 3.7,
     trustpilotCount: "~150-200",
     trustpilotUrl: "https://www.trustpilot.com/review/currenxie.com",
     hiddenFees: [
-      "Visa Card NUR HK-incorporated — DE-Person mit BVI scheidet aus",
+      "Visa Card NUR HK-incorporated, DE-Person mit BVI scheidet aus",
       "Offshore-Tier USD 50 Setup für BVI etc.",
-      "USD 8 SWIFT scheint günstig — Intermediary-Bank-Fees extra",
+      "USD 8 SWIFT scheint günstig, Intermediary-Bank-Fees extra",
     ],
   },
   {
@@ -422,18 +422,18 @@ const BANKS: Bank[] = [
     nonResident: "schwierig",
     bestFor: "Etablierte Companies mit HKD 50k+ Saldo + Chinageschäft + möglichem persönlichem HK-Besuch",
     pros: [
-      "**Echte Großbank** — höchstes Vertrauen bei Vendoren",
+      "**Echte Großbank**, höchstes Vertrauen bei Vendoren",
       "Globaler HSBC-Verbund (Konten EU + Asien gespiegelt)",
       "Trade-Finance-Lösungen",
       "**Relationship-Manager** (echte Person vs Fintech-Chatbots)",
-      "Stabilität — KEIN Mass-Closure-Pattern wie Mercury/Brex",
+      "Stabilität, KEIN Mass-Closure-Pattern wie Mercury/Brex",
     ],
     cons: [
       "**★ Vorstellung in HK oder bei einer HSBC-Filiale im Ausland meist nötig** (laut Nutzerberichten; remote laut HSBC nur für geeignete Kunden; Reisekosten nach Schätzung ~2-3k EUR)",
       "**Hohe Ablehnungsquote** für Foreign Founders (laut Dienstleister- und Nutzerberichten, keine offizielle Zahl)",
       "Strenge KYC-Prüfung (laut Nutzerberichten)",
       "HKD 200/Mo Fall-Below-Fee wenn <HKD 50k Ø-Saldo (Sprint, ab Monat 13)",
-      "Account-Reviews alle 12-24 Monate — komplette neue KYC-Runde",
+      "Account-Reviews alle 12-24 Monate, komplette neue KYC-Runde",
       "Online-Eröffnung laut HSBC ab 3 Werktagen, nur bei Eignung und vollständigen Unterlagen",
     ],
     features: { multiCurrency: true, achWire: true, quickbooksXero: false, debitCard: true, apiAccess: false, crypto: false },
@@ -451,7 +451,7 @@ const BANKS: Bank[] = [
     closurePattern: "Keine breite Welle wie bei Fintechs. Crypto/Stablecoin (außer regulierte HKMA-Partner), Russian/Iranian/Belarus-Ties, Bad Source-of-Funds, plötzliche Volume >HKD 1M.",
     freezeDuration: "30-90 Tage Investigation, aber Vorteil: echter Relationship-Manager",
     trustpilotRating: 2.0,
-    trustpilotCount: "Retail-skewed — Business-Kunden meistens nicht aktiv auf Trustpilot",
+    trustpilotCount: "Retail-skewed, Business-Kunden meistens nicht aktiv auf Trustpilot",
     trustpilotUrl: "https://www.trustpilot.com/review/hsbc.com.hk",
     hiddenFees: [
       "Fall-Below-Fee HKD 200/Mo wenn <HKD 50k Ø-Saldo (Sprint; Business Direct ab HKD 100k)",
@@ -816,7 +816,7 @@ const IntlBanking = () => {
           Quellen: Issuer-Pricing-Pages, Trustpilot, OffshoreCorpTalk, Reddit r/Entrepreneur, Hacker News, TechCrunch.
           Trustpilot-Werte, Closure-Muster, Freeze-Dauern und Ablehnungsquoten sind Nutzer- und Erfahrungsberichte, keine
           Angaben der Anbieter; die Trustpilot- und G2-Werte sind nicht live nachgeprüft. Der
-          Onboarding-Erfolg ist nicht garantiert (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
+          Onboarding-Erfolg ist nicht vorhersagbar (Bank-eigenes Risk-Scoring). Bei US-LLC-Setup zwingend diese Reihenfolge:
           erst LLC-Filing, dann EIN, DANN Bank-Account-Antrag (BOI seit März 2025 NICHT mehr Pflicht).{" "}
           <strong className="font-semibold text-foreground">Preis-Variabilität:</strong> Wise Personal kostet €0 Setup
           (Debitkarte einmalig 7 €), Wise Business hat regionales Pricing (DE 55 € / US $31 / UK £50 / SG SGD

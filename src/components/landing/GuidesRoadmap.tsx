@@ -8,12 +8,12 @@ import { GUIDE_COUNT } from "@/data/kennzahlen";
 
 /** Beispielhafte Guides – Slugs entsprechen /guides/:slug aus playbooks.ts */
 const SAMPLE_GUIDES = [
-  { slug: "gmbh-gruendung", title: "GmbH gründen", meta: "Mittel · 1.000–1.500 €" },
-  { slug: "ug-gruendung", title: "UG gründen", meta: "Einfach · ab 1 € Stammkapital" },
-  { slug: "holding", title: "Holding-Struktur", meta: "Komplex · ~1,5 % auf Ausschüttungen (§ 8b KStG)" },
-  { slug: "amazon-fba-launch", title: "Amazon FBA Launch", meta: "Mittel · Sourcing bis erster Sale" },
-  { slug: "us-llc", title: "US-LLC gründen", meta: "Komplex · EIN, ITIN, Form 5472" },
-  { slug: "oss-anmeldung", title: "OSS-Anmeldung", meta: "Einfach · EU-weit verkaufen" },
+  { slug: "amex-us-beantragen", title: "Amex US beantragen", meta: "Neu · Global Transfer, Tello & US-Bank" },
+  { slug: "eigene-app-launchen", title: "Eigene App launchen", meta: "App Store & Play Store Schritt für Schritt" },
+  { slug: "erste-webseite-seo", title: "Erste Webseite live bringen", meta: "Von Domain & Impressum bis Google" },
+  { slug: "einzelunternehmen-gruendung", title: "Einzelunternehmen & U18", meta: "Einfach · inkl. GewA1-PDF & § 112 BGB" },
+  { slug: "gmbh-gruendung", title: "GmbH gründen", meta: "Mittel · 1.000–1.500 € Amt & Notar" },
+  { slug: "amazon-fba-launch", title: "Amazon FBA Launch", meta: "Mittel · Sourcing bis erster Verkauf" },
 ];
 
 /**

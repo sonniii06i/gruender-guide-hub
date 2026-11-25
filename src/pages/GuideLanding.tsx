@@ -60,18 +60,18 @@ const GuideLanding = () => {
       meta: i < SAMPLE ? `ca. ${s.estMinutes} Min${s.estCost ? ` · ${s.estCost}` : ""}` : `ca. ${s.estMinutes} Min`,
     })),
     gateNote:
-      "Die ersten Schritte siehst du hier als Vorschau. Die vollständige Anleitung — mit Checklisten, ausfüllbaren Formularen, Direkt-Links zu Ämtern & Registern, Warnungen vor teuren Fehlern und Kosten-Tipps — schaltest du im GründerX-Cockpit frei.",
+      "Die ersten Schritte siehst du hier als Vorschau. Im GründerX Lern-Studio schaltest du alle Checklisten, direkten Arbeitsfenster, Kurz-Checks (+25 XP), Links zu Ämtern und Praxishinweise frei.",
   };
 
   const faq: LandingFaq[] = [
-    { q: `Was bringt mir der Guide „${guide.title}"?`, a: `${guide.outcome} Du wirst in ${guide.steps} Schritten begleitet — Aufwand ca. ${guide.duration}, Schwierigkeit: ${guide.difficulty}.` },
+    { q: `Was bringt mir der Guide „${guide.title}"?`, a: `${guide.outcome} Du wirst in ${guide.steps} Schritten begleitet (Aufwand ca. ${guide.duration}, Schwierigkeit: ${guide.difficulty}).` },
     {
       q: `Wie lange dauert „${guide.title}"?`,
       a: `Realistisch ${guide.duration}.${guide.totalCost ? ` Setup-Kosten: ${guide.totalCost}.` : ""}${guide.runningCost ? ` Laufend: ${guide.runningCost}.` : ""}`,
     },
     {
       q: `Was kostet der Guide?`,
-      a: `Der Guide ist Teil des GründerX-Abos — inklusive aller weiteren Guides, Rechner und Wizards. Plan wählen und sofort starten.`,
+      a: `Der Guide ist Teil des GründerX-Abos inklusive aller weiteren Guides, Arbeitsfenster, Rechner und Wizards. Plan wählen und sofort starten.`,
     },
   ];
 
@@ -122,8 +122,8 @@ const GuideLanding = () => {
       disclaimer={copy.disclaimer}
       faq={faq}
       screenshot={slug === "tiktok-shop-starten" ? SCREENS.guideTiktok : SCREENS.dashboard}
-      ctaTitle={`„${guide.title}" Schritt für Schritt im GründerX-Cockpit`}
-      ctaText={`${guide.steps} Schritte in der richtigen Reihenfolge — plus alle weiteren Guides, Rechner und Wizards im Abo.`}
+      ctaTitle={`„${guide.title}" Schritt für Schritt im GründerX Lern-Studio`}
+      ctaText={`${guide.steps} Schritte in der richtigen Reihenfolge mit direkten Arbeitsfenstern, plus alle weiteren Guides, Rechner und Wizards im Abo.`}
       primaryHref="/preise"
       primaryLabel="Plan wählen & starten"
       secondaryHref="/playbooks"

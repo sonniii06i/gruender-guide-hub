@@ -20,8 +20,8 @@ import { TOOL_COUNT } from "@/data/kennzahlen";
 const Index = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="GründerX – Gründung, Steuer & Marketplace-Setup für Händler"
-      description="Für E-Commerce-Händler und Creator in Deutschland: Rechtsform, Fragebogen zur steuerlichen Erfassung, LUCID, WEEE, OSS sowie Amazon- und TikTok-Shop-Setup – Schritt für Schritt mit KI-Co-Pilot Felix."
+      title="GründerX: Lernsystem für Gründung, Website, App & Steuern"
+      description="Für alle von 12 bis 70: Interaktive Guides mit Arbeitsfenstern, Quizzen, Listicles, Gratis-Tools und KI-Co-Pilot Felix. Von Gewerbe und ELSTER bis App und Amex US."
       path="/"
       jsonLd={[
         {
@@ -61,7 +61,7 @@ const Index = () => (
               name: "Was ist GründerX?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: `GründerX ist eine KI-gestützte Gründerplattform aus Deutschland für angehende Unternehmer, E-Commerce-Händler, Content-Creator und Founder. Sie führt Schritt für Schritt durch Unternehmensgründung, Rechtsform-Wahl, Steuern und Buchhaltung – mit ${TOOL_COUNT} Tools, Gründungs-Guides (GmbH, UG, Einzelunternehmen, US-LLC, Holding), dem KI-Co-Founder Felix sowie kostenlosen Tools wie Businessplan-Generator, Gründungskosten-Rechner und Rechtsform-Finder.`,
+                text: `GründerX ist eine Lern- und Werkzeug-Plattform aus Deutschland für alle von 12 bis 70. Wir zeigen Schritt für Schritt, was bei Gründung, Website, App, Steuern, E-Commerce und US-Setup zuerst kommt: mit ${TOOL_COUNT} Tools, interaktiven Guides, Quizzen, Listicles und KI-Co-Pilot Felix.`,
               },
             },
             {
@@ -77,15 +77,15 @@ const Index = () => (
               name: "Was kostet GründerX?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: `Der volle Zugang mit allen Tools, Wizards, Guides und dem KI-Assistenten Felix kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr – alle Preise inkl. 19 % USt. Ohne Konto kostenlos: je eine Prüfung im WEEE-Check, Brand-Check und LUCID-Wizard sowie je eine Nutzung der Generatoren unter Gratis-Tools (Businessplan, Gründungskosten, Rechtsform, Amazon-Widersprüche), jeweils gegen die E-Mail-Adresse; unbegrenzt im Abo.`,
+                text: `Der volle Zugang mit allen Tools, Guides und KI-Co-Pilot Felix kostet ${formatEurCents(PLANS.gruenderx.grossCents)} im Monat oder ${formatEurCents(PLANS["gruenderx-year"].grossCents)} im Jahr (Endpreise inkl. 19 % USt., monatlich kündbar). Ohne Konto kostenlos: Quizze, Listicles, LUCID-Wizard sowie je eine Prüfung im WEEE-Check, Brand-Check und den Gratis-Tools.`,
               },
             },
             {
               "@type": "Question",
-              name: "Ist GründerX deutschsprachig und online verfügbar?",
+              name: "Ist GründerX deutschsprachig und auf dem Handy nutzbar?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Ja. GründerX ist deutschsprachig und zu 100 % online als Web-App für Mobile und Desktop rund um die Uhr verfügbar.",
+                text: "Ja. GründerX ist deutschsprachig und mobile-first für Handy und Desktop gebaut, mit interaktiven Guides, Quizzen, Listicles und direkten Arbeitsfenstern.",
               },
             },
           ],

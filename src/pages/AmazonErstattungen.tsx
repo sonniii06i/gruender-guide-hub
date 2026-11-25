@@ -43,7 +43,7 @@ const kpis = [
   },
   {
     icon: RefreshCw,
-    stat: "24/7",
+    stat: "Laufend",
     label: "Case-Poller läuft automatisch",
     sub: "Erkennt neue Erstattungs-Fälle laufend und reicht sie fertig vorbereitet ein.",
   },
@@ -57,7 +57,7 @@ const kpis = [
     icon: TrendingUp,
     stat: "Sellerboard",
     label: "Gewinn, Bestand & Erstattungen",
-    sub: "Profit-Analytics, P&L und Bestandsübersicht in einem – ohne zweites Tool.",
+    sub: "Profit-Analytics, P&L und Bestandsübersicht in einem, ohne zweites Tool.",
   },
 ];
 
@@ -65,22 +65,22 @@ const findings = [
   {
     icon: Boxes,
     title: "Verlorene & beschädigte FBA-Ware",
-    text: "Bestand, den Amazon im Lager verliert oder beschädigt, ohne dich automatisch zu erstatten – Stück für Stück nachverfolgt.",
+    text: "Bestand, den Amazon im Lager verliert oder beschädigt, ohne dich automatisch zu erstatten, Stück für Stück nachverfolgt.",
   },
   {
     icon: PackageSearch,
     title: "Wareneingangs-Differenzen",
-    text: "Eingesendete Mengen, die im Seller-Central nie vollständig verbucht wurden – abgeglichen und reklamiert.",
+    text: "Eingesendete Mengen, die im Seller-Central nie vollständig verbucht wurden, abgeglichen und reklamiert.",
   },
   {
     icon: Undo2,
     title: "Beschädigte & verlorene Retouren",
-    text: "Kundenretouren, die nie im Bestand ankommen oder beschädigt zurückgebucht werden – als Erstattungsfall erkannt.",
+    text: "Kundenretouren, die nie im Bestand ankommen oder beschädigt zurückgebucht werden, als Erstattungsfall erkannt.",
   },
   {
     icon: PiggyBank,
     title: "Unterbezahlte Erstattungen",
-    text: "Fälle, in denen Amazon zu wenig erstattet hat – neu berechnet und mit korrektem Betrag nachgefordert.",
+    text: "Fälle, in denen Amazon zu wenig erstattet hat, neu berechnet und mit korrektem Betrag nachgefordert.",
   },
 ];
 
@@ -93,7 +93,7 @@ const steps = [
   {
     n: 2,
     title: "Diskrepanzen automatisch finden",
-    text: "Die Engine gleicht Soll und Ist ab und deckt jede erstattungsfähige Differenz auf – ohne manuelles Excel-Wühlen.",
+    text: "Die Engine gleicht Soll und Ist ab und deckt jede erstattungsfähige Differenz auf, ohne manuelles Excel-Wühlen.",
   },
   {
     n: 3,

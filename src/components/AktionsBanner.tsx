@@ -1,23 +1,79 @@
 import { useEffect, useState } from "react";
 import { isPrerender } from "@/lib/prerender";
+import { isGruenderXIosApp } from "@/lib/iosApp";
+import { useAuth } from "@/hooks/useAuth";
 
-// Aktions-Banner (26.10.2026, HQ aktionen.py): zeigt nur eine aktive Aktion dieser Marke; der Not-Aus im HQ
-// schaltet es sofort ab (Endpunkt liefert dann aktiv=false). Kein Tracking, keine Cookies.
+// Aktions-Banner (HQ aktionen.py): zeigt eine aktive Aktion AUSSCHLIESSLICH auf
+// öffentlichen, ausgeloggten Marketing-Seiten — NIEMALS für eingeloggte Nutzer
+// oder im Dashboard / Cockpit / Lern-Studio / Checkout.
 type Aktion = { aktiv: boolean; id?: number; text?: string; code?: string; url?: string };
 
 const QUELLE = "https://arbitragex.de/px/aktion/gruenderx.json";
 
+const COCKPIT_PRAEFIXE = [
+  "/dashboard",
+  "/cockpit",
+  "/playbook",
+  "/playbooks",
+  "/felix",
+  "/wizard",
+  "/anbieter",
+  "/community",
+  "/affiliate",
+  "/profile",
+  "/onboarding",
+  "/support",
+  "/checkout",
+  "/willkommen",
+  "/zahlung",
+  "/admin",
+  "/auth",
+  "/reset-password",
+];
+
+function istCockpitPfad(pathname: string): boolean {
+  return COCKPIT_PRAEFIXE.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
+function hatLokaleSitzung(): boolean {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && /^sb-.*-auth-token$/.test(k) && localStorage.getItem(k)) {
+        return true;
+      }
+    }
+  } catch {
+    /* Speicher gesperrt */
+  }
+  return false;
+}
+
 export default function AktionsBanner() {
+  const { user } = useAuth();
   const [a, setA] = useState<Aktion | null>(null);
   const [kopiert, setKopiert] = useState(false);
+  const [pfad, setPfad] = useState(() => (typeof window !== "undefined" ? window.location.pathname : "/"));
+
+  // Reagiert auch auf SPA-Navigationen (pushState/popstate), da AktionsBanner über dem Router sitzen kann.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const sync = () => setPfad(window.location.pathname);
+    window.addEventListener("popstate", sync);
+    const id = window.setInterval(sync, 400);
+    return () => {
+      window.removeEventListener("popstate", sync);
+      window.clearInterval(id);
+    };
+  }, []);
+
+  const gesperrt = isGruenderXIosApp() || !!user || istCockpitPfad(pfad) || hatLokaleSitzung();
 
   useEffect(() => {
-    // 20.11.2026 (Funnel-Prüfung): Im Build-Prerender lief der Abruf mit, das Banner der Gründungswoche stand
-    // dadurch im statischen HTML von /preise, /vorlagen/*, Ratgebern und Tools. Der Client rendert es erst nach
-    // dem Abruf, also scheiterte die Hydration (React #418/#423) und die ganze Seite wurde neu aufgebaut; nach
-    // Aktionsende wäre ein abgelaufener Code im HTML stehen geblieben. Wie beim Cookie-Banner: nie im Prerender.
-    if (isPrerender()) return;
-    if (window.location.pathname.startsWith("/admin")) return;
+    if (isPrerender() || gesperrt) {
+      setA(null);
+      return;
+    }
     let ab = false;
     fetch(QUELLE, { credentials: "omit" })
       .then((r) => (r.ok ? r.json() : null))
@@ -34,9 +90,10 @@ export default function AktionsBanner() {
     return () => {
       ab = true;
     };
-  }, []);
+  }, [gesperrt]);
 
-  if (!a?.aktiv) return null;
+  if (gesperrt || !a?.aktiv) return null;
+
   const schliessen = () => {
     try {
       sessionStorage.setItem("aktion-zu", String(a.id));
@@ -45,6 +102,7 @@ export default function AktionsBanner() {
     }
     setA(null);
   };
+
   return (
     <div
       role="region"
@@ -69,7 +127,12 @@ export default function AktionsBanner() {
           Zum Angebot
         </a>
       ) : null}
-      <button type="button" aria-label="Schließen" onClick={schliessen} className="absolute right-3 top-1.5 text-lg leading-none">
+      <button
+        type="button"
+        aria-label="Schließen"
+        onClick={schliessen}
+        className="absolute right-3 top-1.5 text-lg leading-none"
+      >
         ×
       </button>
     </div>

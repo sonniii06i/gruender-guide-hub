@@ -91,21 +91,19 @@ export default {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        // Umbau 11/2026: die großen Stufen sind bewusst klein gehalten, damit
-        // alle Seiten mit rounded-xl/2xl/3xl ohne Einzeländerung ruhiger werden.
-        xl: "var(--radius)",
-        "2xl": "calc(var(--radius) + 2px)",
-        "3xl": "calc(var(--radius) + 4px)",
+        md: "calc(var(--radius) - 4px)",
+        sm: "calc(var(--radius) - 6px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
+        "3xl": "calc(var(--radius) + 12px)",
       },
       boxShadow: {
-        sm: "0 1px 2px hsl(222 47% 13% / 0.05)",
-        DEFAULT: "0 1px 2px hsl(222 47% 13% / 0.06)",
-        md: "0 1px 2px hsl(222 47% 13% / 0.05), 0 4px 10px -6px hsl(222 47% 13% / 0.12)",
-        lg: "0 1px 2px hsl(222 47% 13% / 0.05), 0 10px 24px -10px hsl(222 47% 13% / 0.18)",
-        xl: "0 2px 4px hsl(222 47% 13% / 0.06), 0 18px 40px -16px hsl(222 47% 13% / 0.22)",
-        "2xl": "0 2px 4px hsl(222 47% 13% / 0.06), 0 24px 56px -20px hsl(222 47% 13% / 0.26)",
+        sm: "0 1px 2px hsl(222 47% 13% / 0.04), 0 0 0 1px hsl(222 47% 13% / 0.03)",
+        DEFAULT: "0 1px 3px hsl(222 47% 13% / 0.06), 0 0 0 1px hsl(222 47% 13% / 0.03)",
+        md: "0 1px 2px hsl(222 47% 13% / 0.05), 0 8px 20px -8px hsl(222 47% 13% / 0.12)",
+        lg: "0 2px 6px hsl(222 47% 13% / 0.06), 0 14px 32px -12px hsl(222 47% 13% / 0.16)",
+        xl: "0 4px 10px hsl(222 47% 13% / 0.06), 0 20px 44px -16px hsl(222 47% 13% / 0.20)",
+        "2xl": "0 6px 14px hsl(222 47% 13% / 0.08), 0 26px 56px -18px hsl(222 47% 13% / 0.24)",
       },
       typography: {
         DEFAULT: {

@@ -38,7 +38,7 @@ const SAEULEN = [
   {
     icon: PackageSearch,
     titel: "Produkt & Hersteller",
-    text: "Produktrecherche vor allem anderen, danach Lieferanten-Sourcing über Alibaba, 1688 und Made-in-China — inklusive der Compliance-Basics, die in Europa sonst nachträglich teuer werden: EORI, EAN, LUCID, GPSR.",
+    text: "Produktrecherche vor allem anderen, danach Lieferanten-Sourcing über Alibaba, 1688 und Made-in-China, inklusive der Compliance-Basics, die in Europa sonst nachträglich teuer werden: EORI, EAN, LUCID, GPSR.",
   },
   {
     icon: Megaphone,
@@ -80,7 +80,7 @@ const UsLlcOffer = () => {
       {/* noindex: bezahlte Landingpages gehoeren nicht in den Index, sonst
           konkurrieren sie mit /ratgeber um dieselben Begriffe. */}
       <Seo
-        title="US-LLC als Deutscher – in 30 Tagen startklar | GründerX"
+        title="US-LLC als Deutscher, in 30 Tagen startklar | GründerX"
         description="LLC gründen, US-Accounts eröffnen, Hersteller finden, erste Ads schalten. Geführt in der richtigen Reihenfolge, mit KI-Co-Pilot Felix."
         path="/us-llc-30-tage"
         noindex
@@ -112,7 +112,7 @@ const UsLlcOffer = () => {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground">
-            Nicht nur die Gründung, sondern die ganze Kette bis zum ersten Verkauf:{" "}
+            Die ganze Kette von der Gründung bis zum ersten Verkauf:{" "}
             <strong className="font-semibold text-foreground">
               LLC, US-Accounts, Hersteller, erste Ads
             </strong>
@@ -155,7 +155,7 @@ const UsLlcOffer = () => {
         <div className="container grid max-w-5xl gap-10 px-4 py-16 md:grid-cols-[1.2fr_1fr] md:py-20">
           <div>
             <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-[1.75rem]">
-              Das Teuerste ist nicht, was man falsch macht, sondern was man nicht wusste
+              Am teuersten werden die Schritte, die man vorher gar nicht auf dem Schirm hatte
             </h2>
             <p className="mt-5 leading-relaxed text-muted-foreground">
               Eine LLC ohne Registered Agent verliert den Status. Ein Amazon-Konto ohne

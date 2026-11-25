@@ -10,12 +10,12 @@ import { cn } from "@/lib/utils";
    Anker /#ueber-uns, den es auf der Startseite nicht mehr gibt (toter Link).
    Jetzt: die Hub-Seiten, die es wirklich gibt. Kontakt und FAQ stehen im Footer. */
 const links = [
-  { label: "Tools", href: "/tools" },
   { label: "Guides", href: "/guides" },
-  { label: "Creator & TikTok Shop", href: "/influencer" },
-  { label: "Vorlagen", href: "/vorlagen" },
+  { label: "Quizze", href: "/quiz" },
+  { label: "Listicles", href: "/listicles" },
+  { label: "Gratis-Tools", href: "/gratis-tools" },
+  { label: "Tools", href: "/tools" },
   { label: "Ratgeber", href: "/ratgeber" },
-  { label: "Events", href: "/gruender-events" },
   { label: "Preise", href: "/preise" },
 ];
 

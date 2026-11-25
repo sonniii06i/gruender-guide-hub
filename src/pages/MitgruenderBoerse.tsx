@@ -248,6 +248,13 @@ const MitgruenderBoerse = () => {
                     <div className="mt-auto pt-4">
                       {gesendet ? (
                         <p className="flex items-center gap-1.5 text-sm text-success"><Check className="h-4 w-4" aria-hidden="true" /> Anfrage gesendet.</p>
+                      ) : !meins.anzeigename ? (
+                        <div className="flex items-center justify-between gap-2 border-t border-border/70 pt-3.5 text-xs text-muted-foreground">
+                          <span>Lege zuerst kurz dein Profil an, um zu schreiben.</span>
+                          <Button type="button" size="sm" variant="outline" onClick={() => setTab("profil")} className="shrink-0">
+                            Profil anlegen
+                          </Button>
+                        </div>
                       ) : (
                         <div className="flex gap-2 border-t border-border/70 pt-4">
                           <Input
@@ -255,16 +262,16 @@ const MitgruenderBoerse = () => {
                             value={nachricht[p.user_id] ?? ""}
                             onChange={(e) => setNachricht((x) => ({ ...x, [p.user_id]: e.target.value }))}
                             placeholder="Kurz: wer du bist, was du vorhast (min. 20 Zeichen)"
-                            className="h-9 text-sm"
+                            className="h-10 text-sm"
                           />
                           <Button
                             size="sm"
                             aria-label="Anfrage senden"
-                            disabled={(nachricht[p.user_id] ?? "").trim().length < 20 || !meins.anzeigename}
+                            disabled={(nachricht[p.user_id] ?? "").trim().length < 20}
                             onClick={() => senden(p.user_id)}
-                            title={!meins.anzeigename ? "Lege zuerst dein Profil an" : undefined}
+                            className="h-10 px-3"
                           >
-                            <Send />
+                            <Send className="h-4 w-4" />
                           </Button>
                         </div>
                       )}

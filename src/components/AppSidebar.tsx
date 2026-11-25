@@ -42,6 +42,9 @@ import {
   Percent,
   FileX,
   CalendarRange,
+  Sparkles,
+  BookOpen,
+  CreditCard,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 import { useRadarZaehler } from "@/lib/eventRadar";
@@ -135,8 +138,8 @@ export function AppSidebar() {
           <Logo asImage className="h-8 w-8 shrink-0" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
-              <span className="text-sm font-semibold tracking-tight">GründerX</span>
-              <span className="text-[11px] text-muted-foreground">Dein Gründer-Cockpit</span>
+              <span className="text-sm font-semibold tracking-tight text-primary">GründerX</span>
+              <span className="text-[11px] text-muted-foreground">Lern-Studio &amp; Cockpit</span>
             </div>
           )}
         </Link>
@@ -157,8 +160,11 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <Gruppe id="lernen" titel="Lernen" zu={zu} umschalten={umschalten} collapsed={collapsed}>
-          <Item to="/playbooks" icon={GraduationCap} label="Alle Guides" active={isActive("/playbooks", false)} />
+          <Item to="/playbooks" icon={GraduationCap} label="Alle 81 Guides" active={pathname === "/playbooks"} />
+          <Item to="/playbook/preview/amex-us-beantragen" icon={CreditCard} label="Amex US Guide" hint="Privat & Business" active={pathname.includes("amex-us-beantragen")} />
           <Item to="/dashboard?view=meine" icon={PlayCircle} label="Meine Guides" active={dash("meine")} />
+          <Item to="/quiz" icon={Sparkles} label="Quizze & Checks" hint="XP & Rabatt" active={isActive("/quiz", false) || isActive("/umfrage", false)} />
+          <Item to="/listicles" icon={BookOpen} label="Listicles" hint="Kompakte Übersichten" active={isActive("/listicles", false)} />
           <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={dash("themen")} />
           <Item to="/cockpit/aktuell" icon={CalendarRange} label="Was sich ändert" hint="Neu ab 2027" active={isActive("/cockpit/aktuell")} />
         </Gruppe>

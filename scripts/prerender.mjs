@@ -450,6 +450,9 @@ async function run() {
         // genau die statischen Duplikate, zu denen es ein Helmet-Pendant gibt.
         // Der Default in index.html bleibt unangetastet und trägt weiterhin den
         // SPA-Fallback für Routen ohne Prerender.
+        await page.evaluate((r) => {
+          document.getElementById("root")?.setAttribute("data-prerender-path", r);
+        }, route);
         const marker = await page.evaluate(hydrationMarkers);
         if (!marker.suspense) {
           console.warn(`[prerender] ⚠ ${route} – keine Suspense-Grenze gefunden, Hydration wird scheitern`);

@@ -147,7 +147,7 @@ export const VERSICHERUNGEN: Versicherung[] = [
       // Versicherbarkeit von Geldbußen ist in DE nach h. M. unzulässig bzw. stark umstritten (Sanktionszweck, §§ 134, 138 BGB).
       "Bußgelder selbst sind in DE i. d. R. nicht versicherbar – gedeckt werden meist Abwehr-/Verfahrenskosten, Forensik und Schadenersatz. Bedingungen prüfen",
       "Erpressungs-Modul (Lösegeld bei Ransomware)",
-      "Krisen-Hotline 24/7",
+      "Krisen-Hotline im Schadenfall",
       "Forensik-Kosten ab Tag 1 gedeckt",
       "PR-Krisenmanagement-Modul",
     ],

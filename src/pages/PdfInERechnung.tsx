@@ -46,7 +46,7 @@ const EINHEITEN = [
 ] as const;
 
 const MODI: { wert: XrModus; text: string }[] = [
-  { wert: "standard", text: "Mit Umsatzsteuer (19 %, 7 %, 0 %)" },
+  { wert: "standard", text: "Mit Umsatzsteuer (19 % bis 7 %, 0 %)" },
   { wert: "kleinunternehmer", text: "Kleinunternehmer (§ 19 UStG)" },
   { wert: "reverse-charge", text: "Reverse Charge (§ 13b UStG)" },
   { wert: "innergemeinschaftlich", text: "Innergemeinschaftliche Lieferung" },

@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gruenderx.de/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/preise</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/gratis-tools</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/vorlagen</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -43,8 +43,20 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://gruenderx.de/amazon-marken-freischaltung-widerspruch-generator</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/amazon-transparency-seriennummer-widerspruch-generator</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gruenderx.de/gruendungskosten-rechner</loc>
-    <lastmod>2026-11-13</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -56,13 +68,73 @@
   </url>
   <url>
     <loc>https://gruenderx.de/influencer</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tiktok-shop</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/amazon-haendler</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/u18-gruenden</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/studenten-azubis</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/nebengewerbe</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/webseite-und-app</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/gruenden-ab-50</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/us-setup</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/freelancer-agentur</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/listicles</loc>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -74,7 +146,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/tiktok-shop-checkliste</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -98,37 +170,43 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/lexikon</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://gruenderx.de/buero</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gruenderx.de/gruender-events</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/gruender-chancen</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/hackathon-starter-kit</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/startup-guthaben</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -140,55 +218,61 @@
   </url>
   <url>
     <loc>https://gruenderx.de/gruendungsberatung</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/e-rechnung-lesen</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/pdf-in-e-rechnung-umwandeln</loc>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/faq</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/kontakt</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/partner</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/impressum</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/datenschutz</loc>
-    <lastmod>2026-11-08</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/agb</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/widerruf</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -206,15 +290,117 @@
   </url>
   <url>
     <loc>https://gruenderx.de/gruendungspaket</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/vergleich/gruendung-selbst-steuerberater-gruenderx</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/gruendertyp</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/rechtsform</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/steuern-wissen</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/us-amex-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/u18-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/umfrage/gruender-barometer</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/webseite-app-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/shop-amazon-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/nebengewerbe-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/quiz/foerderung-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/umfrage/huerden-check</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/umfrage/app-und-tool-wunsch</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/listicles/amex-us-privat-vorteile</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/listicles/gruendung-fehler-reihenfolge</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/listicles/u18-gruenden-regeln</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/listicles/nebengewerbe-7-pflichten</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/listicles/website-app-launch-schritte</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/vorlagen/kategorie/gesellschaft</loc>
@@ -440,7 +626,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/vorlagen/minijob-vertrag</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -548,13 +734,13 @@
   </url>
   <url>
     <loc>https://gruenderx.de/vorlagen/provisionsvereinbarung-tippgeber</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/vorlagen/kooperationsvereinbarung</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -884,223 +1070,223 @@
   </url>
   <url>
     <loc>https://gruenderx.de/tools/gewerbe-check</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/schwellen-check</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/gruendungszuschuss</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/gruendungsunterlagen</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/einstiegsgeld</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/bafa-beratung</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/pitch-deck</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/steuerkalender</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/scheinselbststaendigkeit</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/gz-phase2</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/bankgespraech</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/mahnung</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/kleinunternehmer-waechter</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/gewerbeanmeldung-wizard</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/erste-schritte-roadmap</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/fse-wizard</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/fse-kapitalgesellschaft</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/fse-personengesellschaft</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/stb-cost-benefit</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/buchhaltungssoftware-guide</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/ust-voranmeldung</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/anlage-euer</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/stundensatz-rechner</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/rechnungs-generator</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/brutto-netto-solo</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/versicherungs-basis-check</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/steuer-abc</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/rechtsform-wizard</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/holding-designer</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/ip-box</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/eu-alternativen</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/entscheidungs-engine</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/auszahlung-optimizer</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/frist-kalender</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/amazon-buchungen</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/pre-year-end</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/iab-rechner</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1136,19 +1322,19 @@
   </url>
   <url>
     <loc>https://gruenderx.de/tools/kv-optimizer</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/quartal-schaetzung</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/amazon-erstattungen</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1184,25 +1370,25 @@
   </url>
   <url>
     <loc>https://gruenderx.de/tools/shop-profit-rechner</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/bwa</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/runway-rechner</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/datev-export</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1214,7 +1400,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/tools/brand-check</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1280,559 +1466,565 @@
   </url>
   <url>
     <loc>https://gruenderx.de/tools/vergleich-email</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/vergleich-tracking</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/stb-marketplace</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/ecom-roadmap</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/lucid-wizard</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/ce-rohs</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/weee-check</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/labor-vergleich</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/visa-helper</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/foerderung-db</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/app-umsatz-rechner</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/us-llc-wizard</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/hk-limited-wizard</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/us-tax-helper</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/hk-tax-helper</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/us-hk-banking</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/sales-tax-nexus</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/substance-checker</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/dba-cfc</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/us-kreditkarten</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/ust-rechner</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/abschreibung</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/stb-handoff</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/tools/experten-bookings</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/ug-gruendung</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/shopify-launch</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/kaufland-launch</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/creator-setup</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/tiktok-shop-starten</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/us-accounts-deutscher</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/dsgvo-shop</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/pan-eu-fba</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/tiktok-shop-launch</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/email-marketing-stack</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/buchhaltung-setup</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/wegzugsbesteuerung</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/mitarbeiter-beteiligung</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/co-founder-agreement</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/vc-pitch-deck</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/performance-marketing-stack</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/hiring-erste-10</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/cashflow-forecasting</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/insurance-stack</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/logistik-3pl</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/seo-ecommerce</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/b2b-saas-spezifika</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/patente-schutzrechte</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/ma-sell-side</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/crowdfunding-token</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/elster-fse-fillout</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/brand-owner-d2c-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/reseller-marketplace-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/agency-services-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/creator-influencer-setup</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/coach-experte-setup</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/freiberufler-anmelden</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/gbr-gruenden</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/restaurant-eroeffnen</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/handwerk-gruenden</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/immobilien-gmbh</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/ag-gruenden</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/verein-gug</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/unternehmenskauf</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/meta-ads-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/klaviyo-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/google-ads-merchant-console-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/seo-step-by-step</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/tiktok-ads-setup</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/creator-tiktok-instagram</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/creator-youtube-longform</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/creator-twitter-reddit</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/creator-pinterest</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/coach-1-on-1</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/coach-group-mastermind</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/coach-online-course</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/coach-membership</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/crowdfunding-equity</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/crowdfunding-reward</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/crowdfunding-token-launch</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/hiring-festanstellung</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/hiring-freelancer</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/hiring-minijob-werkstudent</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/amazon-brand-registry</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/amazon-transparency</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/weee-registrierung</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/amazon-produkt-anlegen</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/reseller-freischaltung</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/dac7</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/amazon-verkaeuferkonto-setup</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/kaufland-produkt-anlegen</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/otto-produkt-anlegen</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/erste-webseite-seo</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/guides/eigene-app-launchen</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/guides/amex-us-beantragen</loc>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1904,7 +2096,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/lexikon/dac7</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1915,14 +2107,56 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://gruenderx.de/buero/drucker</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/buero/monitor</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/buero/dockingstation</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/buero/headset</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/buero/webcam</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/buero/aktenvernichter</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://gruenderx.de/ratgeber/steuernummer-beantragen</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/kleingewerbe-anmelden</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/ratgeber/influencer-steuern-2026</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1933,13 +2167,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gruenderx.de/ratgeber/tiktok-shop-verkaeufer-werden</loc>
-    <lastmod>2026-11-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gruenderx.de/ratgeber/influencer-steuern-2026</loc>
+    <loc>https://gruenderx.de/ratgeber/ugc-creator-gewerbe-rechnung</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -1951,8 +2179,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gruenderx.de/ratgeber/ugc-creator-gewerbe-rechnung</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://gruenderx.de/ratgeber/tiktok-shop-verkaeufer-werden</loc>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1964,13 +2192,13 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/e-rechnung-pflicht-b2b-2026</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/datev-export-buchhaltung-guide</loc>
-    <lastmod>2026-11-08</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1988,7 +2216,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/foerderung-gruender-2026</loc>
-    <lastmod>2026-11-08</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -2000,13 +2228,19 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/einzelunternehmen-gruenden-gewerbe-freiberufler</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/lucid-verpackungsregister-anmelden</loc>
     <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/ratgeber/gpsr-verordnung-haendler</loc>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -2018,13 +2252,13 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/amazon-fba-starten-deutschland</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -2036,7 +2270,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/us-llc-gruenden-deutschland</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -2048,7 +2282,7 @@
   </url>
   <url>
     <loc>https://gruenderx.de/ratgeber/oss-anmeldung</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

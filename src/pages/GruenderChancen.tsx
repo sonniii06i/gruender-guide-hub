@@ -4,10 +4,8 @@ import { ArrowRight, BellRing, CalendarClock, CheckCircle2, ExternalLink, MapPin
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Seo } from "@/components/Seo";
-import { Navbar } from "@/components/landing/Navbar";
-import { Footer } from "@/components/landing/Footer";
 import { HubNav } from "@/components/landing/HubNav";
-import { PageHeader } from "@/components/landing/PageHeader";
+import { AdaptiveAppShell } from "@/components/AdaptiveAppShell";
 import { selectCls } from "@/components/cockpit/kit";
 import { PublicSection, FaqList, CtaBand, ctaPrimaryOnInk, ctaSecondaryOnInk } from "@/components/public/PublicBlocks";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
@@ -204,32 +202,31 @@ export default function GruenderChancen() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Seo
-        title={`Gründer-Chancen ${new Date().getFullYear()}: Wettbewerbe, Preisgeld & Pitch-Events`}
-        description={`${preisgeldTreffer} Wettbewerbe, Accelerator und Hackathons mit Preisgeld oder Investment plus Pitch-Abende, Marketing- und Netzwerk-Events – kostenlos, täglich aktualisiert, mit Chancen-Alarm per Mail.`}
-        path="/gruender-chancen"
-        jsonLd={jsonLd}
-      />
-      <Navbar />
-      <main>
-        <PageHeader zentriert
-          width="max-w-5xl"
-          kicker={
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> Kostenlos · täglich aktualisiert
-            </span>
-          }
-          title="Gründer-Chancen: Preisgeld, Investoren, Kontakte"
-          lead={
-            <p>
-              Wettbewerbe und Accelerator mit Bewerbungsfrist, Hackathons mit Preisgeld, Pitch-Abende mit Investoren sowie Marketing-
-              und Netzwerk-Events – {alle.length} Chancen in einer Liste. Mit Chancen-Alarm: jeden Montag das Neue per Mail.
-            </p>
-          }
+    <AdaptiveAppShell
+      eyebrow="Geld & Chancen"
+      width="max-w-5xl"
+      seo={
+        <Seo
+          title={`Gründer-Chancen ${new Date().getFullYear()}: Wettbewerbe, Preisgeld & Pitch-Events`}
+          description={`${preisgeldTreffer} Wettbewerbe, Accelerator und Hackathons mit Preisgeld oder Investment plus Pitch-Abende, Marketing- und Netzwerk-Events, täglich aktualisiert.`}
+          path="/gruender-chancen"
+          jsonLd={jsonLd}
         />
-
-        <div className="container max-w-5xl space-y-12 px-4 py-12 md:py-16">
+      }
+      kicker={
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
+          <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> Kostenlos · täglich aktualisiert
+        </span>
+      }
+      title="Gründer-Chancen: Preisgeld, Investoren, Kontakte"
+      lead={
+        <p>
+          Wettbewerbe und Accelerator mit Bewerbungsfrist, Hackathons mit Preisgeld, Pitch-Abende mit Investoren sowie
+          Marketing- und Netzwerk-Events: {alle.length} Chancen in einer Liste.
+        </p>
+      }
+    >
+      <div className="space-y-10">
           {bald.length > 0 && (
             <section aria-labelledby="bald" className="rounded-2xl border border-destructive/20 bg-card p-5 shadow-card md:p-6">
               <h2 id="bald" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
@@ -325,9 +322,7 @@ export default function GruenderChancen() {
             Veranstalter prüfen. Mehr Termine je Bundesland: <Link to="/gruender-events" className="text-accent-blue hover:underline">Gründer-Events</Link>.
           </p>
           <HubNav show={["tools", "guides", "ratgeber"]} />
-        </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </AdaptiveAppShell>
   );
 }

@@ -14,22 +14,22 @@ import { PLANS, formatEurCents } from "@/config/pricing";
 const GRUENDE: { titel: string; text: string; besser: string }[] = [
   {
     titel: "Du machst es in der falschen Reihenfolge",
-    text: "Gewerbe, Fragebogen, Steuernummer – und je nach Ware weitere Registrierungen wie LUCID oder WEEE. Wer zuerst listet und dann registriert, wartet doppelt: Im Amazon-Verkäuferforum berichten Händler von Angeboten, die ohne hinterlegte LUCID-Nummer inaktiv gesetzt wurden.",
+    text: "Gewerbe, Fragebogen, Steuernummer, und je nach Ware weitere Registrierungen wie LUCID oder WEEE. Wer zuerst listet und dann registriert, wartet doppelt: Im Amazon-Verkäuferforum berichten Händler von Angeboten, die ohne hinterlegte LUCID-Nummer inaktiv gesetzt wurden.",
     besser: "Die Erste-Schritte-Roadmap von GründerX zeigt dir die Schritte für deine Situation in der richtigen Reihenfolge.",
   },
   {
     titel: "Die Forenantwort passt nicht zu deinem Formular",
-    text: "Forenbeiträge haben ein Datum. Die Zeilennummern im ELSTER-Fragebogen können je Formularfassung abweichen – eine Lösung aus 2023 trifft nicht immer die Zeile, die du heute vor dir hast.",
+    text: "Forenbeiträge haben ein Datum. Die Zeilennummern im ELSTER-Fragebogen können je Formularfassung abweichen, eine Lösung aus 2023 trifft nicht immer die Zeile, die du heute vor dir hast.",
     besser: "Der Fragebogen-Begleiter folgt der aktuellen ELSTER-Fassung mit allen 24 Teilseiten und den echten Zeilennummern.",
   },
   {
     titel: "Der Support darf dir nicht weiterhelfen",
     text: "Ein Nutzer im ELSTER-Anwenderforum schrieb im März 2024, der Support habe ihn ans Forum verwiesen: „Man kann und darf mir inhaltlich nicht helfen.“",
-    besser: "Felix, der KI-Co-Pilot von GründerX, beantwortet deine Fragen mit Quellen – ohne Einzelfallberatung, aber sofort.",
+    besser: "Felix, der KI-Co-Pilot von GründerX, beantwortet deine Fragen mit Quellen, ohne Einzelfallberatung, aber sofort.",
   },
   {
     titel: "Ein Kreuz bindet dich fünf Jahre",
-    text: "Wer auf die Kleinunternehmerregelung verzichtet, ist mindestens fünf Kalenderjahre daran gebunden (§ 19 Abs. 3 UStG). Wer unsicher ist, zögert – und das Formular bleibt liegen.",
+    text: "Wer auf die Kleinunternehmerregelung verzichtet, ist mindestens fünf Kalenderjahre daran gebunden (§ 19 Abs. 3 UStG). Wer unsicher ist, zögert, und das Formular bleibt liegen.",
     besser: "Bei jeder verbindlichen Entscheidung erklärt GründerX, was sie bedeutet und was daraus folgt, bevor du ankreuzt.",
   },
   {
@@ -43,7 +43,7 @@ const ListicleGruendung = () => (
   <FunnelShell anzeige>
     <Seo
       title="Gründung dauert? 5 Gründe, obwohl du alles googelst"
-      description="Warum die Gründung länger dauert, obwohl du alles googelst: falsche Reihenfolge, veraltete Forenantworten, ein Kreuz mit fünf Jahren Bindung – und was hilft."
+      description="Warum die Gründung länger dauert, obwohl du alles googelst: falsche Reihenfolge, veraltete Forenantworten, ein Kreuz mit fünf Jahren Bindung, und was hilft."
       path="/anzeige/gruendung-5-gruende"
       type="article"
       noindex
@@ -55,7 +55,7 @@ const ListicleGruendung = () => (
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
         Gewerbe anmelden klingt nach einer Stunde. Dann kommen Formulare, Fristen und Entscheidungen, die dich jahrelang
-        binden. Diese fünf Stolpersteine kosten die meiste Zeit – und so kommst du schneller durch.
+        binden. Diese fünf Stolpersteine kosten die meiste Zeit, und so kommst du schneller durch.
       </p>
       <p className="mt-5 border-y border-border py-3 text-sm text-muted-foreground">GründerX-Redaktion · 08.11.2026 · 3 Min. Lesezeit</p>
 
