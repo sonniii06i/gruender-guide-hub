@@ -1,20 +1,20 @@
 {
- "stand": "2026-11-24T14:57:05.526Z",
+ "stand": "2026-11-25T14:29:13.556Z",
  "quelle": {
   "ok": true,
-  "roh": 150,
-  "uebernommen": 19,
+  "roh": 149,
+  "uebernommen": 20,
   "verworfen": {
-   "nur_einladung": 16,
-   "vor_ort_fern": 51,
-   "frist_vorbei": 3,
-   "preis_unter_5000_usd": 54,
-   "kein_usd_betrag": 7,
+   "nur_einladung": 14,
+   "vor_ort_fern": 50,
+   "frist_vorbei": 4,
+   "preis_unter_5000_usd": 56,
+   "kein_usd_betrag": 5,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-24T14:57:05.526Z"
+  "letzterErfolg": "2026-11-25T14:29:13.555Z"
  },
- "anzahl": 19,
+ "anzahl": 20,
  "eintraege": [
   {
    "id": "devpost-31808",
@@ -23,7 +23,7 @@
    "ende": "2026-11-30",
    "preisUsd": 30000,
    "geldpreise": 6,
-   "anmeldungen": 4989,
+   "anmeldungen": 5339,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -39,7 +39,7 @@
    "ende": "2026-12-04",
    "preisUsd": 100000,
    "geldpreise": 1,
-   "anmeldungen": 18904,
+   "anmeldungen": 19265,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -55,7 +55,7 @@
    "ende": "2026-12-07",
    "preisUsd": 25000,
    "geldpreise": 6,
-   "anmeldungen": 1863,
+   "anmeldungen": 2170,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -65,13 +65,29 @@
    ]
   },
   {
+   "id": "devpost-32231",
+   "titel": "Zyrelyx Global AI Hackathon",
+   "url": "https://zyrelyx-global-ai-hackathon.devpost.com/",
+   "ende": "2026-12-07",
+   "preisUsd": 15000,
+   "geldpreise": 1,
+   "anmeldungen": 12,
+   "ort": "Online",
+   "veranstalter": "Zyrelyx",
+   "themen": [
+    "Machine Learning/AI",
+    "Open Ended",
+    "Web"
+   ]
+  },
+  {
    "id": "devpost-31644",
    "titel": "Reddit’s Game of the Day Hackathon",
    "url": "https://redditgameofday2026.devpost.com/",
    "ende": "2026-12-08",
    "preisUsd": 35000,
    "geldpreise": 5,
-   "anmeldungen": 2610,
+   "anmeldungen": 2775,
    "ort": "Online",
    "veranstalter": "reddit",
    "themen": [
@@ -86,7 +102,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 535,
+   "anmeldungen": 557,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -102,7 +118,7 @@
    "ende": "2026-12-15",
    "preisUsd": 50000,
    "geldpreise": 1,
-   "anmeldungen": 2487,
+   "anmeldungen": 2580,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -117,8 +133,8 @@
    "url": "https://arbiter-hacks-v1.devpost.com/",
    "ende": "2026-12-21",
    "preisUsd": 7800,
-   "geldpreise": 5,
-   "anmeldungen": 1448,
+   "geldpreise": 1,
+   "anmeldungen": 1477,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -134,7 +150,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 5205,
+   "anmeldungen": 5403,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -150,7 +166,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 571,
+   "anmeldungen": 585,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -166,7 +182,7 @@
    "ende": "2027-01-10",
    "preisUsd": 11960,
    "geldpreise": 7,
-   "anmeldungen": 147,
+   "anmeldungen": 151,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -182,7 +198,7 @@
    "ende": "2027-01-11",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 1846,
+   "anmeldungen": 2000,
    "ort": "Online",
    "veranstalter": "Cognizant",
    "themen": [
@@ -198,7 +214,7 @@
    "ende": "2027-01-12",
    "preisUsd": 25000,
    "geldpreise": 7,
-   "anmeldungen": 1119,
+   "anmeldungen": 1220,
    "ort": "Online",
    "veranstalter": "Cloud9",
    "themen": [
@@ -214,7 +230,7 @@
    "ende": "2027-01-15",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 0,
+   "anmeldungen": 7,
    "ort": "Online",
    "veranstalter": "AI SKILLS LAB KIET",
    "themen": [
@@ -230,7 +246,7 @@
    "ende": "2027-01-18",
    "preisUsd": 146805,
    "geldpreise": 14,
-   "anmeldungen": 1469,
+   "anmeldungen": 1513,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -245,8 +261,8 @@
    "url": "https://pico-space-program.devpost.com/",
    "ende": "2027-02-01",
    "preisUsd": 50000,
-   "geldpreise": 15,
-   "anmeldungen": 338,
+   "geldpreise": 1,
+   "anmeldungen": 400,
    "ort": "Online",
    "veranstalter": "XR Bootcamp",
    "themen": [
@@ -262,7 +278,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 252,
+   "anmeldungen": 253,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -278,7 +294,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 47,
+   "anmeldungen": 51,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -294,7 +310,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 97,
+   "anmeldungen": 99,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
@@ -310,7 +326,7 @@
    "ende": "2027-03-31",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 17,
+   "anmeldungen": 21,
    "ort": "Online",
    "veranstalter": "Paramam",
    "themen": [
