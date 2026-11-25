@@ -45,9 +45,9 @@ interface FreeToolPageProps {
 }
 
 const TRUST = [
-  { icon: Gift, label: "1 kostenlose Nutzung", desc: "Nur E-Mail nötig, inkl. PDF-Download; unbegrenzt im Abo" },
+  { icon: Gift, label: "Sofort & kostenlos", desc: "Vollständiges Ergebnis direkt ansehen, kopieren & als PDF laden" },
   { icon: Clock, label: "In Minuten fertig", desc: "Schritt für Schritt, ohne Fachchinesisch" },
-  { icon: ShieldCheck, label: "Kein Konto nötig", desc: "Das Ergebnis gibt es gegen deine E-Mail-Adresse" },
+  { icon: ShieldCheck, label: "Ohne Anmeldung & E-Mail", desc: "Kein Konto, kein E-Mail-Zwang, keine Zahlung" },
 ];
 
 export default function FreeToolPage({ config }: FreeToolPageProps) {
@@ -218,7 +218,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-foreground">{t.shortTitle}</span>
-                    <span className="block text-xs text-muted-foreground">1 kostenlose Nutzung</span>
+                    <span className="block text-xs text-muted-foreground">Kostenlos &amp; ohne E-Mail</span>
                   </span>
                   <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
                 </Link>

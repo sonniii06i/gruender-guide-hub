@@ -53,6 +53,7 @@ Für den Zahlungsverzug zwischen Unternehmern gilt § 288 BGB: Verzugszinsen von
         text: `Die Vorlage deckt die laufende Zusammenarbeit zwischen zwei Unternehmen ab. Hol dir anwaltlichen Rat, wenn der Kunde ein Verbraucher ist, wenn Service-Level mit Gutschriften oder Vertragsstrafen vereinbart werden sollen, wenn der Vertrag Auslandsbezug hat oder wenn es um Summen geht, bei denen eine unwirksame Haftungsklausel existenzbedrohend wäre. Dasselbe gilt, wenn du den Vertrag als Standard für viele Kunden einsetzt: Dann lohnt eine AGB-Prüfung, weil eine unwirksame Klausel ersatzlos entfällt.
 
 Arbeitet eine Einzelperson in einem Umfang, der einer Vollzeitstelle nahekommt, beantragt ihr vor Beginn gemeinsam die Statusfeststellung nach § 7a SGB IV bei der Deutschen Rentenversicherung Bund. Für Projekte mit festem Ergebnis nimm den Werkvertrag, für wiederkehrende Einzelaufträge den Rahmenvertrag mit Einzelabrufen. GründerX stellt dir das Muster als Software bereit und ersetzt keine Rechtsberatung; die Verantwortung für den Einzelfall bleibt bei dir.`,
+        verweis: { vor: "Welche Versicherungen Selbstständige brauchen, etwa die Berufshaftpflicht, ordnet der Ratgeber", anker: "Versicherungen für Selbstständige", pfad: "/ratgeber/versicherung-selbststaendige" },
       },
     ],
   text: `Dienstleistungsvertrag

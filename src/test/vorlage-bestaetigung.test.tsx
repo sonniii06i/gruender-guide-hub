@@ -113,14 +113,15 @@ describe("Vorlage nach der Bestätigung: erst Download, dann nächster Schritt",
     expect(kasten()).not.toBeNull();
   });
 
-  it("Ohne Freigabe: Download-Knopf öffnet das E-Mail-Tor, kein Kasten", async () => {
+  it("Ohne vorherige E-Mail-Bestätigung: Download startet direkt, danach erscheint der Kasten", async () => {
     zeig(`/vorlagen/${SLUG}`);
-    const tor = await screen.findByRole("button", { name: /Als Text/ });
-    expect(tor).toHaveAttribute("data-cta", "vorlage-tor:text");
-    await act(async () => {
-      fireEvent.click(tor);
-    });
-    expect(screen.getByTestId("tor-dialog")).toBeInTheDocument();
+    const laden = await screen.findByRole("button", { name: /Als Text/ });
+    expect(laden).toHaveAttribute("data-cta", "vorlage-laden:text");
     expect(kasten()).toBeNull();
+    await act(async () => {
+      fireEvent.click(laden);
+    });
+    expect(screen.queryByTestId("tor-dialog")).toBeNull();
+    expect(kasten()).not.toBeNull();
   });
 });

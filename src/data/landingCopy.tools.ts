@@ -939,8 +939,8 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Das generierte Dokument ersetzt keine Rechtsprüfung; die inhaltliche Richtigkeit für dein Produkt verantwortest du selbst."
   },
   "weee-check": {
-    "seoTitle": "WEEE / EAR-Register-Check: Marke prüfen",
-    "seoDescription": "Ist eine Marke im EAR-Verzeichnis registriert? Live-Check der offiziellen stiftung ear: WEEE-Nummer, Hersteller, Kategorie & Status.",
+    "seoTitle": "WEEE-Nummer suchen: EAR-Register live prüfen",
+    "seoDescription": "WEEE-Nummer einer Marke suchen: Der Check fragt das EAR-Register der stiftung ear live ab und zeigt Reg.-Nr., Hersteller, Kategorie und Status.",
     "lead": "Der WEEE/EAR-Check fragt das offizielle Verzeichnis der stiftung ear live ab und zeigt dir WEEE-Nummer, Hersteller, Kategorie und ob eine Marke aktiv registriert ist.",
     "urgency": "Wer Elektrogeräte ohne WEEE-Registrierung verkauft, riskiert Abmahnungen und gesperrte Listings, und auch Lieferanten-Marken sind nicht immer sauber registriert. Jeder ungeprüfte Artikel ist ein Risiko. Prüfe Marken jetzt live mit GründerX, bevor du listest oder einkaufst.",
     "outcomes": [

@@ -26,6 +26,7 @@ Umgekehrt nutzen IT-Freelancer das Muster als eigenen Standardvertrag, wenn der 
 - § 9 Schlussbestimmungen
 
 Fehlt § 5, bleibt der Code beim Freelancer. Fehlt § 2, hast du bei einer Prüfung durch die Rentenversicherung kein Argument.`,
+        verweis: { vor: "Welche Policen neben der Haftpflicht für Selbstständige wichtig sind, ordnet der Ratgeber", anker: "Versicherungen für Selbstständige", pfad: "/ratgeber/versicherung-selbststaendige" },
       },
       {
         titel: "Freelancer-Vertrag Muster ausfüllen",
@@ -34,6 +35,7 @@ Fehlt § 5, bleibt der Code beim Freelancer. Fehlt § 2, hast du bei einer Prüf
 In § 2 Abs. 6 entscheidest du, ob ihr die Statusfeststellung beantragen wollt. In § 3 trägst du den Ort und die Anzahl der Präsenztage ein, den geplanten Umfang in Personentagen und den Vorlauf für die Verfügbarkeit; wenn der Auftraggeber aus Sicherheitsgründen ein verwaltetes Notebook stellt, behalte die optionale Klammer. In § 4 setzt du Tagessatz, Abrechnungstakt, Gesamtbudget, Warnschwelle, Beanstandungsfrist, Zahlungsziel und die Reisekostensätze.
 
 In § 6 legst du die Dauer der Geheimhaltung und die Vertragsstrafe fest oder streichst sie. In § 7 trägst du Haftungsobergrenze und Deckungssumme der Versicherung ein, in § 8 Beginn, Ende, Verlängerung und Kündigungsfrist. Danach Gerichtsstand, Anlagen, Datum und Unterschriften. Als Word-Datei ist das in einer halben Stunde erledigt.`,
+        verweis: { vor: "Wie viel vom Tagessatz nach Steuern und Krankenversicherung übrig bleibt, rechnet der Ratgeber", anker: "Brutto-Netto für Selbstständige", pfad: "/ratgeber/brutto-netto-selbstaendig", nach: " vor." },
       },
       {
         titel: "Scheinselbstständigkeit und andere typische Fehler",

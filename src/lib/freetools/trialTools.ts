@@ -39,6 +39,7 @@ export const TRIAL_TOOLS: TrialTool[] = [
     trialPath: "/tools/weee-check/gratis",
     landingPath: "/tools/weee-check",
     cockpitPath: "/cockpit/weee-check",
+    frei: true,
   },
   {
     slug: "brand-check",
@@ -47,6 +48,7 @@ export const TRIAL_TOOLS: TrialTool[] = [
     trialPath: "/tools/brand-check/gratis",
     landingPath: "/tools/brand-check",
     cockpitPath: "/cockpit/check",
+    frei: true,
   },
   {
     slug: "lucid-wizard",
@@ -64,6 +66,7 @@ export const TRIAL_TOOLS: TrialTool[] = [
     trialPath: "/gruendungskosten-rechner",
     landingPath: "/gruendungskosten-rechner",
     cockpitPath: "/gruendungskosten-rechner",
+    frei: true,
   },
 ];
 
@@ -72,7 +75,7 @@ export const TRIAL_TOOL_BY_SLUG: Record<string, TrialTool> = Object.fromEntries(
 );
 
 /** Einheitlicher Hinweis auf den Teaser-Seiten. */
-export const TRIAL_CLAIM = "1 kostenlose Prüfung, nur E-Mail nötig";
+export const TRIAL_CLAIM = "Kostenlos und ohne Anmeldung";
 
 /** Einheitlicher Hinweis bei den Generatoren (FreeToolWizard, /gratis-tools). */
-export const GENERATOR_CLAIM = "1 kostenlose Nutzung je Generator, nur E-Mail nötig; unbegrenzt im Abo";
+export const GENERATOR_CLAIM = "Kostenlos & ohne Anmeldung – Ergebnis sofort als PDF";

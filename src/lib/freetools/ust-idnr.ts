@@ -322,10 +322,10 @@ export const ustIdNrConfig: ToolConfig = {
       ],
     },
     {
-      heading: "Aufbau der USt-IdNr in Deutschland, Frankreich, Italien und Spanien",
+      heading: "Wie prüfe ich eine USt-IdNr? Bestätigung und Aufbau",
       body: [
+        "Ob eine USt-IdNr vergeben und gültig ist, bestätigt nur die Abfrage beim BZSt (eVatR, mit Name und Anschrift als qualifizierte Bestätigung) oder in VIES. Eine passende Prüfziffer heißt nur, dass die Nummer richtig getippt sein kann. Rückwirkend für vergangene Zeitpunkte bestätigt das BZSt nicht – also vor der Rechnung prüfen und das Ergebnis aufheben.",
         "Jede USt-IdNr beginnt mit dem Ländercode. Laut Merkblatt des BZSt gilt: Deutschland DE + neun Ziffern; Frankreich FR + elf Stellen, von denen die erste und/oder zweite ein Buchstabe sein kann; Italien IT + elf Ziffern; Spanien ES + neun Stellen, wobei die erste und/oder die letzte Stelle ein Buchstabe sein kann. Unser Prüf-Tool rechnet für DE, IT und numerische FR-Nummern zusätzlich die Prüfziffer nach. Getestet haben wir das an echten Nummern, die in VIES (EU-Kommission) als gültig oder ungültig bestätigt wurden. Für Spanien prüfen wir nur das Format.",
-        "Wichtig: Eine passende Prüfziffer heißt nur, dass die Nummer richtig getippt sein kann. Ob sie vergeben und gültig ist, bestätigt nur die Abfrage beim BZSt (eVatR, mit Name und Anschrift als qualifizierte Bestätigung) oder in VIES. Rückwirkend für vergangene Zeitpunkte bestätigt das BZSt nicht – also vor der Rechnung prüfen und das Ergebnis aufheben.",
       ],
     },
     {
