@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { isGruenderXIosApp } from "@/lib/iosApp";
 import { PLANS, formatEurCents } from "@/config/pricing";
 import { START_ANGEBOT, startAngebotCheckout } from "@/utils/startAngebot";
 
@@ -13,6 +14,7 @@ export const StartAngebotButton = ({ className = "", variant = "default" as "def
   const { user } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
+  if (isGruenderXIosApp()) return null;
   const folge = formatEurCents(PLANS.gruenderx.grossCents);
   const los = async () => {
     setBusy(true);
