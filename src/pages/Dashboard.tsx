@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
+import { useStartplan } from "@/hooks/useStartplan";
 import { readProfileCache, writeProfileCache, PROFILE_UPDATE_EVENT, type CachedProfile } from "@/lib/profileCache";
 import { Input } from "@/components/ui/input";
 import { CATEGORIES, STATUS_LABEL, type Feature, type FeatureCategory } from "@/data/features";
@@ -17,8 +18,6 @@ import { JahreswechselKachel } from "@/components/dashboard/JahreswechselKachel"
 import { Startplan } from "@/components/dashboard/Startplan";
 import {
   FelixFragen,
-  Karte,
-  MehrEntdecken,
   ToolEmpfehlungen,
   VergleichTipps,
   ZuletztGeoeffnet,
@@ -26,21 +25,19 @@ import {
 import { GRUENDUNGS_GUIDE, profilMerkmale, rechtsformVon } from "@/lib/startplan";
 import { zuletztGenutzt } from "@/lib/zuletztGenutzt";
 import { AffiliateSuccessBanner } from "@/components/AffiliateSuccessBanner";
-import { ReferralNudge } from "@/components/ReferralNudge";
 import { EmptyState, ToneBadge, stripEmoji, type Tone } from "@/components/cockpit/kit";
 import { ALL_BADGES, GAMIFICATION_EVENT, getLevelInfo, readGamification } from "@/lib/gamification";
 import {
   ArrowRight,
   ArrowUpRight,
   Award,
-  CreditCard,
   Flame,
   GraduationCap,
-  LayoutGrid,
   Lock,
   MessageSquare,
+  Route,
   Search,
-  Sparkles,
+  Settings2,
   Trophy,
   Zap,
 } from "lucide-react";
@@ -54,7 +51,7 @@ interface Profile {
   legal_form?: string | null;
 }
 
-const VIEWS = ["start", "tools", "meine", "themen"] as const;
+const VIEWS = ["start", "meine", "tools", "themen"] as const;
 type View = (typeof VIEWS)[number];
 
 const Dashboard = () => {
@@ -125,9 +122,13 @@ const Dashboard = () => {
     }),
     [profile?.business_model, profile?.founder_stage, profile?.legal_form],
   );
+  const startplanState = useStartplan(planProfil);
+  const planPct = Math.round((startplanState.erledigt / Math.max(1, startplanState.schritte.length)) * 100);
+  const activeRunsCount = Object.keys(startplanState.laufend).length;
+
   const featuredGuides = useMemo(() => {
     const form = rechtsformVon(planProfil.legal_form);
-    return empfohleneGuides(planProfil.business_model, 6, form ? GRUENDUNGS_GUIDE[form] : null);
+    return empfohleneGuides(planProfil.business_model, 4, form ? GRUENDUNGS_GUIDE[form] : null);
   }, [planProfil]);
   const merkmale = useMemo(() => profilMerkmale(planProfil), [planProfil]);
   const zuletzt = useMemo(() => zuletztGenutzt(user?.id), [user?.id]);
@@ -147,143 +148,161 @@ const Dashboard = () => {
   }, [query, activeCatSlug]);
 
   const TABS: { id: View; label: string }[] = [
-    { id: "start", label: "Start" },
-    { id: "meine", label: "Meine Kurse" },
-    { id: "tools", label: "Tools & Rechner" },
+    { id: "start", label: "Übersicht" },
+    { id: "meine", label: "Kurse" },
+    { id: "tools", label: "Tools" },
     { id: "themen", label: "Themen" },
   ];
 
   const featuredQuizzes = QUIZZES.slice(0, 3);
-  const ringRadius = 28;
-  const ringCircumference = 2 * Math.PI * ringRadius;
-  const ringDashOffset = ringCircumference * (1 - Math.max(0.06, lvl.progressPercent / 100));
+  const nextStepTarget = startplanState.naechster
+    ? startplanState.naechster.guideSlug && startplanState.laufend[startplanState.naechster.guideSlug]
+      ? `/playbook/${startplanState.laufend[startplanState.naechster.guideSlug]}`
+      : startplanState.naechster.ziel
+    : "/playbooks";
 
   return (
     <div className="container max-w-6xl px-4 pb-24 pt-5 md:px-6 md:pb-16 md:pt-7">
-      {params.get("checkout") === "success" ? (
-        <AffiliateSuccessBanner />
-      ) : (
-        <ReferralNudge className="mb-5" />
-      )}
+      {params.get("checkout") === "success" && <AffiliateSuccessBanner />}
 
-      {/* Helle Lexoffice × Studyflix Cockpit-Übersicht */}
-      <section className="gx-card mb-6 p-5 md:p-7">
-        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_330px]">
-          <div className="min-w-0">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-green-soft px-2.5 py-1 text-xs font-semibold text-brand-green">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Dein Cockpit
-            </span>
-            <h1 className="mt-2.5 text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-primary md:text-[1.95rem]">
-              Hi {profile?.first_name ?? "Gründer"}. Dein nächster Schritt wartet.
-            </h1>
-
-            {merkmale.length > 0 && (
-              <ul className="mt-3 flex flex-wrap items-center gap-1.5" aria-label="Dein Profil">
-                {merkmale.map((m) => (
-                  <li
-                    key={m}
-                    className="rounded-md border border-border bg-secondary/60 px-2.5 py-1 text-xs font-medium text-foreground/85"
-                  >
-                    {m}
-                  </li>
-                ))}
-              </ul>
+      {/* Ruhiger Revolut × Lexoffice Begrüßungskopf direkt auf der hellen Fläche */}
+      <header className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-primary sm:text-[1.9rem]">
+            Hi {profile?.first_name ?? "Gründer"}
+          </h1>
+          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs">
+            {merkmale.length > 0 ? (
+              merkmale.map((m) => (
+                <span
+                  key={m}
+                  className="rounded-[6px] border border-border bg-white px-2 py-0.5 font-medium text-foreground/80"
+                >
+                  {m}
+                </span>
+              ))
+            ) : (
+              <span className="text-muted-foreground">Dein persönliches Gründer-Cockpit</span>
             )}
-
-            {/* Schnellzugriff */}
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Link
-                to="/playbooks"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl bg-primary px-4 text-xs font-semibold text-white hover:bg-primary/90"
-              >
-                <GraduationCap className="h-4 w-4" aria-hidden="true" />
-                Alle {PLAYBOOKS.length} Kurse
-              </Link>
-              <Link
-                to="/playbook/preview/amex-us-beantragen"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-secondary/50"
-              >
-                <CreditCard className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
-                Amex US Guide
-              </Link>
-              <Link
-                to="/quiz"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-secondary/50"
-              >
-                <Trophy className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
-                Quizze (+150 XP)
-              </Link>
-              <Link
-                to="/felix"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-secondary/50"
-              >
-                <MessageSquare className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
-                Felix fragen
-              </Link>
-            </div>
-          </div>
-
-          {/* Rechte Karte: Heller Level-Ring, XP, Serie & Abzeichen */}
-          <div className="rounded-2xl border border-border bg-secondary/45 p-4 sm:p-5">
-            <div className="flex items-center gap-4">
-              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center">
-                <svg className="h-16 w-16 -rotate-90" viewBox="0 0 64 64" aria-hidden="true">
-                  <circle cx="32" cy="32" r={ringRadius} fill="none" stroke="hsl(var(--border))" strokeWidth="5" />
-                  <circle
-                    cx="32"
-                    cy="32"
-                    r={ringRadius}
-                    fill="none"
-                    stroke="hsl(var(--brand-green))"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                    strokeDasharray={ringCircumference}
-                    strokeDashoffset={ringDashOffset}
-                  />
-                </svg>
-                <span className="absolute text-sm font-bold text-primary tabular">L{lvl.level}</span>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-green">Dein Gründer-Level</p>
-                <p className="truncate text-base font-bold text-primary">
-                  Level {lvl.level}: {lvl.titel}
-                </p>
-                <p className="mt-0.5 text-xs text-muted-foreground tabular">
-                  {gam.xp} XP {lvl.nextXp > gam.xp ? `· noch ${lvl.nextXp - gam.xp} XP bis L${lvl.level + 1}` : "· Maximallevel"}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-xl border border-border bg-white px-2 py-2">
-                <p className="inline-flex items-center gap-1 text-xs font-bold text-brand-green tabular">
-                  <Zap className="h-3 w-3" aria-hidden="true" /> {gam.xp}
-                </p>
-                <p className="text-[10px] text-muted-foreground">XP gesamt</p>
-              </div>
-              <div className="rounded-xl border border-border bg-white px-2 py-2">
-                <p className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 tabular">
-                  <Flame className="h-3 w-3" aria-hidden="true" /> {gam.streak} T
-                </p>
-                <p className="text-[10px] text-muted-foreground">Serie</p>
-              </div>
-              <div className="rounded-xl border border-border bg-white px-2 py-2">
-                <p className="inline-flex items-center gap-1 text-xs font-bold text-accent-blue tabular">
-                  <Award className="h-3 w-3" aria-hidden="true" /> {gam.badges.length}/{ALL_BADGES.length}
-                </p>
-                <p className="text-[10px] text-muted-foreground">Abzeichen</p>
-              </div>
-            </div>
+            <Link
+              to="/onboarding?bearbeiten=1"
+              className="inline-flex items-center gap-1 px-1.5 py-0.5 font-semibold text-accent-blue hover:underline"
+            >
+              <Settings2 className="h-3 w-3" aria-hidden="true" />
+              Anpassen
+            </Link>
           </div>
         </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            to="/playbooks"
+            className="press inline-flex h-10 items-center gap-1.5 rounded-[10px] bg-primary px-4 text-xs font-semibold text-white hover:bg-primary/90"
+          >
+            <GraduationCap className="h-4 w-4" aria-hidden="true" />
+            Alle {PLAYBOOKS.length} Kurse
+          </Link>
+          <Link
+            to="/felix"
+            className="press inline-flex h-10 items-center gap-1.5 rounded-[10px] border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary"
+          >
+            <MessageSquare className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
+            Felix fragen
+          </Link>
+        </div>
+      </header>
+
+      {/* 4 kompakte Revolut Status-Kacheln: in 2 Sekunden Orientierung */}
+      <section aria-label="Dein aktueller Stand" className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <Link
+          to={nextStepTarget}
+          className="press group rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/40 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] font-semibold text-muted-foreground">Fahrplan</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-[#EDF4FF] text-[#1E40AF]">
+              <Route className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-lg font-bold tracking-tight text-primary tabular">
+            {startplanState.erledigt} / {startplanState.schritte.length}
+          </p>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
+            <div className="h-full rounded-full bg-brand-green transition-[width] duration-300" style={{ width: `${Math.max(planPct, 5)}%` }} />
+          </div>
+        </Link>
+
+        <Link
+          to="/playbooks"
+          className="press group rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/40 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] font-semibold text-muted-foreground">Kurse</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-[#ECF8F3] text-brand-green">
+              <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-lg font-bold tracking-tight text-primary tabular">
+            {activeRunsCount > 0 ? `${activeRunsCount} aktiv` : `${PLAYBOOKS.length} Kurse`}
+          </p>
+          <p className="mt-1 truncate text-[11px] font-medium text-muted-foreground tabular">
+            {gam.completedSteps.length > 0
+              ? `${gam.completedSteps.length} Lektionen erledigt`
+              : `${PLAYBOOKS.length} Kurse verfügbar`}
+          </p>
+        </Link>
+
+        <Link
+          to="/quiz"
+          className="press group rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/40 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] font-semibold text-muted-foreground">Level {lvl.level}</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-brand-green-soft text-brand-green">
+              <Zap className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-lg font-bold tracking-tight text-primary tabular">{gam.xp} XP</p>
+          <div className="mt-2 flex items-center gap-2">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
+              <div
+                className="h-full rounded-full bg-brand-green transition-[width] duration-300"
+                style={{ width: `${Math.max(lvl.progressPercent, 6)}%` }}
+              />
+            </div>
+            {gam.streak > 0 && (
+              <span className="inline-flex shrink-0 items-center gap-0.5 text-[10px] font-bold text-amber-700 tabular">
+                <Flame className="h-3 w-3" aria-hidden="true" />
+                {gam.streak}T
+              </span>
+            )}
+          </div>
+        </Link>
+
+        <Link
+          to="/quiz"
+          className="press group rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/40 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] font-semibold text-muted-foreground">Abzeichen</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-[#FDF6E7] text-[#B45309]">
+              <Award className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </div>
+          <p className="mt-2 text-lg font-bold tracking-tight text-primary tabular">
+            {gam.badges.length} / {ALL_BADGES.length}
+          </p>
+          <p className="mt-1 truncate text-[11px] font-semibold text-accent-blue group-hover:underline">
+            Quizze (+150 XP) →
+          </p>
+        </Link>
       </section>
 
-      {/* Modern Segmented View Switcher */}
+      {/* Ruhiger Segmented View Switcher */}
       <div
         role="tablist"
         aria-label="Bereiche"
-        className="mb-6 inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-2xl border border-border bg-secondary/80 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="mb-6 inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-border bg-secondary/75 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {TABS.map((t) => (
           <button
@@ -296,9 +315,9 @@ const Dashboard = () => {
               setParams(params);
             }}
             className={cn(
-              "press min-h-10 whitespace-nowrap rounded-xl px-4 text-sm font-semibold transition-all",
+              "press min-h-9 whitespace-nowrap rounded-[9px] px-3.5 text-xs font-semibold transition-all sm:text-sm",
               view === t.id
-                ? "bg-card text-primary shadow-sm"
+                ? "bg-white text-primary shadow-sm"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -307,36 +326,26 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* START view */}
+      {/* START view — klar gegliedert, ohne Überladung */}
       {view === "start" && (
         <>
           <ZuletztGeoeffnet pfade={zuletzt} />
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:grid-rows-[auto_1fr]">
-            <div className="order-1 min-w-0 lg:col-start-1 lg:row-start-1">
-              <Startplan profil={planProfil} planAendernLink="/onboarding?bearbeiten=1" />
-            </div>
-
-            <div className="contents lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:block lg:min-w-0 lg:space-y-4">
-              <div className="order-2 min-w-0 space-y-4">
-                <DeineWoche />
-                <JahreswechselKachel />
-                <EventRadarKachel />
-              </div>
-              <div className="order-4 min-w-0 space-y-4">
-                <FelixFragen profil={planProfil} />
-                <VergleichTipps profil={planProfil} />
-                <MehrEntdecken />
-              </div>
-            </div>
-
-            <div className="order-3 min-w-0 space-y-7 lg:col-start-1 lg:row-start-2">
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+            {/* LINKE HAUPTSPALT: Weiterlernen, Fahrplan, Kurse, Quizze, Tools */}
+            <div className="min-w-0 space-y-6">
               <ContinueLearning />
 
-              {/* Masterclass-Kurs-Empfehlungen mit visuellen Covern */}
+              <Startplan
+                profil={planProfil}
+                planAendernLink="/onboarding?bearbeiten=1"
+                planState={startplanState}
+              />
+
+              {/* Kurse für dein Vorhaben */}
               <section>
                 <SectionHead
                   title="Kurse für dein Vorhaben"
-                  lead="Visuell aufgebaut mit Checklisten, XP und direkten Arbeitsfenstern."
+                  lead="Schritt für Schritt mit Checklisten, Tipps und Arbeitsfenstern."
                   action={
                     <Link
                       to="/playbooks"
@@ -347,17 +356,17 @@ const Dashboard = () => {
                   }
                 />
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {featuredGuides.slice(0, 4).map((g) => (
+                  {featuredGuides.map((g) => (
                     <GuideCard key={g.slug} pb={g} />
                   ))}
                 </div>
               </section>
 
-              {/* Spielerische Quiz-Missionen direkt im Dashboard */}
+              {/* Kompakte Quiz-Checks */}
               <section>
                 <SectionHead
-                  title="Schnelle XP-Missionen: Quizze & Checks"
-                  lead="In 60 Sekunden Wissen testen, Schwachstellen finden und XP sammeln."
+                  title="Kurz-Quizze & Praxis-Checks"
+                  lead="In 60 Sekunden Wissen prüfen und XP sammeln."
                   action={
                     <Link
                       to="/quiz"
@@ -372,17 +381,17 @@ const Dashboard = () => {
                     <Link
                       key={qz.slug}
                       to={`${qz.routePrefix}/${qz.slug}`}
-                      className="gx-card gx-card-hover press flex flex-col p-4"
+                      className="press group flex flex-col rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/40 hover:shadow-md"
                     >
                       <div className="mb-2 flex items-center justify-between gap-2 text-[11px] font-bold">
-                        <span className="rounded-md bg-secondary px-2 py-0.5 text-primary">{qz.kategorie}</span>
+                        <span className="rounded-[6px] bg-secondary px-2 py-0.5 text-primary">{qz.kategorie}</span>
                         <span className="inline-flex items-center gap-0.5 text-brand-green tabular">
-                          <Zap className="h-3 w-3" aria-hidden="true" /> +{qz.xp} XP
+                          <Trophy className="h-3 w-3" aria-hidden="true" /> +{qz.xp} XP
                         </span>
                       </div>
-                      <p className="text-sm font-bold leading-snug text-foreground">{qz.titel}</p>
+                      <p className="text-sm font-bold leading-snug text-foreground group-hover:text-primary">{qz.titel}</p>
                       <p className="mt-1 flex-1 text-xs text-muted-foreground line-clamp-2">{qz.lead}</p>
-                      <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary">
+                      <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-accent-blue">
                         Starten <ArrowRight className="h-3 w-3" aria-hidden="true" />
                       </span>
                     </Link>
@@ -391,46 +400,16 @@ const Dashboard = () => {
               </section>
 
               <ToolEmpfehlungen profil={planProfil} locked={!isActive} />
-
-              <Karte titel="Alle Themen" icon={LayoutGrid}>
-                <ul className="grid sm:grid-cols-2">
-                  {CATEGORIES.map((cat, i) => {
-                    const Icon = cat.icon;
-                    return (
-                      <li
-                        key={cat.slug}
-                        className={cn(
-                          "border-border",
-                          i > 0 && "border-t",
-                          i === 1 && "sm:border-t-0",
-                          i % 2 === 0 && "sm:border-r",
-                        )}
-                      >
-                        <button
-                          onClick={() => {
-                            params.set("view", "themen");
-                            params.set("cat", cat.slug);
-                            setParams(params);
-                          }}
-                          className="group flex h-full w-full items-start gap-3 px-4 py-3 text-left hover:bg-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
-                        >
-                          <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-semibold leading-snug">{stripEmoji(cat.title)}</span>
-                            <span className="mt-0.5 text-[13px] leading-snug text-muted-foreground line-clamp-1">
-                              {cat.tagline}
-                            </span>
-                          </span>
-                          <span className="shrink-0 rounded-md bg-secondary px-1.5 py-0.5 text-xs font-semibold text-muted-foreground tabular">
-                            {cat.features.length}
-                          </span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </Karte>
             </div>
+
+            {/* RECHTE KONTEXT-SPALTE: ruhig, fokussiert, einheitliche weiße Karten */}
+            <aside className="min-w-0 space-y-4">
+              <DeineWoche />
+              <JahreswechselKachel />
+              <EventRadarKachel />
+              <FelixFragen profil={planProfil} />
+              <VergleichTipps profil={planProfil} />
+            </aside>
           </div>
         </>
       )}
@@ -441,8 +420,8 @@ const Dashboard = () => {
           <ContinueLearning />
           <section>
             <SectionHead
-              title="Alle 81 Kurse im Lern-Studio"
-              lead="Mit visuellem Fortschritt, Checklisten, XP und Arbeitsfenstern."
+              title={`Alle ${PLAYBOOKS.length} Kurse`}
+              lead="Mit Fortschrittsanzeige, Checklisten, Kurz-Checks und Arbeitsfenstern."
             />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PLAYBOOKS.map((p) => (
@@ -481,10 +460,10 @@ const Dashboard = () => {
               }}
               aria-pressed={!activeCatSlug}
               className={cn(
-                "shrink-0 rounded-xl border px-3.5 py-2 text-sm font-semibold transition-colors",
+                "shrink-0 rounded-[10px] border px-3.5 py-2 text-xs font-semibold transition-colors sm:text-sm",
                 !activeCatSlug
                   ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card text-foreground/75 hover:border-foreground/25 hover:text-foreground",
+                  : "border-border bg-white text-foreground/75 hover:border-foreground/25 hover:text-foreground",
               )}
             >
               Alle
@@ -501,10 +480,10 @@ const Dashboard = () => {
                   }}
                   aria-pressed={isSelected}
                   className={cn(
-                    "inline-flex shrink-0 items-center gap-1.5 rounded-xl border px-3.5 py-2 text-sm font-semibold transition-colors",
+                    "inline-flex shrink-0 items-center gap-1.5 rounded-[10px] border px-3.5 py-2 text-xs font-semibold transition-colors sm:text-sm",
                     isSelected
                       ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-card text-foreground/75 hover:border-foreground/25 hover:text-foreground",
+                      : "border-border bg-white text-foreground/75 hover:border-foreground/25 hover:text-foreground",
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" aria-hidden="true" /> {stripEmoji(cat.title)}
@@ -526,10 +505,10 @@ const Dashboard = () => {
 };
 
 const SectionHead = ({ title, lead, action }: { title: string; lead?: string; action?: ReactNode }) => (
-  <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+  <div className="mb-3.5 flex flex-wrap items-end justify-between gap-3">
     <div>
-      <h2 className="text-lg font-bold tracking-tight text-primary md:text-xl">{title}</h2>
-      {lead && <p className="mt-0.5 text-sm text-muted-foreground">{lead}</p>}
+      <h2 className="text-base font-bold tracking-tight text-primary md:text-lg">{title}</h2>
+      {lead && <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">{lead}</p>}
     </div>
     {action}
   </div>
@@ -547,7 +526,7 @@ const SearchBar = ({ query, setQuery }: { query: string; setQuery: (s: string) =
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       placeholder="Tools durchsuchen…"
-      className="h-11 rounded-xl pl-10"
+      className="h-11 rounded-xl bg-white pl-10"
     />
   </div>
 );
@@ -574,13 +553,13 @@ const CategorySection = ({ cat, locked }: { cat: FeatureCategory; locked: boolea
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-bold leading-tight text-primary">{stripEmoji(cat.title)}</h2>
-              {isStarter && <ToneBadge tone="accent">Für Anfänger:innen</ToneBadge>}
+              {isStarter && <ToneBadge tone="accent">Für Einsteiger</ToneBadge>}
             </div>
             <p className="truncate text-sm text-muted-foreground">{cat.tagline}</p>
           </div>
         </div>
         {liveCount > 0 && (
-          <span className="shrink-0 rounded-lg bg-secondary px-2.5 py-1 text-xs font-bold text-foreground/80 tabular">
+          <span className="shrink-0 rounded-[8px] bg-secondary px-2.5 py-1 text-xs font-bold text-foreground/80 tabular">
             {liveCount} aktiv
           </span>
         )}
@@ -607,8 +586,8 @@ const FeatureCard = ({ f, locked }: { f: Feature; locked: boolean }) => {
   const inner = (
     <div
       className={cn(
-        "gx-card relative flex h-full flex-col p-4",
-        isClickable && "gx-card-hover cursor-pointer",
+        "relative flex h-full flex-col rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow]",
+        isClickable && "cursor-pointer hover:border-primary/40 hover:shadow-md",
         !isClickable && "opacity-90",
       )}
     >

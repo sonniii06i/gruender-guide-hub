@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   AlertTriangle,
@@ -6,6 +6,7 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   Clock,
   Coins,
@@ -99,6 +100,8 @@ function extractDocs(playbookSteps: PlaybookStep[]): string[] {
  * Weißer Kurskopf mit Pastell-Themenband, klarer Fortschrittsanzeige,
  * sauberem vertikalem Lehrplan und sticky Lexoffice-Startkarte rechts.
  */
+const PREVIEW_PAGE_SIZE = 6;
+
 const PlaybookPreview = () => {
   const { slug } = useParams<{ slug: string }>();
   const pb = slug ? getPlaybook(slug) : null;
@@ -106,6 +109,7 @@ const PlaybookPreview = () => {
   const { user } = useAuth();
   const isStarting = starting === slug;
   const { detail } = useGuideDetail(slug);
+  const [stepPage, setStepPage] = useState(0);
 
   const mergedSteps = useMemo(
     () => (pb ? pb.steps.map((s) => mergeStepDetail(s, detail)) : []),
@@ -260,8 +264,7 @@ const PlaybookPreview = () => {
         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0 space-y-6">
             {/* Ziel-Box */}
-            <section className="relative overflow-hidden rounded-2xl border border-brand-green/30 bg-white p-5 pl-6 shadow-card">
-              <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-brand-green" />
+            <section className="rounded-2xl border border-brand-green/30 bg-brand-green-soft/45 p-5 shadow-card">
               <p className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-green">
                 <Target className="h-4 w-4" aria-hidden="true" /> Dein fertiges Ergebnis
               </p>
@@ -270,96 +273,159 @@ const PlaybookPreview = () => {
               </p>
             </section>
 
-            {/* Sauberer Udemy-Lehrplan */}
-            <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
-              <header className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-[#F8FAFC] px-5 py-4">
-                <div>
-                  <h2 className="text-base font-bold tracking-tight text-primary">
-                    Kurs-Lehrplan ({pb.steps.length} Schritte)
-                  </h2>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    Klick auf einen Schritt für die Kurz-Vorschau. Im Kurs hakst du alles direkt ab.
-                  </p>
-                </div>
-                <span className="rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-foreground ring-1 ring-border tabular">
-                  {pb.duration}
-                </span>
-              </header>
+            {/* Sauberer, seitenweise gegliederter Udemy-Lehrplan */}
+            {(() => {
+              const totalPages = Math.max(1, Math.ceil(mergedSteps.length / PREVIEW_PAGE_SIZE));
+              const safePage = Math.max(0, Math.min(stepPage, totalPages - 1));
+              const pageOffset = safePage * PREVIEW_PAGE_SIZE;
+              const pageSteps = mergedSteps.slice(pageOffset, pageOffset + PREVIEW_PAGE_SIZE);
+              return (
+                <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+                  <header className="border-b border-border bg-[#F8FAFC] px-5 py-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <h2 className="text-base font-bold tracking-tight text-primary">
+                          Kurs-Lehrplan ({pb.steps.length} Schritte)
+                        </h2>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          Klick auf einen Schritt für die Kurz-Vorschau. Im Kurs hakst du alles direkt ab.
+                        </p>
+                      </div>
+                      <span className="rounded-[8px] bg-white px-2.5 py-1 text-xs font-semibold text-foreground ring-1 ring-border tabular">
+                        {pb.duration}
+                      </span>
+                    </div>
 
-              <ol className="divide-y divide-border">
-                {mergedSteps.map((s, i) => {
-                  const isDone = doneKeys.has(`${pb.slug}:${s.slug}`);
-                  const hasWindow = WORKSPACE_SLUGS.has(s.slug) || Boolean(s.fields?.length);
-                  return (
-                    <li key={s.slug} id={s.slug} className="transition-colors hover:bg-secondary/30">
-                      <details open={i === 0} className="group px-5 py-4">
-                        <summary className="flex cursor-pointer list-none items-start gap-3.5 [&::-webkit-details-marker]:hidden">
-                          <span
-                            className={cn(
-                              "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold tabular",
-                              isDone
-                                ? "bg-brand-green text-white"
-                                : "bg-accent text-primary",
-                            )}
-                          >
-                            {isDone ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : String(i + 1).padStart(2, "0")}
-                          </span>
+                    {totalPages > 1 && (
+                      <div className="mt-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Lehrplan-Seiten">
+                        {Array.from({ length: totalPages }, (_, pIdx) => {
+                          const from = pIdx * PREVIEW_PAGE_SIZE + 1;
+                          const to = Math.min((pIdx + 1) * PREVIEW_PAGE_SIZE, mergedSteps.length);
+                          const active = pIdx === safePage;
+                          return (
+                            <button
+                              key={pIdx}
+                              type="button"
+                              role="tab"
+                              aria-selected={active}
+                              onClick={() => setStepPage(pIdx)}
+                              className={cn(
+                                "inline-flex min-h-8 items-center rounded-[8px] px-3 text-xs font-bold tabular transition-colors",
+                                active
+                                  ? "bg-primary text-white shadow-sm"
+                                  : "border border-border bg-white text-foreground/80 hover:border-primary/40 hover:text-primary",
+                              )}
+                            >
+                              Schritte {from}–{to}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </header>
 
-                          <div className="min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center justify-between gap-2">
-                              <h3 className="text-sm font-semibold leading-snug text-foreground sm:text-[15px]">
-                                {s.title}
-                              </h3>
-                              <div className="flex flex-wrap items-center gap-1.5">
-                                <ToneBadge tone={STEP_KIND_TONE[s.kind]}>{STEP_KIND_LABEL[s.kind]}</ToneBadge>
-                                <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-muted-foreground tabular">
-                                  <Clock className="h-3 w-3" aria-hidden="true" /> {s.estMinutes} Min.
-                                </span>
-                                <ChevronDown
-                                  className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180"
-                                  aria-hidden="true"
-                                />
+                  <ol className="divide-y divide-border">
+                    {pageSteps.map((s, localIdx) => {
+                      const i = pageOffset + localIdx;
+                      const isDone = doneKeys.has(`${pb.slug}:${s.slug}`);
+                      const hasWindow = WORKSPACE_SLUGS.has(s.slug) || Boolean(s.fields?.length);
+                      return (
+                        <li key={s.slug} id={s.slug} className="transition-colors hover:bg-secondary/30">
+                          <details open={localIdx === 0} className="group px-5 py-4">
+                            <summary className="flex cursor-pointer list-none items-start gap-3.5 [&::-webkit-details-marker]:hidden">
+                              <span
+                                className={cn(
+                                  "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] text-xs font-bold tabular",
+                                  isDone
+                                    ? "bg-brand-green text-white"
+                                    : "bg-accent text-primary",
+                                )}
+                              >
+                                {isDone ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : String(i + 1).padStart(2, "0")}
+                              </span>
+
+                              <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-center justify-between gap-2">
+                                  <h3 className="text-sm font-semibold leading-snug text-foreground sm:text-[15px]">
+                                    {s.title}
+                                  </h3>
+                                  <div className="flex flex-wrap items-center gap-1.5">
+                                    <ToneBadge tone={STEP_KIND_TONE[s.kind]}>{STEP_KIND_LABEL[s.kind]}</ToneBadge>
+                                    <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-muted-foreground tabular">
+                                      <Clock className="h-3 w-3" aria-hidden="true" /> {s.estMinutes} Min.
+                                    </span>
+                                    <ChevronDown
+                                      className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                                  {hasWindow && (
+                                    <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2 py-0.5 font-semibold text-brand-green">
+                                      <Wrench className="h-3 w-3" aria-hidden="true" /> Arbeitsfenster
+                                    </span>
+                                  )}
+                                  {s.estCost && (
+                                    <span className="inline-flex items-center gap-1 text-muted-foreground">
+                                      <Coins className="h-3 w-3 text-primary" aria-hidden="true" />
+                                      {s.estCost.length > 55 ? s.estCost.split("·")[0].trim() : s.estCost}
+                                    </span>
+                                  )}
+                                  {s.externalLinks && s.externalLinks.length > 0 && (
+                                    <span className="inline-flex items-center gap-1 text-muted-foreground">
+                                      <ExternalLink className="h-3 w-3" aria-hidden="true" />{" "}
+                                      {s.externalLinks.length} {s.externalLinks.length === 1 ? "Portal-Link" : "Portal-Links"}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
-                            </div>
+                            </summary>
 
-                            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-                              {hasWindow && (
-                                <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2 py-0.5 font-semibold text-brand-green">
-                                  <Wrench className="h-3 w-3" aria-hidden="true" /> Arbeitsfenster
-                                </span>
-                              )}
-                              {s.estCost && (
-                                <span className="inline-flex items-center gap-1 text-muted-foreground">
-                                  <Coins className="h-3 w-3 text-primary" aria-hidden="true" />
-                                  {s.estCost.length > 55 ? s.estCost.split("·")[0].trim() : s.estCost}
-                                </span>
-                              )}
-                              {s.externalLinks && s.externalLinks.length > 0 && (
-                                <span className="inline-flex items-center gap-1 text-muted-foreground">
-                                  <ExternalLink className="h-3 w-3" aria-hidden="true" />{" "}
-                                  {s.externalLinks.length} {s.externalLinks.length === 1 ? "Portal-Link" : "Portal-Links"}
-                                </span>
+                            <div className="mt-3 pl-10 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                              {s.description && <p>{s.description}</p>}
+                              {s.warning && (
+                                <p className="mt-2.5 flex items-start gap-2 rounded-xl border border-danger/20 bg-[#FEF6F6] px-3 py-2.5 text-xs text-foreground">
+                                  <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
+                                  <span>{s.warning}</span>
+                                </p>
                               )}
                             </div>
-                          </div>
-                        </summary>
+                          </details>
+                        </li>
+                      );
+                    })}
+                  </ol>
 
-                        <div className="mt-3 pl-10 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                          {s.description && <p>{s.description}</p>}
-                          {s.warning && (
-                            <p className="relative mt-2.5 flex items-start gap-2 overflow-hidden rounded-lg border border-danger/25 bg-danger-soft px-3 py-2 pl-4 text-xs text-foreground">
-                              <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-danger" />
-                              <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" aria-hidden="true" />
-                              <span>{s.warning}</span>
-                            </p>
-                          )}
-                        </div>
-                      </details>
-                    </li>
-                  );
-                })}
-              </ol>
-            </section>
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-between gap-2 border-t border-border bg-[#FAFBFD] px-5 py-3">
+                      <button
+                        type="button"
+                        disabled={safePage === 0}
+                        onClick={() => setStepPage((p) => Math.max(0, p - 1))}
+                        className="inline-flex h-9 items-center gap-1 rounded-[8px] border border-border bg-white px-3 text-xs font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                        Vorherige Seite
+                      </button>
+                      <span className="text-xs font-semibold text-muted-foreground tabular">
+                        Seite {safePage + 1} von {totalPages}
+                      </span>
+                      <button
+                        type="button"
+                        disabled={safePage >= totalPages - 1}
+                        onClick={() => setStepPage((p) => Math.min(totalPages - 1, p + 1))}
+                        className="inline-flex h-9 items-center gap-1 rounded-[8px] border border-border bg-white px-3 text-xs font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        Nächste Seite
+                        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      </button>
+                    </div>
+                  )}
+                </section>
+              );
+            })()}
           </div>
 
           {/* Rechte sticky Kurs-Start-Karte */}

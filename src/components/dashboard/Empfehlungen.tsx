@@ -8,14 +8,18 @@ import { ANBIETER_KATEGORIEN, GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen"
 import { ToneBadge, type Tone } from "@/components/cockpit/kit";
 import { cn } from "@/lib/utils";
 
-/** Rahmen aller Cockpit-Karten: Kopfzeile mit Titel und optionalem Link, Inhalt darunter. */
+/** Rahmen aller Cockpit-Karten: ruhige weiße Lexoffice × Revolut Karte mit #F8FAFC-Kopf. */
 export const Karte = ({
   titel, icon: Icon, aktion, children, className,
 }: { titel: string; icon?: LucideIcon; aktion?: ReactNode; children: ReactNode; className?: string }) => (
-  <section className={cn("rounded-lg border border-border bg-card", className)}>
-    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-border px-4 py-3">
-      <h2 className="flex items-center gap-2 text-[15px] font-semibold leading-tight">
-        {Icon && <Icon className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />}
+  <section className={cn("overflow-hidden rounded-2xl border border-border bg-white shadow-card", className)}>
+    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-border bg-[#F8FAFC] px-4 py-3.5">
+      <h2 className="flex items-center gap-2 text-sm font-bold leading-tight text-primary">
+        {Icon && (
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-accent text-primary">
+            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
+        )}
         {titel}
       </h2>
       {aktion}
@@ -25,7 +29,7 @@ export const Karte = ({
 );
 
 export const KartenLink = ({ to, children }: { to: string; children: ReactNode }) => (
-  <Link to={to} className="inline-flex items-center gap-1 text-[13px] font-medium text-accent-blue hover:underline">
+  <Link to={to} className="inline-flex items-center gap-1 text-xs font-bold text-accent-blue hover:underline">
     {children} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
   </Link>
 );

@@ -28,6 +28,7 @@ import {
   Check,
   CheckCircle2,
   ChevronLeft,
+  ChevronRight,
   ClipboardList,
   Clock,
   ExternalLink,
@@ -256,6 +257,8 @@ const getDomain = (url: string) => {
   }
 };
 
+const CURRICULUM_PAGE_SIZE = 5;
+
 const PlaybookRun = () => {
   const { runId } = useParams();
   const navigate = useNavigate();
@@ -265,6 +268,7 @@ const PlaybookRun = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [curriculumPage, setCurriculumPage] = useState(0);
   const [activeTab, setActiveTab] = useState<LessonTab>("umsetzen");
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [notes, setNotes] = useState("");
@@ -274,7 +278,6 @@ const PlaybookRun = () => {
 
   const ctxSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeStepRef = useRef<HTMLDivElement | null>(null);
-  const activeCurriculumRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
@@ -374,9 +377,9 @@ const PlaybookRun = () => {
   }, [activeIndex, steps]);
 
   useEffect(() => {
+    setCurriculumPage(Math.floor(activeIndex / CURRICULUM_PAGE_SIZE));
     if (!activeStepRef.current) return;
     window.scrollTo({ top: 0, behavior: "smooth" });
-    activeCurriculumRef.current?.scrollIntoView({ block: "nearest" });
   }, [activeIndex]);
 
   const updateRunCtx = (patch: Record<string, any>) => {
@@ -586,59 +589,158 @@ const PlaybookRun = () => {
       ? "Umsetzung"
       : STEP_KIND_LABEL[step.kind];
 
-  /* Saubere Udemy-Kursinhalts-Liste (RECHTS auf Desktop — KEIN line-through, 2-zeilige lesbare Titel!) */
-  const CurriculumList = (
-    <ol className="divide-y divide-border/60">
-      {pb.steps.map((s, i) => {
-        const done = steps[i]?.status === "done";
-        const active = i === activeIndex;
-        return (
-          <li key={s.slug}>
-            <button
-              ref={active ? activeCurriculumRef : undefined}
-              type="button"
-              onClick={() => void goToStep(i)}
-              aria-current={active ? "step" : undefined}
-              className={cn(
-                "relative flex w-full items-start gap-3 px-4 py-3 text-left transition-colors",
-                active ? "bg-accent/70" : "hover:bg-secondary/45",
-              )}
-            >
-              {active && <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-primary" />}
-              <span className="mt-0.5 shrink-0">
-                {done ? (
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-white">
-                    <Check className="h-3.5 w-3.5" strokeWidth={2.75} aria-hidden="true" />
-                  </span>
-                ) : active ? (
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white tabular">
-                    {i + 1}
-                  </span>
-                ) : (
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-border bg-white text-[11px] font-semibold text-muted-foreground tabular">
-                    {i + 1}
-                  </span>
-                )}
-              </span>
-              <span className="min-w-0 flex-1">
-                <span
+  const totalCurriculumPages = Math.max(1, Math.ceil(pb.steps.length / CURRICULUM_PAGE_SIZE));
+  const safeCurriculumPage = Math.max(0, Math.min(curriculumPage, totalCurriculumPages - 1));
+  const pageStart = safeCurriculumPage * CURRICULUM_PAGE_SIZE;
+  const visibleCurriculumSteps = pb.steps.slice(pageStart, pageStart + CURRICULUM_PAGE_SIZE);
+
+  /* Paginierte Kapitel-Karten im Studyflix × Revolut Stil — KEIN inneres Scrollen mehr! */
+  const CurriculumPanel = (
+    <>
+      <div className="border-b border-border bg-[#F8FAFC] px-4 py-3.5 pr-12 lg:pr-4">
+        <div className="flex items-center justify-between gap-2 text-xs font-bold text-primary">
+          <span>Kursinhalt</span>
+          <span className="rounded-[6px] bg-brand-green-soft px-2 py-0.5 text-[11px] font-bold text-brand-green tabular">
+            {completedCount}/{pb.steps.length} erledigt
+          </span>
+        </div>
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
+          <div className="h-full rounded-full bg-brand-green transition-[width] duration-300" style={{ width: `${progress}%` }} />
+        </div>
+
+        {totalCurriculumPages > 1 && (
+          <div className="mt-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Kursinhalt-Seiten">
+            {Array.from({ length: totalCurriculumPages }, (_, pIdx) => {
+              const from = pIdx * CURRICULUM_PAGE_SIZE + 1;
+              const to = Math.min((pIdx + 1) * CURRICULUM_PAGE_SIZE, pb.steps.length);
+              const isSelected = pIdx === safeCurriculumPage;
+              const pageDoneCount = pb.steps
+                .slice(from - 1, to)
+                .filter((_, offset) => steps[from - 1 + offset]?.status === "done").length;
+              const pageComplete = pageDoneCount === to - from + 1;
+              const containsActive = activeIndex >= from - 1 && activeIndex < to;
+              return (
+                <button
+                  key={pIdx}
+                  type="button"
+                  role="tab"
+                  aria-selected={isSelected}
+                  onClick={() => setCurriculumPage(pIdx)}
                   className={cn(
-                    "line-clamp-2 text-[13px] leading-snug",
-                    active ? "font-bold text-primary" : done ? "font-medium text-foreground/85" : "font-medium text-foreground",
+                    "inline-flex min-h-8 flex-1 items-center justify-center gap-1 rounded-[8px] px-2.5 text-[11px] font-bold tabular transition-colors",
+                    isSelected
+                      ? "bg-primary text-white shadow-sm"
+                      : "border border-border bg-white text-foreground/80 hover:border-primary/40 hover:text-primary",
                   )}
                 >
-                  {s.title}
+                  {pageComplete ? (
+                    <Check className={cn("h-3 w-3 shrink-0", isSelected ? "text-white" : "text-brand-green")} strokeWidth={3} aria-hidden="true" />
+                  ) : containsActive && !isSelected ? (
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+                  ) : null}
+                  <span>{from}–{to}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <ol className="space-y-2 p-3">
+        {visibleCurriculumSteps.map((s, localIdx) => {
+          const i = pageStart + localIdx;
+          const done = steps[i]?.status === "done";
+          const active = i === activeIndex;
+          return (
+            <li key={s.slug}>
+              <button
+                type="button"
+                onClick={() => void goToStep(i)}
+                aria-current={active ? "step" : undefined}
+                className={cn(
+                  "group flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-all",
+                  active
+                    ? "border-primary/45 bg-[#F3F7FD] shadow-[0_1px_2px_rgba(18,43,100,0.06)]"
+                    : done
+                      ? "border-border/80 bg-white hover:border-primary/35 hover:bg-secondary/35"
+                      : "border-border/70 bg-[#FAFBFD] hover:border-primary/35 hover:bg-white",
+                )}
+              >
+                <span className="mt-0.5 shrink-0">
+                  {done ? (
+                    <span className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-brand-green text-white">
+                      <Check className="h-3.5 w-3.5" strokeWidth={2.75} aria-hidden="true" />
+                    </span>
+                  ) : active ? (
+                    <span className="flex h-7 w-7 items-center justify-center rounded-[8px] bg-primary text-xs font-bold text-white tabular">
+                      {i + 1}
+                    </span>
+                  ) : (
+                    <span className="flex h-7 w-7 items-center justify-center rounded-[8px] border border-border bg-white text-xs font-semibold text-muted-foreground tabular group-hover:border-primary/40 group-hover:text-primary">
+                      {i + 1}
+                    </span>
+                  )}
                 </span>
-                <span className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground tabular">
-                  <span>{s.estMinutes} Min.</span>
-                  {done && <span className="font-semibold text-brand-green">Erledigt</span>}
+                <span className="min-w-0 flex-1">
+                  <span
+                    className={cn(
+                      "line-clamp-2 text-[13px] leading-snug",
+                      active ? "font-bold text-primary" : "font-medium text-foreground",
+                    )}
+                  >
+                    {s.title}
+                  </span>
+                  <span className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground tabular">
+                    {active && (
+                      <span className="rounded-[5px] bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
+                        Aktuell
+                      </span>
+                    )}
+                    {done && !active && (
+                      <span className="font-semibold text-brand-green">Erledigt</span>
+                    )}
+                    <span>{s.estMinutes} Min.</span>
+                  </span>
                 </span>
-              </span>
-            </button>
-          </li>
-        );
-      })}
-    </ol>
+                <ChevronRight
+                  className={cn(
+                    "mt-1 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5",
+                    active ? "text-primary" : "text-muted-foreground/50 group-hover:text-primary",
+                  )}
+                  aria-hidden="true"
+                />
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+
+      {totalCurriculumPages > 1 && (
+        <div className="flex items-center justify-between gap-2 border-t border-border bg-[#FAFBFD] px-3 py-2.5">
+          <button
+            type="button"
+            disabled={safeCurriculumPage === 0}
+            onClick={() => setCurriculumPage((p) => Math.max(0, p - 1))}
+            className="inline-flex h-9 items-center gap-1 rounded-[8px] border border-border bg-white px-2.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
+            Zurück
+          </button>
+          <span className="text-[11px] font-semibold text-muted-foreground tabular">
+            Seite {safeCurriculumPage + 1} / {totalCurriculumPages}
+          </span>
+          <button
+            type="button"
+            disabled={safeCurriculumPage >= totalCurriculumPages - 1}
+            onClick={() => setCurriculumPage((p) => Math.min(totalCurriculumPages - 1, p + 1))}
+            className="inline-flex h-9 items-center gap-1 rounded-[8px] border border-border bg-white px-2.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Weiter
+            <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+        </div>
+      )}
+    </>
   );
 
   return (
@@ -1173,18 +1275,9 @@ const PlaybookRun = () => {
             </footer>
           </article>
 
-          {/* RECHTS: Ruhige Udemy-Kursinhalt-Sidebar (KEINE doppelte linke Sidebar mehr!) */}
+          {/* RECHTS: Paginierte Kapitel-Karten ohne inneres Scrollen */}
           <aside className="hidden overflow-hidden rounded-2xl border border-border bg-white shadow-card lg:sticky lg:top-20 lg:block">
-            <div className="border-b border-border bg-[#F8FAFC] px-4 py-3.5">
-              <div className="flex items-center justify-between text-xs font-bold text-primary">
-                <span>Kursinhalt</span>
-                <span className="text-brand-green tabular">{progress} % ({completedCount}/{pb.steps.length})</span>
-              </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full rounded-full bg-brand-green transition-[width] duration-300" style={{ width: `${progress}%` }} />
-              </div>
-            </div>
-            <div className="max-h-[calc(100vh-12rem)] overflow-y-auto">{CurriculumList}</div>
+            {CurriculumPanel}
           </aside>
         </div>
       </div>
@@ -1216,14 +1309,14 @@ const PlaybookRun = () => {
         </div>
       </div>
 
-      {/* Mobile Kursinhalt-Sheet */}
+      {/* Mobile Kursinhalt-Sheet (ebenfalls seitenweise ohne langes Scrollen) */}
       <Sheet open={chaptersOpen} onOpenChange={setChaptersOpen}>
-        <SheetContent side="bottom" className="max-h-[82vh] overflow-y-auto rounded-t-2xl p-0">
-          <SheetHeader className="border-b border-border px-5 py-4 text-left">
+        <SheetContent side="bottom" className="rounded-t-2xl p-0">
+          <SheetHeader className="sr-only">
             <SheetTitle>Kursinhalt ({completedCount}/{pb.steps.length})</SheetTitle>
             <SheetDescription>{pb.title}</SheetDescription>
           </SheetHeader>
-          {CurriculumList}
+          {CurriculumPanel}
         </SheetContent>
       </Sheet>
     </div>

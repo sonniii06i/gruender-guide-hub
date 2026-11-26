@@ -20,9 +20,9 @@ const steuerkalenderDa = (): boolean => {
 
 interface Lauf { id: string; playbook_slug: string; status: string }
 
-export function useStartplan(profil: PlanProfil) {
+export function useStartplan(profil: PlanProfil, enabled = true) {
   const { user } = useAuth();
-  const uid = user?.id;
+  const uid = enabled ? user?.id : undefined;
   const [abgehakt, setAbgehakt] = useState<string[]>(() => liesLokal(uid));
   const [laeufe, setLaeufe] = useState<Lauf[]>([]);
   const [steuerkalender] = useState(steuerkalenderDa);

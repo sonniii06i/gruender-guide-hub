@@ -8,13 +8,24 @@ import { cn } from "@/lib/utils";
 
 const ART_LABEL: Record<PlanSchritt["art"], string> = { tool: "Tool", guide: "Kurs", vergleich: "Vergleich" };
 
+type StartplanState = ReturnType<typeof useStartplan>;
+
 /**
- * Helle Studyflix-/Lexoffice-Startplan-Karte („Dein nächster Schritt“):
- * Ruhiger, hell getönter Fokus-Kopf mit Fortschrittsbalken und direktem Startknopf,
- * darunter sauber gegliederte Schritt-Zeilen zum Abhaken.
+ * Helle Lexoffice × Revolut × Studyflix Startplan-Karte („Dein nächster Schritt“):
+ * Ruhiger Fokus-Kopf mit klarer Fortschrittslinie und direktem Startknopf,
+ * darunter sauber gegliederte Schritt-Zeilen ohne Durchstreichen.
  */
-export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; planAendernLink?: string }) => {
-  const { schritte, signale, laufend, umschalten, naechster, erledigt } = useStartplan(profil);
+export const Startplan = ({
+  profil,
+  planAendernLink,
+  planState,
+}: {
+  profil: PlanProfil;
+  planAendernLink?: string;
+  planState?: StartplanState;
+}) => {
+  const internalState = useStartplan(profil, !planState);
+  const { schritte, signale, laufend, umschalten, naechster, erledigt } = planState ?? internalState;
   const { start, starting } = useGuideStart();
   const phase = phaseVon(profil.founder_stage);
   const pct = Math.round((erledigt / Math.max(1, schritte.length)) * 100);
@@ -27,7 +38,7 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
           <Button
             asChild
             size="lg"
-            className="press h-11 rounded-xl bg-primary px-5 font-semibold text-white hover:bg-primary/90"
+            className="press h-10 rounded-[10px] bg-primary px-5 text-xs font-semibold text-white hover:bg-primary/90 sm:h-11 sm:text-sm"
           >
             <Link to={`/playbook/${lauf}`}>
               Kurs fortsetzen <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
@@ -41,7 +52,7 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
           size="lg"
           onClick={() => start(s.guideSlug!)}
           disabled={startet}
-          className="press h-11 rounded-xl bg-primary px-5 font-semibold text-white hover:bg-primary/90"
+          className="press h-10 rounded-[10px] bg-primary px-5 text-xs font-semibold text-white hover:bg-primary/90 sm:h-11 sm:text-sm"
         >
           {startet ? (
             <>
@@ -59,7 +70,7 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
       <Button
         asChild
         size="lg"
-        className="press h-11 rounded-xl bg-primary px-5 font-semibold text-white hover:bg-primary/90"
+        className="press h-10 rounded-[10px] bg-primary px-5 text-xs font-semibold text-white hover:bg-primary/90 sm:h-11 sm:text-sm"
       >
         <Link to={s.ziel}>
           {s.art === "vergleich" ? "Vergleich öffnen" : "Jetzt öffnen"}{" "}
@@ -70,67 +81,59 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
   };
 
   return (
-    <section className="gx-card overflow-hidden" aria-labelledby="startplan-titel" data-tour="fahrplan">
+    <section
+      className="overflow-hidden rounded-2xl border border-border bg-white shadow-card"
+      aria-labelledby="startplan-titel"
+      data-tour="fahrplan"
+    >
       {/* Ruhiger, heller Fokus-Kopf */}
-      <div className="border-b border-border bg-[#F4F7FC] px-5 py-5 md:px-6 md:py-6">
+      <div className="border-b border-border bg-[#F4F7FC] px-5 py-5 md:px-6">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
           <p className="inline-flex items-center gap-2 font-semibold text-primary">
             <Route className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
             {naechster ? "Dein nächster Schritt" : "Dein Gründungs-Pfad"}
             {phase && <span className="font-medium text-muted-foreground">· {PHASE_LABEL[phase]}</span>}
           </p>
-          <p className="font-semibold text-primary tabular">
-            {erledigt} von {schritte.length} erledigt ({pct} %)
-          </p>
+          <span className="rounded-[6px] bg-white px-2 py-0.5 text-[11px] font-bold text-brand-green ring-1 ring-border tabular">
+            {erledigt} / {schritte.length} ({pct} %)
+          </span>
         </div>
 
         <div
-          className="mt-3 flex gap-1.5"
+          className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/90 ring-1 ring-border/60"
           role="progressbar"
           aria-valuenow={erledigt}
           aria-valuemin={0}
           aria-valuemax={schritte.length}
           aria-label="Fortschritt im Fahrplan"
         >
-          {schritte.map((s) => {
-            const done = istErledigt(s, signale);
-            const active = naechster?.id === s.id;
-            return (
-              <span
-                key={s.id}
-                className={cn(
-                  "h-2 flex-1 rounded-full transition-colors duration-300",
-                  done ? "bg-brand-green" : active ? "bg-primary" : "bg-border",
-                )}
-              />
-            );
-          })}
+          <div className="h-full rounded-full bg-brand-green transition-[width] duration-300" style={{ width: `${Math.max(pct, 4)}%` }} />
         </div>
 
         {naechster ? (
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <div className="mb-1.5 flex items-center gap-2 text-[11px] font-semibold">
-                <span className="rounded-md bg-white px-2 py-0.5 text-primary ring-1 ring-border">{ART_LABEL[naechster.art]}</span>
-                <span className="inline-flex items-center gap-0.5 rounded-md bg-brand-green-soft px-2 py-0.5 text-brand-green tabular">
+                <span className="rounded-[6px] bg-white px-2 py-0.5 text-primary ring-1 ring-border">{ART_LABEL[naechster.art]}</span>
+                <span className="inline-flex items-center gap-0.5 rounded-[6px] bg-brand-green-soft px-2 py-0.5 text-brand-green tabular">
                   <Zap className="h-3 w-3" aria-hidden="true" /> +100 XP
                 </span>
               </div>
-              <h2 id="startplan-titel" className="text-xl font-bold leading-snug tracking-tight text-primary md:text-[1.4rem]">
+              <h2 id="startplan-titel" className="text-lg font-bold leading-snug tracking-tight text-primary md:text-[1.35rem]">
                 {naechster.titel}
               </h2>
-              <p className="mt-1.5 max-w-[60ch] text-sm leading-relaxed text-muted-foreground text-pretty">
+              <p className="mt-1 max-w-[60ch] text-sm leading-relaxed text-muted-foreground text-pretty">
                 {naechster.warum}
               </p>
             </div>
             <div className="shrink-0">{hauptknopf(naechster)}</div>
           </div>
         ) : (
-          <div className="mt-5">
-            <h2 id="startplan-titel" className="text-xl font-bold leading-snug text-primary md:text-2xl">
+          <div className="mt-4">
+            <h2 id="startplan-titel" className="text-lg font-bold leading-snug text-primary md:text-xl">
               Alle Schritte dieser Phase sind erledigt.
             </h2>
-            <p className="mt-1.5 max-w-[60ch] text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-1 max-w-[60ch] text-sm leading-relaxed text-muted-foreground">
               Unten findest du weitere Kurse und Werkzeuge für dein Vorhaben.
               {planAendernLink && (
                 <>
@@ -147,8 +150,8 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
         )}
       </div>
 
-      {/* Schritt-Liste */}
-      <ol className="divide-y divide-border p-2 sm:p-3">
+      {/* Schritt-Liste (sauber lesbar, eckige Checkboxen, kein Durchstreichen) */}
+      <ol className="divide-y divide-border/70">
         {schritte.map((s, i) => {
           const fertig = istErledigt(s, signale);
           const automatisch = istAutomatisch(s, signale);
@@ -157,8 +160,8 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
             <li
               key={s.id}
               className={cn(
-                "flex items-stretch rounded-xl transition-colors",
-                aktuell && "bg-accent/60",
+                "flex items-stretch transition-colors",
+                aktuell ? "bg-[#F7FAFF]" : "hover:bg-secondary/35",
               )}
             >
               <button
@@ -173,26 +176,26 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
               >
                 <span
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold tabular transition-all duration-150",
+                    "flex h-7 w-7 items-center justify-center rounded-[7px] border-[1.5px] text-xs font-bold tabular transition-colors",
                     fertig
                       ? "border-brand-green bg-brand-green text-white"
                       : aktuell
                         ? "border-primary bg-primary text-white"
-                        : "border-border bg-white text-muted-foreground group-hover:border-primary/50",
+                        : "border-primary/25 bg-white text-muted-foreground group-hover:border-primary/60 group-hover:text-primary",
                   )}
                 >
-                  {fertig ? <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" /> : i + 1}
+                  {fertig ? <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" /> : i + 1}
                 </span>
               </button>
               <Link
                 to={s.guideSlug && laufend[s.guideSlug] ? `/playbook/${laufend[s.guideSlug]}` : s.ziel}
-                className="group flex min-w-0 flex-1 items-center gap-3 py-3.5 pr-3 focus-visible:outline-none"
+                className="group flex min-w-0 flex-1 items-center gap-3 py-3.5 pr-4 focus-visible:outline-none"
               >
                 <span className="min-w-0 flex-1">
                   <span
                     className={cn(
-                      "block text-sm font-semibold leading-snug",
-                      fertig ? "text-muted-foreground line-through decoration-foreground/25" : "text-foreground group-hover:text-primary",
+                      "block text-sm leading-snug",
+                      aktuell ? "font-bold text-primary" : fertig ? "font-medium text-foreground/75" : "font-semibold text-foreground group-hover:text-primary",
                     )}
                   >
                     {s.titel}
@@ -203,18 +206,24 @@ export const Startplan = ({ profil, planAendernLink }: { profil: PlanProfil; pla
                     </span>
                   )}
                 </span>
-                <span className="hidden shrink-0 rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-muted-foreground sm:inline">
-                  {ART_LABEL[s.art]}
-                </span>
-                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/70 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true" />
+                {fertig ? (
+                  <span className="shrink-0 rounded-[6px] bg-brand-green-soft px-2 py-0.5 text-[11px] font-semibold text-brand-green">
+                    Erledigt
+                  </span>
+                ) : (
+                  <span className="hidden shrink-0 rounded-[6px] bg-secondary px-2 py-0.5 text-[11px] font-medium text-muted-foreground sm:inline">
+                    {ART_LABEL[s.art]}
+                  </span>
+                )}
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/60 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true" />
               </Link>
             </li>
           );
         })}
       </ol>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-secondary/40 px-5 py-3 text-xs text-muted-foreground">
-        <span>Deine Fortschritte gelten auf Handy, Web &amp; iOS-App.</span>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-[#FAFBFD] px-5 py-3 text-xs text-muted-foreground">
+        <span>Fortschritt wird zwischen Web &amp; iOS synchronisiert.</span>
         {planAendernLink && (
           <Link to={planAendernLink} className="font-semibold text-accent-blue hover:underline">
             Phase &amp; Ziel ändern →
