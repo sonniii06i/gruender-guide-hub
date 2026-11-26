@@ -11,6 +11,7 @@ const AppLayout = lazy(() => import("./layouts/AppLayout.tsx"));
 import { PaywallGate } from "./components/PaywallGate.tsx";
 import { AdminGate } from "./components/AdminGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
+import { attachIosDeepLinks } from "./lib/iosBridge";
 
 // Alle großen Routen lazy laden, damit eingeloggte Nutzer auf /dashboard nie die Marketing-Startseite mitladen müssen.
 const Index = lazy(() => import("./pages/Index.tsx"));
@@ -206,6 +207,12 @@ const queryClient = new QueryClient({
 
 const RouteTracker = () => { useTrackPageview(); return null; };
 
+const IosDeepLinkBridge = () => {
+  const navigate = useNavigate();
+  useEffect(() => attachIosDeepLinks((target) => navigate(target)), [navigate]);
+  return null;
+};
+
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
   useEffect(() => {
@@ -262,6 +269,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
+          <IosDeepLinkBridge />
           {EINBETTUNG && <EinbettungsWache />}
           {!EINBETTUNG && <RouteTracker />}
           {!EINBETTUNG && <AnalyticsCapture />}

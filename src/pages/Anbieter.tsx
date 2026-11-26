@@ -57,6 +57,20 @@ import {
   SlidersHorizontal,
   Building2,
   Server,
+  Workflow,
+  Palette,
+  TrendingUp,
+  UserPlus,
+  Landmark,
+  Target,
+  KeyRound,
+  FileSignature,
+  Store,
+  Phone,
+  CalendarClock,
+  GraduationCap,
+  LayoutGrid,
+  ChevronDown,
 } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { AnbieterLink } from "@/components/PartnerLink";
@@ -67,6 +81,7 @@ import {
   isCoopActive,
   type Provider,
 } from "@/data/anbieter";
+import { hapticLight, hapticSelection } from "@/lib/haptics";
 import { cn } from "@/lib/utils";
 
 // Backward-compat re-export für pages/AnbieterDetail.tsx
@@ -90,22 +105,53 @@ const CAT_GROUPS: CatGroup[] = [
       { name: "Kreditkarten", icon: CreditCard },
       { name: "Buchhaltung", icon: Receipt },
       { name: "Gründung & Steuern", icon: Building2 },
+      { name: "US-LLC & Auslandsgründung", icon: Landmark },
+      { name: "Finanzierung & Factoring", icon: PiggyBank },
+      { name: "Crowdfunding", icon: PiggyBank },
     ],
   },
   {
-    id: "tech",
-    label: "Shop, Cloud & Tech",
+    id: "shop",
+    label: "Shop & Handel",
     icon: ShoppingCart,
     cats: [
       { name: "Shop-System", icon: ShoppingCart },
       { name: "Payment", icon: CreditCard },
-      { name: "Hosting & Cloud", icon: Server },
-      { name: "Domains", icon: Globe2 },
-      { name: "Workspace", icon: Briefcase },
+      { name: "Marktplätze DE/EU", icon: Store },
       { name: "Warenwirtschaft", icon: Package },
-      { name: "Site-Search", icon: Search },
       { name: "Subscriptions", icon: Repeat },
       { name: "Loyalty", icon: Award },
+      { name: "Site-Search", icon: Search },
+    ],
+  },
+  {
+    id: "tech",
+    label: "Cloud, AI & Automation",
+    icon: Server,
+    cats: [
+      { name: "AI-Tools", icon: Sparkles },
+      { name: "Hosting & Cloud", icon: Server },
+      { name: "Automatisierung & No-Code", icon: Workflow },
+      { name: "Design & Prototyping", icon: Palette },
+      { name: "Domains", icon: Globe2 },
+      { name: "Workspace", icon: Briefcase },
+    ],
+  },
+  {
+    id: "sales",
+    label: "CRM & Marketing",
+    icon: BarChart3,
+    cats: [
+      { name: "CRM & Sales", icon: Target },
+      { name: "B2B-Leadgen & Outreach", icon: TrendingUp },
+      { name: "SEO & Web-Analytics", icon: BarChart3 },
+      { name: "Email", icon: Mail },
+      { name: "Newsletter", icon: Mail },
+      { name: "SMS-Marketing", icon: MessageSquare },
+      { name: "Tracking", icon: BarChart3 },
+      { name: "Attribution", icon: BarChart3 },
+      { name: "Affiliate", icon: Share2 },
+      { name: "CRO", icon: FlaskConical },
     ],
   },
   {
@@ -120,18 +166,16 @@ const CAT_GROUPS: CatGroup[] = [
     ],
   },
   {
-    id: "marketing",
-    label: "Marketing & AI",
-    icon: BarChart3,
+    id: "team",
+    label: "Team, Büro & HR",
+    icon: Briefcase,
     cats: [
-      { name: "AI-Tools", icon: Sparkles },
-      { name: "Email", icon: Mail },
-      { name: "Newsletter", icon: Mail },
-      { name: "SMS-Marketing", icon: MessageSquare },
-      { name: "Tracking", icon: BarChart3 },
-      { name: "Attribution", icon: BarChart3 },
-      { name: "Affiliate", icon: Share2 },
-      { name: "CRO", icon: FlaskConical },
+      { name: "Productivity", icon: CheckSquare },
+      { name: "HR, Lohn & Recruiting", icon: UserPlus },
+      { name: "Terminplanung & Buchung", icon: CalendarClock },
+      { name: "E-Signatur & Dokumente", icon: FileSignature },
+      { name: "Telefonie & Business-eSIM", icon: Phone },
+      { name: "Geschäftsfahrzeug", icon: Car },
     ],
   },
   {
@@ -139,32 +183,32 @@ const CAT_GROUPS: CatGroup[] = [
     label: "Creator & Support",
     icon: Users,
     cats: [
-      { name: "Community", icon: Users },
       { name: "Video-Editing", icon: Film },
+      { name: "E-Learning & Kurse", icon: GraduationCap },
+      { name: "Community", icon: Users },
       { name: "UGC", icon: Video },
       { name: "Linktools", icon: Link2 },
       { name: "Customer-Support", icon: Headphones },
-      { name: "Reviews", icon: ThumbsUp },
       { name: "Helpdesk", icon: Headphones },
+      { name: "Reviews", icon: ThumbsUp },
     ],
   },
   {
     id: "schutz",
-    label: "Recht & Schutz",
+    label: "Recht & Sicherheit",
     icon: Shield,
     cats: [
       { name: "Haftpflichtversicherung", icon: Shield },
       { name: "Rechtsschutz", icon: Scale },
-      { name: "Geschäftsfahrzeug", icon: Car },
       { name: "DSGVO", icon: Lock },
+      { name: "Security & Passwörter", icon: KeyRound },
       { name: "Brand-Protection", icon: ShieldCheck },
-      { name: "Crowdfunding", icon: PiggyBank },
-      { name: "Productivity", icon: CheckSquare },
     ],
   },
 ];
 
 const ALL_CATS = CAT_GROUPS.flatMap((g) => g.cats);
+const INITIAL_PAGE_SIZE = 36;
 
 type SortKey = "rating" | "deals" | "name";
 
@@ -178,6 +222,9 @@ const Anbieter = () => {
   const [sort, setSort] = useState<SortKey>("rating");
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [catSheetOpen, setCatSheetOpen] = useState(false);
+  const [catSearch, setCatSearch] = useState("");
+  const [visibleLimit, setVisibleLimit] = useState(INITIAL_PAGE_SIZE);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -199,6 +246,10 @@ const Anbieter = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setVisibleLimit(INITIAL_PAGE_SIZE);
+  }, [cat, clusterId, q, onlyDeals, sort]);
 
   const setCatWithUrl = (newCat: string) => {
     setCat(newCat);
@@ -259,12 +310,17 @@ const Anbieter = () => {
     });
   }, [cat, activeCluster, q, onlyDeals, sort]);
 
+  const isUnfilteredBrowse = cat === "Alle" && !q.trim();
+  const renderedList = isUnfilteredBrowse ? list.slice(0, visibleLimit) : list;
+  const remainingCount = Math.max(0, list.length - renderedList.length);
+
   const compareItems = useMemo(
     () => compareSlugs.map((s) => PROVIDERS.find((p) => p.slug === s)).filter((p): p is Provider => Boolean(p)),
     [compareSlugs],
   );
 
   const toggleCompare = (slug: string) => {
+    hapticLight();
     setCompareSlugs((prev) => {
       if (prev.includes(slug)) return prev.filter((x) => x !== slug);
       if (prev.length >= 3) return [...prev.slice(1), slug];
@@ -272,7 +328,19 @@ const Anbieter = () => {
     });
   };
 
+  const selectCategory = (nextCat: string) => {
+    hapticSelection();
+    setCatWithUrl(nextCat);
+    if (nextCat === "Alle") {
+      setClusterId("alle");
+    } else {
+      const found = CAT_GROUPS.find((g) => g.cats.some((c) => c.name === nextCat));
+      if (found) setClusterId(found.id);
+    }
+  };
+
   const resetFilters = () => {
+    hapticSelection();
     setCatWithUrl("Alle");
     setClusterId("alle");
     setQ("");
@@ -280,6 +348,18 @@ const Anbieter = () => {
   };
 
   const dealsCount = useMemo(() => PROVIDERS.filter((p) => isCoopActive(p.coop)).length, []);
+
+  const filteredSheetGroups = useMemo(() => {
+    const term = catSearch.trim().toLowerCase();
+    return CAT_GROUPS.map((g) => ({
+      ...g,
+      cats: g.cats.filter(
+        (c) =>
+          (counts[c.name] || 0) > 0 &&
+          (!term || c.name.toLowerCase().includes(term) || g.label.toLowerCase().includes(term)),
+      ),
+    })).filter((g) => g.cats.length > 0);
+  }, [catSearch, counts]);
 
   return (
     <CockpitShell
@@ -289,11 +369,11 @@ const Anbieter = () => {
     >
       <Seo
         title="Anbieter-Vergleich 2026: Geschäftskonto, Buchhaltung, Hosting | GründerX"
-        description={`Über ${PROVIDERS.length} Anbieter in ${categoryCount} Kategorien im direkten Vergleich: Geschäftskonto, Kreditkarten, Buchhaltung, Gründung, Hosting, Versicherung und Tools.`}
+        description={`Über ${PROVIDERS.length} Anbieter in ${categoryCount} Kategorien im direkten Vergleich: Geschäftskonto, Kreditkarten, Buchhaltung, CRM, Cloud, AI, Gründung, Versand und Tools.`}
         path="/anbieter"
       />
 
-      {/* Ruhige, aufgeräumte Revolut × Lexoffice Filterleiste (keine Chip-Wand mehr) */}
+      {/* Ruhige Revolut × Lexoffice Filterleiste */}
       <section aria-label="Anbieter filtern" className="mb-6 rounded-2xl border border-border bg-white p-3.5 shadow-card sm:p-4">
         <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center">
           <div className="relative flex-1">
@@ -313,13 +393,13 @@ const Anbieter = () => {
                   setClusterId("alle");
                 }
               }}
-              className="h-10 rounded-xl border-border bg-secondary/40 pl-10 pr-9 text-sm focus:bg-white"
+              className="h-11 rounded-xl border-border bg-secondary/40 pl-10 pr-9 text-base focus:bg-white sm:h-10 sm:text-sm"
             />
             {q && (
               <button
                 type="button"
                 onClick={() => setQ("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-muted-foreground hover:text-foreground"
                 aria-label="Suche löschen"
               >
                 <X className="h-4 w-4" />
@@ -328,43 +408,40 @@ const Anbieter = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {/* Direkte Kategorie-Auswahl (alle 40 Kategorien kompakt in 1 Dropdown) */}
-            <select
-              aria-label="Kategorie wählen"
-              value={cat}
-              onChange={(e) => {
-                const nextCat = e.target.value;
-                setCatWithUrl(nextCat);
-                if (nextCat === "Alle") {
-                  setClusterId("alle");
-                } else {
-                  const found = CAT_GROUPS.find((g) => g.cats.some((c) => c.name === nextCat));
-                  if (found) setClusterId(found.id);
-                }
+            {/* Nativer Kategorie-Sheet-Picker für 54 Kategorien (ideal auf iPhone & Desktop) */}
+            <button
+              type="button"
+              onClick={() => {
+                hapticSelection();
+                setCatSearch("");
+                setCatSheetOpen(true);
               }}
-              className="h-10 max-w-[210px] rounded-xl border border-border bg-white px-3 text-xs font-semibold text-foreground focus:border-primary focus:outline-none sm:text-sm"
+              className={cn(
+                "press inline-flex h-11 min-w-[144px] flex-1 items-center justify-between gap-1.5 rounded-xl border px-3 text-xs font-semibold sm:h-10 sm:min-w-0 sm:flex-initial sm:px-3.5 sm:text-sm",
+                cat !== "Alle"
+                  ? "border-primary bg-accent text-primary"
+                  : "border-border bg-white text-foreground hover:border-primary/40",
+              )}
             >
-              <option value="Alle">Alle Kategorien ({categoryCount})</option>
-              {CAT_GROUPS.map((g) => (
-                <optgroup key={g.id} label={g.label}>
-                  {g.cats
-                    .filter((c) => (counts[c.name] || 0) > 0)
-                    .map((c) => (
-                      <option key={c.name} value={c.name}>
-                        {c.name} ({counts[c.name]})
-                      </option>
-                    ))}
-                </optgroup>
-              ))}
-            </select>
+              <span className="flex min-w-0 items-center gap-1.5 truncate">
+                <LayoutGrid className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                <span className="truncate">
+                  {cat !== "Alle" ? `${cat} (${counts[cat] ?? 0})` : `${categoryCount} Kategorien`}
+                </span>
+              </span>
+              <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+            </button>
 
             {dealsCount > 0 && (
               <button
                 type="button"
                 aria-pressed={onlyDeals}
-                onClick={() => setOnlyDeals((v) => !v)}
+                onClick={() => {
+                  hapticSelection();
+                  setOnlyDeals((v) => !v);
+                }}
                 className={cn(
-                  "press inline-flex h-10 items-center gap-1.5 rounded-xl border px-3 text-xs font-semibold sm:text-sm",
+                  "press inline-flex h-11 items-center gap-1.5 rounded-xl border px-3 text-xs font-semibold sm:h-10 sm:text-sm",
                   onlyDeals
                     ? "border-brand-green bg-brand-green text-white"
                     : "border-border bg-white text-foreground hover:border-primary/40",
@@ -384,7 +461,7 @@ const Anbieter = () => {
                 aria-label="Sortierung"
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortKey)}
-                className="h-10 rounded-xl border border-border bg-white pl-8 pr-7 text-xs font-semibold text-foreground focus:border-primary focus:outline-none sm:text-sm"
+                className="h-11 rounded-xl border border-border bg-white pl-8 pr-7 text-xs font-semibold text-foreground focus:border-primary focus:outline-none sm:h-10 sm:text-sm"
               >
                 <option value="rating">Beste Bewertung</option>
                 <option value="deals">Deals zuerst</option>
@@ -394,12 +471,13 @@ const Anbieter = () => {
           </div>
         </div>
 
-        {/* Eine ruhige Themen-Leiste (Revolut-Segment-Pills) */}
+        {/* Themen-Leiste (Revolut-Segment-Pills) */}
         <div className="mt-3 flex items-center gap-1.5 overflow-x-auto border-t border-border/70 pt-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
             aria-pressed={clusterId === "alle" && cat === "Alle"}
             onClick={() => {
+              hapticSelection();
               setClusterId("alle");
               setCatWithUrl("Alle");
             }}
@@ -422,6 +500,7 @@ const Anbieter = () => {
                 type="button"
                 aria-pressed={active}
                 onClick={() => {
+                  hapticSelection();
                   if (active) {
                     setClusterId("alle");
                     setCatWithUrl("Alle");
@@ -454,7 +533,7 @@ const Anbieter = () => {
           )}
         </div>
 
-        {/* Unterkategorien erscheinen erst, wenn gezielt ein Themenbereich gewählt wurde */}
+        {/* Unterkategorien erscheinen, sobald ein Themenbereich gewählt wurde */}
         {visibleSubCats.length > 0 && (
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-2.5">
             {visibleSubCats.map(({ name, icon: Icon }) => {
@@ -464,7 +543,10 @@ const Anbieter = () => {
                   key={name}
                   type="button"
                   aria-pressed={active}
-                  onClick={() => setCatWithUrl(active ? "Alle" : name)}
+                  onClick={() => {
+                    hapticSelection();
+                    setCatWithUrl(active ? "Alle" : name);
+                  }}
                   className={cn(
                     "press inline-flex min-h-8 items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors",
                     active
@@ -509,19 +591,48 @@ const Anbieter = () => {
           }
         />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {list.map((p) => (
-            <ProviderCard
-              key={p.slug}
-              p={p}
-              compared={compareSlugs.includes(p.slug)}
-              onToggleCompare={() => toggleCompare(p.slug)}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {renderedList.map((p) => (
+              <ProviderCard
+                key={p.slug}
+                p={p}
+                compared={compareSlugs.includes(p.slug)}
+                onToggleCompare={() => toggleCompare(p.slug)}
+              />
+            ))}
+          </div>
+
+          {remainingCount > 0 && (
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  hapticLight();
+                  setVisibleLimit((n) => n + 48);
+                }}
+                className="press h-11 rounded-xl border-border bg-white px-5 font-semibold text-primary hover:border-primary/40"
+              >
+                Weitere Anbieter laden ({Math.min(48, remainingCount)} von {remainingCount})
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => {
+                  hapticLight();
+                  setVisibleLimit(list.length);
+                }}
+                className="h-11 rounded-xl px-4 text-xs font-semibold text-muted-foreground hover:text-primary"
+              >
+                Alle {list.length} anzeigen
+              </Button>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Alle Kategorien kompakt als Sprung-Index ganz unten statt oben im Blickfeld */}
+      {/* Alle Kategorien kompakt als Sprung-Index ganz unten */}
       <section className="mt-10 rounded-2xl border border-border bg-white p-5 shadow-card">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Alle {categoryCount} Kategorien im Überblick
@@ -532,14 +643,13 @@ const Anbieter = () => {
               key={c.name}
               type="button"
               onClick={() => {
-                setCatWithUrl(c.name);
-                const found = CAT_GROUPS.find((g) => g.cats.some((x) => x.name === c.name));
-                if (found) setClusterId(found.id);
+                selectCategory(c.name);
                 resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className="rounded-lg border border-border bg-secondary/40 px-2.5 py-1 text-xs font-medium text-foreground/85 transition-colors hover:border-primary/40 hover:bg-white hover:text-primary"
+              className="rounded-lg border border-border bg-secondary/40 px-2.5 py-1.5 text-xs font-medium text-foreground/85 transition-colors hover:border-primary/40 hover:bg-white hover:text-primary"
             >
-              {c.name} <span className="text-muted-foreground tabular">({counts[c.name]})</span>
+              <span>{c.name}</span>{" "}
+              <span className="text-muted-foreground tabular">({counts[c.name]})</span>
             </button>
           ))}
         </div>
@@ -558,9 +668,108 @@ const Anbieter = () => {
         </span>
       </p>
 
+      {/* Kategorie-Picker Bottom Sheet (Revolut-Stil, alle 54 Kategorien durchsuchbar) */}
+      <Sheet open={catSheetOpen} onOpenChange={setCatSheetOpen}>
+        <SheetContent
+          side="bottom"
+          className="max-h-[85vh] overflow-y-auto rounded-t-3xl bg-background px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] pt-4 sm:px-6"
+        >
+          <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border" aria-hidden="true" />
+          <div className="mx-auto max-w-3xl">
+            <SheetHeader className="mb-4 text-left">
+              <SheetTitle className="text-lg font-bold text-primary">
+                Alle {categoryCount} Kategorien
+              </SheetTitle>
+              <SheetDescription>
+                {PROVIDERS.length} geprüfte Anbieter nach Bereich filtern.
+              </SheetDescription>
+            </SheetHeader>
+
+            <div className="relative mb-4">
+              <Search
+                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <Input
+                value={catSearch}
+                onChange={(e) => setCatSearch(e.target.value)}
+                placeholder="Kategorie filtern (z. B. CRM, Bank, AI, Steuern) …"
+                aria-label="Kategorie filtern"
+                className="h-11 rounded-xl border-border bg-white pl-10 text-base sm:text-sm"
+              />
+            </div>
+
+            <div className="mb-4">
+              <button
+                type="button"
+                onClick={() => {
+                  selectCategory("Alle");
+                  setCatSheetOpen(false);
+                }}
+                className={cn(
+                  "press flex w-full items-center justify-between rounded-xl border px-3.5 py-2.5 text-sm font-semibold",
+                  cat === "Alle" && clusterId === "alle"
+                    ? "border-primary bg-primary text-white"
+                    : "border-border bg-white text-foreground hover:border-primary/40",
+                )}
+              >
+                <span>Alle Anbieter anzeigen</span>
+                <span className="tabular opacity-85">{PROVIDERS.length}</span>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {filteredSheetGroups.map((g) => {
+                const GroupIcon = g.icon;
+                return (
+                  <div key={g.id}>
+                    <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                      <GroupIcon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                      {g.label}
+                    </p>
+                    <div className="grid gap-1.5 sm:grid-cols-2">
+                      {g.cats.map((c) => {
+                        const active = cat === c.name;
+                        const CatIcon = c.icon;
+                        return (
+                          <button
+                            key={c.name}
+                            type="button"
+                            onClick={() => {
+                              selectCategory(c.name);
+                              setCatSheetOpen(false);
+                              resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                            }}
+                            className={cn(
+                              "press flex min-h-11 items-center justify-between gap-2 rounded-xl border px-3 py-2 text-left text-xs font-semibold transition-colors sm:text-sm",
+                              active
+                                ? "border-primary bg-accent text-primary"
+                                : "border-border bg-white text-foreground hover:border-primary/35",
+                            )}
+                          >
+                            <span className="flex min-w-0 items-center gap-2">
+                              <CatIcon className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                              <span className="truncate">{c.name}</span>
+                            </span>
+                            <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground tabular">
+                              {counts[c.name]}
+                              {active && <Check className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
       {/* Schwebende Direkt-Vergleich-Leiste */}
       {compareItems.length > 0 && (
-        <div className="fixed inset-x-4 bottom-20 z-30 mx-auto flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-primary px-4 py-3 text-white shadow-xl md:bottom-5">
+        <div className="fixed inset-x-4 bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] z-30 mx-auto flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-primary px-4 py-3 text-white shadow-xl md:bottom-5">
           <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
             <Scale className="h-4 w-4 shrink-0 text-brand-green-glow" aria-hidden="true" />
             <div className="flex items-center gap-1.5">
@@ -594,7 +803,10 @@ const Anbieter = () => {
 
       {/* Side-by-Side Vergleichs-Sheet */}
       <Sheet open={compareOpen} onOpenChange={setCompareOpen}>
-        <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto rounded-t-3xl bg-background">
+        <SheetContent
+          side="bottom"
+          className="max-h-[88vh] overflow-y-auto rounded-t-3xl bg-background pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
+        >
           <div className="mx-auto max-w-5xl">
             <SheetHeader className="mb-5 text-left">
               <SheetTitle>Direkt-Vergleich ({compareItems.length} Anbieter)</SheetTitle>

@@ -12,6 +12,7 @@ import {
   MessageCircle,
   MessageSquare,
   Shield,
+  Smartphone,
   Sparkles,
   Target,
   Trophy,
@@ -21,9 +22,10 @@ import {
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useRole } from "@/hooks/useRole";
 import { isGruenderXIosApp } from "@/lib/iosApp";
+import { openExternalInIosApp } from "@/lib/iosBridge";
 import { hapticSelection } from "@/lib/haptics";
 import { DISCORD_INVITE_URL } from "@/config/links";
-import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
+import { ANBIETER_ANZAHL, ANBIETER_KATEGORIEN } from "@/data/kennzahlen";
 import { cn } from "@/lib/utils";
 
 /**
@@ -41,13 +43,14 @@ export function isMobileFocusRoute(pathname: string): boolean {
 const MEHR_BEREICHE = [
   { to: "/quiz", label: "Quizze & Checks", sub: "Kurz-Checks mit Bonus-XP", icon: Sparkles, tint: "bg-[#ECF8F3] text-brand-green" },
   { to: "/cockpit/steuer", label: "Steuern & Fristen", sub: "USt, EÜR, Kalender & Stichtage", icon: Calculator, tint: "bg-[#EEF2F9] text-primary" },
-  { to: "/anbieter", label: "Anbieter-Vergleich", sub: `${ANBIETER_ANZAHL} Anbieter in 40 Kategorien`, icon: Trophy, tint: "bg-[#FDF6E7] text-[#B45309]" },
+  { to: "/anbieter", label: "Anbieter-Vergleich", sub: `${ANBIETER_ANZAHL} Anbieter in ${ANBIETER_KATEGORIEN} Kategorien`, icon: Trophy, tint: "bg-[#FDF6E7] text-[#B45309]" },
   { to: "/cockpit/chancen-radar", label: "Chancen & Förderung", sub: "Zuschüsse, Credits & Wettbewerbe", icon: Target, tint: "bg-[#EDF4FF] text-[#1E40AF]" },
   { to: "/gruender-events", label: "Events & Netzwerk", sub: "Termine, Radar & Mitgründer-Börse", icon: CalendarDays, tint: "bg-[#F3EEFE] text-[#5B21B6]" },
 ];
 
 const MEHR_HILFE = [
   { to: "/profile", label: "Mein Profil & Konto", icon: User },
+  { to: "/profile?tab=app", label: "App-Einstellungen & Push", icon: Smartphone },
   { to: "/faq", label: "Häufige Fragen (FAQ)", icon: MessageCircle },
   { to: "/support", label: "Support & Kontakt", icon: LifeBuoy },
 ];
@@ -248,9 +251,13 @@ export function MobileAppTabs() {
                     href={DISCORD_INVITE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => {
+                    onClick={(e) => {
                       hapticSelection();
                       setMoreOpen(false);
+                      if (iosApp) {
+                        e.preventDefault();
+                        void openExternalInIosApp(DISCORD_INVITE_URL);
+                      }
                     }}
                     className="flex min-h-[48px] items-center gap-3 px-4 py-2.5 text-sm font-medium text-foreground active:bg-secondary/60"
                   >

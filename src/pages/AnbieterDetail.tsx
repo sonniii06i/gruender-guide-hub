@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
@@ -24,11 +24,16 @@ import {
   Check,
   Compass,
   ArrowRight,
+  Share2,
 } from "lucide-react";
 import { Callout, EmptyState, ToolSection } from "@/components/cockpit/kit";
 import { FULL_DESCRIPTIONS, isCoopActive, LEGAL_URLS, PROVIDERS } from "./Anbieter";
 import { Seo } from "@/components/Seo";
 import { AnbieterLink, PartnerFussnote } from "@/components/PartnerLink";
+import { isGruenderXIosApp } from "@/lib/iosApp";
+import { openExternalInIosApp, shareNative } from "@/lib/iosBridge";
+import { hapticSuccess } from "@/lib/haptics";
+import { toast } from "sonner";
 
 const getDomain = (url: string): string => {
   try {
@@ -39,11 +44,11 @@ const getDomain = (url: string): string => {
 };
 
 const ProviderLogo = ({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" }) => {
-  const dim = size === "lg" ? "h-16 w-16 md:h-20 md:w-20" : size === "sm" ? "h-10 w-10" : "h-14 w-14";
-  const text = size === "lg" ? "text-3xl md:text-4xl" : size === "sm" ? "text-sm" : "text-xl";
+  const dim = size === "lg" ? "h-14 w-14 md:h-16 md:w-16" : size === "sm" ? "h-10 w-10" : "h-12 w-12";
+  const text = size === "lg" ? "text-2xl md:text-3xl" : size === "sm" ? "text-sm" : "text-xl";
   return (
     <div
-      className={`${dim} flex shrink-0 items-center justify-center rounded-2xl bg-white/15 ${text} font-semibold text-white ring-1 ring-white/25`}
+      className={`${dim} flex shrink-0 items-center justify-center rounded-2xl bg-accent ${text} font-bold text-primary ring-1 ring-primary/15`}
       aria-hidden="true"
     >
       {name.charAt(0).toUpperCase()}
@@ -97,6 +102,7 @@ const AnbieterDetail = () => {
   const copyDealCode = async (code: string) => {
     try {
       await navigator.clipboard.writeText(code);
+      hapticSuccess();
       setCopiedCode(true);
       setTimeout(() => setCopiedCode(false), 2000);
     } catch {
@@ -104,8 +110,27 @@ const AnbieterDetail = () => {
     }
   };
 
+  const handleShare = async () => {
+    const result = await shareNative({
+      title: `${p.name} im GründerX Anbieter-Vergleich`,
+      text: `${p.name} (${p.category}): ${p.tagline}`,
+      url: `https://gruenderx.de/anbieter/${p.slug}`,
+    });
+    if (result === "copied") {
+      toast.success("Link in die Zwischenablage kopiert.");
+    }
+  };
+
+  const handleExternalLink = (url: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+    if (!isGruenderXIosApp()) return;
+    e.preventDefault();
+    void openExternalInIosApp(url).then((opened) => {
+      if (!opened) window.open(url, "_blank", "noopener,noreferrer");
+    });
+  };
+
   return (
-    <div className="container max-w-6xl px-4 pb-24 pt-6 md:px-6 md:pb-16 md:pt-8">
+    <div className="container max-w-6xl px-4 pb-24 pt-5 md:px-6 md:pb-16 md:pt-8">
       <Seo
         title={`${p.name} 2026: ${p.category} im Vergleich | GründerX`}
         description={(description ?? p.tagline).slice(0, 155)}
@@ -134,7 +159,7 @@ const AnbieterDetail = () => {
       />
 
       {/* Breadcrumb-Navigation zurück zur Kategorie */}
-      <div className="mb-5 flex flex-wrap items-center gap-2 text-sm">
+      <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
         <Button asChild variant="ghost" size="sm" className="-ml-2 text-muted-foreground hover:text-foreground">
           <Link to="/anbieter">
             <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> Alle Anbieter
@@ -149,39 +174,49 @@ const AnbieterDetail = () => {
         </Link>
       </div>
 
-      {/* Masterclass-Hero-Karte in GründerX Navy */}
-      <section className="mb-6 overflow-hidden rounded-2xl bg-ink text-primary-foreground shadow-lg">
-        <div className="p-6 md:p-8">
-          <div className="flex flex-col gap-5 md:flex-row md:items-start">
-            <ProviderLogo name={p.name} size="lg" />
+      {/* Helle Lexoffice × Revolut Hero-Karte */}
+      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+        <div className="p-5 sm:p-6 md:p-7">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="flex items-center justify-between sm:block">
+              <ProviderLogo name={p.name} size="lg" />
+              <div
+                className="flex shrink-0 items-center gap-1.5 rounded-xl border border-warning/25 bg-warning-soft px-3 py-1.5 sm:hidden"
+                aria-label={`Bewertung ${p.rating.toFixed(1)} von 5`}
+              >
+                <Star className="h-4 w-4 fill-warning text-warning" aria-hidden="true" />
+                <span className="text-base font-bold text-primary tabular">{p.rating.toFixed(1)}</span>
+                <span className="text-xs text-muted-foreground">/ 5</span>
+              </div>
+            </div>
             <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-                    <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-white">{p.category}</span>
-                    <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-white/85">{p.region}</span>
+                  <div className="flex flex-wrap items-center gap-1.5 text-xs font-semibold">
+                    <span className="rounded-lg bg-[#EDF4FF] px-2.5 py-0.5 text-[#1E40AF]">{p.category}</span>
+                    <span className="rounded-lg bg-secondary px-2.5 py-0.5 text-foreground/80">{p.region}</span>
                   </div>
-                  <h1 className="mt-2.5 text-2xl font-semibold tracking-tight text-white md:text-3xl">{p.name}</h1>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-primary-foreground/80 md:text-base">
+                  <h1 className="mt-2 text-2xl font-bold tracking-tight text-primary md:text-3xl">{p.name}</h1>
+                  <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-[15px]">
                     {p.tagline}
                   </p>
                 </div>
 
                 <div
-                  className="flex shrink-0 items-center gap-1.5 rounded-2xl bg-white/10 px-3.5 py-2.5 ring-1 ring-white/20"
+                  className="hidden shrink-0 items-center gap-1.5 rounded-xl border border-warning/25 bg-warning-soft px-3 py-2 sm:flex"
                   aria-label={`Bewertung ${p.rating.toFixed(1)} von 5`}
                 >
-                  <Star className="h-5 w-5 fill-amber-400 text-amber-400" aria-hidden="true" />
-                  <span className="text-xl font-semibold text-white tabular">{p.rating.toFixed(1)}</span>
-                  <span className="text-xs text-primary-foreground/75">/ 5</span>
+                  <Star className="h-4 w-4 fill-warning text-warning" aria-hidden="true" />
+                  <span className="text-lg font-bold text-primary tabular">{p.rating.toFixed(1)}</span>
+                  <span className="text-xs text-muted-foreground">/ 5</span>
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-5 flex flex-wrap items-center gap-2.5">
                 <Button
                   asChild
                   size="lg"
-                  className="press h-12 w-full rounded-xl bg-brand-green px-6 font-semibold text-brand-green-foreground hover:bg-brand-green/90 sm:w-auto"
+                  className="press h-11 w-full rounded-xl bg-brand-green px-6 font-semibold text-brand-green-foreground hover:bg-brand-green/90 sm:w-auto"
                 >
                   <AnbieterLink url={p.url} slug={p.slug} ort="anbieter">
                     Zum Anbieter <ExternalLink className="ml-1.5 h-4 w-4" aria-hidden="true" />
@@ -191,10 +226,20 @@ const AnbieterDetail = () => {
                   href={`https://${getDomain(p.url)}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-12 items-center rounded-xl border border-white/20 px-4 text-sm font-medium text-white/90 transition-colors hover:bg-white/10"
+                  onClick={handleExternalLink(`https://${getDomain(p.url)}`)}
+                  className="press inline-flex h-11 items-center rounded-xl border border-border bg-white px-4 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                 >
                   {getDomain(p.url)}
                 </a>
+                <button
+                  type="button"
+                  onClick={() => void handleShare()}
+                  className="press inline-flex h-11 items-center gap-1.5 rounded-xl border border-border bg-secondary/40 px-3.5 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-white hover:text-primary"
+                  aria-label="Anbieter teilen"
+                >
+                  <Share2 className="h-4 w-4 text-primary" aria-hidden="true" />
+                  Teilen
+                </button>
               </div>
             </div>
           </div>
@@ -202,24 +247,24 @@ const AnbieterDetail = () => {
 
         {/* Aktiver Partner-Deal direkt im Hero-Fuß */}
         {showCoop && p.coop && (
-          <div className="border-t border-white/15 bg-white/10 px-6 py-4 md:px-8">
+          <div className="border-t border-brand-green/20 bg-brand-green-soft/65 px-5 py-4 sm:px-6 md:px-7">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-start gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green text-brand-green-foreground">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green text-white">
                   <Sparkles className="h-4 w-4" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-xs font-medium text-brand-green-glow">
+                  <p className="text-xs font-semibold text-brand-green">
                     Aktueller Deal (gültig bis {p.coop.expires})
                   </p>
-                  <p className="text-sm font-semibold text-white">{p.coop.text}</p>
+                  <p className="text-sm font-semibold text-foreground">{p.coop.text}</p>
                 </div>
               </div>
               {p.coop.code && (
                 <button
                   type="button"
                   onClick={() => void copyDealCode(p.coop!.code!)}
-                  className="press inline-flex items-center gap-2 rounded-xl bg-card px-3.5 py-2 text-xs font-semibold text-primary shadow-sm"
+                  className="press inline-flex items-center gap-2 rounded-xl border border-brand-green/30 bg-white px-3.5 py-2 text-xs font-semibold text-primary shadow-sm"
                 >
                   <Tag className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
                   <span className="font-mono text-sm">{p.coop.code}</span>
@@ -237,13 +282,13 @@ const AnbieterDetail = () => {
 
       {/* 4 klare Kennzahlen */}
       <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-        <div className="rounded-2xl border border-primary/20 bg-card p-4 shadow-card">
+        <div className="rounded-2xl border border-primary/20 bg-white p-4 shadow-card">
           <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <Wallet className="h-3.5 w-3.5 text-primary" aria-hidden="true" /> Preis ab
           </p>
           <p className="mt-1.5 text-sm font-semibold leading-snug text-primary tabular md:text-base">{p.starting}</p>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
+        <div className="rounded-2xl border border-border bg-white p-4 shadow-card">
           <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <Clock className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Einrichtung
           </p>
@@ -251,13 +296,13 @@ const AnbieterDetail = () => {
             {p.signupTime ?? "Sofort online"}
           </p>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
+        <div className="rounded-2xl border border-border bg-white p-4 shadow-card">
           <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <MapPin className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Region
           </p>
           <p className="mt-1.5 text-sm font-semibold leading-snug text-foreground md:text-base">{p.region}</p>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-card">
+        <div className="rounded-2xl border border-border bg-white p-4 shadow-card">
           <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <TrendingUp className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" /> Praxis-Score
           </p>
@@ -277,7 +322,7 @@ const AnbieterDetail = () => {
         {/* Hauptspalte */}
         <div className="min-w-0 space-y-6">
           {description && (
-            <section className="rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
+            <section className="rounded-2xl border border-border bg-white p-5 shadow-card md:p-6">
               <p className="mb-2 inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
                 <Compass className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" /> Kurzporträt &amp; Einordnung
               </p>
@@ -320,7 +365,7 @@ const AnbieterDetail = () => {
 
           {/* Community-Stimmen */}
           {p.forumNotes && (
-            <section className="relative rounded-2xl border border-border bg-card p-6 shadow-card">
+            <section className="relative rounded-2xl border border-border bg-white p-6 shadow-card">
               <Quote
                 className="absolute right-5 top-5 h-9 w-9 text-primary/10"
                 strokeWidth={1.5}
@@ -345,10 +390,10 @@ const AnbieterDetail = () => {
                   <Link
                     key={r.slug}
                     to={`/anbieter/${r.slug}`}
-                    className="press group flex items-start gap-3 rounded-xl border border-border bg-background/60 p-3.5 hover:border-primary/35 hover:bg-card"
+                    className="press group flex items-start gap-3 rounded-xl border border-border bg-background/60 p-3.5 hover:border-primary/35 hover:bg-white"
                   >
                     <div
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-sm font-bold text-primary"
                       aria-hidden="true"
                     >
                       {r.name.charAt(0).toUpperCase()}
@@ -383,7 +428,7 @@ const AnbieterDetail = () => {
 
         {/* Sticky Seitenleiste */}
         <aside className="h-fit space-y-4 lg:sticky lg:top-20">
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+          <div className="rounded-2xl border border-border bg-white p-5 shadow-card">
             <p className="text-xs font-semibold text-muted-foreground">Direkt starten</p>
             <p className="mt-1 text-lg font-semibold text-primary">{p.name}</p>
             <p className="mt-0.5 text-sm text-muted-foreground">{p.starting}</p>
@@ -398,7 +443,7 @@ const AnbieterDetail = () => {
           </div>
 
           {p.links && p.links.length > 0 && (
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+            <div className="rounded-2xl border border-border bg-white p-5 shadow-card">
               <h3 className="mb-3 text-sm font-semibold text-primary">Direkt-Links</h3>
               <ul className="space-y-2 text-sm">
                 {p.links.map((l) => (
@@ -417,7 +462,7 @@ const AnbieterDetail = () => {
           )}
 
           {hasAnyLegal && (
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+            <div className="rounded-2xl border border-border bg-white p-5 shadow-card">
               <h3 className="mb-3 text-sm font-semibold text-primary">Rechtliches beim Anbieter</h3>
               <ul className="space-y-2 text-sm">
                 {legalImpressum && (
@@ -426,6 +471,7 @@ const AnbieterDetail = () => {
                       href={legalImpressum}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={handleExternalLink(legalImpressum)}
                       className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-accent-blue hover:underline"
                     >
                       <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> Impressum
@@ -438,6 +484,7 @@ const AnbieterDetail = () => {
                       href={legalTerms}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={handleExternalLink(legalTerms)}
                       className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-accent-blue hover:underline"
                     >
                       <Scale className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> AGB / Bedingungen
@@ -450,6 +497,7 @@ const AnbieterDetail = () => {
                       href={legalPrivacy}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={handleExternalLink(legalPrivacy)}
                       className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-accent-blue hover:underline"
                     >
                       <ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> Datenschutz

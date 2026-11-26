@@ -3,6 +3,7 @@
  * LEGAL_URLS · Provider interface · FULL_DESCRIPTIONS · PROVIDERS
  */
 import { AMEX_REFERRAL } from "./businessCreditCards";
+import { EXTRA_PROVIDERS } from "./anbieterErweiterung";
 /**
  * Verifizierte Legal-URLs pro Anbieter (Stand: 2026-05-06).
  * Bulk-verifiziert via Footer-Scrape + manuelle Korrekturen.
@@ -3061,4 +3062,5 @@ export const PROVIDERS: Provider[] = [
     signupTime: "Sofort",
     url: "https://pro.packlink.de",
   },
+  ...EXTRA_PROVIDERS,
 ];

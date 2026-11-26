@@ -23,6 +23,12 @@ import {
   Check,
   RefreshCw,
   Settings2,
+  Smartphone,
+  Bell,
+  Vibrate,
+  Compass,
+  Link2,
+  RotateCw,
 } from "lucide-react";
 import { Field as KitField, ResultRow, ToneBadge, ToolSection } from "@/components/cockpit/kit";
 import { RECHTSFORM_OPTIONEN, rechtsformOption } from "@/lib/onboarding";
@@ -33,6 +39,16 @@ import { toast } from "sonner";
 import { readProfileCache, writeProfileCache } from "@/lib/profileCache";
 import type { Database } from "@/integrations/supabase/types";
 import { interpretDeleteAccountResult } from "@/lib/deleteAccount";
+import { isGruenderXIosApp } from "@/lib/iosApp";
+import { isHapticsEnabled, setHapticsEnabled, hapticSelection } from "@/lib/haptics";
+import {
+  getIosPushStatus,
+  getSavedIosPushTokenPreview,
+  reloadIosApp,
+  requestIosPushNotifications,
+  type IosPushStatus,
+} from "@/lib/iosBridge";
+import { cn } from "@/lib/utils";
 
 interface ProfileData {
   salutation?: string | null; first_name?: string | null; last_name?: string | null;
@@ -55,11 +71,23 @@ const Profile = () => {
   const { user, signOut } = useAuth();
   const { isAdmin: accessAdmin, hasActiveSub: accessSub } = useAccess();
   const [params, setParams] = useSearchParams();
-  const tab = params.get("tab") ?? "stamm";
+  const inIosApp = isGruenderXIosApp();
+  const rawTab = params.get("tab") ?? "stamm";
+  // Apple 3.1.1: in der iOS-App keine Abrechnungs- oder Kaufansicht
+  const tab = inIosApp && rawTab === "abrechnung" ? "stamm" : rawTab;
+
   const [profile, setProfile] = useState<ProfileData>({});
   const [sub, setSub] = useState<AboZeile | null>(null);
   const [saving, setSaving] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
+  const [hapticsOn, setHapticsOn] = useState<boolean>(() => isHapticsEnabled());
+  const [pushStatus, setPushStatus] = useState<IosPushStatus>("unsupported");
+  const [pushBusy, setPushBusy] = useState(false);
+  const [pushTokenPreview, setPushTokenPreview] = useState<string | null>(() => getSavedIosPushTokenPreview());
+
+  useEffect(() => {
+    void getIosPushStatus().then(setPushStatus);
+  }, []);
 
   const refreshSub = async () => {
     try {
@@ -104,13 +132,10 @@ const Profile = () => {
     try {
       const { data, error } = await supabase.functions.invoke("customer-portal");
       if (error) throw error;
-      // Gleicher Tab: window.open nach einem await blocken Safari und
-      // mobile Popup-Blocker ("es passiert nichts").
       if (data?.url) { window.location.href = data.url; return; }
       throw new Error("Kundenportal gerade nicht erreichbar.");
     } catch (e) { toast.error(e instanceof Error && e.message ? e.message : "Kundenportal gerade nicht erreichbar."); setBusy(null); }
   };
-
 
   const save = async () => {
     if (!user) return;
@@ -121,10 +146,6 @@ const Profile = () => {
       toast.error("Speichern fehlgeschlagen");
       return;
     }
-    // Cache + Event-Trigger: Dashboard und alle anderen Listener
-    // ziehen die neuen Werte synchron ohne erneuten DB-Roundtrip.
-    // Geschäftsmodell und Phase stehen nicht in diesem Formular -> aus dem Cache
-    // übernehmen, sonst verliert das Cockpit bis zum nächsten Laden den Fahrplan.
     writeProfileCache(user.id, {
       ...(readProfileCache(user.id) ?? {}),
       first_name: profile.first_name ?? null,
@@ -134,24 +155,61 @@ const Profile = () => {
     toast.success("Profil aktualisiert");
   };
 
+  const handleToggleHaptics = () => {
+    const next = !hapticsOn;
+    setHapticsEnabled(next);
+    setHapticsOn(next);
+    toast.success(next ? "Haptik-Feedback aktiviert." : "Haptik-Feedback deaktiviert.");
+  };
+
+  const handleEnablePush = async () => {
+    setPushBusy(true);
+    try {
+      const res = await requestIosPushNotifications();
+      setPushStatus(res.status);
+      if (res.token) setPushTokenPreview(res.token.slice(0, 12));
+      if (res.status === "granted") {
+        toast.success("Mitteilungen für dieses Gerät sind aktiv.");
+      } else if (res.status === "denied") {
+        toast.info("Bitte Mitteilungen in den iOS-Einstellungen unter GründerX erlauben.");
+      } else {
+        toast.info("Push-Mitteilungen lassen sich direkt in der GründerX iOS-App aktivieren.");
+      }
+    } finally {
+      setPushBusy(false);
+    }
+  };
+
   const update = (k: keyof ProfileData, v: string) => setProfile({ ...profile, [k]: v });
   const rechtsform = rechtsformOption(profile.legal_form);
-  // Stripe-Abo (Kundenportal moeglich) vs. Zugang insgesamt -- gleiche Regel
-  // wie useAccess/PaywallGate: comp_access und Admins zaehlen als aktiv.
   const stripeActive = sub?.status === "active" || sub?.status === "trialing";
   const isActive = stripeActive || !!sub?.comp_access || accessAdmin || accessSub;
 
   return (
     <CockpitShell
-      eyebrow="Konto · Profil und Abrechnung"
+      eyebrow={inIosApp ? "Konto · Profil & App" : "Konto · Profil und Abrechnung"}
       title="Dein Konto"
-      subtitle="Stammdaten, Firma, Abo, Felix-Memory und Sicherheit an einem Ort. Die Angaben nutzen wir auf Rechnungen, in Wizards und im Felix-Kontext."
+      subtitle={
+        inIosApp
+          ? "Stammdaten, Firma, App-Einstellungen, Felix-Memory und Sicherheit an einem Ort."
+          : "Stammdaten, Firma, Abo, App-Einstellungen, Felix-Memory und Sicherheit an einem Ort."
+      }
     >
-      <Tabs value={tab} onValueChange={(v) => setParams(v === "stamm" ? {} : { tab: v })} className="w-full">
+      <Tabs
+        value={tab}
+        onValueChange={(v) => {
+          hapticSelection();
+          setParams(v === "stamm" ? {} : { tab: v });
+        }}
+        className="w-full"
+      >
         <TabsList className="mb-6 h-auto flex-wrap">
           <TabsTrigger value="stamm" className="gap-1.5"><UserRound className="h-4 w-4" aria-hidden="true" /> Stammdaten</TabsTrigger>
           <TabsTrigger value="firma" className="gap-1.5"><Building2 className="h-4 w-4" aria-hidden="true" /> Firma</TabsTrigger>
-          <TabsTrigger value="abrechnung" className="gap-1.5"><CreditCard className="h-4 w-4" aria-hidden="true" /> Abrechnung</TabsTrigger>
+          {!inIosApp && (
+            <TabsTrigger value="abrechnung" className="gap-1.5"><CreditCard className="h-4 w-4" aria-hidden="true" /> Abrechnung</TabsTrigger>
+          )}
+          <TabsTrigger value="app" className="gap-1.5"><Smartphone className="h-4 w-4" aria-hidden="true" /> App</TabsTrigger>
           <TabsTrigger value="felix-memory" className="gap-1.5"><Brain className="h-4 w-4" aria-hidden="true" /> Felix-Memory</TabsTrigger>
           <TabsTrigger value="sicherheit" className="gap-1.5"><ShieldCheck className="h-4 w-4" aria-hidden="true" /> Sicherheit</TabsTrigger>
         </TabsList>
@@ -185,8 +243,6 @@ const Profile = () => {
             <Grid>
               <Field label="Firmenname" htmlFor="pf-company" full><Input id="pf-company" value={profile.company_name ?? ""} onChange={(e) => update("company_name", e.target.value)} /></Field>
               <Field label="Rechtsform" hint="Bestimmt die Schritte in deinem Fahrplan.">
-                {/* Gespeichert wird die Kennung aus dem Onboarding ("ug", "unsure"); gezeigt wird ihr Name. Ein eigener
-                    Text aus früheren Eingaben ("AG") bleibt als Auswahl erhalten und wird nicht stillschweigend ersetzt. */}
                 <Select value={rechtsform} onValueChange={(v) => update("legal_form", v)}>
                   <SelectTrigger aria-label="Rechtsform"><SelectValue placeholder="Bitte wählen" /></SelectTrigger>
                   <SelectContent>
@@ -206,87 +262,220 @@ const Profile = () => {
           </ToolSection>
         </TabsContent>
 
-        <TabsContent value="abrechnung">
-          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
-            <div className="space-y-6">
-              {/* Aktueller Plan */}
-              <ToolSection
-                title="Aktueller Plan"
-                icon={CreditCard}
-                actions={<ToneBadge tone={isActive ? "success" : "neutral"}>{isActive ? "Aktiv" : "Inaktiv"}</ToneBadge>}
-              >
-                <p className="text-2xl font-semibold tracking-tight">{isActive ? (sub?.plan ?? "Zugang freigeschaltet") : "Kein aktives Abo"}</p>
-                <div className="mt-3 divide-y divide-border/70">
-                  <ResultRow label="Status" value={ABO_STATUS[sub?.status ?? "inactive"] ?? sub?.status ?? "Kein Abo"} />
-                  {sub?.current_period_end && (
-                    <ResultRow label="Verlängerung" value={new Date(sub.current_period_end).toLocaleDateString("de-DE")} />
+        {!inIosApp && (
+          <TabsContent value="abrechnung">
+            <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+              <div className="space-y-6">
+                <ToolSection
+                  title="Aktueller Plan"
+                  icon={CreditCard}
+                  actions={<ToneBadge tone={isActive ? "success" : "neutral"}>{isActive ? "Aktiv" : "Inaktiv"}</ToneBadge>}
+                >
+                  <p className="text-2xl font-semibold tracking-tight">{isActive ? (sub?.plan ?? "Zugang freigeschaltet") : "Kein aktives Abo"}</p>
+                  <div className="mt-3 divide-y divide-border/70">
+                    <ResultRow label="Status" value={ABO_STATUS[sub?.status ?? "inactive"] ?? sub?.status ?? "Kein Abo"} />
+                    {sub?.current_period_end && (
+                      <ResultRow label="Verlängerung" value={new Date(sub.current_period_end).toLocaleDateString("de-DE")} />
+                    )}
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Button onClick={portal} disabled={busy === "portal" || !stripeActive} variant="outline">
+                      {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
+                      Abo verwalten
+                    </Button>
+                    <Button onClick={handleStatusCheck} disabled={checkingSub} variant="ghost">
+                      {checkingSub ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <RefreshCw className="h-4 w-4" aria-hidden="true" />}
+                      {checkingSub ? "Prüfe …" : "Status prüfen"}
+                    </Button>
+                  </div>
+                </ToolSection>
+
+                <CodeEinloesenPanel onRedeemed={handleStatusCheck} />
+              </div>
+
+              <section className="relative overflow-hidden rounded-2xl bg-ink p-5 text-primary-foreground md:p-6">
+                <div className="relative">
+                  <p className="flex items-center gap-1.5 text-sm font-medium text-brand-green-glow">
+                    <Crown className="h-4 w-4" aria-hidden="true" /> {isActive ? "Plan ändern" : "Plan wählen"}
+                  </p>
+                  {isActive ? (
+                    <>
+                      <h2 className="mt-1 text-lg font-semibold tracking-tight">Plan wechseln oder kündigen</h2>
+                      <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80">
+                        {stripeActive
+                          ? "Du hast bereits ein aktives Abo. Planwechsel, Zahlungsart und Kündigung laufen über das Kundenportal, damit kein zweites Abo entsteht."
+                          : "Dein Zugang ist freigeschaltet. Für Fragen zu deinem Zugang schreib uns über den Support."}
+                      </p>
+                      {stripeActive && (
+                        <Button
+                          onClick={portal}
+                          disabled={busy === "portal"}
+                          className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
+                        >
+                          {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Zum Kundenportal"}
+                        </Button>
+                      )}
+                      <p className="mt-3 text-xs text-primary-foreground/70">
+                        Oder ohne Kundenportal: <a href="/kuendigen" className="underline">Verträge hier kündigen</a>
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="mt-1 text-lg font-semibold tracking-tight">Wähle deinen Plan</h2>
+                      <div className="mt-5 grid gap-4">
+                        <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.06] p-5">
+                          <p className="text-base font-semibold">GründerX</p>
+                          <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
+                            {formatEurCents(PLANS.gruenderx.grossCents)}<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
+                          </p>
+                          <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
+                          <Button asChild className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90">
+                            <Link to="/checkout?variant=gruenderx">Abonnieren</Link>
+                          </Button>
+                        </div>
+                      </div>
+                      <p className="mt-3 text-xs text-primary-foreground/65">
+                        Den Jahreszugang findest du im Warenkorb.
+                      </p>
+                    </>
                   )}
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <Button onClick={portal} disabled={busy === "portal" || !stripeActive} variant="outline">
-                    {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
-                    Abo verwalten
-                  </Button>
-                  <Button onClick={handleStatusCheck} disabled={checkingSub} variant="ghost">
-                    {checkingSub ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <RefreshCw className="h-4 w-4" aria-hidden="true" />}
-                    {checkingSub ? "Prüfe …" : "Status prüfen"}
-                  </Button>
-                </div>
-              </ToolSection>
-
-              <CodeEinloesenPanel onRedeemed={handleStatusCheck} />
+              </section>
             </div>
+          </TabsContent>
+        )}
 
-            {/* Plan wählen */}
-            <section className="relative overflow-hidden rounded-2xl bg-ink p-5 text-primary-foreground md:p-6">
-              <div className="relative">
-                <p className="flex items-center gap-1.5 text-sm font-medium text-brand-green-glow">
-                  <Crown className="h-4 w-4" aria-hidden="true" /> {isActive ? "Plan ändern" : "Plan wählen"}
-                </p>
-                {isActive ? (
-                  <>
-                    <h2 className="mt-1 text-lg font-semibold tracking-tight">Plan wechseln oder kündigen</h2>
-                    <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80">
-                      {stripeActive
-                        ? "Du hast bereits ein aktives Abo. Planwechsel, Zahlungsart und Kündigung laufen über das Kundenportal – so entsteht kein zweites Abo."
-                        : "Dein Zugang ist freigeschaltet. Für Fragen zu deinem Zugang schreib uns über den Support."}
+        <TabsContent value="app" className="max-w-3xl space-y-5">
+          <ToolSection
+            title="GründerX App-Einstellungen"
+            description={
+              inIosApp
+                ? "Steuere Haptik, Mitteilungen und Synchronisierung direkt auf deinem iPhone."
+                : "Einstellungen für deine GründerX-Oberfläche und die native iOS-App."
+            }
+            icon={Smartphone}
+            actions={<ToneBadge tone={inIosApp ? "success" : "info"}>{inIosApp ? "iOS-App aktiv" : "Web-Cockpit"}</ToneBadge>}
+          >
+            <div className="divide-y divide-border/70">
+              {/* Haptik Toggle */}
+              <div className="flex items-center justify-between gap-4 py-3.5 first:pt-0">
+                <div className="flex min-w-0 items-start gap-3">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EDF4FF] text-[#1E40AF]">
+                    <Vibrate className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Haptisches Feedback</p>
+                    <p className="text-xs text-muted-foreground">
+                      Leichtes Tippen beim Tab-Wechsel, Abhaken von Schritten und richtigen Quiz-Antworten.
                     </p>
-                    {stripeActive && (
-                      <Button
-                        onClick={portal}
-                        disabled={busy === "portal"}
-                        className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90"
-                      >
-                        {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Zum Kundenportal"}
-                      </Button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={hapticsOn}
+                  onClick={handleToggleHaptics}
+                  className={cn(
+                    "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors",
+                    hapticsOn ? "bg-brand-green" : "bg-secondary border border-border",
+                  )}
+                >
+                  <span className="sr-only">Haptisches Feedback umschalten</span>
+                  <span
+                    className={cn(
+                      "inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform",
+                      hapticsOn ? "translate-x-6" : "translate-x-1",
                     )}
-                    <p className="mt-3 text-xs text-primary-foreground/70">
-                      Oder ohne Kundenportal: <a href="/kuendigen" className="underline">Verträge hier kündigen</a>
+                  />
+                </button>
+              </div>
+
+              {/* Push Notifications */}
+              <div className="flex flex-wrap items-center justify-between gap-4 py-3.5">
+                <div className="flex min-w-0 flex-1 items-start gap-3">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#ECF8F3] text-brand-green">
+                    <Bell className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Mitteilungen für Fristen &amp; Erinnerungen</p>
+                    <p className="text-xs text-muted-foreground">
+                      {pushStatus === "granted"
+                        ? `Aktiv auf diesem Gerät${pushTokenPreview ? ` (Geräte-ID ${pushTokenPreview}…)` : ""}.`
+                        : pushStatus === "denied"
+                          ? "In den iOS-Einstellungen blockiert. Dort kannst du Mitteilungen wieder einschalten."
+                          : inIosApp
+                            ? "Erhalte wichtige Steuerfristen und neue Kurse direkt als iOS-Mitteilung."
+                            : "Direkt in der GründerX iOS-App aktivierbar."}
                     </p>
-                  </>
+                  </div>
+                </div>
+                {inIosApp ? (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={pushStatus === "granted" ? "outline" : "default"}
+                    disabled={pushBusy}
+                    onClick={() => void handleEnablePush()}
+                    className="rounded-xl"
+                  >
+                    {pushBusy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Bell className="h-3.5 w-3.5" aria-hidden="true" />}
+                    {pushStatus === "granted" ? "Neu prüfen" : "Aktivieren"}
+                  </Button>
                 ) : (
-                  <>
-                    <h2 className="mt-1 text-lg font-semibold tracking-tight">Wähle deinen Plan</h2>
-                    <div className="mt-5 grid gap-4">
-                      <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.06] p-5">
-                        <p className="text-base font-semibold">GründerX</p>
-                        <p className="mt-2 text-3xl font-semibold tracking-tight tabular">
-                          {formatEurCents(PLANS.gruenderx.grossCents)}<span className="ml-0.5 text-sm font-normal text-primary-foreground/65">/Mon</span>
-                        </p>
-                        <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/80">Felix KI, alle Wizards, Anbieter-Vergleich, Coop-Deals.</p>
-                        <Button asChild className="mt-5 h-11 rounded-xl bg-white text-primary hover:bg-white/90">
-                          <Link to="/checkout?variant=gruenderx">Abonnieren</Link>
-                        </Button>
-                      </div>
-                    </div>
-                    <p className="mt-3 text-xs text-primary-foreground/65">
-                      Den Jahreszugang findest du im Warenkorb.
-                    </p>
-                  </>
+                  <ToneBadge tone="neutral">Nur iOS-App</ToneBadge>
                 )}
               </div>
-            </section>
-          </div>
+
+              {/* App neu laden */}
+              <div className="flex flex-wrap items-center justify-between gap-4 py-3.5 last:pb-0">
+                <div className="flex min-w-0 flex-1 items-start gap-3">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                    <RotateCw className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Ansicht synchronisieren</p>
+                    <p className="text-xs text-muted-foreground">
+                      Lädt alle Kurse, Fortschritte und die aktuellen Anbieter-Daten frisch vom Server.
+                    </p>
+                  </div>
+                </div>
+                <Button type="button" size="sm" variant="outline" onClick={reloadIosApp} className="rounded-xl">
+                  <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" /> Neu laden
+                </Button>
+              </div>
+            </div>
+          </ToolSection>
+
+          <ToolSection title="Native iOS-Funktionen" description="Automatisch aktiv in der GründerX-App." icon={Compass}>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-border bg-secondary/35 p-3.5">
+                <p className="text-xs font-bold text-primary">Wischen zum Zurückgehen</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  Vom linken Bildschirmrand nach rechts wischen, um blitzschnell zur vorigen Seite zu springen.
+                </p>
+              </div>
+              <div className="rounded-xl border border-border bg-secondary/35 p-3.5">
+                <p className="text-xs font-bold text-primary">Nach unten ziehen (Pull-to-Refresh)</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  Oben an der Seite ziehen, um deinen aktuellen Stand jederzeit sofort zu aktualisieren.
+                </p>
+              </div>
+              <div className="rounded-xl border border-border bg-secondary/35 p-3.5">
+                <p className="text-xs font-bold text-primary">In-App Safari für Anbieter</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  Externe Anbieter-Links öffnen sicher im integrierten Safari-Fenster, ohne GründerX zu verlassen.
+                </p>
+              </div>
+              <div className="rounded-xl border border-border bg-secondary/35 p-3.5">
+                <p className="flex items-center gap-1 text-xs font-bold text-primary">
+                  <Link2 className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" /> Universal Links &amp; Sync
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  Links zu gruenderx.de öffnen direkt in der App; dein Fortschritt bleibt zwischen iPhone und Browser synchron.
+                </p>
+              </div>
+            </div>
+          </ToolSection>
         </TabsContent>
 
         <TabsContent value="felix-memory">
@@ -299,9 +488,8 @@ const Profile = () => {
           <ToolSection title="Passwort ändern" description="Wir schicken dir einen Link zum Zurücksetzen." icon={KeyRound}>
             <Button variant="outline" onClick={async () => {
               if (!user?.email) return;
-              // Nur /reset-password verarbeitet PASSWORD_RECOVERY; die Startseite zeigte kein Formular.
               const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: `${window.location.origin}/reset-password` });
-              if (error) toast.error(error.message); else toast.success("Mail verschickt – bitte Postfach prüfen.");
+              if (error) toast.error(error.message); else toast.success("Mail verschickt. Bitte prüfe dein Postfach.");
             }}>
               <Mail className="h-4 w-4" aria-hidden="true" /> Reset-Mail senden
             </Button>
@@ -317,7 +505,7 @@ const Profile = () => {
                 <p className="mt-1 text-sm leading-relaxed text-foreground/80">
                   Löscht dein Konto und unwiderruflich alle deine Daten (Profil, Guide-Fortschritt inkl.
                   Notar-Vorbereitung, Felix-Chats, Benachrichtigungen). Das lässt sich nicht rückgängig machen.
-                  Ein aktives Abo kündigst du vorher bitte unter „Abrechnung“.
+                  {!inIosApp && " Ein aktives Abo kündigst du vorher bitte unter „Abrechnung“."}
                 </p>
                 <Button
                   variant="destructive"
@@ -338,7 +526,7 @@ const Profile = () => {
                       return;
                     }
                     toast.success("Konto gelöscht. Auf Wiedersehen.");
-                    await signOut(); // raeumt auch die lokalen Tool-Daten ab
+                    await signOut();
                     window.location.href = "/";
                   }}
                 >
@@ -349,11 +537,12 @@ const Profile = () => {
                   <div role="alert" className="mt-4 rounded-xl border border-danger/30 bg-card p-4 text-sm">
                     <p className="font-medium text-foreground">Konto nicht gelöscht</p>
                     <p className="mt-1 leading-relaxed text-foreground/80">{deleteBlock}</p>
-                    {/* Eigener Knopf statt "Abo verwalten": der ist bei past_due gesperrt. */}
-                    <Button onClick={portal} disabled={busy === "portal"} variant="outline" className="mt-3">
-                      {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
-                      Zum Kundenportal
-                    </Button>
+                    {!inIosApp && (
+                      <Button onClick={portal} disabled={busy === "portal"} variant="outline" className="mt-3">
+                        {busy === "portal" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
+                        Zum Kundenportal
+                      </Button>
+                    )}
                   </div>
                 )}
               </div>
