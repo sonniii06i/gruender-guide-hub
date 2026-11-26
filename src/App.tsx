@@ -11,6 +11,7 @@ const AppLayout = lazy(() => import("./layouts/AppLayout.tsx"));
 import { PaywallGate } from "./components/PaywallGate.tsx";
 import { AdminGate } from "./components/AdminGate.tsx";
 import { useTrackPageview } from "./hooks/useTrackPageview";
+import { isGruenderXIosApp } from "./lib/iosApp";
 import { attachIosDeepLinks } from "./lib/iosBridge";
 
 // Alle großen Routen lazy laden, damit eingeloggte Nutzer auf /dashboard nie die Marketing-Startseite mitladen müssen.
@@ -258,7 +259,8 @@ const EinbettungsWache = () => {
   }, [ort.pathname, ort.search, ort.hash, navigate]);
   return null;
 };
-if (!EINBETTUNG) initAdPixels();
+const IOS_APP = isGruenderXIosApp();
+if (!EINBETTUNG && !IOS_APP) initAdPixels();
 // Alte Chunks nach einem Deploy: einmal neu laden statt weisser Seite.
 installChunkReloadHandler();
 
@@ -273,8 +275,8 @@ const App = () => (
           {EINBETTUNG && <EinbettungsWache />}
           {!EINBETTUNG && <RouteTracker />}
           {!EINBETTUNG && <AnalyticsCapture />}
-          {!EINBETTUNG && <ConsentBanner />}
-          {!EINBETTUNG && <AktionsBanner />}
+          {!EINBETTUNG && !IOS_APP && <ConsentBanner />}
+          {!EINBETTUNG && !IOS_APP && <AktionsBanner />}
           {!EINBETTUNG && <MailBestaetigenHinweis />}
           {!EINBETTUNG && <AuthLinkFehler />}
           <AppErrorBoundary>

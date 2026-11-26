@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { changeMarketingConsent, hasDecidedConsent, OPEN_CONSENT_EVENT } from "@/utils/consent";
+import { isGruenderXIosApp } from "@/lib/iosApp";
 
 /**
  * Einwilligungsdialog für Marketing-Cookies (Meta Pixel, Google Ads).
@@ -30,6 +31,9 @@ export const ConsentBanner = () => {
   // und beim Prerendern (react-snap) gibt es das nicht. Stünde das Banner im
   // vorgerenderten HTML, sähe es jeder Crawler als Seiteninhalt.
   useEffect(() => {
+    // In der nativen iOS-App laufen keine Meta-/Google-Werbe-Pixel (Apple ATT / 5.1.2):
+    // kein Cookie-Banner ueber der nativen Tab-Bar.
+    if (isGruenderXIosApp()) return;
     if (!hasDecidedConsent()) setVisible(true);
     // "Cookie-Einstellungen" in Footer und Datenschutz oeffnen das Banner
     // erneut -- der Widerruf muss so leicht sein wie die Zustimmung.
