@@ -166,9 +166,9 @@ const BegriffCard = ({ g }: { g: GlossarBegriff }) => {
   const [expanded, setExpanded] = useState(false);
   return (
     <article className={`rounded-xl border bg-card p-4 transition-[border-color,box-shadow] md:p-5 ${expanded ? "border-foreground/25 shadow-card" : "border-border hover:border-foreground/30"}`}>
-      <div className="mb-1.5 flex items-start justify-between gap-3">
-        <h3 className="text-[15px] font-semibold leading-snug">{g.begriff}</h3>
-        {g.paragraph && <ToneBadge className="shrink-0 font-mono">{g.paragraph}</ToneBadge>}
+      <div className="mb-1.5 flex flex-wrap items-start justify-between gap-2">
+        <h3 className="min-w-0 break-words text-[15px] font-semibold leading-snug">{g.begriff}</h3>
+        {g.paragraph && <ToneBadge className="max-w-full whitespace-normal break-words text-left font-mono">{g.paragraph}</ToneBadge>}
       </div>
       <p className="text-sm leading-relaxed text-muted-foreground">{g.kurzDefinition}</p>
       {expanded && (

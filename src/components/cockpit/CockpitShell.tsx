@@ -34,7 +34,7 @@ const CockpitShell = ({ eyebrow, title, subtitle, children, showRelated = true, 
   const zusatz = rest.join(" · ");
 
   return (
-    <div className="container max-w-6xl px-4 pb-24 pt-5 md:px-6 md:pb-16 md:pt-7">
+    <div className="container max-w-6xl overflow-x-clip px-4 pb-24 pt-5 md:px-6 md:pb-16 md:pt-7">
       <header className="mb-6 rounded-2xl border border-border bg-white p-5 shadow-card md:mb-7 md:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0 max-w-3xl">
@@ -47,7 +47,10 @@ const CockpitShell = ({ eyebrow, title, subtitle, children, showRelated = true, 
               {zusatz && <span className="text-muted-foreground">· {zusatz}</span>}
             </nav>
 
-            <h1 className="text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-primary md:text-[1.85rem]">
+            <h1
+              lang="de"
+              className="break-words text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-primary [overflow-wrap:anywhere] hyphens-auto md:text-[1.85rem]"
+            >
               {stripEmoji(title)}
             </h1>
 

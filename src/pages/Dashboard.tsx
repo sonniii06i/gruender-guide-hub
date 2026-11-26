@@ -57,15 +57,15 @@ import { cn } from "@/lib/utils";
 const MOBILE_QUICK_ACTIONS = [
   { to: "/cockpit/steuer", label: "Steuern", icon: Calculator, bg: "bg-[#EDF4FF]", fg: "text-[#1E40AF]" },
   { to: "/anbieter", label: "Anbieter", icon: Building2, bg: "bg-[#ECF8F3]", fg: "text-brand-green" },
-  { to: "/chancen", label: "Förderung", icon: Sparkles, bg: "bg-[#FDF6E7]", fg: "text-[#B45309]" },
+  { to: "/cockpit/chancen-radar", label: "Förderung", icon: Sparkles, bg: "bg-[#FDF6E7]", fg: "text-[#B45309]" },
   { to: "/quiz", label: "Quizze", icon: Trophy, bg: "bg-[#F3EEFF]", fg: "text-[#6D28D9]" },
-  { to: "/events", label: "Events", icon: CalendarDays, bg: "bg-[#FFF1F2]", fg: "text-[#BE123C]" },
-  { to: "/vorlagen", label: "Vorlagen", icon: FileText, bg: "bg-[#ECFDF5]", fg: "text-[#047857]" },
+  { to: "/gruender-events", label: "Events", icon: CalendarDays, bg: "bg-[#FFF1F2]", fg: "text-[#BE123C]" },
+  { to: "/cockpit/rechnungs-generator", label: "Rechnung", icon: FileText, bg: "bg-[#ECFDF5]", fg: "text-[#047857]" },
 ] as const;
 
 const TOP_QUICK_TOOLS = [
   {
-    to: "/gewerbe-check",
+    to: "/cockpit/gewerbe-check",
     title: "Gewerbe-Check",
     sub: "Freiberuf oder Gewerbe klären",
     icon: CheckCircle2,
@@ -73,7 +73,7 @@ const TOP_QUICK_TOOLS = [
     fg: "text-[#1E40AF]",
   },
   {
-    to: "/rechtsform",
+    to: "/wizard/rechtsform",
     title: "Rechtsform-Finder",
     sub: "Einzelunternehmen, UG oder GmbH",
     icon: Scale,
@@ -89,7 +89,7 @@ const TOP_QUICK_TOOLS = [
     fg: "text-[#B45309]",
   },
   {
-    to: "/brutto-netto",
+    to: "/cockpit/brutto-netto-solo",
     title: "Brutto-Netto Solo",
     sub: "Was am Monatsende bleibt",
     icon: Landmark,
@@ -97,7 +97,7 @@ const TOP_QUICK_TOOLS = [
     fg: "text-[#6D28D9]",
   },
   {
-    to: "/cockpit/shop-profit",
+    to: "/cockpit/shop-profit-rechner",
     title: "Shop-Profit",
     sub: "Marge und RoAS kalkulieren",
     icon: Store,

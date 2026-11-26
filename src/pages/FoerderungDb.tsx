@@ -109,9 +109,9 @@ const FoerderungDb = () => {
               className="pl-9"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="mb-2 text-sm font-medium">Land</p>
-            <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] md:flex-wrap">
+            <div className="flex flex-wrap gap-1.5">
               {[{ c: "all", label: "Alle", n: FOERDERPROGRAMME.length }, ...allCountries.map((c) => ({ c, label: COUNTRY_LABELS[c] || c, n: countryCount(c) }))].map((x) => (
                 <button
                   key={x.c}
