@@ -51,6 +51,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/vergleich/gruendung-selbst-steuerberater-gruenderx", label: "Selbst, Steuerberater oder GründerX?" },
       { to: "/ust-id-beantragen", label: "USt-ID beantragen" },
       { to: "/elster-zertifikat-beantragen", label: "ELSTER-Zertifikat beantragen" },
+      { to: "/gewerbe-abmelden", label: "Gewerbe abmelden (GewA 3)" },
       { to: "/influencer-steuer-check", label: "Influencer-Steuer-Check" },
       { to: "/tiktok-shop-checkliste", label: "TikTok-Shop-Checkliste" },
       { to: "/pr-paket-rechner", label: "PR-Paket-Rechner" },

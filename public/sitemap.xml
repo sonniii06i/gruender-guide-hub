@@ -56,13 +56,13 @@
   </url>
   <url>
     <loc>https://gruenderx.de/gruendungskosten-rechner</loc>
-    <lastmod>2026-11-19</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://gruenderx.de/rechtsform-finden</loc>
-    <lastmod>2026-11-13</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -165,6 +165,12 @@
   <url>
     <loc>https://gruenderx.de/elster-zertifikat-beantragen</loc>
     <lastmod>2026-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gruenderx.de/gewerbe-abmelden</loc>
+    <lastmod>2026-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

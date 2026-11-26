@@ -84,6 +84,7 @@ export const staticEntries: SitemapEntry[] = [
   { path: "/pr-paket-rechner", changefreq: "weekly", priority: "0.8" },
   { path: "/ust-id-beantragen", changefreq: "weekly", priority: "0.8" },
   { path: "/elster-zertifikat-beantragen", changefreq: "weekly", priority: "0.8" },
+  { path: "/gewerbe-abmelden", changefreq: "weekly", priority: "0.8" },
   { path: "/ratgeber", changefreq: "daily", priority: "0.9" },
   // Lexikon-Hub; die Begriffe folgen als lexikonEntries aus src/data/lexikon/katalog.ts
   { path: "/lexikon", changefreq: "weekly", priority: "0.8" },

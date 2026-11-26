@@ -535,6 +535,7 @@ export const gruendungskostenConfig: ToolConfig = {
     { to: "/vorlagen/gmbh-gesellschaftsvertrag", label: "Vorlage: GmbH-Gesellschaftsvertrag" },
     { to: "/vorlagen/ug-gesellschaftsvertrag", label: "Vorlage: UG-Gesellschaftsvertrag" },
     { to: "/tools/gewerbeanmeldung-wizard", label: "Gewerbeanmeldung Schritt für Schritt" },
+    { to: "/gewerbe-abmelden", label: "Gewerbe abmelden: Formular GewA 3 ausfüllen" },
     { to: "/elster-zertifikat-beantragen", label: "ELSTER-Zertifikat beantragen" },
     { to: "/businessplan-erstellen", label: "Businessplan mit Finanzteil erstellen" },
     { to: "/tools/runway-rechner", label: "Runway-Rechner: Wie lange reicht das Geld?" },

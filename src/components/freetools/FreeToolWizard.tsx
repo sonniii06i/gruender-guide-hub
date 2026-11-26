@@ -75,8 +75,15 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
   }, [showResult, mitRabatt]);
 
   const totalSteps = config.steps.length;
-  const isLastStep = stepIndex === totalSteps - 1;
   const step = config.steps[stepIndex];
+  // Schritte, in denen nach den bisherigen Angaben kein Feld sichtbar ist, werden übersprungen
+  // (z. B. die Formularfelder des GewA 3, wenn der Anlass gar keine Abmeldung ist).
+  const hatFelder = (i: number) => config.steps[i].fields.some((f) => isVisible(f, data));
+  const naechster = (() => {
+    for (let i = stepIndex + 1; i < totalSteps; i++) if (hatFelder(i)) return i;
+    return -1;
+  })();
+  const isLastStep = naechster === -1;
 
   const gated = config.gated === true;
   const isUnlocked = !gated || subscriber || unlocked;
@@ -132,7 +139,7 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
       if (!isUnlocked) setGateOpen(true);
       return;
     }
-    setStepIndex((i) => i + 1);
+    setStepIndex(naechster);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -141,7 +148,12 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
       setShowResult(false);
       return;
     }
-    setStepIndex((i) => Math.max(0, i - 1));
+    for (let i = stepIndex - 1; i >= 0; i--) {
+      if (i === 0 || hatFelder(i)) {
+        setStepIndex(i);
+        return;
+      }
+    }
   };
 
   const copyDoc = async () => {
@@ -152,6 +164,28 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
   const downloadPdf = () => {
     downloadDocumentPdf(document, config.resultFilename);
     toast.success(`${config.documentName} wurde als PDF heruntergeladen.`);
+  };
+
+  const formular = config.formularPdf;
+  const formularDa = Boolean(formular) && (!formular!.verfuegbar || formular!.verfuegbar(data));
+  const [formularLaeuft, setFormularLaeuft] = useState(false);
+  const downloadFormular = async () => {
+    if (!formular || formularLaeuft) return;
+    setFormularLaeuft(true);
+    try {
+      const bytes = await formular.erzeugen(data);
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      const a = window.document.createElement("a");
+      a.href = url;
+      a.download = `${formular.dateiname}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success("Formular ausgefüllt. Bitte prüfen, Datum eintragen und unterschreiben.");
+    } catch {
+      toast.error("Das Formular konnte nicht erzeugt werden. Lade das leere Formular und trage die Angaben aus dem Fahrplan ein.");
+    } finally {
+      setFormularLaeuft(false);
+    }
   };
 
   const downloadTxt = () => {
@@ -245,10 +279,23 @@ export function FreeToolWizard({ config }: FreeToolWizardProps) {
                 <Copy className="mr-2 h-4 w-4" />
                 Kopieren
               </Button>
-              <Button onClick={downloadPdf} className="bg-gradient-primary font-semibold hover:opacity-95">
-                <Download className="mr-2 h-4 w-4" />
-                Als PDF herunterladen
-              </Button>
+              {formularDa ? (
+                <>
+                  <Button variant="outline" onClick={downloadPdf}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Fahrplan als PDF
+                  </Button>
+                  <Button onClick={downloadFormular} disabled={formularLaeuft} className="bg-gradient-primary font-semibold hover:opacity-95">
+                    <Download className="mr-2 h-4 w-4" />
+                    {formular!.label}
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={downloadPdf} className="bg-gradient-primary font-semibold hover:opacity-95">
+                  <Download className="mr-2 h-4 w-4" />
+                  Als PDF herunterladen
+                </Button>
+              )}
             </div>
           ) : (
             <Button onClick={() => setGateOpen(true)} className="bg-gradient-primary font-semibold hover:opacity-95 sm:ml-auto">

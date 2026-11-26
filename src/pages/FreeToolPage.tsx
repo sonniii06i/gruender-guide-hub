@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Gift, Clock, ShieldCheck } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Download, Gift, Clock, ShieldCheck } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
@@ -123,6 +123,21 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
             </div>
             {config.kurzantwort.tabelle && <Tabelle t={config.kurzantwort.tabelle} />}
             {config.kurzantwort.fussnote && <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{config.kurzantwort.fussnote}</p>}
+            {config.downloads && config.downloads.length > 0 && (
+              <ul className="mt-5 space-y-2">
+                {config.downloads.map((dl) => (
+                  <li key={dl.href}>
+                    <a
+                      href={dl.href}
+                      download
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-accent-blue hover:underline"
+                    >
+                      <Download className="h-4 w-4 shrink-0" aria-hidden="true" /> {dl.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
         )}
 

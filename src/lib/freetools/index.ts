@@ -9,6 +9,7 @@ import { prPaketRechnerConfig } from "./pr-paket-rechner";
 import { tiktokShopChecklisteConfig } from "./tiktok-shop-checkliste";
 import { ustIdNrConfig } from "./ust-idnr";
 import { elsterZugangConfig } from "./elster-zugang";
+import { gewerbeAbmeldenConfig } from "./gewerbe-abmelden";
 
 // Reihenfolge = Anzeige-Reihenfolge auf der Hub-Seite.
 export const FREE_TOOLS: ToolConfig[] = [
@@ -20,6 +21,7 @@ export const FREE_TOOLS: ToolConfig[] = [
   prPaketRechnerConfig,
   ustIdNrConfig,
   elsterZugangConfig,
+  gewerbeAbmeldenConfig,
   markenFreischaltungConfig,
   transparencySeriennummerConfig,
 ];

@@ -92,6 +92,19 @@ export interface ToolConfig {
   ergebnisZeile?: (data: ToolData) => string;
   /** utm_medium des Funnel-Links (rechner, generator, anleitung …). Default „generator“. */
   format?: string;
+  /**
+   * Amtlicher Vordruck, im Browser mit den Angaben ausgefüllt (z. B. GewA 3).
+   * Der Knopf steht in der Ergebnisansicht; `verfuegbar` blendet ihn aus, wenn
+   * der Anlass einen anderen Vordruck verlangt.
+   */
+  formularPdf?: {
+    label: string;
+    dateiname: string;
+    verfuegbar?: (data: ToolData) => boolean;
+    erzeugen: (data: ToolData) => Promise<Uint8Array>;
+  };
+  /** Feste Dateien zum Laden (leerer Vordruck); Block direkt über dem Wizard. */
+  downloads?: { label: string; href: string }[];
   seo: {
     title: string;
     description: string;

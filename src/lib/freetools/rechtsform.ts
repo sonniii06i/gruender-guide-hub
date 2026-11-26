@@ -279,6 +279,7 @@ export const baueRechtsformConfig = (rabattAktiv: boolean): ToolConfig => ({
   links: [
     { to: "/gruendungskosten-rechner", label: "Gründungskosten-Rechner: Notar und Handelsregister für UG und GmbH" },
     { to: "/ratgeber/ug-oder-gmbh", label: "Ratgeber: UG oder GmbH" },
+    { to: "/gewerbe-abmelden", label: "Rechtsform wechseln: altes Gewerbe mit dem GewA 3 abmelden" },
   ],
   seo: {
     title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH?",
