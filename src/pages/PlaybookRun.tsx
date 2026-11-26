@@ -7,6 +7,7 @@ import { GUIDE_THEMEN } from "@/data/guides";
 import { getCourseTheme } from "@/components/CourseCoverCard";
 import { useGuideDetail, mergeStepDetail } from "@/hooks/useGuideDetail";
 import { awardStepXp, readGamification, getLevelInfo } from "@/lib/gamification";
+import { hapticLight, hapticSelection, hapticSuccess } from "@/lib/haptics";
 import { Field } from "@/components/cockpit/kit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -496,6 +497,7 @@ const PlaybookRun = () => {
       setRun((r) => (r ? { ...r, status: nextStatus, current_step: newCurrent } : r));
 
       if (status === "done" && !autosave) {
+        hapticSuccess();
         const reward = awardStepXp(pb.slug, step.slug, {
           userId: user.id,
           guideCompleted: isComplete,
@@ -625,7 +627,10 @@ const PlaybookRun = () => {
                   type="button"
                   role="tab"
                   aria-selected={isSelected}
-                  onClick={() => setCurriculumPage(pIdx)}
+                  onClick={() => {
+                    hapticSelection();
+                    setCurriculumPage(pIdx);
+                  }}
                   className={cn(
                     "inline-flex min-h-8 flex-1 items-center justify-center gap-1 rounded-[8px] px-2.5 text-[11px] font-bold tabular transition-colors",
                     isSelected
@@ -753,7 +758,7 @@ const PlaybookRun = () => {
               <Link
                 to="/playbooks"
                 aria-label="Zurück zu allen Kursen"
-                className="inline-flex h-9 shrink-0 items-center justify-center gap-1 rounded-[10px] border border-border bg-white px-2.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary"
+                className="hidden h-9 shrink-0 items-center justify-center gap-1 rounded-[10px] border border-border bg-white px-2.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary md:inline-flex"
               >
                 <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                 <span className="hidden sm:inline">Alle Kurse</span>
@@ -993,7 +998,10 @@ const PlaybookRun = () => {
                                   <button
                                     type="button"
                                     aria-pressed={checked}
-                                    onClick={() => setFormData({ ...formData, [`chk_${i}`]: checked ? "" : "1" })}
+                                    onClick={() => {
+                                      hapticLight();
+                                      setFormData({ ...formData, [`chk_${i}`]: checked ? "" : "1" });
+                                    }}
                                     className={cn(
                                       "group flex min-h-12 w-full items-start gap-3.5 px-4 py-3 text-left transition-colors sm:px-5",
                                       checked ? "bg-brand-green-soft/35" : "hover:bg-secondary/35",
@@ -1170,6 +1178,7 @@ const PlaybookRun = () => {
                               onClick={() => {
                                 setMiniAnswer(idx);
                                 if (opt.ok) {
+                                  hapticSuccess();
                                   awardStepXp(pb.slug, `${step.slug}-check`, { userId: user?.id, bonusXp: 25 });
                                   toast.success("+25 Bonus-XP für den Kurz-Check!");
                                 }
@@ -1282,10 +1291,10 @@ const PlaybookRun = () => {
         </div>
       </div>
 
-      {/* Mobile Sticky Action Bar */}
+      {/* Mobile Sticky Action Bar (Fokus-Modus ohne Bottom-Tab-Bar -> kollisionsfrei an bottom-0!) */}
       <div
-        className="fixed inset-x-0 bottom-14 z-30 border-t border-border bg-white px-3 py-2.5 md:hidden"
-        style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
+        className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-white/95 px-3 pt-2.5 shadow-[0_-4px_16px_rgba(18,43,100,0.06)] backdrop-blur-xl md:hidden"
+        style={{ paddingBottom: "calc(0.625rem + env(safe-area-inset-bottom, 0px))" }}
       >
         <div className="flex items-center gap-2">
           <Button

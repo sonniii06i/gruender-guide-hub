@@ -34,6 +34,7 @@ import { TOOL_COUNT, GUIDE_COUNT, ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { WERBE_HINWEIS } from "@/lib/werbeHinweis";
 import { trackAdConversion } from "@/utils/adConversions";
 import { StartAngebotButton } from "@/components/StartAngebotButton";
+import { isGruenderXIosApp } from "@/lib/iosApp";
 import { cn } from "@/lib/utils";
 
 type GoalKey = "gewerbe" | "ecom" | "gmbh" | "us" | "app";
@@ -106,8 +107,9 @@ const Auth = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { user, loading: authLoading } = useAuth();
+  const iosApp = isGruenderXIosApp();
   const [mode, setMode] = useState<"signin" | "signup">(
-    params.get("mode") === "signin" ? "signin" : "signup",
+    iosApp || params.get("mode") === "signin" ? "signin" : "signup",
   );
   const [goal, setGoal] = useState<GoalKey>("gewerbe");
   const [kaufPlan, setKaufPlan] = useState<"trial" | CartVariant>(() => {
@@ -237,6 +239,169 @@ const Auth = () => {
     }
     toast.success("Link zum Zurücksetzen gesendet. Schau in dein Postfach (auch Spam).");
   };
+
+  // Native GründerX iOS-App (Apple Guideline 3.1.1):
+  // Reiner Login + kostenloses Konto ohne Preise, Testwoche, Checkout-Wege oder WebView-Google-OAuth.
+  if (iosApp && !signupEmail) {
+    return (
+      <KontoRahmen
+        backLink={false}
+        kicker="GründerX iOS"
+        title={mode === "signin" ? "Bei GründerX anmelden" : "Kostenloses Konto anlegen"}
+        subtitle={
+          mode === "signin"
+            ? "Melde dich mit deinem GründerX-Konto an. Alle Kurse, Fortschritte und Tools sind sofort synchron."
+            : "Richte dein Konto ein, um deinen Gründungs-Fahrplan und alle Inhalte zu nutzen."
+        }
+      >
+        <div
+          role="tablist"
+          aria-label="Anmeldeart"
+          className="mb-5 grid grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/75 p-1"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "signin"}
+            onClick={() => { setErrorMsg(null); setMode("signin"); }}
+            className={cn(
+              "min-h-10 rounded-[9px] text-sm font-semibold transition-colors",
+              mode === "signin" ? "bg-white text-primary shadow-sm" : "text-muted-foreground",
+            )}
+          >
+            Anmelden
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "signup"}
+            onClick={() => { setErrorMsg(null); setMode("signup"); }}
+            className={cn(
+              "min-h-10 rounded-[9px] text-sm font-semibold transition-colors",
+              mode === "signup" ? "bg-white text-primary shadow-sm" : "text-muted-foreground",
+            )}
+          >
+            Konto anlegen
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {mode === "signup" && (
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ios-first-name">Vorname</Label>
+                <Input
+                  id="ios-first-name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Max"
+                  required
+                  autoComplete="given-name"
+                  className="h-11 rounded-xl"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ios-last-name">Nachname</Label>
+                <Input
+                  id="ios-last-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Muster"
+                  required
+                  autoComplete="family-name"
+                  className="h-11 rounded-xl"
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-1.5">
+            <Label htmlFor="ios-email">E-Mail</Label>
+            <Input
+              id="ios-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="du@firma.de"
+              required
+              autoComplete="username"
+              className="h-11 rounded-xl"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="ios-pw">Passwort</Label>
+              {mode === "signin" && (
+                <button
+                  type="button"
+                  onClick={handleForgot}
+                  className="text-xs font-semibold text-accent-blue hover:underline"
+                >
+                  Passwort vergessen?
+                </button>
+              )}
+            </div>
+            <div className="relative">
+              <Input
+                id="ios-pw"
+                type={showPw ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={mode === "signin" ? "Dein Passwort" : "Mind. 8 Zeichen"}
+                minLength={8}
+                required
+                className="h-11 rounded-xl pr-11"
+                autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw((s) => !s)}
+                aria-label={showPw ? "Passwort verbergen" : "Passwort anzeigen"}
+                className="absolute inset-y-0 right-1 flex min-w-[40px] items-center justify-center text-muted-foreground"
+              >
+                {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+            {mode === "signup" && (
+              <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] font-medium">
+                {[
+                  { ok: pwChecks.length, label: "Min. 8 Zeichen" },
+                  { ok: pwChecks.digit, label: "1 Zahl" },
+                  { ok: pwChecks.special, label: "1 Sonderzeichen" },
+                ].map((c) => (
+                  <span
+                    key={c.label}
+                    className={cn(
+                      "rounded-md px-2 py-0.5",
+                      c.ok ? "bg-brand-green-soft text-brand-green" : "bg-secondary text-muted-foreground",
+                    )}
+                  >
+                    {c.ok ? "✓ " : ""}{c.label}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {errorMsg && <FormFehler>{errorMsg}</FormFehler>}
+
+          <Button type="submit" size="lg" disabled={loading} className={kontoCta}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                {mode === "signin" ? "Anmeldung läuft …" : "Konto wird angelegt …"}
+              </>
+            ) : mode === "signin" ? (
+              "Anmelden"
+            ) : (
+              "Kostenloses Konto anlegen"
+            )}
+          </Button>
+        </form>
+      </KontoRahmen>
+    );
+  }
 
   // Interaktiver Direkt-Kaufweg (/auth?mode=kauf, ausgeloggt) im Revolut × Lexoffice Stil
   if (params.get("mode") === "kauf" && !user) {

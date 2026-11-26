@@ -10,13 +10,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Bell, User as UserIcon, CreditCard, LogOut, Settings, Check, Sparkles } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
+import { isGruenderXIosApp } from "@/lib/iosApp";
 
 const HeaderActions = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const { items, unread, markAllRead } = useNotifications();
+  const iosApp = isGruenderXIosApp();
 
-  const handleSignOut = async () => { await signOut(); navigate("/"); };
+  const handleSignOut = async () => { await signOut(); navigate(iosApp ? "/auth" : "/"); };
   const initials = (user?.email ?? "?").slice(0, 2).toUpperCase();
 
   return (
@@ -104,7 +106,9 @@ const HeaderActions = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild><Link to="/profile"><UserIcon className="h-4 w-4 mr-2" />Profil</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild><Link to="/profile?tab=abrechnung"><CreditCard className="h-4 w-4 mr-2" />Abrechnung</Link></DropdownMenuItem>
+          {!iosApp && (
+            <DropdownMenuItem asChild><Link to="/profile?tab=abrechnung"><CreditCard className="h-4 w-4 mr-2" />Abrechnung</Link></DropdownMenuItem>
+          )}
           <DropdownMenuItem asChild><Link to="/profile?tab=sicherheit"><Settings className="h-4 w-4 mr-2" />Einstellungen</Link></DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} className="text-danger focus:text-danger">

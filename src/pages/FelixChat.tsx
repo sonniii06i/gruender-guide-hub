@@ -26,7 +26,6 @@ import { toast } from "sonner";
 import { notifyConversationsChanged } from "@/hooks/useFelixConversations";
 import { readProfileCache } from "@/lib/profileCache";
 import { markValueEvent } from "@/utils/valueEvent";
-import { ReferralNudge } from "@/components/ReferralNudge";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -333,7 +332,7 @@ const FelixChat = () => {
   };
 
   return (
-    <div className="flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden bg-background">
+    <div className="flex h-[calc(100dvh-var(--app-topbar-h))] flex-col overflow-hidden bg-background">
       {/* Ruhige Revolut × Lexoffice Assistenten-Kopfzeile */}
       <div className="border-b border-border bg-white px-4 py-2.5 md:px-6">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
@@ -515,15 +514,15 @@ const FelixChat = () => {
                 {fehler}
               </div>
             )}
-            {!streaming && messages.some((m) => m.role === "assistant") && (
-              <ReferralNudge className="mt-6" headline="Hat Felix dir das gerade beantwortet?" />
-            )}
           </div>
         )}
       </div>
 
-      {/* Moderner schwebender Composer */}
-      <div className="border-t border-border bg-white">
+      {/* Moderner schwebender Composer (mit iOS Safe-Area-Reserve) */}
+      <div
+        className="border-t border-border bg-white"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      >
         <div className="mx-auto max-w-3xl px-4 py-3 md:px-6 md:py-4">
           <TokenBudgetNotice className="mb-3" />
           <div className="flex items-end gap-2 rounded-2xl border border-border bg-[#F8FAFC] p-1.5 shadow-sm transition-[border-color,box-shadow,background-color] focus-within:border-primary/50 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/15">
@@ -540,9 +539,9 @@ const FelixChat = () => {
                   void send();
                 }
               }}
-              placeholder="Frag Felix zu Steuern, Rechtsform, Shop oder US-Setup …"
+              placeholder="Frag Felix zu Steuern, GmbH, Shop …"
               rows={1}
-              className="max-h-36 min-h-[44px] resize-none border-0 bg-transparent px-3 py-2.5 text-sm shadow-none focus-visible:ring-0"
+              className="max-h-36 min-h-[44px] resize-none border-0 bg-transparent px-3 py-2.5 text-base leading-snug shadow-none focus-visible:ring-0 md:text-sm"
             />
             <Button
               onClick={() => void send()}

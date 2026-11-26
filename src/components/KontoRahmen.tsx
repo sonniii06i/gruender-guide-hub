@@ -35,11 +35,21 @@ export const KontoRahmen = ({
   backLink?: boolean;
 }) => (
   <div className="flex min-h-screen flex-col bg-hero">
-    <header className="container flex max-w-6xl items-center justify-between gap-4 py-5">
-      <Link to="/" aria-label="GründerX, zur Startseite" className="inline-flex items-center gap-2.5">
-        <Logo asImage className="h-8 w-8" />
-        <span className="text-[17px] font-semibold tracking-tight">GründerX</span>
-      </Link>
+    <header
+      className="container flex max-w-6xl items-center justify-between gap-4 py-5"
+      style={{ paddingTop: "calc(1.25rem + env(safe-area-inset-top, 0px))" }}
+    >
+      {backLink ? (
+        <Link to="/" aria-label="GründerX, zur Startseite" className="inline-flex items-center gap-2.5">
+          <Logo asImage className="h-8 w-8" />
+          <span className="text-[17px] font-semibold tracking-tight text-primary">GründerX</span>
+        </Link>
+      ) : (
+        <div className="inline-flex items-center gap-2.5">
+          <Logo asImage className="h-8 w-8" />
+          <span className="text-[17px] font-bold tracking-tight text-primary">GründerX</span>
+        </div>
+      )}
       {backLink && (
         <Link
           to="/"

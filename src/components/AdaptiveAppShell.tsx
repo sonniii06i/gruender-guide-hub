@@ -4,7 +4,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import HeaderActions from "@/components/HeaderActions";
 import { GlobalSearch } from "@/components/GlobalSearch";
-import { MobileAppTabs } from "@/components/MobileAppTabs";
+import { MobileAppTabs, isMobileFocusRoute } from "@/components/MobileAppTabs";
+import { MobileTopHeader } from "@/components/MobileTopHeader";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { PageHeader } from "@/components/landing/PageHeader";
@@ -67,7 +68,8 @@ export function AdaptiveAppShell({
         <div className="flex min-h-screen w-full bg-background">
           <AppSidebar />
           <div className="flex min-w-0 flex-1 flex-col">
-            <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-white px-3 md:px-4">
+            <MobileTopHeader />
+            <header className="sticky top-0 z-30 hidden h-14 items-center gap-3 border-b border-border bg-white px-4 md:flex">
               <SidebarTrigger />
               <div className="flex flex-1 justify-center">
                 <GlobalSearch />
@@ -76,7 +78,7 @@ export function AdaptiveAppShell({
                 <HeaderActions />
               </div>
             </header>
-            <main id="inhalt" className="min-h-0 flex-1 pb-24 md:pb-14">
+            <main id="inhalt" className={cn("min-h-0 flex-1 md:pb-14", isMobileFocusRoute(pathname) ? "pb-10" : "pb-24")}>
               <div className={`container ${width} px-4 pt-6 md:px-6 md:pt-8`}>
                 <header className="mb-6 rounded-2xl border border-border bg-white p-5 shadow-card md:p-6">
                   <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">

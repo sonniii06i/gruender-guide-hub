@@ -68,6 +68,8 @@
 
     --radius: 0.75rem;
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --app-topbar-h: calc(3rem + env(safe-area-inset-top, 0px));
+    --mobile-tabbar-h: calc(3.5rem + env(safe-area-inset-bottom, 0px));
 
     /* Flache, ruhige Flächen & dezente Kanten (Lexoffice / Studyflix) */
     --gradient-hero: linear-gradient(180deg, #f3f6fb 0%, #f7f8fb 100%);
@@ -305,6 +307,34 @@
   .gx-plan-jetzt { margin-left: 0; margin-top: 4px; display: table; }
 }
 @media (max-width: 639px) { .gx-plan-fall { white-space: normal; } }
+
+@media (min-width: 768px) {
+  :root {
+    --app-topbar-h: 3.5rem;
+  }
+}
+
+/* Native iOS / Touch Feinschliff (emil-design-eng + make-interfaces-feel-better) */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+.is-ios-app,
+.is-ios-app body {
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-x: none;
+}
+
+.is-ios-app nav,
+.is-ios-app header,
+.is-ios-app button,
+.is-ios-app a {
+  -webkit-touch-callout: none;
+}
 
 /* Einheitliche, helle Studyflix/Lexoffice-Karten */
 .gx-card {

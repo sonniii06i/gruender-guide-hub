@@ -3,10 +3,12 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
 import { captureAffiliateRef } from "./utils/affiliate";
+import { initIosApp } from "./lib/iosApp";
 import { ladeSupabase } from "./integrations/supabase/lazy";
 
-// Affiliate-Reflink (?ref=CODE) frueh erfassen.
+// Affiliate-Reflink (?ref=CODE) & native iOS-App-Huelle frueh erfassen.
 captureAffiliateRef();
+initIosApp();
 
 const rootEl = document.getElementById("root")!;
 const app = (

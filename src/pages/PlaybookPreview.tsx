@@ -493,10 +493,10 @@ const PlaybookPreview = () => {
         </div>
       </div>
 
-      {/* Fixe Mobile Start-Bar über der Bottom-Tab-Bar */}
+      {/* Fixe Mobile Start-Bar (Fokus-Modus ohne Bottom-Tab-Bar -> kollisionsfrei an bottom-0!) */}
       <div
-        className="fixed inset-x-0 bottom-14 z-30 border-t border-border bg-white px-4 py-2.5 lg:hidden"
-        style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
+        className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-white/95 px-4 pt-2.5 shadow-[0_-4px_16px_rgba(18,43,100,0.06)] backdrop-blur-xl lg:hidden"
+        style={{ paddingBottom: "calc(0.625rem + env(safe-area-inset-bottom, 0px))" }}
       >
         <Button
           onClick={() => start(pb.slug)}

@@ -3,6 +3,7 @@ import { ArrowRight, Check, ChevronRight, Loader2, Route, Zap } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { useStartplan } from "@/hooks/useStartplan";
 import { useGuideStart } from "@/hooks/useGuideStart";
+import { hapticLight } from "@/lib/haptics";
 import { istAutomatisch, istErledigt, phaseVon, PHASE_LABEL, type PlanProfil, type PlanSchritt } from "@/lib/startplan";
 import { cn } from "@/lib/utils";
 
@@ -171,7 +172,10 @@ export const Startplan = ({
                 aria-label={`${s.titel}: ${fertig ? "erledigt" : "als erledigt markieren"}`}
                 disabled={automatisch}
                 title={automatisch ? "Automatisch erkannt" : undefined}
-                onClick={() => umschalten(s.id)}
+                onClick={() => {
+                  hapticLight();
+                  umschalten(s.id);
+                }}
                 className="group flex w-14 shrink-0 items-center justify-center focus-visible:outline-none disabled:cursor-default"
               >
                 <span

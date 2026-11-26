@@ -11,7 +11,8 @@ import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
 import { TOOL_COUNT } from "@/data/kennzahlen";
 import { merkeBesuch } from "@/lib/zuletztGenutzt";
 import { merkeRundgang, rundgangGesehen } from "@/lib/cockpitZustand";
-import { MobileAppTabs } from "@/components/MobileAppTabs";
+import { MobileAppTabs, isMobileFocusRoute } from "@/components/MobileAppTabs";
+import { MobileTopHeader } from "@/components/MobileTopHeader";
 import { GAMIFICATION_EVENT, getLevelInfo, readGamification } from "@/lib/gamification";
 
 const GGH_TOUR: TourStep[] = [
@@ -84,7 +85,8 @@ export default function AppLayout() {
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-14 flex items-center gap-3 border-b border-border bg-white sticky top-0 z-30 px-3 md:px-4">
+          <MobileTopHeader />
+          <header className="hidden md:flex h-14 items-center gap-3 border-b border-border bg-white sticky top-0 z-30 px-4">
             <SidebarTrigger />
             <div className="flex-1 flex justify-center">
               <GlobalSearch />
@@ -118,7 +120,7 @@ export default function AppLayout() {
               <HeaderActions />
             </div>
           </header>
-          <main className="flex-1 min-h-0 pb-20 md:pb-0">
+          <main className={isMobileFocusRoute(pathname) ? "flex-1 min-h-0" : "flex-1 min-h-0 pb-20 md:pb-0"}>
             <Outlet />
           </main>
         </div>
