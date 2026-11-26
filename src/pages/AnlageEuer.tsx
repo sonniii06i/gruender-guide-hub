@@ -169,9 +169,16 @@ const AnlageEuer = () => {
 
   return (
     <CockpitShell
-      eyebrow="Anlage EÜR · Jahres-Gewinnermittlung"
+      eyebrow="Steuern & Fristen · Anlage EÜR"
       title="Anlage EÜR (Einnahmenüberschussrechnung) Schritt für Schritt"
-      subtitle="Was gehört in welche Zeile? Walkthrough des echten ELSTER-Vordrucks (Anlage EÜR nach § 4 Abs. 3 EStG, Stand Vordruckmuster 2025) mit den Zeilen, die für Solo-Selbstständige & E-Commerce zählen. Du füllst in ELSTER aus, diese Seite erklärt parallel."
+      subtitle="Was gehört in welche Zeile? Walkthrough des echten ELSTER-Vordrucks (Anlage EÜR nach § 4 Abs. 3 EStG, Stand Vordruckmuster 2025) mit den Zeilen für Solo-Selbstständige und E-Commerce."
+      tabs={[
+        { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
+        { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
+        { label: "USt-Voranmeldung", to: "/cockpit/ust-voranmeldung" },
+        { label: "Anlage EÜR", to: "/cockpit/anlage-euer" },
+        { label: "Neu ab 2027", to: "/cockpit/aktuell" },
+      ]}
     >
       <ToolLayout
         inputs={

@@ -326,19 +326,41 @@ export default function GruenderEvents() {
         </p>
       }
       headerExtra={
-        <dl className="grid max-w-2xl grid-cols-3 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
-          {[
-            { n: aktiv.length, l: "Events & Formate" },
-            { n: anzahlStaedte, l: "Orte" },
-            { n: anzahlBauen, l: "Hackathons & Build-Sessions" },
-          ].map((k, i) => (
-            <div key={k.l} className={`px-4 py-4 sm:px-5 ${i > 0 ? "border-l border-border" : ""}`}>
-              <dt className="sr-only">{k.l}</dt>
-              <dd className="text-2xl font-semibold tracking-tight tabular">{k.n}</dd>
-              <dd className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">{k.l}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/gruender-events"
+              className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white"
+            >
+              Gründer-Events
+            </Link>
+            <Link
+              to="/cockpit/event-radar"
+              className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary"
+            >
+              Mein Event-Radar
+            </Link>
+            <Link
+              to="/community/mitgruender"
+              className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary"
+            >
+              Mitgründer-Börse
+            </Link>
+          </div>
+          <dl className="grid max-w-2xl grid-cols-3 overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+            {[
+              { n: aktiv.length, l: "Events & Formate" },
+              { n: anzahlStaedte, l: "Orte" },
+              { n: anzahlBauen, l: "Hackathons & Build-Sessions" },
+            ].map((k, i) => (
+              <div key={k.l} className={`px-4 py-4 sm:px-5 ${i > 0 ? "border-l border-border" : ""}`}>
+                <dt className="sr-only">{k.l}</dt>
+                <dd className="text-2xl font-bold tracking-tight text-primary tabular">{k.n}</dd>
+                <dd className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">{k.l}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       }
     >
       <div className="space-y-10">

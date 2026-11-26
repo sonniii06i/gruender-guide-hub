@@ -92,7 +92,7 @@ function getWorkspaceMeta(guideSlug: string | undefined, step: PlaybookStep): {
   subtitle: string;
 } {
   if (step.slug === "name") {
-    return { hasWorkspace: true, label: "Firmenname direkt prüfen", subtitle: "Name gegen Register & Domains prüfen und für den ganzen Guide speichern." };
+    return { hasWorkspace: true, label: "Firmenname direkt prüfen", subtitle: "Name gegen Register & Domains prüfen und für den ganzen Kurs speichern." };
   }
   if (step.slug === "notar") {
     return { hasWorkspace: true, label: "Notar-Finder öffnen", subtitle: "Passende Notare in deiner Nähe finden und Termin vorbereiten." };
@@ -113,12 +113,12 @@ function getWorkspaceMeta(guideSlug: string | undefined, step: PlaybookStep): {
     return { hasWorkspace: true, label: "Amex-US-Startcheck öffnen", subtitle: "Adresse, Utility-Bill, Tello eSIM und Bankkonto direkt gegenchecken." };
   }
   if (step.fields && step.fields.length > 0) {
-    return { hasWorkspace: true, label: "Eingabe-Fenster bearbeiten", subtitle: "Deine Werte für diesen Schritt sicher im Guide speichern." };
+    return { hasWorkspace: true, label: "Eingabe-Fenster bearbeiten", subtitle: "Deine Werte für diesen Schritt sicher im Kurs speichern." };
   }
   return {
-    hasWorkspace: true,
-    label: "Arbeitsfenster öffnen",
-    subtitle: "Trage deine Eckdaten, Links, Kosten und Notizen für diesen Schritt direkt im Guide ein.",
+    hasWorkspace: false,
+    label: "Eigene Eckdaten & Notiz",
+    subtitle: "Optional: Anbieter, Datum oder Aktenzeichen für diesen Schritt festhalten.",
   };
 }
 
@@ -587,49 +587,51 @@ const PlaybookRun = () => {
 
   return (
     <div ref={activeStepRef} className="min-h-screen overflow-x-clip bg-background pb-36 md:pb-16">
-      {/* Masterclass / Duolingo Kurs-Header in GründerX Navy */}
-      <div className="border-b border-primary/20 bg-ink text-primary-foreground">
-        <div className="container max-w-6xl px-4 py-4 md:px-6 md:py-5">
+      {/* Heller, ruhiger Studyflix × Udemy Lesson-Header */}
+      <div className="border-b border-border bg-white">
+        <div className="container max-w-6xl px-4 py-4 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <Link
               to="/playbooks"
-              className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 -ml-2 text-xs font-medium text-primary-foreground/80 transition-colors hover:bg-white/10 hover:text-white sm:text-sm"
+              className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 -ml-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-primary sm:text-sm"
             >
               <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-              <span>Alle Guides</span>
+              <span>Alle Kurse</span>
             </Link>
 
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold tabular">
-              <span className="inline-flex items-center gap-1 rounded-full bg-brand-green px-2.5 py-1 text-brand-green-foreground shadow-sm">
+              <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2.5 py-1 text-brand-green">
                 <Zap className="h-3.5 w-3.5" aria-hidden="true" />
                 Lvl {lvlInfo.level} · {gamState.xp} XP
               </span>
-              <span className="hidden items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-white sm:inline-flex">
-                <Flame className="h-3.5 w-3.5 text-amber-300" aria-hidden="true" />
-                {gamState.streak} Tage
-              </span>
+              {gamState.streak > 0 && (
+                <span className="hidden items-center gap-1 rounded-md bg-secondary px-2.5 py-1 text-amber-700 sm:inline-flex">
+                  <Flame className="h-3.5 w-3.5" aria-hidden="true" />
+                  {gamState.streak} Tage
+                </span>
+              )}
               <button
                 type="button"
                 onClick={() => setChaptersOpen(true)}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-white lg:hidden"
+                className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-border bg-white px-3 py-1 text-xs font-semibold text-primary hover:bg-secondary lg:hidden"
               >
                 <List className="h-3.5 w-3.5" aria-hidden="true" />
-                Kapitel {activeIndex + 1}/{pb.steps.length}
+                Lehrplan {activeIndex + 1}/{pb.steps.length}
               </button>
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
-            <h1 className="min-w-0 text-lg font-semibold leading-tight tracking-tight text-white sm:text-xl md:text-2xl">
+          <div className="mt-2.5 flex flex-wrap items-baseline justify-between gap-2">
+            <h1 className="min-w-0 text-lg font-bold leading-tight tracking-tight text-primary sm:text-xl md:text-2xl">
               {pb.title}
             </h1>
-            <p className="text-xs font-medium text-primary-foreground/80 tabular">
+            <p className="text-xs font-semibold text-muted-foreground tabular">
               {fertig ? "100 % abgeschlossen" : `${completedCount} von ${pb.steps.length} erledigt · noch ${remainingLabel}`}
             </p>
           </div>
 
-          {/* Segmentierte Duolingo/Story-Fortschrittsleiste */}
-          <div className="mt-3.5 flex gap-1.5" role="group" aria-label="Schritte im Guide">
+          {/* Segmentierte Fortschrittsleiste auf Weiß */}
+          <div className="mt-3 flex gap-1.5" role="group" aria-label="Schritte im Kurs">
             {pb.steps.map((s, i) => {
               const isDone = steps[i]?.status === "done";
               const isActive = i === activeIndex;
@@ -642,12 +644,12 @@ const PlaybookRun = () => {
                   aria-current={isActive ? "step" : undefined}
                   onClick={() => void goToStep(i)}
                   className={cn(
-                    "h-2.5 flex-1 rounded-full transition-all",
+                    "h-2 flex-1 rounded-full transition-colors",
                     isDone
-                      ? "bg-brand-green-glow"
+                      ? "bg-brand-green"
                       : isActive
-                        ? "bg-white shadow-sm"
-                        : "bg-white/20 hover:bg-white/40",
+                        ? "bg-primary"
+                        : "bg-secondary hover:bg-border",
                   )}
                 />
               );
@@ -656,24 +658,25 @@ const PlaybookRun = () => {
         </div>
       </div>
 
-      {/* Hauptbereich: Desktop Kurs-Leiste + 1 ruhige Fokus-Lektion */}
-      <div className="container max-w-6xl px-4 pt-5 md:px-6 md:pt-7">
+      {/* Hauptbereich: Ruhige Udemy-Kapitelleiste links + fokussierte Lektion rechts */}
+      <div className="container max-w-6xl px-4 pt-6 md:px-6">
         {fertig && (
-          <section className="mb-6 rounded-2xl border border-brand-green/40 bg-brand-green-soft/75 p-5 shadow-card md:p-6">
+          <section className="relative mb-6 overflow-hidden rounded-2xl border border-brand-green/35 bg-white p-5 pl-6 shadow-card md:p-6 md:pl-7">
+            <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-brand-green" />
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-start gap-3.5">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-green text-brand-green-foreground shadow-sm">
-                  <Trophy className="h-6 w-6" aria-hidden="true" />
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green text-white">
+                  <Trophy className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
                   <p className="text-xs font-semibold text-brand-green">Ziel erreicht · +{pb.steps.length * 100 + 250} XP</p>
-                  <h2 className="mt-0.5 text-lg font-semibold tracking-tight text-primary">Guide komplett abgeschlossen!</h2>
-                  <p className="mt-1 text-sm text-foreground/85">{pb.outcome}</p>
+                  <h2 className="mt-0.5 text-lg font-bold tracking-tight text-primary">Kurs komplett abgeschlossen!</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{pb.outcome}</p>
                 </div>
               </div>
               <Button asChild size="sm" className="press rounded-xl">
                 <Link to="/playbooks">
-                  Nächsten Guide wählen <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                  Nächsten Kurs wählen <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
             </div>
@@ -682,37 +685,37 @@ const PlaybookRun = () => {
 
         <div className="grid items-start gap-6 lg:grid-cols-[270px_minmax(0,1fr)]">
           {/* Desktop Kapitel-Leiste */}
-          <aside className="hidden rounded-2xl border border-border bg-card p-3 shadow-card lg:sticky lg:top-20 lg:block">
-            <div className="mb-2 flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+          <aside className="hidden overflow-hidden rounded-2xl border border-border bg-white shadow-card lg:sticky lg:top-20 lg:block">
+            <div className="flex items-center justify-between border-b border-border bg-[#F8FAFC] px-4 py-3 text-xs font-bold text-primary">
               <span>Lehrplan</span>
-              <span className="rounded-full bg-secondary px-2 py-0.5 text-foreground tabular">
+              <span className="rounded-md bg-white px-2 py-0.5 text-muted-foreground ring-1 ring-border tabular">
                 {completedCount}/{pb.steps.length}
               </span>
             </div>
-            {ChapterList}
+            <div className="p-2">{ChapterList}</div>
           </aside>
 
-          {/* Aktive Lektion (1 klarer Schritt, 0 Textwand, direktes Arbeitsfenster) */}
-          <article className="min-w-0 overflow-hidden rounded-2xl border border-border bg-card shadow-md">
-            <header className="border-b border-border/70 p-5 sm:p-6">
+          {/* Aktive Lektion: 1 ruhiger, fokussierter Screen */}
+          <article className="min-w-0 overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+            <header className="border-b border-border bg-[#FAFBFD] px-5 py-5 sm:px-7 sm:py-6">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground tabular">
+                  <span className="inline-flex items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white tabular">
                     Schritt {activeIndex + 1} von {pb.steps.length}
                   </span>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-foreground/80">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1 text-xs font-medium text-foreground ring-1 ring-border">
                     <ActiveIcon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                     {STEP_KIND_LABEL[step.kind]}
                   </span>
                   {currentDone && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-brand-green-soft px-2.5 py-1 text-xs font-semibold text-brand-green">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2.5 py-1 text-xs font-semibold text-brand-green">
                       <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> Erledigt
                     </span>
                   )}
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground tabular">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-secondary/70 px-2.5 py-1 font-medium">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1 font-medium ring-1 ring-border">
                     <Clock className="h-3.5 w-3.5" aria-hidden="true" /> ~{step.estMinutes} Min.
                   </span>
                   {step.estCost && (
@@ -724,29 +727,30 @@ const PlaybookRun = () => {
                 </div>
               </div>
 
-              <h2 className="mt-4 text-balance text-xl font-semibold leading-snug tracking-tight text-primary sm:text-2xl">
+              <h2 className="mt-4 text-balance text-xl font-bold leading-snug tracking-[-0.02em] text-primary sm:text-2xl">
                 {step.title}
               </h2>
 
               {step.description && (
-                <div className="mt-3 rounded-xl border border-border/80 bg-secondary/40 px-4 py-3 text-sm leading-relaxed text-foreground/85 sm:text-[15px]">
-                  <span className="mb-1 block text-[11px] font-semibold text-primary">Kurz erklärt</span>
+                <p className="mt-2.5 max-w-[66ch] text-sm leading-relaxed text-foreground/85 sm:text-[15.5px]">
                   {step.description}
-                </div>
+                </p>
               )}
+            </header>
 
-              {/* Direktes Arbeitsfenster-Spotlight (Udemy/Masterclass Interactive Window) */}
+            <div className="space-y-6 p-5 sm:p-7">
+              {/* Echtes Spezial-Arbeitsfenster (nur wenn dieser Schritt ein Werkzeug/Formular hat) */}
               {workspaceMeta.hasWorkspace && (
-                <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-primary/25 bg-primary/[0.04] p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 rounded-xl border border-primary/25 bg-[#F4F7FC] p-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex min-w-0 items-start gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
                       <Wrench className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-sm font-semibold text-foreground">{workspaceMeta.label}</p>
+                        <p className="text-sm font-bold text-primary">{workspaceMeta.label}</p>
                         {savedFieldCount > 0 && (
-                          <span className="rounded-full bg-brand-green-soft px-2 py-0.5 text-[11px] font-semibold text-brand-green tabular">
+                          <span className="rounded-md bg-brand-green-soft px-2 py-0.5 text-[11px] font-semibold text-brand-green tabular">
                             {savedFieldCount} gespeichert ✓
                           </span>
                         )}
@@ -757,35 +761,13 @@ const PlaybookRun = () => {
                   <Button
                     type="button"
                     onClick={() => setWorkspaceOpen(true)}
-                    className="press h-11 shrink-0 gap-1.5 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground"
+                    className="press h-10 shrink-0 gap-1.5 rounded-xl bg-primary px-4 text-xs font-semibold text-white hover:bg-primary/90"
                   >
                     Fenster öffnen <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Button>
                 </div>
               )}
 
-              {/* Sekundär-Aktionen: Notizen + Felix */}
-              <div className="mt-3.5 flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setNotesOpen(true)}
-                  className="min-h-10 gap-1.5 rounded-xl"
-                >
-                  <NotebookPen className="h-4 w-4 text-primary" aria-hidden="true" />
-                  Eigene Notizen {notes.trim() ? "✓" : ""}
-                </Button>
-                <Button asChild variant="outline" size="sm" className="min-h-10 gap-1.5 rounded-xl">
-                  <Link to={`/felix?frage=${encodeURIComponent(`Hilf mir kurz bei Schritt "${step.title}" im Guide "${pb.title}"`)}`}>
-                    <MessageSquare className="h-4 w-4 text-brand-green" aria-hidden="true" />
-                    Felix zu diesem Schritt fragen
-                  </Link>
-                </Button>
-              </div>
-            </header>
-
-            <div className="space-y-5 p-4 sm:p-6">
               {step.warning && (
                 <Callout tone="danger" icon={AlertTriangle} title="Wichtig vor diesem Schritt">
                   {step.warning}
@@ -803,12 +785,12 @@ const PlaybookRun = () => {
                 </div>
               ) : (
                 <>
-                  {/* Interaktive Check-Karten */}
+                  {/* Interaktive Checkliste */}
                   {step.checklist && step.checklist.length > 0 && (
                     <section aria-label="Abhak-Schritte">
-                      <div className="mb-2.5 flex items-center justify-between">
-                        <h3 className="text-sm font-semibold text-foreground">Jetzt erledigen</h3>
-                        <span className="text-xs font-medium text-brand-green tabular">
+                      <div className="mb-3 flex items-center justify-between">
+                        <h3 className="text-sm font-bold text-primary">Jetzt erledigen</h3>
+                        <span className="rounded-md bg-brand-green-soft px-2 py-0.5 text-xs font-semibold text-brand-green tabular">
                           {checklistDone} / {checklistTotal} abgehakt
                         </span>
                       </div>
@@ -824,8 +806,8 @@ const PlaybookRun = () => {
                                 className={cn(
                                   "press flex min-h-12 w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
                                   checked
-                                    ? "border-brand-green/40 bg-brand-green-soft/60"
-                                    : "border-border bg-background hover:border-primary/35",
+                                    ? "border-brand-green/35 bg-brand-green-soft/55"
+                                    : "border-border bg-white hover:border-primary/35 hover:bg-secondary/35",
                                 )}
                               >
                                 {checked ? (
@@ -836,7 +818,7 @@ const PlaybookRun = () => {
                                 <span
                                   className={cn(
                                     "text-sm leading-snug",
-                                    checked && "text-muted-foreground line-through",
+                                    checked ? "text-muted-foreground line-through" : "font-medium text-foreground",
                                   )}
                                 >
                                   {c}
@@ -852,14 +834,14 @@ const PlaybookRun = () => {
                   {/* Direkt-Links zu Ämtern & Portalen */}
                   {step.externalLinks && step.externalLinks.length > 0 && (
                     <section aria-label="Direkte Links">
-                      <h3 className="mb-2 text-sm font-semibold text-foreground">Direkt öffnen</h3>
-                      <div className="grid gap-2 sm:grid-cols-2">
+                      <h3 className="mb-2.5 text-sm font-bold text-primary">Direkt öffnen</h3>
+                      <div className="grid gap-2.5 sm:grid-cols-2">
                         {step.externalLinks.map((l) => (
                           <AnbieterLink
                             key={l.url}
                             url={l.url}
                             ort="playbook"
-                            className="press group flex min-h-11 items-center justify-between gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-medium transition-colors hover:border-primary/40"
+                            className="press group flex min-h-11 items-center justify-between gap-2 rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm font-medium transition-colors hover:border-primary/40 hover:bg-white"
                           >
                             <span className="truncate">{l.label}</span>
                             <ExternalLink className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
@@ -869,13 +851,13 @@ const PlaybookRun = () => {
                     </section>
                   )}
 
-                  {/* Zusatz-Tipps kompakt einklappbar, damit Screen ruhig bleibt */}
+                  {/* Zusatz-Tipps einklappbar */}
                   {step.extendedNotes && step.extendedNotes.length > 0 && (
                     <details className="group rounded-xl border border-border bg-secondary/35 p-4">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-sm font-semibold text-foreground">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-sm font-semibold text-primary">
                         <span className="inline-flex items-center gap-2">
                           <Lightbulb className="h-4 w-4 text-accent-blue" aria-hidden="true" />
-                          Praxis-Hinweise & Details ({step.extendedNotes.length})
+                          Praxis-Hinweise &amp; Details ({step.extendedNotes.length})
                         </span>
                         <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-90" aria-hidden="true" />
                       </summary>
@@ -887,19 +869,19 @@ const PlaybookRun = () => {
                     </details>
                   )}
 
-                  {/* Interaktiver Mini-Wissenscheck (+25 Bonus-XP) für alle 81 Guides */}
+                  {/* Studyflix Kurz-Check (+25 XP) */}
                   {(() => {
                     const mc = getStepMiniCheck(slug, step, activeIndex);
                     if (!mc) return null;
                     return (
-                      <section className="rounded-xl border border-primary/20 bg-primary/5 p-4" aria-label="Kurzer Wissenscheck">
+                      <section className="rounded-xl border border-border bg-[#F8FAFC] p-4 sm:p-5" aria-label="Kurzer Wissenscheck">
                         <div className="mb-2 flex items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-primary">
-                            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+                            <Sparkles className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
                             Kurz-Check (+25 XP)
                           </span>
                           {miniAnswer !== null && (
-                            <span className="text-xs font-semibold text-brand-green">Beantwortet</span>
+                            <span className="rounded-md bg-brand-green-soft px-2 py-0.5 text-xs font-semibold text-brand-green">Beantwortet</span>
                           )}
                         </div>
                         <p className="text-sm font-semibold text-foreground">{mc.frage}</p>
@@ -921,12 +903,12 @@ const PlaybookRun = () => {
                                   }
                                 }}
                                 className={cn(
-                                  "press flex min-h-11 w-full items-center justify-between gap-2 rounded-lg border px-3.5 py-2.5 text-left text-xs font-medium transition-colors sm:text-sm",
+                                  "press flex min-h-11 w-full items-center justify-between gap-2 rounded-xl border px-3.5 py-2.5 text-left text-xs font-medium transition-colors sm:text-sm",
                                   showOk
                                     ? "border-brand-green bg-brand-green-soft text-foreground"
                                     : showBad
                                       ? "border-danger bg-danger-soft text-foreground"
-                                      : "border-border bg-card hover:border-primary/40",
+                                      : "border-border bg-white hover:border-primary/40",
                                 )}
                               >
                                 <span>{opt.label}</span>
@@ -936,7 +918,7 @@ const PlaybookRun = () => {
                           })}
                         </div>
                         {miniAnswer !== null && (
-                          <p className="mt-3 rounded-lg bg-card p-3 text-xs leading-relaxed text-muted-foreground">
+                          <p className="mt-3 rounded-lg border border-border bg-white p-3 text-xs leading-relaxed text-muted-foreground">
                             {mc.erklaerung}
                           </p>
                         )}
@@ -944,7 +926,39 @@ const PlaybookRun = () => {
                     );
                   })()}
 
-                  {/* Kurzer Hinweis wenn Arbeitsfenster Pflichtfelder hat */}
+                  {/* Ruhige Hilfs-Zeile für Notizen & Felix */}
+                  <div className="flex flex-wrap items-center gap-2 border-t border-border pt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setNotesOpen(true)}
+                      className="min-h-9 gap-1.5 rounded-lg text-xs"
+                    >
+                      <NotebookPen className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                      Eigene Notiz {notes.trim() ? "✓" : ""}
+                    </Button>
+                    {!workspaceMeta.hasWorkspace && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setWorkspaceOpen(true)}
+                        className="min-h-9 gap-1.5 rounded-lg text-xs"
+                      >
+                        <Wrench className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                        Eckdaten festhalten {savedFieldCount > 0 ? `(${savedFieldCount})` : ""}
+                      </Button>
+                    )}
+                    <Button asChild variant="outline" size="sm" className="min-h-9 gap-1.5 rounded-lg text-xs">
+                      <Link to={`/felix?frage=${encodeURIComponent(`Hilf mir kurz bei Schritt "${step.title}" im Kurs "${pb.title}"`)}`}>
+                        <MessageSquare className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
+                        Felix zu diesem Schritt fragen
+                      </Link>
+                    </Button>
+                  </div>
+
+                  {/* Hinweis bei offenen Pflichtfeldern */}
                   {missingRequired.length > 0 && (
                     <Callout tone="warning" title="Erst im Arbeitsfenster ausfüllen">
                       Noch offen: {missingRequired.join(", ")}.{" "}
@@ -962,23 +976,23 @@ const PlaybookRun = () => {
             </div>
 
             {/* Desktop Footer Actions */}
-            <footer className="hidden items-center justify-between gap-3 border-t border-border/70 p-5 md:flex">
+            <footer className="hidden items-center justify-between gap-3 border-t border-border bg-[#FAFBFD] px-6 py-4 md:flex">
               <Button
                 variant="outline"
                 onClick={() => void goToStep(Math.max(0, activeIndex - 1))}
                 disabled={activeIndex === 0}
-                className="min-h-11"
+                className="min-h-11 rounded-xl"
               >
                 <ChevronLeft className="h-4 w-4" aria-hidden="true" /> Zurück
               </Button>
               <div className="flex items-center gap-2.5">
-                <Button variant="outline" onClick={() => void saveStep("pending")} disabled={saving} className="min-h-11">
+                <Button variant="outline" onClick={() => void saveStep("pending")} disabled={saving} className="min-h-11 rounded-xl">
                   Zwischenspeichern
                 </Button>
                 <Button
                   onClick={() => void saveStep("done")}
                   disabled={saving || detailLoading}
-                  className="press min-h-11 gap-2 bg-brand-green text-brand-green-foreground hover:bg-brand-green/90"
+                  className="press min-h-11 gap-2 rounded-xl bg-primary px-5 font-semibold text-white hover:bg-primary/90"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <CheckCircle2 className="h-4 w-4" aria-hidden="true" />}
                   {currentDone ? "Weiter zum nächsten Schritt" : "Schritt erledigt (+100 XP)"}
@@ -991,7 +1005,7 @@ const PlaybookRun = () => {
 
       {/* Mobile Sticky Action Bar (über der App-Bottom-Bar) */}
       <div
-        className="fixed inset-x-0 bottom-14 z-30 border-t border-border bg-card/95 px-3 py-2.5 backdrop-blur-md md:hidden"
+        className="fixed inset-x-0 bottom-14 z-30 border-t border-border bg-white px-3 py-2.5 md:hidden"
         style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
       >
         <div className="flex items-center gap-2">
@@ -1001,7 +1015,7 @@ const PlaybookRun = () => {
             onClick={() => void goToStep(Math.max(0, activeIndex - 1))}
             disabled={activeIndex === 0}
             aria-label="Vorheriger Schritt"
-            className="h-11 w-11 shrink-0"
+            className="h-11 w-11 shrink-0 rounded-xl"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </Button>
@@ -1011,7 +1025,7 @@ const PlaybookRun = () => {
               type="button"
               variant="outline"
               onClick={() => setWorkspaceOpen(true)}
-              className="h-11 shrink-0 gap-1.5 px-3 text-xs font-semibold"
+              className="h-11 shrink-0 gap-1.5 rounded-xl px-3 text-xs font-semibold"
             >
               <Wrench className="h-4 w-4 text-primary" aria-hidden="true" />
               Fenster
@@ -1021,9 +1035,9 @@ const PlaybookRun = () => {
           <Button
             onClick={() => void saveStep("done")}
             disabled={saving || detailLoading}
-            className="press h-11 flex-1 gap-1.5 bg-brand-green text-sm font-semibold text-brand-green-foreground hover:bg-brand-green/90"
+            className="press h-11 flex-1 gap-1.5 rounded-xl bg-primary text-sm font-semibold text-white hover:bg-primary/90"
           >
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Sparkles className="h-4 w-4" aria-hidden="true" />}
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <CheckCircle2 className="h-4 w-4" aria-hidden="true" />}
             {currentDone ? "Weiter" : "Erledigt (+100 XP)"}
           </Button>
         </div>

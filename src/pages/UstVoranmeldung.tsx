@@ -104,9 +104,16 @@ const UstVoranmeldung = () => {
 
   return (
     <CockpitShell
-      eyebrow="USt-Voranmeldung + Dauerfristverlängerung"
+      eyebrow="Steuern & Fristen · USt 1 A"
       title="Umsatzsteuer-Voranmeldung (USt 1 A) Schritt für Schritt"
-      subtitle="Was bedeutet welche Kennzahl? Walkthrough des echten ELSTER-Vordrucks 2026 (USt 1 A) mit den Kennzahlen, die für Solo-Selbstständige und E-Commerce zählen, plus Dauerfristverlängerung und Sondervorauszahlung (USt 1 H). Du füllst in ELSTER aus, diese Seite erklärt parallel."
+      subtitle="Was bedeutet welche Kennzahl? Walkthrough des echten ELSTER-Vordrucks 2026 (USt 1 A) mit den Kennzahlen für Solo-Selbstständige und E-Commerce, plus Dauerfristverlängerung und Sondervorauszahlung (USt 1 H)."
+      tabs={[
+        { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
+        { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
+        { label: "USt-Voranmeldung", to: "/cockpit/ust-voranmeldung" },
+        { label: "Anlage EÜR", to: "/cockpit/anlage-euer" },
+        { label: "Neu ab 2027", to: "/cockpit/aktuell" },
+      ]}
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         {/* Wer / Wann */}

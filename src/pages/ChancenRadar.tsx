@@ -83,9 +83,15 @@ const ChancenRadar = () => {
 
   return (
     <CockpitShell
-      eyebrow={`Chancen-Radar · täglich aktualisiert, Stand ${de(daten.stand.slice(0, 10))}`}
-      title="Chancen-Radar: Förderung, Wettbewerbe, Aufträge"
-      subtitle="Was sich für Gründer gerade lohnt: offene Förderaufrufe, EU-Calls, Wettbewerbe mit Preisgeld, Aufträge der öffentlichen Hand, neue Gesetze und Messen, mit Fristen, täglich aus amtlichen und offenen Quellen."
+      eyebrow={`Chancen & Förderung · Stand ${de(daten.stand.slice(0, 10))}`}
+      title="Chancen-Radar: Förderung, Wettbewerbe & Aufträge"
+      subtitle="Offene Förderaufrufe, EU-Calls, Wettbewerbe mit Preisgeld, Aufträge der öffentlichen Hand, neue Gesetze und Messen mit Fristen aus amtlichen Quellen."
+      tabs={[
+        { label: "Chancen-Radar", to: "/cockpit/chancen-radar" },
+        { label: "Gründer-Chancen", to: "/gruender-chancen" },
+        { label: "Startup-Guthaben", to: "/startup-guthaben" },
+        { label: "Förder-Datenbank", to: "/cockpit/foerderung" },
+      ]}
     >
       <ToolSection title="Rubrik wählen" icon={Radar} description={KATEGORIEN[kat].text}>
         <div role="group" aria-label="Rubrik" className="grid grid-cols-2 gap-2 md:grid-cols-3">

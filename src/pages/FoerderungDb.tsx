@@ -85,9 +85,15 @@ const FoerderungDb = () => {
 
   return (
     <CockpitShell
-      eyebrow="Förderung-Datenbank · Stand Mai 2026"
+      eyebrow="Chancen & Förderung · Stand Mai 2026"
       title="Förderprogramme international: DACH, EU und weltweit"
-      subtitle={`${FOERDERPROGRAMME.length} kuratierte Programme aus ${allCountries.length} Ländern: KfW, EXIST, INVEST, HTGF und Bundesländer, EU (EIC, Eurostars), Frankreich, Niederlande, Israel, USA, UK, Schweiz und mehr. Filter nach Land, Typ und Phase.`}
+      subtitle={`${FOERDERPROGRAMME.length} kuratierte Programme aus ${allCountries.length} Ländern: KfW, EXIST, INVEST, HTGF und Bundesländer, EU (EIC, Eurostars), Frankreich, Niederlande, Israel, USA, UK, Schweiz und mehr.`}
+      tabs={[
+        { label: "Chancen-Radar", to: "/cockpit/chancen-radar" },
+        { label: "Gründer-Chancen", to: "/gruender-chancen" },
+        { label: "Startup-Guthaben", to: "/startup-guthaben" },
+        { label: "Förder-Datenbank", to: "/cockpit/foerderung" },
+      ]}
     >
       <ToolSection title="Programme filtern" icon={Filter} className="mb-6" actions={filterAktiv ? <Button variant="ghost" size="sm" onClick={zuruecksetzen}>Filter zurücksetzen</Button> : undefined}>
         <div className="space-y-5">

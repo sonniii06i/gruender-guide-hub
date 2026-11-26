@@ -16,24 +16,15 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  CalendarClock,
   CalendarDays,
   ChevronDown,
-  Radar,
   Target,
   Calculator,
-  Compass,
-  FileSpreadsheet,
-  Gift,
   GraduationCap,
-  HandCoins,
   LayoutDashboard,
   LifeBuoy,
-  ListTree,
   MessageCircle,
   MessageSquare,
-  PlayCircle,
-  Scale,
   Search,
   Shield,
   Trophy,
@@ -41,17 +32,14 @@ import {
   Wrench,
   Percent,
   FileX,
-  CalendarRange,
   Sparkles,
-  BookOpen,
-  CreditCard,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 import { useRadarZaehler } from "@/lib/eventRadar";
 import { LANDING_TOOLS } from "@/data/features";
 import { RUNDGANG_EVENT } from "@/lib/tourLage";
 
-const ZU_KEY = "gx-sidebar-zu-v1";
+const ZU_KEY = "gx-sidebar-zu-v2";
 const CHANCEN_BESUCH = "gx-chancen-radar-besuch";
 
 function useZugeklappt() {
@@ -107,10 +95,33 @@ function useNeueChancen(pathname: string) {
   return n;
 }
 
+const STEUER_PFADE = [
+  "/cockpit/steuer",
+  "/cockpit/steuerkalender",
+  "/cockpit/ust-voranmeldung",
+  "/cockpit/anlage-euer",
+  "/cockpit/quartals-steuer",
+  "/cockpit/aktuell",
+];
+
+const CHANCEN_PFADE = [
+  "/cockpit/chancen-radar",
+  "/gruender-chancen",
+  "/startup-guthaben",
+  "/cockpit/foerderung",
+];
+
+const EVENT_PFADE = [
+  "/gruender-events",
+  "/cockpit/event-radar",
+  "/community/mitgruender",
+];
+
 /**
- * Ruhige, helle Lexoffice-Sidebar:
- * Deckend weißer Grund mit feiner Trennlinie, klar gegliederte Gruppen,
- * schlanker Footer ohne störende Extra-Boxen und dezente Scrollleiste.
+ * Reduzierte, ruhige Lexoffice-Sidebar (10 klare Punkte statt 29):
+ * Passt auf normalen Bildschirmen ohne Scrollen komplett ins Blickfeld.
+ * Unterbereiche (Steuerkalender, Startup-Guthaben, Mitgründer-Börse etc.)
+ * sitzen direkt als Sub-Tabs auf den jeweiligen Hub-Seiten.
  */
 export function AppSidebar() {
   const { state, isMobile, setOpenMobile } = useSidebar();
@@ -125,9 +136,18 @@ export function AppSidebar() {
     if (isMobile) setOpenMobile(false);
   };
 
-  const isActive = (route: string, exact = true) =>
-    exact ? pathname === route : pathname.startsWith(route);
+  const matchAny = (list: string[]) => list.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   const dash = (view: string) => pathname === "/dashboard" && search.includes(`view=${view}`);
+
+  const isSteuer = matchAny(STEUER_PFADE);
+  const isChancen = matchAny(CHANCEN_PFADE);
+  const isEvents = matchAny(EVENT_PFADE);
+  const isKurse = pathname === "/playbooks" || pathname.startsWith("/playbook/") || dash("meine") || pathname.startsWith("/listicles");
+  const isTools =
+    dash("tools") ||
+    dash("themen") ||
+    pathname.startsWith("/wizard/") ||
+    (pathname.startsWith("/cockpit/") && !isSteuer && !isChancen && !isEvents);
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border bg-white">
@@ -137,7 +157,7 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="text-[15px] font-bold tracking-tight text-primary">GründerX</span>
-              <span className="text-[11px] font-medium text-muted-foreground">Gründer-Cockpit</span>
+              <span className="text-[11px] font-medium text-muted-foreground">Cockpit</span>
             </div>
           )}
         </Link>
@@ -146,86 +166,88 @@ export function AppSidebar() {
       <SidebarContent className="gx-scroll gap-0">
         {!collapsed && <ToolSuche onGo={closeOnMobile} />}
 
-        <SidebarGroup className="py-1.5" data-tour="start">
+        {/* 6 klare Haupttabs */}
+        <SidebarGroup className="py-2" data-tour="start">
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-0.5">
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !search} />
-              <Item to="/felix" icon={MessageSquare} label="Felix fragen" hint="KI-Co-Pilot" active={pathname === "/felix"} />
-              <Item to="/felix/chats" icon={ListTree} label="Meine Chats" active={pathname === "/felix/chats"} />
+              <Item to="/playbooks" icon={GraduationCap} label="Kurse & Guides" hint="Alle 81 Kurse" active={isKurse} dataTour="gruppe-lernen" />
+              <Item to="/dashboard?view=tools" icon={Wrench} label="Tools & Rechner" hint="90 Rechner & Wizards" active={isTools} dataTour="gruppe-werkzeuge" />
+              <Item to="/cockpit/steuer" icon={Calculator} label="Steuern & Fristen" hint="Steuer-Cockpit & Kalender" active={isSteuer} />
+              <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" hint="210 Anbieter" active={pathname === "/anbieter" || pathname.startsWith("/anbieter/")} />
+              <Item to="/felix" icon={MessageSquare} label="Felix fragen" hint="KI-Co-Pilot & Chats" active={pathname === "/felix" || pathname.startsWith("/felix/")} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <Gruppe id="lernen" titel="Lernen" zu={zu} umschalten={umschalten} collapsed={collapsed}>
-          <Item to="/playbooks" icon={GraduationCap} label="Alle Kurse (81)" active={pathname === "/playbooks"} />
-          <Item to="/playbook/preview/amex-us-beantragen" icon={CreditCard} label="Amex US Guide" hint="Privat & Business" active={pathname.includes("amex-us-beantragen")} />
-          <Item to="/dashboard?view=meine" icon={PlayCircle} label="Meine Kurse" active={dash("meine")} />
-          <Item to="/quiz" icon={Sparkles} label="Quizze & Checks" hint="XP & Rabatt" active={isActive("/quiz", false) || isActive("/umfrage", false)} />
-          <Item to="/listicles" icon={BookOpen} label="Listicles" hint="Kompakte Übersichten" active={isActive("/listicles", false)} />
-          <Item to="/dashboard?view=themen" icon={Compass} label="Themen entdecken" active={dash("themen")} />
-          <Item to="/cockpit/aktuell" icon={CalendarRange} label="Was sich ändert" hint="Neu ab 2027" active={isActive("/cockpit/aktuell")} />
-        </Gruppe>
-
-        <Gruppe id="werkzeuge" titel="Werkzeuge" zu={zu} umschalten={umschalten} collapsed={collapsed}>
-          <Item to="/dashboard?view=tools" icon={Wrench} label="Alle Tools & Rechner" active={dash("tools")} />
-          <Item to="/wizard/rechtsform" icon={Scale} label="Rechtsform finden" active={isActive("/wizard/rechtsform", false)} />
-          <Item to="/cockpit/steuer" icon={Calculator} label="Steuer-Cockpit" active={isActive("/cockpit/steuer")} />
-          <Item to="/cockpit/steuerkalender" icon={CalendarClock} label="Steuer- & Fristenkalender" active={isActive("/cockpit/steuerkalender")} />
-          <Item to="/cockpit/gruendungsunterlagen" icon={FileSpreadsheet} label="Finanzplan" active={isActive("/cockpit/gruendungsunterlagen")} />
-          <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" active={isActive("/anbieter", false)} />
-        </Gruppe>
-
-        <Gruppe id="geld" titel="Geld & Chancen" zu={zu} umschalten={umschalten} collapsed={collapsed} badge={neueChancen}>
-          <Item to="/cockpit/chancen-radar" icon={Target} label="Chancen-Radar" active={isActive("/cockpit/chancen-radar")} badge={neueChancen} />
-          <Item to="/gruender-chancen" icon={Trophy} label="Gründer-Chancen" hint="Preisgeld & Pitch" active={isActive("/gruender-chancen")} />
-          <Item to="/startup-guthaben" icon={Gift} label="Startup-Guthaben" hint="Credits & Perks" active={isActive("/startup-guthaben")} />
-          <Item to="/cockpit/foerderung" icon={HandCoins} label="Förder-Datenbank" active={isActive("/cockpit/foerderung")} />
-        </Gruppe>
-
-        <Gruppe id="netzwerk" titel="Events & Netzwerk" zu={zu} umschalten={umschalten} collapsed={collapsed} badge={radar.neu}>
-          <Item to="/cockpit/event-radar" icon={Radar} label="Mein Event-Radar" active={isActive("/cockpit/event-radar")} badge={radar.neu} />
-          <Item to="/gruender-events" icon={CalendarDays} label="Gründer-Events" active={isActive("/gruender-events")} />
-          <Item to="/community/mitgruender" icon={Users} label="Mitgründer-Börse" active={isActive("/community/mitgruender", false)} />
+        {/* Eine kompakte Zusatz-Gruppe */}
+        <Gruppe
+          id="mehr"
+          titel="Chancen & Mehr"
+          zu={zu}
+          umschalten={umschalten}
+          collapsed={collapsed}
+          badge={neueChancen + radar.neu}
+        >
+          <Item to="/quiz" icon={Sparkles} label="Quizze & Checks" hint="XP & Startplan" active={pathname.startsWith("/quiz") || pathname.startsWith("/umfrage")} />
+          <Item to="/cockpit/chancen-radar" icon={Target} label="Chancen & Förderung" hint="Förderung, Preisgeld & Guthaben" active={isChancen} badge={neueChancen} dataTour="gruppe-geld" />
+          <Item to="/gruender-events" icon={CalendarDays} label="Events & Netzwerk" hint="Events, Radar & Mitgründer" active={isEvents} badge={radar.neu} dataTour="gruppe-netzwerk" />
           <Item to="/affiliate" icon={Percent} label="Partnerprogramm" active={pathname === "/affiliate"} />
         </Gruppe>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-border py-1.5">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Discord-Community" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
-              <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" onClick={closeOnMobile}>
-                <Users className="h-3.5 w-3.5" />
-                <span>Discord-Community</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/support"} tooltip="Support" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
-              <NavLink to="/support" onClick={closeOnMobile}>
-                <LifeBuoy className="h-3.5 w-3.5" />
-                <span>Support</span>
-              </NavLink>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/kuendigen"} tooltip="Verträge hier kündigen" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
-              <NavLink to="/kuendigen" onClick={closeOnMobile}>
-                <FileX className="h-3.5 w-3.5" />
-                <span>Verträge hier kündigen</span>
-              </NavLink>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/faq"} tooltip="FAQ" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
-              <NavLink to="/faq" onClick={closeOnMobile}>
-                <MessageCircle className="h-3.5 w-3.5" />
-                <span>FAQ</span>
-              </NavLink>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      {/* Kompakter 2x2-Footer: spart vertikalen Platz */}
+      <SidebarFooter className="border-t border-border p-2">
+        {collapsed ? (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/support"} tooltip="Support">
+                <NavLink to="/support" onClick={closeOnMobile}>
+                  <LifeBuoy className="h-4 w-4" />
+                  <span>Support</span>
+                </NavLink>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        ) : (
+          <div className="grid grid-cols-2 gap-1 text-[11px] font-medium text-muted-foreground">
+            <NavLink
+              to="/support"
+              onClick={closeOnMobile}
+              className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-secondary hover:text-primary"
+            >
+              <LifeBuoy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span className="truncate">Support</span>
+            </NavLink>
+            <NavLink
+              to="/faq"
+              onClick={closeOnMobile}
+              className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-secondary hover:text-primary"
+            >
+              <MessageCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span className="truncate">FAQ</span>
+            </NavLink>
+            <a
+              href={DISCORD_INVITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeOnMobile}
+              className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-secondary hover:text-primary"
+            >
+              <Users className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span className="truncate">Discord</span>
+            </a>
+            <NavLink
+              to="/kuendigen"
+              onClick={closeOnMobile}
+              className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-secondary hover:text-primary"
+            >
+              <FileX className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span className="truncate">Kündigen</span>
+            </NavLink>
+          </div>
+        )}
       </SidebarFooter>
     </Sidebar>
   );
@@ -250,7 +272,7 @@ const Gruppe = ({
 }) => {
   const offen = collapsed || !zu.includes(id);
   return (
-    <SidebarGroup className="py-1" data-tour={`gruppe-${id}`}>
+    <SidebarGroup className="border-t border-border/70 py-2" data-tour={`gruppe-${id}`}>
       <SidebarGroupLabel asChild>
         <button
           type="button"
@@ -271,7 +293,7 @@ const Gruppe = ({
       </SidebarGroupLabel>
       {offen && (
         <SidebarGroupContent>
-          <SidebarMenu>{children}</SidebarMenu>
+          <SidebarMenu className="gap-0.5">{children}</SidebarMenu>
         </SidebarGroupContent>
       )}
     </SidebarGroup>
@@ -345,7 +367,7 @@ const ToolSuche = ({ onGo }: { onGo: () => void }) => {
           }}
           placeholder="Tool suchen …"
           aria-label="Tool suchen"
-          className="h-8 w-full rounded-lg border border-border bg-secondary/60 pl-8 pr-9 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/40 focus:bg-white"
+          className="h-9 w-full rounded-lg border border-border bg-secondary/55 pl-8 pr-9 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/40 focus:bg-white"
         />
         <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-border bg-white px-1 py-px font-sans text-[10px] text-muted-foreground">
           ⌘K
@@ -384,6 +406,7 @@ const Item = ({
   hint,
   active,
   badge,
+  dataTour,
 }: {
   to: string;
   icon: React.ElementType;
@@ -391,23 +414,24 @@ const Item = ({
   hint?: string;
   active: boolean;
   badge?: number;
+  dataTour?: string;
 }) => {
   const { isMobile, setOpenMobile } = useSidebar();
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem data-tour={dataTour}>
       <SidebarMenuButton
         asChild
         isActive={active}
         tooltip={hint ? `${label}: ${hint}` : label}
         className={
           active
-            ? "h-8 rounded-lg bg-accent font-semibold text-primary hover:bg-accent hover:text-primary data-[active=true]:bg-accent data-[active=true]:text-primary"
-            : "h-8 rounded-lg text-foreground/80 hover:bg-secondary hover:text-primary"
+            ? "h-9 rounded-lg bg-accent font-semibold text-primary hover:bg-accent hover:text-primary data-[active=true]:bg-accent data-[active=true]:text-primary"
+            : "h-9 rounded-lg text-foreground/80 hover:bg-secondary hover:text-primary"
         }
       >
         <NavLink to={to} data-tour={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
           <Icon className={active ? "h-4 w-4 text-primary" : "h-4 w-4 text-muted-foreground"} />
-          <span className="text-[13px]">{label}</span>
+          <span className="text-[13.5px]">{label}</span>
           {!!badge && (
             <span
               className="tabular ml-auto rounded-md bg-brand-green px-1.5 text-[10px] font-bold leading-4 text-white"

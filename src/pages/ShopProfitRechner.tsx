@@ -148,8 +148,8 @@ const ShopProfitRechner = () => {
           <>
             <ToolSection title="1. Einkauf" description="Du ziehst die Vorsteuer." icon={ShoppingCart}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Einkaufspreis brutto (€)" hint="So wie er auf der Lieferantenrechnung steht, inkl. USt.">
-                  <NumberField step="0.01" value={ekBrutto} onChange={setEkBrutto} min={0} aria-label="Einkaufspreis brutto in Euro" />
+                <Field label="Einkaufspreis brutto" hint="So wie er auf der Lieferantenrechnung steht, inkl. USt.">
+                  <NumberField step="0.01" value={ekBrutto} onChange={setEkBrutto} min={0} suffix="€" aria-label="Einkaufspreis brutto in Euro" />
                 </Field>
                 <Field label="USt im Einkauf" hint="0 % bei Import/IGL oder als Kleinunternehmer.">
                   <ChoiceGroup<number>
@@ -160,8 +160,8 @@ const ShopProfitRechner = () => {
                     options={UST_SAETZE.map((s) => ({ value: s, label: `${s} %` }))}
                   />
                 </Field>
-                <Field label="Verpackung und Sonstiges (€ brutto)" className="sm:col-span-2">
-                  <NumberField step="0.01" value={sonstBrutto} onChange={setSonstBrutto} min={0} aria-label="Verpackung und Sonstiges brutto in Euro" />
+                <Field label="Verpackung und Sonstiges (brutto)" className="sm:col-span-2">
+                  <NumberField step="0.01" value={sonstBrutto} onChange={setSonstBrutto} min={0} suffix="€" aria-label="Verpackung und Sonstiges brutto in Euro" />
                   <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
                     <input type="checkbox" checked={sonstVorsteuer} onChange={(e) => setSonstVorsteuer(e.target.checked)} className={checkCls} />
                     enthält 19 % USt (Vorsteuer ziehbar)
@@ -172,8 +172,8 @@ const ShopProfitRechner = () => {
 
             <ToolSection title="2. Verkauf" description="Die USt gehört dem Finanzamt." icon={Receipt}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Verkaufspreis brutto (€)" hint="Der Preis, den der Kunde im Shop sieht.">
-                  <NumberField step="0.01" value={vkBrutto} onChange={setVkBrutto} min={0} aria-label="Verkaufspreis brutto in Euro" />
+                <Field label="Verkaufspreis brutto" hint="Der Preis, den der Kunde im Shop sieht.">
+                  <NumberField step="0.01" value={vkBrutto} onChange={setVkBrutto} min={0} suffix="€" aria-label="Verkaufspreis brutto in Euro" />
                 </Field>
                 <Field label="USt im Verkauf" hint="7 % z. B. Bücher und Lebensmittel, 0 % als Kleinunternehmer (§ 19).">
                   <ChoiceGroup<number>
@@ -185,46 +185,46 @@ const ShopProfitRechner = () => {
                   />
                 </Field>
                 <Field
-                  label="Versandpauschale vom Kunden (€ brutto)"
+                  label="Versandpauschale vom Kunden (brutto)"
                   hint="0 bei Gratisversand. Zählt zum Umsatz und wird mitversteuert."
                   className="sm:col-span-2"
                 >
-                  <NumberField step="0.01" value={versandKunde} onChange={setVersandKunde} min={0} aria-label="Versandpauschale vom Kunden in Euro" />
+                  <NumberField step="0.01" value={versandKunde} onChange={setVersandKunde} min={0} suffix="€" aria-label="Versandpauschale vom Kunden in Euro" />
                 </Field>
               </div>
             </ToolSection>
 
             <ToolSection title="3. Versand und Zahlungsgebühren" icon={Truck}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Deine Versandkosten (€ brutto)">
-                  <NumberField step="0.01" value={versandKosten} onChange={setVersandKosten} min={0} aria-label="Versandkosten brutto in Euro" />
+                <Field label="Deine Versandkosten (brutto)">
+                  <NumberField step="0.01" value={versandKosten} onChange={setVersandKosten} min={0} suffix="€" aria-label="Versandkosten brutto in Euro" />
                   <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
                     <input type="checkbox" checked={versandVorsteuer} onChange={(e) => setVersandVorsteuer(e.target.checked)} className={checkCls} />
                     enthält 19 % USt
                   </label>
                 </Field>
-                <Field label="PayPal prozentual (%)" hint="Inland-Standard 2,49 %, auf den Bruttoumsatz inkl. Versand.">
-                  <NumberField step="0.01" value={ppProzent} onChange={setPpProzent} min={0} max={20} aria-label="PayPal-Gebühr in Prozent" />
+                <Field label="PayPal prozentual" hint="Inland-Standard 2,49 %, auf den Bruttoumsatz inkl. Versand.">
+                  <NumberField step="0.01" value={ppProzent} onChange={setPpProzent} min={0} max={20} suffix="%" aria-label="PayPal-Gebühr in Prozent" />
                 </Field>
-                <Field label="PayPal fix (€ je Transaktion)" hint="0,35 € Inland. Gebühren sind USt-frei, also keine Vorsteuer.">
-                  <NumberField step="0.01" value={ppFix} onChange={setPpFix} min={0} aria-label="PayPal-Fixgebühr in Euro" />
+                <Field label="PayPal fix (je Transaktion)" hint="0,35 € Inland. Gebühren sind USt-frei, also keine Vorsteuer.">
+                  <NumberField step="0.01" value={ppFix} onChange={setPpFix} min={0} suffix="€" aria-label="PayPal-Fixgebühr in Euro" />
                 </Field>
-                <Field label="Anteil PayPal-Zahler (%)" hint="100 = jede Bestellung. Bei Mix mit Kauf auf Rechnung o. ä. senken.">
-                  <NumberField step="1" value={ppQuote} onChange={setPpQuote} min={0} max={100} aria-label="Anteil PayPal-Zahler in Prozent" />
+                <Field label="Anteil PayPal-Zahler" hint="100 = jede Bestellung. Bei Mix mit Kauf auf Rechnung o. ä. senken.">
+                  <NumberField step="1" value={ppQuote} onChange={setPpQuote} min={0} max={100} suffix="%" aria-label="Anteil PayPal-Zahler in Prozent" />
                 </Field>
               </div>
             </ToolSection>
 
             <ToolSection title="4. Klickkosten" icon={MousePointerClick}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Klickpreis netto (€)" hint="Google und Meta rechnen aus Irland per Reverse Charge ab (ohne USt). Als Kleinunternehmer kommen 19 % USt obendrauf, die du selbst abführst (§ 13b Abs. 8 UStG).">
-                  <NumberField step="0.01" value={cpc} onChange={setCpc} min={0} aria-label="Klickpreis netto in Euro" />
+                <Field label="Klickpreis netto" hint="Google und Meta rechnen aus Irland per Reverse Charge ab (ohne USt). Als Kleinunternehmer kommen 19 % USt obendrauf, die du selbst abführst (§ 13b Abs. 8 UStG).">
+                  <NumberField step="0.01" value={cpc} onChange={setCpc} min={0} suffix="€" aria-label="Klickpreis netto in Euro" />
                 </Field>
                 <Field
-                  label="Organisch oder ohne Klick (%)"
+                  label="Organisch oder ohne Klick"
                   hint="Bestellungen ohne bezahlten Klick (SEO, Direkt, Stammkunden) senken die Werbekosten anteilig."
                 >
-                  <NumberField step="1" value={organischProzent} onChange={setOrganischProzent} min={0} max={100} aria-label="Anteil organischer Bestellungen in Prozent" />
+                  <NumberField step="1" value={organischProzent} onChange={setOrganischProzent} min={0} max={100} suffix="%" aria-label="Anteil organischer Bestellungen in Prozent" />
                 </Field>
                 <Field
                   label="Eingabe über"
@@ -247,7 +247,7 @@ const ShopProfitRechner = () => {
                   />
                   <div className="mt-2">
                     {modus === "cr" ? (
-                      <NumberField step="0.1" value={conversionRate} onChange={setConversionRate} min={0.01} max={100} aria-label="Conversion-Rate in Prozent" />
+                      <NumberField step="0.1" value={conversionRate} onChange={setConversionRate} min={0.01} max={100} suffix="%" aria-label="Conversion-Rate in Prozent" />
                     ) : (
                       <NumberField step="1" value={klicksJeVerkauf} onChange={setKlicksJeVerkauf} min={0} aria-label="Klicks je Verkauf" />
                     )}

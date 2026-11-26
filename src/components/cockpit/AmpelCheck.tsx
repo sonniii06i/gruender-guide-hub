@@ -1,16 +1,18 @@
 import { AlertTriangle, CheckCircle2, HelpCircle, XCircle } from "lucide-react";
 
-/** Ja/Nein-Schalter für Prüf-Fragen (null = noch nicht beantwortet). */
+/** Ja/Nein-Schalter für Prüf-Fragen im Lexoffice-Stil (null = noch nicht beantwortet). */
 export const JaNein = ({ wert, setze }: { wert: boolean | null; setze: (v: boolean) => void }) => (
-  <div className="flex gap-1.5 shrink-0">
+  <div className="inline-flex shrink-0 rounded-xl border border-border bg-secondary/50 p-0.5">
     {[true, false].map((v) => (
       <button
         key={String(v)}
         type="button"
         onClick={() => setze(v)}
         aria-pressed={wert === v}
-        className={`rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors active:translate-y-px ${
-          wert === v ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground/80 hover:border-foreground/25 hover:text-foreground"
+        className={`min-h-9 rounded-lg px-4 py-1.5 text-sm font-semibold transition-colors ${
+          wert === v
+            ? "bg-primary text-primary-foreground shadow-sm"
+            : "text-foreground/80 hover:text-primary"
         }`}
       >
         {v ? "Ja" : "Nein"}
@@ -23,10 +25,10 @@ export type Ampel = "gruen" | "gelb" | "rot" | "offen";
 export type Befund = { stufe: "ok" | "warnung" | "ausschluss"; text: string; quelle: string };
 
 const AMPEL = {
-  gruen: { farbe: "border-success/30 bg-success-soft", text: "text-success", Icon: CheckCircle2 },
-  gelb: { farbe: "border-warning/30 bg-warning-soft", text: "text-warning", Icon: AlertTriangle },
-  rot: { farbe: "border-danger/30 bg-danger-soft", text: "text-danger", Icon: XCircle },
-  offen: { farbe: "border-border bg-secondary/50", text: "text-muted-foreground", Icon: HelpCircle },
+  gruen: { farbe: "border-success/30 bg-success-soft", bar: "bg-success", text: "text-success", Icon: CheckCircle2 },
+  gelb: { farbe: "border-warning/30 bg-warning-soft", bar: "bg-warning", text: "text-warning", Icon: AlertTriangle },
+  rot: { farbe: "border-danger/30 bg-danger-soft", bar: "bg-danger", text: "text-danger", Icon: XCircle },
+  offen: { farbe: "border-border bg-secondary/50", bar: "bg-primary", text: "text-muted-foreground", Icon: HelpCircle },
 };
 
 const BEFUND_ICON = {
@@ -36,10 +38,11 @@ const BEFUND_ICON = {
 };
 
 export const AmpelErgebnis = ({ ampel, titel, befunde }: { ampel: Ampel; titel: Record<Ampel, string>; befunde: Befund[] }) => {
-  const { farbe, text, Icon } = AMPEL[ampel];
+  const { farbe, bar, text, Icon } = AMPEL[ampel];
   return (
-    <div className={`rounded-2xl border p-5 md:p-6 ${farbe}`} aria-live="polite">
-      <div className={`flex items-center gap-2 text-base font-semibold ${text}`}>
+    <div className={`relative overflow-hidden rounded-2xl border p-5 pl-6 md:p-6 md:pl-7 ${farbe}`} aria-live="polite">
+      <span aria-hidden="true" className={`absolute inset-y-0 left-0 w-1 ${bar}`} />
+      <div className={`flex items-center gap-2.5 text-base font-bold ${text}`}>
         <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
         <span className="text-foreground">{titel[ampel]}</span>
       </div>
@@ -63,10 +66,10 @@ export const AmpelErgebnis = ({ ampel, titel, befunde }: { ampel: Ampel; titel: 
 };
 
 export const FrageZeile = ({ frage, hilfe, wert, setze }: { frage: string; hilfe?: string; wert: boolean | null; setze: (v: boolean) => void }) => (
-  <div className="flex flex-col gap-2 py-3.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-    <div className="text-sm leading-relaxed">
+  <div className="flex flex-col gap-2.5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+    <div className="text-sm font-medium leading-relaxed text-foreground">
       {frage}
-      {hilfe && <div className="mt-0.5 text-xs text-muted-foreground">{hilfe}</div>}
+      {hilfe && <div className="mt-0.5 text-xs font-normal text-muted-foreground">{hilfe}</div>}
     </div>
     <JaNein wert={wert} setze={setze} />
   </div>

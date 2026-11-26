@@ -16,18 +16,29 @@ const zeigen = () =>
   );
 
 describe("AppSidebar", () => {
-  it("gliedert nach Gründer-Reise und verlinkt Startup-Guthaben", () => {
+  it("zeigt eine entschlackte Hauptnavigation und Chancen & Mehr", () => {
     zeigen();
-    for (const g of ["Lernen", "Werkzeuge", "Geld & Chancen", "Events & Netzwerk"]) expect(screen.getByText(g)).toBeTruthy();
-    expect(screen.getByRole("link", { name: /Startup-Guthaben/ }).getAttribute("href")).toBe("/startup-guthaben");
+    for (const label of [
+      "Übersicht",
+      "Kurse & Guides",
+      "Tools & Rechner",
+      "Steuern & Fristen",
+      "Anbieter-Vergleich",
+      "Felix fragen",
+      "Chancen & Mehr",
+    ]) {
+      expect(screen.getByText(label)).toBeTruthy();
+    }
+    expect(screen.getByRole("link", { name: /Chancen & Förderung/ }).getAttribute("href")).toBe("/cockpit/chancen-radar");
   });
 
-  it("Gruppen lassen sich zuklappen", () => {
+  it("Zusatz-Gruppe lässt sich zuklappen", () => {
     zeigen();
-    expect(screen.queryByText("Förder-Datenbank")).toBeTruthy();
-    fireEvent.click(screen.getByText("Geld & Chancen"));
-    expect(screen.queryByText("Förder-Datenbank")).toBeNull();
-    fireEvent.click(screen.getByText("Geld & Chancen"));
+    expect(screen.queryByText("Partnerprogramm")).toBeTruthy();
+    fireEvent.click(screen.getByText("Chancen & Mehr"));
+    expect(screen.queryByText("Partnerprogramm")).toBeNull();
+    fireEvent.click(screen.getByText("Chancen & Mehr"));
+    expect(screen.queryByText("Partnerprogramm")).toBeTruthy();
   });
 
   it("Tool-Suche findet Tools über Titel und Beschreibung", () => {

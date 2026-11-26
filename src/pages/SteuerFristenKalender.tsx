@@ -101,9 +101,16 @@ const SteuerFristenKalender = () => {
 
   return (
     <CockpitShell
-      eyebrow="Steuer- & Fristenkalender · Stand 22.11.2026"
+      eyebrow="Steuern & Fristen · Stand 22.11.2026"
       title="Dein persönlicher Steuerkalender"
-      subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation: USt-Voranmeldung, Vorauszahlungen, Lohn, Zusammenfassende Meldung, Jahreserklärungen. Wochenenden und Feiertage sind eingerechnet. Ein Klick, und alles steht mit Erinnerung in deinem Kalender."
+      subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation: USt-Voranmeldung, Vorauszahlungen, Lohn, Zusammenfassende Meldung, Jahreserklärungen. Wochenenden und Feiertage sind eingerechnet."
+      tabs={[
+        { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
+        { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
+        { label: "USt-Voranmeldung", to: "/cockpit/ust-voranmeldung" },
+        { label: "Anlage EÜR", to: "/cockpit/anlage-euer" },
+        { label: "Neu ab 2027", to: "/cockpit/aktuell" },
+      ]}
     >
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-8">
         <ToolSection title="Deine Situation" description="Wird nur in diesem Browser gespeichert." icon={SlidersHorizontal} className="lg:sticky lg:top-20" bodyClassName="space-y-4">

@@ -93,11 +93,11 @@ const BruttoNettoSolo = () => {
           <>
             <ToolSection title="Deine Zahlen" description="Werte pro Jahr, ohne Umsatzsteuer" icon={Wallet}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Jahres-Umsatz (€)" hint="Summe Honorare/Erlöse netto (= ohne USt)">
-                  <NumberField value={umsatz} onChange={setUmsatz} min={0} aria-label="Jahres-Umsatz in Euro" />
+                <Field label="Jahres-Umsatz (netto)" hint="Summe Honorare/Erlöse ohne USt">
+                  <NumberField value={umsatz} onChange={setUmsatz} min={0} suffix="€" aria-label="Jahres-Umsatz in Euro" />
                 </Field>
-                <Field label="Jahres-Betriebsausgaben (€)" hint="Bürokosten, Software, Reisen, Werbung, AfA usw.">
-                  <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} aria-label="Jahres-Betriebsausgaben in Euro" />
+                <Field label="Jahres-Betriebsausgaben" hint="Bürokosten, Software, Reisen, Werbung, AfA usw.">
+                  <NumberField value={betriebsausgaben} onChange={setBetriebsausgaben} min={0} suffix="€" aria-label="Jahres-Betriebsausgaben in Euro" />
                 </Field>
               </div>
             </ToolSection>
@@ -187,6 +187,35 @@ const BruttoNettoSolo = () => {
             </ResultPanel>
 
             <ToolSection title="Rechnung Schritt für Schritt" icon={ListOrdered}>
+              {calc.gewinn > 0 && (() => {
+                const nettoAnteil = Math.max(0, Math.min(100, (calc.nettoJahr / calc.gewinn) * 100));
+                const steuerAnteil = Math.max(0, Math.min(100 - nettoAnteil, (calc.steuerGesamt / calc.gewinn) * 100));
+                const svAnteil = Math.max(0, 100 - nettoAnteil - steuerAnteil);
+                return (
+                  <div className="mb-4 rounded-xl border border-border bg-[#F8FAFC] p-3.5">
+                    <p className="mb-2 text-xs font-semibold text-primary">Wohin dein Gewinn fließt</p>
+                    <div className="flex h-3 w-full overflow-hidden rounded-full bg-secondary">
+                      <div className="bg-brand-green" style={{ width: `${nettoAnteil}%` }} />
+                      <div className="bg-primary" style={{ width: `${steuerAnteil}%` }} />
+                      <div className="bg-amber-500" style={{ width: `${svAnteil}%` }} />
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground tabular">
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-sm bg-brand-green" aria-hidden="true" />
+                        Netto {nettoAnteil.toFixed(0)} %
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-sm bg-primary" aria-hidden="true" />
+                        Steuern {steuerAnteil.toFixed(0)} %
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-sm bg-amber-500" aria-hidden="true" />
+                        KV &amp; RV {svAnteil.toFixed(0)} %
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
               <div className="text-sm">
                 <Row label="Jahres-Umsatz (netto)" val={umsatz} />
                 <Row label="./. Betriebsausgaben" val={-betriebsausgaben} />

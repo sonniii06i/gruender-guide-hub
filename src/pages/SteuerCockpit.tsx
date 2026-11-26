@@ -261,9 +261,16 @@ const SteuerCockpit = () => {
 
   return (
     <CockpitShell
-      eyebrow="DE-Steuer-Cockpit"
-      title="Fristen, IAB & Quartals-Schätzung"
+      eyebrow="Steuern & Fristen"
+      title="Steuer-Cockpit: Fristen, IAB & Quartals-Schätzung"
       subtitle="Personalisiert auf deine Konstellation: Setup unten wählen, die Fristen aktualisieren sich live."
+      tabs={[
+        { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
+        { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
+        { label: "USt-Voranmeldung", to: "/cockpit/ust-voranmeldung" },
+        { label: "Anlage EÜR", to: "/cockpit/anlage-euer" },
+        { label: "Neu ab 2027", to: "/cockpit/aktuell" },
+      ]}
     >
       <ToolSection title="Dein Setup" icon={Settings2} className="mb-6" description="Rechtsform, USt-Rhythmus und Sonderfälle bestimmen deinen Frist-Kalender.">
         <div className="mb-5 grid gap-5 sm:grid-cols-2">

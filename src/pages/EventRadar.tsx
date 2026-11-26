@@ -153,9 +153,14 @@ const EventRadar = () => {
 
   return (
     <CockpitShell
-      eyebrow="Event-Radar · täglich aktualisiert"
+      eyebrow="Events & Netzwerk · täglich aktualisiert"
       title="Dein Event-Radar"
       subtitle="Gründerabende, Hackathons, KI-Meetups und Fristen, gefiltert auf deine Region und Interessen. Was seit deinem letzten Besuch dazugekommen ist, ist markiert."
+      tabs={[
+        { label: "Gründer-Events", to: "/gruender-events" },
+        { label: "Mein Event-Radar", to: "/cockpit/event-radar" },
+        { label: "Mitgründer-Börse", to: "/community/mitgruender" },
+      ]}
       actions={
         <Button variant="outline" onClick={() => setEinrichten((x) => !x)}>
           <Settings2 className="h-4 w-4" /> {einrichten ? "Schließen" : "Radar einstellen"}

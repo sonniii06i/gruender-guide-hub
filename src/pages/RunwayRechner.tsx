@@ -96,32 +96,32 @@ const RunwayRechner = () => {
           <>
             <ToolSection title="Cash und monatliche Kosten" icon={PiggyBank}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Kontostand heute (€)" hint="Geschäftskonto und fest fürs Business reserviertes Geld">
-                  <NumberField value={cash} onChange={setCash} min={0} aria-label="Kontostand heute in Euro" />
+                <Field label="Kontostand heute" hint="Geschäftskonto und fest fürs Business reserviertes Geld">
+                  <NumberField value={cash} onChange={setCash} min={0} suffix="€" aria-label="Kontostand heute in Euro" />
                 </Field>
-                <Field label="Fixkosten pro Monat (€)" hint="Software, Server, Miete, Versicherungen, StB, Ads-Grundbudget">
-                  <NumberField value={fixkostenMonat} onChange={setFixkostenMonat} min={0} aria-label="Fixkosten pro Monat in Euro" />
+                <Field label="Fixkosten pro Monat" hint="Software, Server, Miete, Versicherungen, StB, Ads-Grundbudget">
+                  <NumberField value={fixkostenMonat} onChange={setFixkostenMonat} min={0} suffix="€" aria-label="Fixkosten pro Monat in Euro" />
                 </Field>
                 <Field
                   className="sm:col-span-2"
-                  label="Privatentnahme oder Gehalt pro Monat (€)"
+                  label="Privatentnahme oder Gehalt pro Monat"
                   hint="Dein Lebensunterhalt ist auch Burn, ehrlich eintragen (0, wenn nebenberuflich)"
                 >
-                  <NumberField value={privatentnahmeMonat} onChange={setPrivatentnahmeMonat} min={0} aria-label="Privatentnahme pro Monat in Euro" />
+                  <NumberField value={privatentnahmeMonat} onChange={setPrivatentnahmeMonat} min={0} suffix="€" aria-label="Privatentnahme pro Monat in Euro" />
                 </Field>
               </div>
             </ToolSection>
 
             <ToolSection title="Umsatz und Wachstum" icon={TrendingUp}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Umsatz pro Monat aktuell (€ netto)" hint="Ohne USt., 0 wenn noch vor dem Launch">
-                  <NumberField value={umsatzMonat} onChange={setUmsatzMonat} min={0} aria-label="Umsatz pro Monat in Euro" />
+                <Field label="Umsatz pro Monat aktuell (netto)" hint="Ohne USt., 0 wenn noch vor dem Launch">
+                  <NumberField value={umsatzMonat} onChange={setUmsatzMonat} min={0} suffix="€" aria-label="Umsatz pro Monat in Euro" />
                 </Field>
-                <Field label="Deckungsbeitrag / Marge (%)" hint="SaaS, Apps, Dienstleistung 80–95 %; E-Com nach Wareneinsatz und Versand oft 25–45 %">
-                  <NumberField value={margeProzent} onChange={setMargeProzent} min={0} max={100} aria-label="Marge in Prozent" />
+                <Field label="Deckungsbeitrag / Marge" hint="SaaS, Apps, Dienstleistung 80 bis 95 %; E-Com oft 25 bis 45 %">
+                  <NumberField value={margeProzent} onChange={setMargeProzent} min={0} max={100} suffix="%" aria-label="Marge in Prozent" />
                 </Field>
-                <Field className="sm:col-span-2" label="Umsatz-Wachstum pro Monat (%)" hint="Ehrlich schätzen: 5–10 % pro Monat ist für Bootstrapper schon stark">
-                  <NumberField step="0.5" value={wachstumProzent} onChange={setWachstumProzent} min={0} max={100} aria-label="Wachstum pro Monat in Prozent" />
+                <Field className="sm:col-span-2" label="Umsatz-Wachstum pro Monat" hint="Ehrlich schätzen: 5 bis 10 % pro Monat ist für Bootstrapper schon stark">
+                  <NumberField step="0.5" value={wachstumProzent} onChange={setWachstumProzent} min={0} max={100} suffix="%" aria-label="Wachstum pro Monat in Prozent" />
                 </Field>
               </div>
             </ToolSection>
@@ -191,6 +191,36 @@ const RunwayRechner = () => {
       />
 
       <ToolSection title="Cash-Verlauf (Simulation)" icon={Flame} className="mb-6">
+        {calc.verlauf.length > 0 && (() => {
+          const maxAbs = Math.max(1, ...calc.verlauf.map((v) => Math.abs(v.bestand)));
+          return (
+            <div className="mb-5 rounded-xl border border-border bg-[#F8FAFC] p-4" aria-hidden="true">
+              <div className="mb-2 flex items-center justify-between text-xs font-semibold text-muted-foreground">
+                <span>Kontostand im Verlauf (Monat 1 bis {calc.verlauf[calc.verlauf.length - 1]?.monat})</span>
+                <span className="inline-flex items-center gap-3">
+                  <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-brand-green" /> Positiv</span>
+                  <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-danger" /> Unter 0 €</span>
+                </span>
+              </div>
+              <div className="flex h-24 items-end gap-1.5">
+                {calc.verlauf.map((v) => {
+                  const pct = Math.max(8, Math.round((Math.abs(v.bestand) / maxAbs) * 100));
+                  return (
+                    <div key={v.monat} className="flex flex-1 flex-col items-center gap-1" title={`Monat ${v.monat}: ${eur(v.bestand)} €`}>
+                      <div className="flex h-20 w-full items-end">
+                        <div
+                          className={`w-full rounded-t-md transition-all ${v.bestand >= 0 ? "bg-brand-green/85" : "bg-danger/85"}`}
+                          style={{ height: `${pct}%` }}
+                        />
+                      </div>
+                      <span className="text-[10px] font-medium text-muted-foreground tabular">M{v.monat}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
         <KitTable caption="Simulierter Cash-Verlauf je Monat" className="max-h-[420px] overflow-y-auto">
           <thead className="sticky top-0">
             <tr>

@@ -1,22 +1,17 @@
 /**
- * Baukasten für alle Cockpit-Tools (Redesign 10/2026, flacher Umbau 11/2026).
+ * Gemeinsamer Lexoffice × Studyflix Baukasten für alle Cockpit-Rechner & Tools.
  *
- * Ziel: Jedes der Tools hat dieselbe Grammatik.
- *   CockpitShell        Seitenkopf (Kicker, H1, Untertitel) und Rahmen
- *   ToolLayout          zweispaltig: Eingaben links, Ergebnis rechts (sticky)
- *   ToolSection         Abschnitt mit Titel, optionalem Icon und Beschreibung
- *   Field               Label über dem Eingabefeld, Hinweis darunter, Fehler darunter
- *   ResultPanel         hervorgehobene Ergebnis-Zone (dunkel oder hell)
- *   StatTile / StatGrid Kennzahlen mit tabellarischen Ziffern
- *   Callout             Hinweis-Box in einem Status-Ton
- *   ToneBadge           kleines Status-Etikett
- *   EmptyState          Leerzustand mit nächstem Schritt
- *   KitTable            Tabellen-Rahmen mit horizontalem Scroll auf Mobil
- *   ChoiceGroup         Segment-Auswahl (ersetzt handgebaute Knopfreihen)
- *
- * Regeln: Labels in Satzschreibung (keine Großbuchstaben mit Sperrung),
- * keine Emojis in Überschriften, Status-Farben nur über die Töne
- * success / warning / danger / info / neutral.
+ *   CockpitShell        Klarer weißer Arbeitskopf mit Breadcrumb & optionalen Sub-Tabs
+ *   ToolLayout          Zweispaltig: Eingaben links, sticky Ergebnis rechts
+ *   ToolSection         Ruhige weiße Karte mit fein abgesetzter Kopfzeile
+ *   Field               Präzises Label, Hinweis & Fehler
+ *   ResultPanel         Hervorgehobene Ergebnis-Zone (Navy-KPI-Karte oder helle Rechenweg-Karte)
+ *   StatTile / StatGrid Tabellarische Kennzahlen
+ *   Callout             Scannbare Hinweis-Box mit linker Status-Kante
+ *   ToneBadge           Kompaktes Status-Etikett
+ *   EmptyState          Ruhiger Leerzustand mit nächstem Schritt
+ *   KitTable            Saubere Lexoffice-Finanztabelle
+ *   ChoiceGroup         Präzise Segment-Auswahl
  */
 import type { ReactNode, ElementType } from "react";
 import { cn } from "@/lib/utils";
@@ -33,12 +28,20 @@ export const stripEmoji = (s: string): string =>
     .trim();
 
 const TONE_SOFT: Record<Tone, string> = {
-  neutral: "border-border bg-secondary/60 text-foreground",
-  info: "border-info/20 bg-info-soft text-foreground",
+  neutral: "border-border bg-secondary/50 text-foreground",
+  info: "border-info/25 bg-info-soft text-foreground",
   success: "border-success/25 bg-success-soft text-foreground",
-  warning: "border-warning/25 bg-warning-soft text-foreground",
-  danger: "border-danger/25 bg-danger-soft text-foreground",
-  accent: "border-border bg-secondary text-foreground",
+  warning: "border-warning/30 bg-warning-soft text-foreground",
+  danger: "border-danger/30 bg-danger-soft text-foreground",
+  accent: "border-primary/20 bg-accent/60 text-foreground",
+};
+const TONE_BAR: Record<Tone, string> = {
+  neutral: "bg-border",
+  info: "bg-info",
+  success: "bg-success",
+  warning: "bg-warning",
+  danger: "bg-danger",
+  accent: "bg-primary",
 };
 const TONE_TEXT: Record<Tone, string> = {
   neutral: "text-muted-foreground",
@@ -46,7 +49,7 @@ const TONE_TEXT: Record<Tone, string> = {
   success: "text-success",
   warning: "text-warning",
   danger: "text-danger",
-  accent: "text-accent-blue",
+  accent: "text-primary",
 };
 const TONE_ICON: Record<Tone, ElementType> = {
   neutral: CircleDashed,
@@ -62,7 +65,7 @@ export const toneSoft = (t: Tone) => TONE_SOFT[t];
 
 /* ------------------------------------------------------------------ Layout */
 
-/** Zwei Spalten ab lg: Eingaben (breiter) und Ergebnis (sticky). Mobil gestapelt. */
+/** Zwei Spalten ab lg: Eingaben (links) und sticky Ergebnis (rechts). Mobil gestapelt. */
 export const ToolLayout = ({
   inputs,
   result,
@@ -74,7 +77,7 @@ export const ToolLayout = ({
   className?: string;
   resultFirstOnMobile?: boolean;
 }) => (
-  <div className={cn("grid items-start gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-6", className)}>
+  <div className={cn("grid items-start gap-6 lg:grid-cols-[minmax(0,1.16fr)_minmax(0,1fr)] lg:gap-7", className)}>
     <div className={cn("min-w-0 space-y-5", resultFirstOnMobile && "order-2 lg:order-1")}>{inputs}</div>
     <div className={cn("min-w-0 space-y-5 lg:sticky lg:top-20", resultFirstOnMobile && "order-1 lg:order-2")}>{result}</div>
   </div>
@@ -101,24 +104,24 @@ export const ToolSection = ({
   as?: ElementType;
   id?: string;
 }) => (
-  <As id={id} className={cn("rounded-2xl border border-border bg-card shadow-card", className)}>
+  <As id={id} className={cn("overflow-hidden rounded-2xl border border-border bg-white shadow-card", className)}>
     {(title || actions) && (
-      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-5 py-4">
-        <div className="flex min-w-0 items-start gap-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-[#F8FAFC] px-5 py-3.5">
+        <div className="flex min-w-0 items-center gap-3">
           {Icon && (
-            <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
               <Icon className="h-4 w-4" aria-hidden="true" />
             </span>
           )}
           <div className="min-w-0">
-            {title && <h2 className="text-[15px] font-semibold leading-snug text-foreground">{title}</h2>}
-            {description && <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{description}</p>}
+            {title && <h2 className="text-[15px] font-bold leading-snug text-primary">{title}</h2>}
+            {description && <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">{description}</p>}
           </div>
         </div>
         {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
       </div>
     )}
-    <div className={cn("p-5", bodyClassName)}>{children}</div>
+    <div className={cn("p-5 sm:p-6", bodyClassName)}>{children}</div>
   </As>
 );
 
@@ -140,7 +143,7 @@ export const Field = ({
   className?: string;
 }) => (
   <div className={cn("space-y-1.5", className)}>
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-foreground">
+    <label htmlFor={htmlFor} className="block text-[13px] font-semibold text-foreground">
       {label}
     </label>
     {children}
@@ -153,11 +156,11 @@ export const Field = ({
   </div>
 );
 
-/** Klassen für native <select>, passend zu <Input>. */
+/** Klassen für native <select>, passend zu <Input> & <NumberField>. */
 export const selectCls =
-  "h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25 disabled:opacity-50";
+  "h-11 w-full rounded-xl border border-input bg-white px-3.5 text-sm font-medium text-foreground transition-[border-color,box-shadow] focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:opacity-50";
 
-/** Segment-Auswahl. Ersetzt handgebaute Knopfreihen (aria-pressed inklusive). */
+/** Segment-Auswahl im Lexoffice-Stil (aria-pressed inklusive). */
 export function ChoiceGroup<T extends string | number | boolean>({
   value,
   onChange,
@@ -184,11 +187,11 @@ export function ChoiceGroup<T extends string | number | boolean>({
             aria-pressed={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              "press rounded-xl border text-left font-medium",
+              "press rounded-xl border text-left font-semibold transition-colors",
               size === "sm" ? "min-h-9 px-3 py-1.5 text-xs" : "min-h-11 px-4 py-2 text-sm",
               active
                 ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                : "border-border bg-card text-foreground/85 hover:border-primary/40 hover:text-foreground",
+                : "border-border bg-white text-foreground/85 hover:border-primary/40 hover:bg-secondary/50 hover:text-primary",
             )}
           >
             <span className="block">{o.label}</span>
@@ -207,8 +210,10 @@ export function ChoiceGroup<T extends string | number | boolean>({
 /* ------------------------------------------------------------------ Ergebnis */
 
 /**
- * Hervorgehobene Ergebnis-Zone. variant="ink" ist die dunkle Hauptkarte für
- * die eine Zahl, die zählt; variant="light" für ausführliche Ergebnisse.
+ * Hervorgehobene Ergebnis-Zone:
+ * - variant="ink": ruhige, solide GründerX-Navy-KPI-Karte für die eine Hauptzahl
+ *   (kompatibel mit allen 45+ Rechner-Seiten, klarer Kontrast auf allen Kind-Karten).
+ * - variant="light": helle Lexoffice-Rechenweg-Karte mit feiner Kopfzeile.
  */
 export const ResultPanel = ({
   title = "Ergebnis",
@@ -234,27 +239,52 @@ export const ResultPanel = ({
     <section
       aria-live="polite"
       className={cn(
-        "relative overflow-hidden rounded-2xl border p-5 shadow-card md:p-6",
-        ink ? "border-transparent bg-ink text-primary-foreground shadow-md" : "border-border bg-card",
+        "relative overflow-hidden rounded-2xl border p-5 md:p-6",
+        ink
+          ? "border-primary bg-primary text-primary-foreground shadow-soft"
+          : "border-border bg-white shadow-card",
         className,
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          {kicker && <p className={cn("text-sm font-medium", ink ? "text-brand-green-glow" : "text-muted-foreground")}>{kicker}</p>}
-          {title && <h2 className={cn("text-[15px] font-semibold", kicker && "mt-0.5")}>{title}</h2>}
+        <div className="min-w-0">
+          {kicker && (
+            <p
+              className={cn(
+                "text-xs font-semibold uppercase tracking-wider",
+                ink ? "text-brand-green-glow" : "text-muted-foreground",
+              )}
+            >
+              {kicker}
+            </p>
+          )}
+          {title && (
+            <h2
+              className={cn(
+                "text-[15px] font-bold leading-snug",
+                ink ? "text-white" : "text-primary",
+                kicker && "mt-1",
+              )}
+            >
+              {title}
+            </h2>
+          )}
         </div>
         {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
       </div>
+
       {value !== undefined && (
-        <div className="mt-4">
-          <div className="text-[2rem] font-semibold leading-tight tracking-[-0.02em] tabular md:text-[2.5rem]">{value}</div>
+        <div className={cn("mt-4", !ink && "border-b border-border pb-4")}>
+          <div className={cn("text-[2rem] font-bold leading-tight tracking-[-0.025em] tabular md:text-[2.35rem]", !ink && "text-primary")}>
+            {value}
+          </div>
           {valueHint && (
-            <p className={cn("mt-1.5 text-sm", ink ? "text-primary-foreground/70" : "text-muted-foreground")}>{valueHint}</p>
+            <p className={cn("mt-1.5 text-sm", ink ? "text-primary-foreground/80" : "text-muted-foreground")}>{valueHint}</p>
           )}
         </div>
       )}
-      {children && <div className={cn(value !== undefined || title ? "mt-5" : "", ink && "text-primary-foreground/85")}>{children}</div>}
+
+      {children && <div className={cn(value !== undefined || title ? "mt-5" : "", ink && "text-primary-foreground/90")}>{children}</div>}
     </section>
   );
 };
@@ -287,27 +317,31 @@ export const StatTile = ({
   tone?: Tone;
   emphasis?: boolean;
   className?: string;
-}) => (
-  <div
-    className={cn(
-      "rounded-2xl border p-4 shadow-card",
-      emphasis ? TONE_SOFT[tone === "neutral" ? "accent" : tone] : "border-border bg-card",
-      className,
-    )}
-  >
-    <p className="text-sm text-muted-foreground">{label}</p>
-    <p
+}) => {
+  const accentTone = tone === "neutral" ? "accent" : tone;
+  return (
+    <div
       className={cn(
-        "mt-1 font-semibold tabular",
-        emphasis ? "text-2xl md:text-[1.7rem]" : "text-xl",
-        tone !== "neutral" && TONE_TEXT[tone],
+        "relative overflow-hidden rounded-xl border p-4",
+        emphasis ? cn("pl-5", TONE_SOFT[accentTone]) : "border-border bg-white shadow-card",
+        className,
       )}
     >
-      {value}
-    </p>
-    {hint && <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
-  </div>
-);
+      {emphasis && <span aria-hidden="true" className={cn("absolute inset-y-0 left-0 w-1", TONE_BAR[accentTone])} />}
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      <p
+        className={cn(
+          "mt-1 font-bold tabular",
+          emphasis ? "text-2xl md:text-[1.6rem]" : "text-xl",
+          tone !== "neutral" ? TONE_TEXT[tone] : "text-primary",
+        )}
+      >
+        {value}
+      </p>
+      {hint && <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
+    </div>
+  );
+};
 
 /** Zeile Label/Wert für Aufschlüsselungen (z. B. Steuer-Positionen). */
 export const ResultRow = ({
@@ -325,11 +359,10 @@ export const ResultRow = ({
 }) => (
   <div className={cn("flex items-baseline justify-between gap-4 py-2.5", strong && "font-semibold")}>
     <div className="min-w-0">
-      {/* Farbe erbt vom Container: funktioniert in hellen Karten und im dunklen ResultPanel. */}
-      <span className={cn("text-sm", !strong && "opacity-80")}>{label}</span>
+      <span className={cn("text-sm", !strong && "opacity-85")}>{label}</span>
       {hint && <span className="block text-xs opacity-65">{hint}</span>}
     </div>
-    <span className={cn("shrink-0 text-sm tabular", strong && "text-base", tone !== "neutral" && TONE_TEXT[tone])}>{value}</span>
+    <span className={cn("shrink-0 text-sm tabular", strong && "text-base font-bold", tone !== "neutral" && TONE_TEXT[tone])}>{value}</span>
   </div>
 );
 
@@ -350,11 +383,12 @@ export const Callout = ({
 }) => {
   const Icon = icon === false ? null : icon ?? TONE_ICON[tone];
   return (
-    <div className={cn("flex gap-3 rounded-xl border p-4 text-sm leading-relaxed", TONE_SOFT[tone], className)}>
+    <div className={cn("relative flex gap-3 overflow-hidden rounded-xl border p-4 pl-5 text-sm leading-relaxed", TONE_SOFT[tone], className)}>
+      <span aria-hidden="true" className={cn("absolute inset-y-0 left-0 w-1", TONE_BAR[tone])} />
       {Icon && <Icon className={cn("mt-0.5 h-4 w-4 shrink-0", TONE_TEXT[tone])} aria-hidden="true" />}
       <div className="min-w-0 flex-1">
         {title && <p className="font-semibold text-foreground">{title}</p>}
-        {children && <div className={cn("text-foreground/80", title && "mt-1")}>{children}</div>}
+        {children && <div className={cn("text-foreground/85", title && "mt-1")}>{children}</div>}
       </div>
     </div>
   );
@@ -363,7 +397,7 @@ export const Callout = ({
 export const ToneBadge = ({ tone = "neutral", children, className }: { tone?: Tone; children: ReactNode; className?: string }) => (
   <span
     className={cn(
-      "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold leading-none",
+      "inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold leading-none",
       TONE_SOFT[tone],
       TONE_TEXT[tone],
       className,
@@ -386,9 +420,9 @@ export const EmptyState = ({
   action?: ReactNode;
   className?: string;
 }) => (
-  <div className={cn("flex flex-col items-center rounded-2xl border border-dashed border-foreground/20 bg-card px-6 py-10 text-center shadow-card", className)}>
+  <div className={cn("flex flex-col items-center rounded-2xl border border-dashed border-border bg-white px-6 py-10 text-center shadow-card", className)}>
     <Icon className="mb-3 h-6 w-6 text-muted-foreground" aria-hidden="true" />
-    <p className="font-semibold">{title}</p>
+    <p className="font-semibold text-primary">{title}</p>
     {description && <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">{description}</p>}
     {action && <div className="mt-5">{action}</div>}
   </div>
@@ -396,15 +430,15 @@ export const EmptyState = ({
 
 /* ------------------------------------------------------------------ Tabellen */
 
-/** Rahmen für <table>: scrollt mobil horizontal, Kopfzeile dezent, Zahlen tabellarisch. */
+/** Lexoffice-Finanztabelle: scrollt mobil horizontal, ruhige Kopfzeile, tabellarische Ziffern. */
 export const KitTable = ({ children, className, caption }: { children: ReactNode; className?: string; caption?: ReactNode }) => (
-  <div className={cn("relative max-w-full overflow-x-auto rounded-2xl border border-border bg-card shadow-card [contain:paint]", className)}>
+  <div className={cn("relative max-w-full overflow-x-auto rounded-xl border border-border bg-white [contain:paint]", className)}>
     <table
       className={cn(
         "w-full border-collapse text-sm tabular",
-        "[&_thead_th]:bg-secondary/70 [&_thead_th]:px-3 [&_thead_th]:py-2.5 [&_thead_th]:text-left [&_thead_th]:text-[13px] [&_thead_th]:font-semibold [&_thead_th]:text-foreground/75",
-        "[&_tbody_td]:border-t [&_tbody_td]:border-border [&_tbody_td]:px-3 [&_tbody_td]:py-2.5 [&_tbody_tr:hover]:bg-secondary/30",
-        "[&_tfoot_td]:border-t [&_tfoot_td]:border-border [&_tfoot_td]:px-3 [&_tfoot_td]:py-2.5 [&_tfoot_td]:font-semibold",
+        "[&_thead_th]:bg-[#F4F7FC] [&_thead_th]:px-3.5 [&_thead_th]:py-2.5 [&_thead_th]:text-left [&_thead_th]:text-xs [&_thead_th]:font-semibold [&_thead_th]:uppercase [&_thead_th]:tracking-wider [&_thead_th]:text-muted-foreground",
+        "[&_tbody_td]:border-t [&_tbody_td]:border-border/80 [&_tbody_td]:px-3.5 [&_tbody_td]:py-2.5 [&_tbody_tr:hover]:bg-secondary/35",
+        "[&_tfoot_td]:border-t [&_tfoot_td]:border-border [&_tfoot_td]:bg-secondary/30 [&_tfoot_td]:px-3.5 [&_tfoot_td]:py-2.5 [&_tfoot_td]:font-semibold",
       )}
     >
       {caption && <caption className="sr-only">{caption}</caption>}

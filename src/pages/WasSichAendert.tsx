@@ -61,9 +61,16 @@ const WasSichAendert = () => {
 
   return (
     <CockpitShell
-      eyebrow="Was sich ändert · Stand 22.11.2026"
+      eyebrow="Steuern & Fristen · Stand 22.11.2026"
       title="Das ändert sich für dich zum 01.01.2027"
       subtitle="Neue Grenzen in der Sozialversicherung, höherer Mindestlohn, E-Rechnung, Künstlersozialabgabe und KI-Kennzeichnung. Fünf Fragen, dann siehst du, was davon dich betrifft. Jeder Wert mit Quelle und Rechtsstand."
+      tabs={[
+        { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
+        { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
+        { label: "USt-Voranmeldung", to: "/cockpit/ust-voranmeldung" },
+        { label: "Anlage EÜR", to: "/cockpit/anlage-euer" },
+        { label: "Neu ab 2027", to: "/cockpit/aktuell" },
+      ]}
     >
       <ToolLayout
         className="mb-8"
