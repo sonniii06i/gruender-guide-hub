@@ -6,6 +6,8 @@
 
 export interface CachedProfile {
   first_name: string | null;
+  /** Nur gesetzt, wenn ein Schreiber den Nachnamen mit ablegt; /vertrag-kuendigen liest ihn zum Vorbelegen. */
+  last_name?: string | null;
   onboarding_completed: boolean | null;
   /** Geschäftsmodell(e) aus dem Onboarding, kommagetrennt – steuert die Guide-Empfehlung. */
   business_model?: string | null;
