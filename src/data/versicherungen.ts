@@ -79,7 +79,7 @@ export const VERSICHERUNGEN: Versicherung[] = [
     },
     pflicht_begruendung: (s) => {
       if (s.berufsbild === "heilberuf") return "Pflicht in Berufsordnung (z.B. Ärzte-Approbation, HeilprG). Ohne BHV = berufsrechtliche Konsequenzen.";
-      if (s.berufsbild === "rechtsberatung") return "Anwälte: §51 BRAO (250k Mindest). StB: §67 StBerG (250k). WP: §54 WPO (1 Mio).";
+      if (s.berufsbild === "rechtsberatung") return "Anwälte: §51 BRAO (250k Mindest). Notare: §19a BNotO (500k). StB: §67 StBerG, §52 DVStB (250k). WP: §54 WPO (1 Mio).";
       return null;
     },
   },
@@ -89,8 +89,8 @@ export const VERSICHERUNGEN: Versicherung[] = [
     id: "bu",
     name: "Berufsunfähigkeitsversicherung (BU)",
     kuerzel: "BU",
-    beschreibung: "Zahlt monatliche Rente wenn du deinen Beruf wegen Krankheit/Unfall zu mind. 50 % nicht mehr ausüben kannst. Bei Solo gibt es KEINEN AG-Anteil und KEINE ALG-Anwartschaft.",
-    schadenbeispiel: "Designerin bekommt nach 3 Jahren Burnout-Diagnose mit Erwerbsminderung. BU zahlt 2.000 €/Mon bis Rentenalter — sonst Hartz IV-Niveau.",
+    beschreibung: "Zahlt monatliche Rente wenn du deinen Beruf wegen Krankheit/Unfall zu mind. 50 % nicht mehr ausüben kannst. Bei Solo gibt es KEINEN AG-Anteil und ALG nur mit freiwilliger Versicherung auf Antrag (§ 28a SGB III).",
+    schadenbeispiel: "Designerin bekommt nach 3 Jahren Burnout-Diagnose mit Erwerbsminderung. BU zahlt 2.000 €/Mon bis Rentenalter — sonst Grundsicherungs-Niveau.",
     deckungssumme: "BU-Rente 60-80 % vom Netto, mindestens 2.000 €/Mon. Endalter mind. 67. Optionsrecht zur Nachversicherung wichtig.",
     beitragRange: { min: 60, mittel: 120, max: 250 },
     worauf_achten: [

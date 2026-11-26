@@ -482,7 +482,7 @@ const GewerbeCheck = () => {
           >
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {([
-                { v: "unter-410", l: "Unter 410 € pro Jahr", d: "Mini-Gewinn, wahrscheinlich noch Hobby-Schwelle" },
+                { v: "unter-410", l: "Unter 410 € pro Jahr", d: "Mini-Gewinn unter der Veranlagungsgrenze für Nebeneinkünfte von Arbeitnehmer:innen" },
                 { v: "unter-3000", l: "410 € – 3.000 € pro Jahr", d: "Klassisches Nebenerwerb-Niveau" },
                 { v: "unter-25000", l: "3.000 € – 25.000 € pro Jahr", d: "Hauptberuflicher Verdienst möglich" },
                 { v: "ueber-25000", l: "Über 25.000 € pro Jahr", d: "Vollzeit-Business oder stark wachsendes Einzelunternehmen" },
@@ -703,7 +703,7 @@ const BeginnerHero = () => (
   <ToolSection title="Was ist das hier?" icon={Lightbulb}>
     <p className="text-sm leading-relaxed text-muted-foreground">
       Du verkaufst was, machst Beratung oder hast eine Idee und weißt nicht, ob du <strong className="text-foreground">überhaupt</strong>{" "}
-      ein Gewerbe anmelden musst? Dieses Tool führt dich in 4 Fragen durch die wichtigste Vorentscheidung deiner
+      ein Gewerbe anmelden musst? Dieses Tool führt dich in 5 Fragen durch die wichtigste Vorentscheidung deiner
       Selbstständigkeit: <strong className="text-foreground">Hobby, Freiberuf oder Gewerbe?</strong>
     </p>
     <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">

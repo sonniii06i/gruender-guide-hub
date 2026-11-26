@@ -134,12 +134,12 @@ const BANKS: Bank[] = [
     monthlyFee: "$0 (Plus $35 / Pro $350)",
     setupFee: "$0",
     nonResident: "ja",
-    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,42 % netto (erst ab 20 Mio. $ Einlagen; Treasury nur ab 250.000 $ Guthaben, bei Sitz in DE oder einem der übrigen 11 Treasury-Länder und nicht für LLCs, die wie Einzelunternehmen besteuert werden) · DE-Founder mit Wyoming/Delaware-LLC",
+    bestFor: "US-LLC mit Stripe-Operations · Treasury-Yield bis 4,31 % netto (erst ab 20 Mio. $ Einlagen; Treasury nur ab 250.000 $ Guthaben, bei Sitz in DE oder einem der übrigen 11 Treasury-Länder und nicht für LLCs, die wie Einzelunternehmen besteuert werden) · DE-Founder mit Wyoming/Delaware-LLC",
     pros: [
       "**$0 Setup + Monthly Standard-Plan**, wirklich kostenlos",
       "Akzeptiert Gründer aus den meisten Ländern (außer Mercurys Sperrliste nach Wohnsitzland), bestehende oder geplante US-Geschäftstätigkeit nötig",
       "Sehr saubere App + Web-UI, API + Stripe-Integration",
-      "Mercury Treasury: **bis 4,42 % netto** Yield laut Mercury (erst ab 20 Mio. $ Einlagen; 250k bis 2 Mio. $: 3,31 bis 4,10 % je nach Anlage), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Renditen Stand 13.11.2026; variabel, folgt dem US-Leitzins)",
+      "Mercury Treasury: **bis 4,31 % netto** Yield laut Mercury (erst ab 20 Mio. $ Einlagen; 250k bis 2 Mio. $: 3,35 bis 3,94 % je nach Anlage), Mindestguthaben 250.000 $ (laut mercury.com/treasury, Renditen Stand 20.11.2026; variabel, folgt dem US-Leitzins)",
       "Wires + ACH inkl., FDIC bis $5M via Sweep zu Partner-Banks",
       "Mercury Bank N.A.: vorläufige bedingte OCC-Zusage April 2026; bis zur finalen Zulassung weiter Partnerbanken",
     ],
@@ -264,7 +264,7 @@ const BANKS: Bank[] = [
       "Kreditkarte (kein Cash-Vorab nötig), gut für Werbe-Spend",
       "Cashback + Reward-Punkte für Tech-Vendor-Spending (AWS, GCP)",
       "Beste Expense-Management-Tools im US-Banking",
-      "Treasury-Yield 3,62 % bis 3,97 % (3,97 % erst ab 20 Mio. $; variabel, laut brex.com, Stand 21.11.2026)",
+      "Treasury-Yield 3,64 % bis 3,99 % (3,99 % erst ab 20 Mio. $; variabel, laut brex.com, Stand 26.11.2026)",
     ],
     cons: [
       "**Solo-Founder + Bootstrap typisch ABGELEHNT** seit Juni 2022 (Mass-Closure 'tens of thousands' SMBs)",
@@ -313,7 +313,7 @@ const BANKS: Bank[] = [
     cons: [
       "**HKD 88/Mo Inactivity-Fee** wenn <5 ausgehende Payments/Monat",
       "**HKD 450 Closure-Certificate-Fee**, wenn du wechselst",
-      "**US-Bürger ausgeschlossen** (als Director und als Gesellschafter oder wirtschaftlich Berechtigte über 10 %)",
+      "**US-Bürger und US-Residents ausgeschlossen** (als Director und als Gesellschafter oder wirtschaftlich Berechtigte über 10 %)",
       "Crypto, Adult-Industry und Zahlungsdienstleister abgelehnt",
       "Kein Treasury/Yield",
     ],

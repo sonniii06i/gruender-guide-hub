@@ -160,7 +160,7 @@ function buildFristen(s: Setup): Frist[] {
   fristen.push(mkFrist(15, 7, "Gewerbesteuer-VZ Q3", "gewst"));
   fristen.push(mkFrist(15, 10, "Gewerbesteuer-VZ Q4", "gewst"));
 
-  fristen.push(mkFrist(31, 6, "Steuererklärung Vorjahr (ohne StB)", "stb", "Mit StB: 28.02. übernächstes Jahr"));
+  fristen.push(mkFrist(31, 6, "Steuererklärung Vorjahr (ohne StB)", "stb", "Mit StB: Ende Februar des zweiten Jahres nach dem Steuerjahr (§ 149 Abs. 3 AO)"));
   fristen.push(
     mkFrist(
       31,

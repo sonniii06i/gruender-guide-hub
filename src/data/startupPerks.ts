@@ -209,9 +209,9 @@ export const STARTUP_PERKS: StartupPerk[] = [
     slug: "notion-for-startups", name: "Notion for Startups", anbieter: "Notion", kategorie: "software",
     wert: "Bis 6 Monate Business-Tarif mit Notion AI gratis", wertUsd: 12000,
     leistungen: ["Business-Tarif inkl. Notion AI für 1, 3 oder 6 Monate", "Notion Perks (Software-Rabatte)", "Setup-Session mit zertifiziertem Berater"],
-    voraussetzungen: ["3 Monate: Firmenwebsite + Firmen-E-Mail", "6 Monate: nur über einen Startup-Partner", "Weniger als 100 Mitarbeitende, noch kein zahlender Kunde"],
+    voraussetzungen: ["3 Monate: Firmenwebsite + Firmen-E-Mail", "6 Monate: nur über einen Startup-Partner", "Weniger als 100 Mitarbeitende, noch kein bezahlter Notion-Tarif"],
     vcNoetig: "teilweise", gruendungMaxJahre: null, url: "https://www.notion.com/startups", pruefWorte: ["6 months", "100 employees"],
-    hinweis: "Agenturen und Beratungen bekommen nur 1 Monat. Gmail-Adressen werden abgelehnt.", geprueft: "2026-10-08",
+    hinweis: "Agenturen, Beratungen, Dienstleister und Teams mit weniger als 10 Mitarbeitenden bekommen nur 1 Monat. 3 und 6 Monate gibt es nur für Startups mit skalierbarem Tech-Produkt. Gmail-Adressen werden abgelehnt.", geprueft: "2026-11-26",
   },
   {
     slug: "atlassian-for-startups", name: "Atlassian for Startups", anbieter: "Atlassian", kategorie: "software",

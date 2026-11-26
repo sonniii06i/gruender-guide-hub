@@ -312,7 +312,7 @@ const QuartalsSteuer = () => {
             deutlich abweicht. FA passt dann VZ an (rückwirkend ab Beginn des Wirtschaftsjahres).
           </li>
           <li>
-            <strong className="text-foreground">Solidaritätszuschlag-Freigrenze 2026:</strong> ab ~20.350 € ESt (Single) + 5,5 % Soli
+            <strong className="text-foreground">Solidaritätszuschlag-Freigrenze 2026:</strong> bis 20.350 € ESt (Single) kein Soli, darüber höchstens 11,9 % des Betrags über der Grenze, die vollen 5,5 % erst ab rund 37.840 € ESt
             (Single). Familien-Splitting / Verheiratete: doppelte Grenze.
           </li>
           <li>

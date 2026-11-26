@@ -90,7 +90,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "EU-Listenüberwachung (Black-/Grey-List) — Reputationsrisiko",
     ],
     dbaNote:
-      "DBA-DE seit 2011, 0 % Quellensteuer auf Royalties bei Beneficial Owner. AStG §7-14 Hinzurechnung greift bei < 15 % Steuer + passiver Einkunft (Niedrigsteuergrenze § 8 Abs. 5 AStG seit 2024 = 15 %). Aktive Lizenzierung eigener IP = aktiv (Befreiung möglich).",
+      "DBA-DE seit 2011, 0 % Quellensteuer auf Royalties bei Beneficial Owner. AStG §§ 7-13 Hinzurechnung greift bei < 15 % Steuer + passiver Einkunft (Niedrigsteuergrenze § 8 Abs. 5 AStG seit 2024 = 15 %). Aktive Lizenzierung eigener IP = aktiv (Befreiung möglich).",
     cfcRisk: "Mittel",
     setupComplexity: "Mittel",
     minRoyaltiesEur: 200000,

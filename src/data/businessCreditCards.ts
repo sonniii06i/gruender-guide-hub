@@ -88,7 +88,7 @@ export const BIZ_CARDS: BizCard[] = [
     rewards: "kein Cashback im Solo; in höheren Tarifen gedeckelt (Core: 4 %, max. 40 €/Monat)",
     signupBonus: null,
     datevNative: true,
-    fxFee: "mit Prime-Karte (14,99 €/Monat) 0 % bis 20.000 €/Monat je Konto, sonst nicht eindeutig öffentlich gelistet",
+    fxFee: "Solo 3 %; Basic 0 % bis 500 €, darüber 2 %; Smart und Core 0 % bis 500 €, darüber 1 % (Preisliste 20.10.2026); mit Prime-Karte (14,99 €/Monat) 0 % bis 20.000 €/Monat je Konto",
     schufa: false,
     soloDayOne: true,
     who: "Explizit Solo-Gründer/Freiberufler ab 0 € bis KMU · deutsche IBAN, SEPA",
@@ -97,7 +97,7 @@ export const BIZ_CARDS: BizCard[] = [
     bestFor: "★ Solo ab 0 € mit deutscher IBAN",
     watchouts: [
       "Kein Cashback im Solo, höhere Tarife mit Monats-Cap",
-      "FX-Gebühr nur für die Prime-Karte klar gelistet (14,99 €/Monat, bis 3 Karten je Nutzer) — sonst vor Auslandseinsatz prüfen",
+      "FX-Gebühr im Solo 3 % ab dem ersten Euro; Basic, Smart und Core nur bis 500 € gebührenfrei, darüber 2 % bzw. 1 % (Prime-Karte für 14,99 €/Monat: 0 % bis 20.000 €/Monat, bis 3 Karten je Nutzer)",
       "Im Solo-Plan nur 1 kostenlose virtuelle Karte (mehr Karten ab Basic)",
     ],
     url: "https://finom.co/de-de/pricing/",
