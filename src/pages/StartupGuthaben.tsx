@@ -8,6 +8,8 @@ import { HubNav } from "@/components/landing/HubNav";
 import { AdaptiveAppShell } from "@/components/AdaptiveAppShell";
 import { selectCls } from "@/components/cockpit/kit";
 import { PublicSection, FaqList, CtaBand, ctaPrimaryOnInk, ctaSecondaryOnInk } from "@/components/public/PublicBlocks";
+import { useAuth } from "@/hooks/useAuth";
+import { isPrerender } from "@/lib/prerender";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { PERK_KATEGORIEN, STARTUP_PERKS, type PerkKategorie, type StartupPerk } from "@/data/startupPerks";
 import perksLive from "@/data/perksLive.json";
@@ -54,6 +56,8 @@ const faqs = [
 ];
 
 export default function StartupGuthaben() {
+  const { user } = useAuth();
+  const inCockpit = Boolean(user) && !isPrerender();
   const [profil, setProfil] = useState<Profil>(LEER);
   const [kat, setKat] = useState<PerkKategorie | "alle">("alle");
   const [suche, setSuche] = useState("");
@@ -120,8 +124,14 @@ export default function StartupGuthaben() {
 
   return (
     <AdaptiveAppShell
-      eyebrow="Geld & Chancen"
+      eyebrow="Chancen & Förderung"
       width="max-w-5xl"
+      tabs={[
+        { label: "Chancen-Radar", to: "/cockpit/chancen-radar" },
+        { label: "Gründer-Chancen", to: "/gruender-chancen" },
+        { label: "Startup-Guthaben", to: "/startup-guthaben" },
+        { label: "Förder-Datenbank", to: "/cockpit/foerderung" },
+      ]}
       seo={
         <Seo
           title={`Startup-Guthaben ${new Date().getFullYear()}: ${STARTUP_PERKS.length} Credits & Perks | GründerX`}
@@ -268,17 +278,17 @@ export default function StartupGuthaben() {
                 const pa = passt(p, profil);
                 const st = profil.tracker[p.slug];
                 return (
-                  <article key={p.slug} id={p.slug} className={`flex scroll-mt-24 flex-col rounded-2xl border border-border bg-card p-5 shadow-card transition-opacity ${profilGesetzt && !pa.ok ? "opacity-60" : ""}`}>
+                  <article key={p.slug} id={p.slug} className={`flex scroll-mt-24 flex-col rounded-2xl border border-border bg-white p-5 shadow-card transition-[border-color,opacity,box-shadow] hover:border-primary/35 hover:shadow-soft ${profilGesetzt && !pa.ok ? "opacity-60" : ""}`}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <div className="text-xs text-muted-foreground">{PERK_KATEGORIEN[p.kategorie].name}, {p.anbieter}</div>
-                        <h3 className="mt-0.5 font-semibold leading-snug">{p.name}</h3>
+                        <div className="text-xs font-medium text-muted-foreground">{PERK_KATEGORIEN[p.kategorie].name} · {p.anbieter}</div>
+                        <h3 className="mt-0.5 text-base font-bold leading-snug text-primary">{p.name}</h3>
                       </div>
-                      {p.vcNoetig === false && <span className="shrink-0 rounded-md border border-success/25 bg-success-soft px-1.5 py-0.5 text-[11px] font-semibold text-success">ohne Investor</span>}
-                      {p.vcNoetig === "teilweise" && <span className="shrink-0 rounded-md border border-info/20 bg-info-soft px-1.5 py-0.5 text-[11px] font-semibold text-info">Basis ohne Investor</span>}
-                      {p.vcNoetig === true && <span className="shrink-0 rounded-md border border-border bg-secondary px-1.5 py-0.5 text-[11px] font-semibold text-muted-foreground">über Partner</span>}
+                      {p.vcNoetig === false && <span className="shrink-0 rounded-md bg-brand-green-soft px-2 py-0.5 text-[11px] font-bold text-brand-green">Ohne Investor</span>}
+                      {p.vcNoetig === "teilweise" && <span className="shrink-0 rounded-md bg-info-soft px-2 py-0.5 text-[11px] font-bold text-info">Basis ohne Investor</span>}
+                      {p.vcNoetig === true && <span className="shrink-0 rounded-md bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">Über Partner</span>}
                     </div>
-                    <p className="mt-3 text-lg font-semibold tracking-tight text-muted-foreground">{p.wert}</p>
+                    <p className="mt-3 w-fit rounded-xl bg-accent px-3 py-1.5 text-base font-bold tracking-tight text-primary tabular">{p.wert}</p>
                     <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-relaxed text-muted-foreground">
                       {p.leistungen.slice(0, 3).map((x) => <li key={x}>{x}</li>)}
                     </ul>
@@ -340,32 +350,37 @@ export default function StartupGuthaben() {
             </ol>
           </PublicSection>
 
-          <CtaBand
-            title="Neben Guthaben: Geld, das du nicht zurückzahlst"
-            actions={
-              <>
-                <Button asChild size="lg" className={ctaPrimaryOnInk}>
-                  <Link to="/cockpit/chancen-radar">Zum Chancen-Radar <ArrowRight /></Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className={ctaSecondaryOnInk}>
-                  <Link to="/gruender-events">Fristen & Events</Link>
-                </Button>
-              </>
-            }
-          >
-            Förderaufrufe, Wettbewerbe mit Preisgeld und Stipendien, täglich aktualisiert im Chancen-Radar.
-          </CtaBand>
+          {!inCockpit && (
+            <>
+              <CtaBand
+                title="Neben Guthaben: Geld, das du nicht zurückzahlst"
+                actions={
+                  <>
+                    <Button asChild size="lg" className={ctaPrimaryOnInk}>
+                      <Link to="/cockpit/chancen-radar">Zum Chancen-Radar <ArrowRight /></Link>
+                    </Button>
+                    <Button asChild size="lg" variant="outline" className={ctaSecondaryOnInk}>
+                      <Link to="/gruender-events">Fristen &amp; Events</Link>
+                    </Button>
+                  </>
+                }
+              >
+                Förderaufrufe, Wettbewerbe mit Preisgeld und Stipendien, täglich aktualisiert im Chancen-Radar.
+              </CtaBand>
 
-          <PublicSection title="Häufige Fragen">
-            <FaqList items={faqs} />
-          </PublicSection>
+              <PublicSection title="Häufige Fragen">
+                <FaqList items={faqs} />
+              </PublicSection>
+
+              <HubNav show={["tools", "guides", "ratgeber"]} />
+            </>
+          )}
 
           <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             Alle Angaben von den offiziellen Anbieterseiten, letzte automatische Prüfung {de(live.stand)}. Nennwerte sind Höchstbeträge der Anbieter, kein
             Anspruch. Keine Affiliate-Links. Programme ohne offiziell belegte Konditionen (z. B. Werbe-Neukundenguthaben) führen wir bewusst nicht auf.
           </p>
-          <HubNav show={["tools", "guides", "ratgeber"]} />
       </div>
     </AdaptiveAppShell>
   );

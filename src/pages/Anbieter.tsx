@@ -55,6 +55,8 @@ import {
   Plus,
   ExternalLink,
   SlidersHorizontal,
+  Building2,
+  Server,
 } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { AnbieterLink } from "@/components/PartnerLink";
@@ -80,22 +82,24 @@ type CatGroup = {
 const CAT_GROUPS: CatGroup[] = [
   {
     id: "finanzen",
-    label: "Finanzen & Banking",
+    label: "Finanzen & Steuern",
     icon: Wallet,
     cats: [
-      { name: "Kreditkarten", icon: CreditCard },
       { name: "Banking DE", icon: Wallet },
       { name: "Banking US", icon: Wallet },
+      { name: "Kreditkarten", icon: CreditCard },
       { name: "Buchhaltung", icon: Receipt },
+      { name: "Gründung & Steuern", icon: Building2 },
     ],
   },
   {
     id: "tech",
-    label: "Shop & Tech",
+    label: "Shop, Cloud & Tech",
     icon: ShoppingCart,
     cats: [
       { name: "Shop-System", icon: ShoppingCart },
       { name: "Payment", icon: CreditCard },
+      { name: "Hosting & Cloud", icon: Server },
       { name: "Domains", icon: Globe2 },
       { name: "Workspace", icon: Briefcase },
       { name: "Warenwirtschaft", icon: Package },
@@ -117,9 +121,10 @@ const CAT_GROUPS: CatGroup[] = [
   },
   {
     id: "marketing",
-    label: "Marketing & Wachstum",
+    label: "Marketing & AI",
     icon: BarChart3,
     cats: [
+      { name: "AI-Tools", icon: Sparkles },
       { name: "Email", icon: Mail },
       { name: "Newsletter", icon: Mail },
       { name: "SMS-Marketing", icon: MessageSquare },
@@ -132,7 +137,7 @@ const CAT_GROUPS: CatGroup[] = [
   {
     id: "creator",
     label: "Creator & Support",
-    icon: Sparkles,
+    icon: Users,
     cats: [
       { name: "Community", icon: Users },
       { name: "Video-Editing", icon: Film },
@@ -145,7 +150,7 @@ const CAT_GROUPS: CatGroup[] = [
   },
   {
     id: "schutz",
-    label: "Schutz, Recht & AI",
+    label: "Recht & Schutz",
     icon: Shield,
     cats: [
       { name: "Haftpflichtversicherung", icon: Shield },
@@ -155,12 +160,11 @@ const CAT_GROUPS: CatGroup[] = [
       { name: "Brand-Protection", icon: ShieldCheck },
       { name: "Crowdfunding", icon: PiggyBank },
       { name: "Productivity", icon: CheckSquare },
-      { name: "AI-Tools", icon: Sparkles },
     ],
   },
 ];
 
-const QUICK_CATS = ["Kreditkarten", "Banking DE", "Banking US", "Buchhaltung", "Shop-System", "Domains", "LUCID", "Haftpflichtversicherung"];
+const ALL_CATS = CAT_GROUPS.flatMap((g) => g.cats);
 
 type SortKey = "rating" | "deals" | "name";
 
@@ -212,15 +216,12 @@ const Anbieter = () => {
     return m;
   }, []);
 
+  const categoryCount = useMemo(() => new Set(PROVIDERS.map((p) => p.category)).size, []);
   const activeCluster = CAT_GROUPS.find((g) => g.id === clusterId) ?? null;
 
   const visibleSubCats = useMemo(() => {
-    if (activeCluster) return activeCluster.cats.filter((c) => (counts[c.name] || 0) > 0);
-    // Bei "Alle": kompakte Top-Kategorien statt 35-Button-Wand
-    const allCats = CAT_GROUPS.flatMap((g) => g.cats);
-    return QUICK_CATS.map((name) => allCats.find((c) => c.name === name)).filter(
-      (x): x is { name: string; icon: typeof Wallet } => Boolean(x && (counts[x.name] || 0) > 0),
-    );
+    if (!activeCluster) return [];
+    return activeCluster.cats.filter((c) => (counts[c.name] || 0) > 0);
   }, [activeCluster, counts]);
 
   const list = useMemo(() => {
@@ -284,25 +285,24 @@ const Anbieter = () => {
     <CockpitShell
       eyebrow="Anbieter-Vergleich"
       title="Anbieter ehrlich vergleichen"
-      subtitle={`${PROVIDERS.length} Anbieter mit klaren Preisen, Stärken, Schwächen und echten Praxis-Erfahrungen. Wähle bis zu 3 Anbieter für den direkten Nebeneinander-Vergleich.`}
+      subtitle={`${PROVIDERS.length} geprüfte Anbieter in ${categoryCount} Kategorien mit echten Preisen, Stärken und Schwächen.`}
     >
       <Seo
         title="Anbieter-Vergleich 2026: Geschäftskonto, Buchhaltung, Hosting | GründerX"
-        description={`Über ${PROVIDERS.length} Anbieter im direkten Vergleich: Geschäftskonto, Kreditkarten, Buchhaltung, Versicherung und Tools für Gründer mit echten Stärken und Schwächen.`}
+        description={`Über ${PROVIDERS.length} Anbieter in ${categoryCount} Kategorien im direkten Vergleich: Geschäftskonto, Kreditkarten, Buchhaltung, Gründung, Hosting, Versicherung und Tools.`}
         path="/anbieter"
       />
 
-      {/* Modernes Filter- & Such-Studio (kompakt statt 35-Button-Wand) */}
-      <section aria-label="Anbieter filtern" className="mb-6 rounded-2xl border border-border bg-card p-4 shadow-card md:p-5">
-        {/* Zeile 1: Suche + Sortierung + Deals */}
-        <div className="flex flex-col gap-3 md:flex-row md:items-center">
+      {/* Ruhige, aufgeräumte Revolut × Lexoffice Filterleiste (keine Chip-Wand mehr) */}
+      <section aria-label="Anbieter filtern" className="mb-6 rounded-2xl border border-border bg-white p-3.5 shadow-card sm:p-4">
+        <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center">
           <div className="relative flex-1">
             <Search
               className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
               aria-hidden="true"
             />
             <Input
-              placeholder="Anbieter, Stärke, Kategorie oder Deal suchen…"
+              placeholder="Anbieter, Stärke oder Kategorie suchen …"
               aria-label="Anbieter suchen"
               value={q}
               onChange={(e) => {
@@ -313,13 +313,13 @@ const Anbieter = () => {
                   setClusterId("alle");
                 }
               }}
-              className="h-11 rounded-xl pl-10 pr-10"
+              className="h-10 rounded-xl border-border bg-secondary/40 pl-10 pr-9 text-sm focus:bg-white"
             />
             {q && (
               <button
                 type="button"
                 onClick={() => setQ("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
                 aria-label="Suche löschen"
               >
                 <X className="h-4 w-4" />
@@ -328,16 +328,46 @@ const Anbieter = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            {/* Direkte Kategorie-Auswahl (alle 40 Kategorien kompakt in 1 Dropdown) */}
+            <select
+              aria-label="Kategorie wählen"
+              value={cat}
+              onChange={(e) => {
+                const nextCat = e.target.value;
+                setCatWithUrl(nextCat);
+                if (nextCat === "Alle") {
+                  setClusterId("alle");
+                } else {
+                  const found = CAT_GROUPS.find((g) => g.cats.some((c) => c.name === nextCat));
+                  if (found) setClusterId(found.id);
+                }
+              }}
+              className="h-10 max-w-[210px] rounded-xl border border-border bg-white px-3 text-xs font-semibold text-foreground focus:border-primary focus:outline-none sm:text-sm"
+            >
+              <option value="Alle">Alle Kategorien ({categoryCount})</option>
+              {CAT_GROUPS.map((g) => (
+                <optgroup key={g.id} label={g.label}>
+                  {g.cats
+                    .filter((c) => (counts[c.name] || 0) > 0)
+                    .map((c) => (
+                      <option key={c.name} value={c.name}>
+                        {c.name} ({counts[c.name]})
+                      </option>
+                    ))}
+                </optgroup>
+              ))}
+            </select>
+
             {dealsCount > 0 && (
               <button
                 type="button"
                 aria-pressed={onlyDeals}
                 onClick={() => setOnlyDeals((v) => !v)}
                 className={cn(
-                  "press inline-flex h-11 items-center gap-1.5 rounded-xl border px-3.5 text-sm font-semibold",
+                  "press inline-flex h-10 items-center gap-1.5 rounded-xl border px-3 text-xs font-semibold sm:text-sm",
                   onlyDeals
-                    ? "border-brand-green bg-brand-green text-brand-green-foreground"
-                    : "border-border bg-background text-foreground hover:border-primary/35",
+                    ? "border-brand-green bg-brand-green text-white"
+                    : "border-border bg-white text-foreground hover:border-primary/40",
                 )}
               >
                 <Tag className="h-3.5 w-3.5" aria-hidden="true" />
@@ -354,18 +384,18 @@ const Anbieter = () => {
                 aria-label="Sortierung"
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortKey)}
-                className="h-11 rounded-xl border border-border bg-background pl-8 pr-8 text-sm font-medium text-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/25"
+                className="h-10 rounded-xl border border-border bg-white pl-8 pr-7 text-xs font-semibold text-foreground focus:border-primary focus:outline-none sm:text-sm"
               >
                 <option value="rating">Beste Bewertung</option>
-                <option value="deals">Aktive Deals zuerst</option>
-                <option value="name">Alphabetisch (A bis Z)</option>
+                <option value="deals">Deals zuerst</option>
+                <option value="name">A bis Z</option>
               </select>
             </div>
           </div>
         </div>
 
-        {/* Zeile 2: Themen-Cluster (kompakte Tabs, umbrechend auf Desktop) */}
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible md:pb-0">
+        {/* Eine ruhige Themen-Leiste (Revolut-Segment-Pills) */}
+        <div className="mt-3 flex items-center gap-1.5 overflow-x-auto border-t border-border/70 pt-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
             aria-pressed={clusterId === "alle" && cat === "Alle"}
@@ -374,26 +404,17 @@ const Anbieter = () => {
               setCatWithUrl("Alle");
             }}
             className={cn(
-              "press inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl border px-3.5 text-sm font-semibold",
+              "press inline-flex h-9 shrink-0 items-center rounded-xl px-3.5 text-xs font-semibold transition-colors",
               clusterId === "alle" && cat === "Alle"
-                ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                : "border-border bg-background text-foreground/85 hover:border-primary/35",
+                ? "bg-primary text-white shadow-sm"
+                : "bg-secondary/60 text-foreground/80 hover:bg-accent hover:text-primary",
             )}
           >
             Alle
-            <span
-              className={cn(
-                "rounded-full px-1.5 py-0.5 text-[11px] tabular",
-                clusterId === "alle" && cat === "Alle" ? "bg-white/20 text-white" : "bg-secondary text-muted-foreground",
-              )}
-            >
-              {counts.Alle}
-            </span>
           </button>
 
           {CAT_GROUPS.map((g) => {
             const active = clusterId === g.id;
-            const totalInCluster = g.cats.reduce((acc, c) => acc + (counts[c.name] || 0), 0);
             const Icon = g.icon;
             return (
               <button
@@ -410,50 +431,14 @@ const Anbieter = () => {
                   }
                 }}
                 className={cn(
-                  "press inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl border px-3.5 text-sm font-medium",
+                  "press inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-3.5 text-xs font-semibold transition-colors",
                   active
-                    ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                    : "border-border bg-background text-foreground/85 hover:border-primary/35",
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-secondary/60 text-foreground/80 hover:bg-accent hover:text-primary",
                 )}
               >
                 <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 {g.label}
-                <span
-                  className={cn(
-                    "rounded-full px-1.5 py-0.5 text-[11px] tabular",
-                    active ? "bg-white/20 text-white" : "bg-secondary text-muted-foreground",
-                  )}
-                >
-                  {totalInCluster}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Zeile 3: Unterkategorien (beliebte oder aktives Cluster) */}
-        <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-border/70 pt-3">
-          <span className="mr-1 text-xs font-medium text-muted-foreground">
-            {activeCluster ? `${activeCluster.label}:` : "Schnellwahl:"}
-          </span>
-          {visibleSubCats.map(({ name, icon: Icon }) => {
-            const active = cat === name;
-            return (
-              <button
-                key={name}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setCatWithUrl(active ? "Alle" : name)}
-                className={cn(
-                  "press inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold",
-                  active
-                    ? "border-accent-blue bg-accent-blue text-accent-blue-foreground"
-                    : "border-border bg-secondary/50 text-foreground/85 hover:border-primary/35 hover:bg-card",
-                )}
-              >
-                <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                <span>{name}</span>
-                <span className="tabular opacity-75">{counts[name]}</span>
               </button>
             );
           })}
@@ -462,17 +447,44 @@ const Anbieter = () => {
             <button
               type="button"
               onClick={resetFilters}
-              className="ml-auto inline-flex min-h-9 items-center gap-1 px-2 text-xs font-semibold text-accent-blue hover:underline"
+              className="ml-auto inline-flex h-9 shrink-0 items-center gap-1 px-2 text-xs font-semibold text-accent-blue hover:underline"
             >
-              <X className="h-3.5 w-3.5" aria-hidden="true" /> Filter zurücksetzen
+              <X className="h-3.5 w-3.5" aria-hidden="true" /> Zurücksetzen
             </button>
           )}
         </div>
+
+        {/* Unterkategorien erscheinen erst, wenn gezielt ein Themenbereich gewählt wurde */}
+        {visibleSubCats.length > 0 && (
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-2.5">
+            {visibleSubCats.map(({ name, icon: Icon }) => {
+              const active = cat === name;
+              return (
+                <button
+                  key={name}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setCatWithUrl(active ? "Alle" : name)}
+                  className={cn(
+                    "press inline-flex min-h-8 items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors",
+                    active
+                      ? "border-accent-blue bg-accent-blue text-white"
+                      : "border-border bg-white text-foreground/80 hover:border-primary/40 hover:text-primary",
+                  )}
+                >
+                  <Icon className="h-3 w-3 shrink-0" aria-hidden="true" />
+                  <span>{name}</span>
+                  <span className="tabular opacity-75">{counts[name]}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       {/* Ergebnis-Kopf */}
       <div ref={resultsRef} className="mb-4 flex flex-wrap items-center justify-between gap-2 scroll-mt-20">
-        <h2 className="text-lg font-semibold tracking-tight text-primary">
+        <h2 className="text-base font-bold tracking-tight text-primary sm:text-lg">
           {cat !== "Alle" ? cat : activeCluster ? activeCluster.label : "Alle Anbieter"}
           {q && <span className="ml-2 font-normal text-muted-foreground">· „{q}“</span>}
           <span className="ml-2 text-sm font-normal text-muted-foreground tabular">({list.length} Anbieter)</span>
@@ -509,7 +521,31 @@ const Anbieter = () => {
         </div>
       )}
 
-      <p className="mt-8 flex items-start gap-2 rounded-2xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
+      {/* Alle Kategorien kompakt als Sprung-Index ganz unten statt oben im Blickfeld */}
+      <section className="mt-10 rounded-2xl border border-border bg-white p-5 shadow-card">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Alle {categoryCount} Kategorien im Überblick
+        </p>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {ALL_CATS.filter((c) => (counts[c.name] || 0) > 0).map((c) => (
+            <button
+              key={c.name}
+              type="button"
+              onClick={() => {
+                setCatWithUrl(c.name);
+                const found = CAT_GROUPS.find((g) => g.cats.some((x) => x.name === c.name));
+                if (found) setClusterId(found.id);
+                resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="rounded-lg border border-border bg-secondary/40 px-2.5 py-1 text-xs font-medium text-foreground/85 transition-colors hover:border-primary/40 hover:bg-white hover:text-primary"
+            >
+              {c.name} <span className="text-muted-foreground tabular">({counts[c.name]})</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <p className="mt-6 flex items-start gap-2 rounded-2xl border border-border bg-white p-4 text-xs leading-relaxed text-muted-foreground">
         <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
         <span>
           <strong className="font-semibold text-foreground">Transparenz-Hinweis:</strong> Einige Anbieter-Links sind
@@ -522,9 +558,9 @@ const Anbieter = () => {
         </span>
       </p>
 
-      {/* Schwebende Direkt-Vergleich-Leiste (ab 1 gewähltem Anbieter) */}
+      {/* Schwebende Direkt-Vergleich-Leiste */}
       {compareItems.length > 0 && (
-        <div className="fixed inset-x-4 bottom-20 z-30 mx-auto flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-ink px-4 py-3 text-primary-foreground shadow-xl md:bottom-5">
+        <div className="fixed inset-x-4 bottom-20 z-30 mx-auto flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-primary px-4 py-3 text-white shadow-xl md:bottom-5">
           <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
             <Scale className="h-4 w-4 shrink-0 text-brand-green-glow" aria-hidden="true" />
             <div className="flex items-center gap-1.5">
@@ -546,36 +582,32 @@ const Anbieter = () => {
               ))}
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <Button
-              size="sm"
-              onClick={() => setCompareOpen(true)}
-              className="rounded-xl bg-brand-green text-brand-green-foreground hover:bg-brand-green/90"
-            >
-              Vergleichen ({compareItems.length})
-            </Button>
-          </div>
+          <Button
+            size="sm"
+            onClick={() => setCompareOpen(true)}
+            className="shrink-0 rounded-xl bg-brand-green text-white hover:bg-brand-green/90"
+          >
+            Vergleichen ({compareItems.length})
+          </Button>
         </div>
       )}
 
       {/* Side-by-Side Vergleichs-Sheet */}
       <Sheet open={compareOpen} onOpenChange={setCompareOpen}>
-        <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto rounded-t-3xl">
+        <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto rounded-t-3xl bg-background">
           <div className="mx-auto max-w-5xl">
             <SheetHeader className="mb-5 text-left">
               <SheetTitle>Direkt-Vergleich ({compareItems.length} Anbieter)</SheetTitle>
-              <SheetDescription>
-                Preis, Bewertung, Stärken und Schwächen direkt nebeneinander.
-              </SheetDescription>
+              <SheetDescription>Preis, Bewertung, Stärken und Schwächen direkt nebeneinander.</SheetDescription>
             </SheetHeader>
 
             <div className="grid gap-4 md:grid-cols-3">
               {compareItems.map((p) => (
-                <div key={p.slug} className="flex flex-col rounded-2xl border border-border bg-card p-5 shadow-card">
+                <div key={p.slug} className="flex flex-col rounded-2xl border border-border bg-white p-5 shadow-card">
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">{p.category}</p>
-                      <h3 className="text-lg font-semibold text-primary">{p.name}</h3>
+                      <h3 className="text-lg font-bold text-primary">{p.name}</h3>
                     </div>
                     <span className="inline-flex items-center gap-1 rounded-full bg-warning-soft px-2.5 py-1 text-xs font-semibold tabular">
                       <Star className="h-3 w-3 fill-warning text-warning" aria-hidden="true" />
@@ -651,14 +683,14 @@ const ProviderCard = ({
   return (
     <article
       className={cn(
-        "group flex min-w-0 flex-col rounded-2xl border bg-card p-5 shadow-card transition-[border-color,box-shadow]",
-        compared ? "border-primary ring-2 ring-primary/15" : "border-border hover:border-primary/35 hover:shadow-md",
+        "group flex min-w-0 flex-col rounded-2xl border bg-white p-5 shadow-card transition-[border-color,box-shadow]",
+        compared ? "border-primary ring-2 ring-primary/15" : "border-border hover:border-primary/35 hover:shadow-soft",
       )}
     >
       {/* Kopf: Monogramm + Name + Score */}
       <div className="flex items-start gap-3">
         <div
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-base font-semibold text-primary-foreground shadow-sm"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-sm font-bold text-primary"
           aria-hidden="true"
         >
           {p.name.charAt(0).toUpperCase()}
@@ -667,13 +699,13 @@ const ProviderCard = ({
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               <p className="truncate text-[11px] font-semibold text-muted-foreground">
-                {p.category} · {p.region}
+                <span>{p.category}</span> · <span>{p.region}</span>
               </p>
-              <Link to={`/anbieter/${p.slug}`} className="block truncate text-base font-semibold text-foreground hover:text-accent-blue">
+              <Link to={`/anbieter/${p.slug}`} className="block truncate text-base font-bold text-primary hover:text-accent-blue">
                 {p.name}
               </Link>
             </div>
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-warning/30 bg-warning-soft px-2 py-0.5 text-xs font-semibold tabular">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-warning-soft px-2 py-0.5 text-xs font-semibold tabular">
               <Star className="h-3 w-3 fill-warning text-warning" aria-hidden="true" />
               {p.rating.toFixed(1)}
             </span>
@@ -681,13 +713,11 @@ const ProviderCard = ({
         </div>
       </div>
 
-      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{p.tagline}</p>
+      <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{p.tagline}</p>
 
       {/* Preis & Setup kompakt */}
-      <div className="mt-3.5 flex flex-wrap items-center gap-1.5">
-        <span className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-semibold text-foreground">
-          {p.starting}
-        </span>
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+        <span className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-semibold text-foreground">{p.starting}</span>
         {p.signupTime && (
           <ToneBadge tone="neutral">
             <Clock className="h-3 w-3" aria-hidden="true" /> {p.signupTime}
@@ -701,7 +731,7 @@ const ProviderCard = ({
       </div>
 
       {/* Saubere Pro / Contra Zusammenfassung */}
-      <div className="mt-4 space-y-2 rounded-xl border border-border/70 bg-background/60 p-3 text-xs">
+      <div className="mt-3.5 space-y-1.5 rounded-xl border border-border/70 bg-[#F8FAFC] p-3 text-xs">
         {p.pros.slice(0, 2).map((s, i) => (
           <p key={`pro-${i}`} className="flex items-start gap-2 leading-snug text-foreground/90">
             <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-green" strokeWidth={2.75} aria-hidden="true" />
@@ -730,7 +760,7 @@ const ProviderCard = ({
       <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-3.5">
         <Link
           to={`/anbieter/${p.slug}`}
-          className="inline-flex min-h-9 items-center gap-1 text-sm font-semibold text-accent-blue hover:underline"
+          className="inline-flex min-h-9 items-center gap-1 text-xs font-bold text-primary hover:text-accent-blue sm:text-sm"
         >
           Details ansehen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
         </Link>
@@ -739,10 +769,10 @@ const ProviderCard = ({
           aria-pressed={compared}
           onClick={onToggleCompare}
           className={cn(
-            "press inline-flex min-h-9 items-center gap-1 rounded-lg border px-2.5 text-xs font-semibold",
+            "press inline-flex min-h-9 items-center gap-1 rounded-xl border px-3 text-xs font-semibold",
             compared
-              ? "border-primary bg-primary text-primary-foreground"
-              : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground",
+              ? "border-primary bg-primary text-white"
+              : "border-border bg-white text-muted-foreground hover:border-primary/40 hover:text-primary",
           )}
         >
           {compared ? <Check className="h-3.5 w-3.5" aria-hidden="true" /> : <Plus className="h-3.5 w-3.5" aria-hidden="true" />}

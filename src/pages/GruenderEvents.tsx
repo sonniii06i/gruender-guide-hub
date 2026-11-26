@@ -1,11 +1,29 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarDays, CalendarPlus, ExternalLink, Landmark, MapPin, Repeat, Search, Timer, Trophy, Wifi, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  CalendarPlus,
+  ExternalLink,
+  Landmark,
+  MapPin,
+  Repeat,
+  Search,
+  Timer,
+  Trophy,
+  Users,
+  Wifi,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Seo } from "@/components/Seo";
 import { HubNav } from "@/components/landing/HubNav";
 import { AdaptiveAppShell } from "@/components/AdaptiveAppShell";
+import { selectCls } from "@/components/cockpit/kit";
+import { useAuth } from "@/hooks/useAuth";
+import { isPrerender } from "@/lib/prerender";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { ladeIcsHerunter } from "@/lib/ics";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
@@ -21,10 +39,10 @@ import {
   type EventArt,
   type GruenderEvent,
 } from "@/data/gruenderEvents";
+import { cn } from "@/lib/utils";
 
 const SITE = "https://gruenderx.de";
 
-/** Startseite des Veranstalters aus dem Event-Link; ungültige Links fallen auf den Link selbst zurück. */
 function veranstalterUrl(url: string): string {
   try {
     return new URL(url).origin + "/";
@@ -33,13 +51,12 @@ function veranstalterUrl(url: string): string {
   }
 }
 
-// Grobe Gruppen für die Schnellwahl oben; die feinen Arten stehen als Badge an jeder Karte.
-const GRUPPEN: { key: string; label: string; arten: EventArt[] }[] = [
-  { key: "alle", label: "Alle", arten: [] },
-  { key: "gruenden", label: "🏛️ IHK, HWK & Gründerabende", arten: ["gruenderabend", "webinar"] },
-  { key: "netzwerk", label: "🤝 Netzwerk & Konferenzen", arten: ["netzwerk", "konferenz"] },
-  { key: "bauen", label: "⚡ Hackathons & Build-Sessions", arten: ["hackathon", "build"] },
-  { key: "fristen", label: "🏆 Wettbewerbe, Stipendien & Accelerator", arten: [] },
+const GRUPPEN: { key: string; label: string; icon?: LucideIcon; arten: EventArt[] }[] = [
+  { key: "alle", label: "Alle Formate", arten: [] },
+  { key: "gruenden", label: "IHK, HWK & Gründerabende", icon: Landmark, arten: ["gruenderabend", "webinar"] },
+  { key: "netzwerk", label: "Netzwerk & Konferenzen", icon: Users, arten: ["netzwerk", "konferenz"] },
+  { key: "bauen", label: "Hackathons & Build-Sessions", icon: Zap, arten: ["hackathon", "build"] },
+  { key: "fristen", label: "Wettbewerbe & Accelerator", icon: Trophy, arten: [] },
 ];
 
 const FORMAT_LABEL: Record<GruenderEvent["format"], string> = {
@@ -51,15 +68,20 @@ const FORMAT_LABEL: Record<GruenderEvent["format"], string> = {
 const regionName = (r: string) =>
   r === "online" ? "Online" : r === "bund" ? "Bundesweit" : BUNDESLAND_NAMES[r] ?? r;
 
-const fmtTag = (iso: string) =>
-  new Date(`${iso}T12:00:00`).toLocaleDateString("de-DE", { day: "2-digit", month: "short" });
+const fmtParts = (iso: string) => {
+  const d = new Date(`${iso}T12:00:00`);
+  return {
+    day: d.toLocaleDateString("de-DE", { day: "2-digit" }),
+    month: d.toLocaleDateString("de-DE", { month: "short" }).replace(".", "").toUpperCase(),
+  };
+};
 
 const fmtSpanne = (e: GruenderEvent) => {
   if (!e.datum) return "";
   const von = new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" });
   if (!e.datumBis || e.datumBis === e.datum) return von;
   const bis = new Date(`${e.datumBis}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" });
-  return `${von} – ${bis}`;
+  return `${von} bis ${bis}`;
 };
 
 const SEITE = 30;
@@ -78,132 +100,163 @@ const faqs = [
   },
   {
     q: "Wie aktuell sind die Termine?",
-    a: "Wir prüfen jeden Eintrag gegen die Seite des Veranstalters. Termine können sich trotzdem ändern – vor der Anmeldung immer den verlinkten Veranstalter-Link öffnen. Vergangene Termine blendet die Seite automatisch aus.",
+    a: "Wir prüfen jeden Eintrag gegen die Seite des Veranstalters. Termine können sich trotzdem ändern, daher vor der Anmeldung immer den verlinkten Veranstalter-Link öffnen. Vergangene Termine blendet die Seite automatisch aus.",
   },
 ];
 
 const EventKarte = ({ e }: { e: GruenderEvent }) => {
   const art = ART_LABELS[e.art];
+  const parts = e.datum ? fmtParts(e.datum) : null;
   return (
-    <div className="group flex min-w-0 gap-4 rounded-lg border border-border bg-card p-4 transition-colors hover:border-foreground/30 sm:p-5">
-      <div className="shrink-0 w-14 sm:w-16 rounded-xl bg-secondary/70 flex flex-col items-center justify-center py-2 text-center">
-        {e.datum ? (
+    <article className="group flex min-w-0 gap-4 rounded-2xl border border-border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/35 hover:shadow-soft sm:p-5">
+      <div className="flex h-16 w-14 shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-white text-center sm:w-16">
+        {parts ? (
           <>
-            <span className="text-lg sm:text-xl font-bold leading-none">{fmtTag(e.datum).split(".")[0]}</span>
-            <span className="mt-1 text-[11px] font-medium text-muted-foreground">
-              {fmtTag(e.datum).split(".").slice(1).join("").trim()}
+            <span className="bg-primary py-0.5 text-[10px] font-bold tracking-wider text-white">{parts.month}</span>
+            <span className="flex flex-1 items-center justify-center text-xl font-bold leading-none text-primary tabular">
+              {parts.day}
             </span>
           </>
         ) : (
-          <>
-            <Repeat className="h-5 w-5 text-muted-foreground" />
-            <span className="text-[10px] text-muted-foreground mt-1">laufend</span>
-          </>
+          <div className="flex flex-1 flex-col items-center justify-center bg-secondary/50 px-1">
+            <Repeat className="h-4 w-4 text-primary" aria-hidden="true" />
+            <span className="mt-1 text-[10px] font-semibold text-muted-foreground">laufend</span>
+          </div>
         )}
       </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="break-words text-base font-semibold leading-snug [overflow-wrap:anywhere]">
-          <a href={e.url} target="_blank" rel="noreferrer noopener" className="transition-colors hover:text-accent-blue hover:underline">
-            {e.name}
-          </a>
-        </h3>
-        <div className="text-xs text-muted-foreground mt-0.5">{e.veranstalter}</div>
-        <div className="flex flex-wrap gap-1.5 mt-2">
-          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${art.color}`}>
-            {art.emoji} {art.name}
-          </span>
-          <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px] inline-flex items-center gap-1">
-            {e.format === "online" ? <Wifi className="h-3 w-3" /> : <MapPin className="h-3 w-3" />}
+
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <h3 className="break-words text-[15px] font-bold leading-snug text-primary [overflow-wrap:anywhere] sm:text-base">
+              <a href={e.url} target="_blank" rel="noreferrer noopener" className="transition-colors hover:text-accent-blue">
+                {e.name}
+              </a>
+            </h3>
+            <p className="mt-0.5 text-xs font-medium text-muted-foreground">{e.veranstalter}</p>
+          </div>
+          {e.kostenlos === true && (
+            <span className="shrink-0 rounded-md bg-brand-green-soft px-2 py-0.5 text-[11px] font-bold text-brand-green">
+              Kostenlos
+            </span>
+          )}
+        </div>
+
+        <div className="mt-2.5 flex flex-wrap gap-1.5 text-[11px] font-semibold">
+          <span className="rounded-md bg-accent px-2 py-0.5 text-primary">{art.name}</span>
+          <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 font-medium text-muted-foreground">
+            {e.format === "online" ? <Wifi className="h-3 w-3" aria-hidden="true" /> : <MapPin className="h-3 w-3" aria-hidden="true" />}
             {e.format === "online" ? FORMAT_LABEL.online : `${e.ort} · ${FORMAT_LABEL[e.format]}`}
           </span>
           {e.dauer && (
-            <span className="rounded-full bg-secondary text-muted-foreground px-2 py-0.5 text-[10px] inline-flex items-center gap-1">
-              <Timer className="h-3 w-3" /> {e.dauer}
+            <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 font-medium text-muted-foreground">
+              <Timer className="h-3 w-3" aria-hidden="true" /> {e.dauer}
             </span>
           )}
-          {e.kostenlos === true && (
-            <span className="rounded-full bg-success-soft px-2 py-0.5 text-[10px] font-semibold text-success">kostenlos</span>
-          )}
         </div>
-        <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{e.kurz}</p>
-        <div className="text-[11px] mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="text-muted-foreground">
+
+        <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{e.kurz}</p>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-border/60 pt-2.5 text-xs">
+          <span className="font-medium text-foreground/80">
             {e.datum ? fmtSpanne(e) : e.rhythmus}
-            {e.weitereTermine ? ` · + ${e.weitereTermine} weitere Termine` : ""}
+            {e.weitereTermine ? ` · +${e.weitereTermine} weitere` : ""}
           </span>
-          <a href={e.url} target="_blank" rel="noreferrer noopener" className="text-accent-blue inline-flex items-center gap-1 hover:underline">
-            Zum Veranstalter <ExternalLink className="h-3 w-3" />
-          </a>
-          {e.datum && (
-            <button
-              type="button"
-              onClick={() =>
-                ladeIcsHerunter(
-                  { uid: e.slug, titel: e.name, start: e.datum!, ende: e.datumBis, ort: e.format === "online" ? "Online" : e.ort, beschreibung: e.veranstalter, url: e.url },
-                  e.name,
-                )
-              }
-              className="text-accent-blue inline-flex items-center gap-1 hover:underline"
+          <div className="ml-auto flex flex-wrap items-center gap-3">
+            {e.datum && (
+              <button
+                type="button"
+                onClick={() =>
+                  ladeIcsHerunter(
+                    {
+                      uid: e.slug,
+                      titel: e.name,
+                      start: e.datum!,
+                      ende: e.datumBis,
+                      ort: e.format === "online" ? "Online" : e.ort,
+                      beschreibung: e.veranstalter,
+                      url: e.url,
+                    },
+                    e.name,
+                  )
+                }
+                className="inline-flex items-center gap-1 font-semibold text-muted-foreground hover:text-primary"
+              >
+                <CalendarPlus className="h-3.5 w-3.5" aria-hidden="true" /> Kalender
+              </button>
+            )}
+            <a
+              href={e.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-1 font-semibold text-accent-blue hover:underline"
             >
-              <CalendarPlus className="h-3 w-3" /> In den Kalender
-            </button>
-          )}
+              Zum Veranstalter <ExternalLink className="h-3 w-3" aria-hidden="true" />
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
 const FristKarte = ({ f, heute }: { f: GruenderFrist; heute: string }) => {
   const label = FRIST_LABELS[f.art];
   const tageBis = f.frist ? Math.ceil((Date.parse(f.frist) - Date.parse(heute)) / 864e5) : null;
+  const dringend = tageBis !== null && tageBis <= 14;
   return (
-    <div className="rounded-xl border border-border bg-card p-4 hover:border-foreground/30 transition-colors">
+    <article className="relative overflow-hidden rounded-2xl border border-border bg-white p-4 pl-5 shadow-card transition-colors hover:border-primary/35">
+      <span aria-hidden="true" className={cn("absolute inset-y-0 left-0 w-1", dringend ? "bg-danger" : "bg-brand-green")} />
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <a href={f.url} target="_blank" rel="noreferrer noopener" className="font-semibold text-sm leading-snug hover:text-accent-blue transition-colors">
+          <a href={f.url} target="_blank" rel="noreferrer noopener" className="text-sm font-bold leading-snug text-primary hover:text-accent-blue">
             {f.name}
           </a>
-          <div className="text-xs text-muted-foreground mt-0.5">
-            {label.emoji} {label.name} · {regionName(f.region)}
+          <p className="mt-0.5 text-xs font-medium text-muted-foreground">
+            {label.name} · {regionName(f.region)}
             {f.preis ? ` · ${f.preis}` : ""}
-          </div>
+          </p>
         </div>
         {tageBis !== null && tageBis >= 0 && (
           <span
-            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-              tageBis <= 14 ? "bg-danger-soft text-danger" : "bg-success-soft text-success"
-            }`}
+            className={cn(
+              "shrink-0 rounded-lg px-2.5 py-1 text-[11px] font-bold tabular",
+              dringend ? "bg-danger-soft text-danger" : "bg-brand-green-soft text-brand-green",
+            )}
           >
-            {tageBis === 0 ? "Frist heute" : `noch ${tageBis} Tage`}
+            {tageBis === 0 ? "Heute" : `noch ${tageBis} Tage`}
           </span>
         )}
       </div>
-      <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{f.kurz}</p>
-      <div className="text-[11px] mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span className="text-muted-foreground">
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{f.kurz}</p>
+      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-2 text-[11px]">
+        <span className="font-medium text-foreground/80">
           {f.frist
             ? `Frist ${new Date(`${f.frist}T12:00:00`).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}`
             : f.rhythmus}
         </span>
-        <a href={f.url} target="_blank" rel="noreferrer noopener" className="text-accent-blue inline-flex items-center gap-1 hover:underline">
-          Zur Ausschreibung <ExternalLink className="h-3 w-3" />
-        </a>
-        {f.frist && (
-          <button
-            type="button"
-            onClick={() => ladeIcsHerunter({ uid: `frist-${f.slug}`, titel: `Bewerbungsfrist: ${f.name}`, start: f.frist!, beschreibung: f.kurz, url: f.url }, `frist-${f.slug}`)}
-            className="text-accent-blue inline-flex items-center gap-1 hover:underline"
-          >
-            <CalendarPlus className="h-3 w-3" /> Frist in den Kalender
-          </button>
-        )}
+        <div className="ml-auto flex items-center gap-3">
+          {f.frist && (
+            <button
+              type="button"
+              onClick={() => ladeIcsHerunter({ uid: `frist-${f.slug}`, titel: `Bewerbungsfrist: ${f.name}`, start: f.frist!, beschreibung: f.kurz, url: f.url }, `frist-${f.slug}`)}
+              className="inline-flex items-center gap-1 font-semibold text-muted-foreground hover:text-primary"
+            >
+              <CalendarPlus className="h-3 w-3" aria-hidden="true" /> Kalender
+            </button>
+          )}
+          <a href={f.url} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-1 font-semibold text-accent-blue hover:underline">
+            Ausschreibung <ExternalLink className="h-3 w-3" aria-hidden="true" />
+          </a>
+        </div>
       </div>
-    </div>
+    </article>
   );
 };
 
 export default function GruenderEvents() {
+  const { user } = useAuth();
+  const inCockpit = Boolean(user) && !isPrerender();
   const heute = new Date().toISOString().slice(0, 10);
   const [gruppe, setGruppe] = useState("alle");
   const [region, setRegion] = useState("all");
@@ -220,7 +273,6 @@ export default function GruenderEvents() {
     const q = suche.trim().toLowerCase();
     return aktiv.filter((e) => {
       if (arten.length && !arten.includes(e.art)) return false;
-      // Online-Events passen zu jedem Bundesland: man kann von überall teilnehmen.
       if (region !== "all" && e.region !== region && e.format !== "online") return false;
       if (nurKostenlos && e.kostenlos !== true) return false;
       if (nurOnline && e.format === "vor-ort") return false;
@@ -256,7 +308,6 @@ export default function GruenderEvents() {
       { name: "Gründer-Events", url: `${SITE}/gruender-events` },
     ]),
     faqSchema(faqs),
-    // Die nächsten 40 Termine reichen für Rich Results; alle 300+ würden das HTML aufblähen.
     ...aktiv
       .filter((e) => e.datum)
       .sort((a, b) => a.datum!.localeCompare(b.datum!))
@@ -278,8 +329,6 @@ export default function GruenderEvents() {
           e.format === "online"
             ? { "@type": "VirtualLocation", url: e.url }
             : { "@type": "Place", name: e.ort, address: { "@type": "PostalAddress", addressLocality: e.ort, addressCountry: "DE" } },
-        // Search Console (26.10.): image, eventStatus, organizer.url, offers, performer fehlten.
-        // Preis nur bei belegtem "kostenlos"; ohne Angabe kein Offer, statt einen Preis zu raten.
         image: `${SITE}/og-image.png`,
         eventStatus: "https://schema.org/EventScheduled",
         organizer: { "@type": "Organization", name: e.veranstalter, url: veranstalterUrl(e.url) },
@@ -300,8 +349,13 @@ export default function GruenderEvents() {
 
   return (
     <AdaptiveAppShell
-      eyebrow="Events & Netzwerk"
+      eyebrow={`Events & Netzwerk · Stand ${new Date(LIVE_STAND.stand).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" })}`}
       width="max-w-5xl"
+      tabs={[
+        { label: "Gründer-Events", to: "/gruender-events" },
+        { label: "Mein Event-Radar", to: "/cockpit/event-radar" },
+        { label: "Mitgründer-Börse", to: "/community/mitgruender" },
+      ]}
       seo={
         <Seo
           title="Gründer-Events 2026: IHK-Gründerabende, Hackathons & Meetups"
@@ -311,333 +365,293 @@ export default function GruenderEvents() {
         />
       }
       kicker={
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-medium text-muted-foreground shadow-card">
-          <CalendarDays className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Täglich aktualisiert, Stand{" "}
-          {new Date(LIVE_STAND.stand).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" })}
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1 text-xs font-semibold text-primary shadow-sm">
+          <CalendarDays className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Täglich aktualisiert
         </span>
       }
-      title="Gründer-Events in ganz Deutschland"
+      title="Gründer-Events & Netzwerk"
       lead={
         <p>
-          IHK-Gründerabende und Sprechtage, Startup-Konferenzen und Meetups, dazu Hackathons und KI-Build-Sessions,
-          bei denen du in ein paar Stunden dein erstes Tool baust. Jeder Termin mit Link zum Veranstalter.
-          {" "}Wettbewerbe mit Preisgeld, Pitch-Abende und Hackathons gesammelt:{" "}
-          <Link to="/gruender-chancen" className="font-medium text-accent-blue hover:underline">Gründer-Chancen</Link>.
+          IHK-Gründerabende, Startup-Konferenzen, Meetups, Hackathons und KI-Build-Sessions in ganz Deutschland. Jeder
+          Termin direkt mit Veranstalter-Link und Kalender-Export.
         </p>
       }
-      headerExtra={
-        <div className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <Link
-              to="/gruender-events"
-              className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white"
-            >
-              Gründer-Events
-            </Link>
-            <Link
-              to="/cockpit/event-radar"
-              className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary"
-            >
-              Mein Event-Radar
-            </Link>
-            <Link
-              to="/community/mitgruender"
-              className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary"
-            >
-              Mitgründer-Börse
-            </Link>
-          </div>
-          <dl className="grid max-w-2xl grid-cols-3 overflow-hidden rounded-2xl border border-border bg-white shadow-card">
-            {[
-              { n: aktiv.length, l: "Events & Formate" },
-              { n: anzahlStaedte, l: "Orte" },
-              { n: anzahlBauen, l: "Hackathons & Build-Sessions" },
-            ].map((k, i) => (
-              <div key={k.l} className={`px-4 py-4 sm:px-5 ${i > 0 ? "border-l border-border" : ""}`}>
-                <dt className="sr-only">{k.l}</dt>
-                <dd className="text-2xl font-bold tracking-tight text-primary tabular">{k.n}</dd>
-                <dd className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">{k.l}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      }
     >
-      <div className="space-y-10">
-          {/* Filter */}
-          <div className="mb-8 space-y-3 rounded-2xl border border-border bg-card p-4 shadow-card sm:p-5">
-            <div className="flex flex-wrap gap-1.5">
-              {GRUPPEN.map((g) => (
+      <div className="space-y-8">
+        {/* Kompakte 3er-Kennzahlen im Revolut-Stil */}
+        <dl className="grid grid-cols-3 gap-3">
+          {[
+            { n: aktiv.length, l: "Aktive Events" },
+            { n: anzahlStaedte, l: "Städte & Online" },
+            { n: anzahlBauen, l: "Hackathons & Builds" },
+          ].map((k) => (
+            <div key={k.l} className="rounded-2xl border border-border bg-white px-4 py-3.5 shadow-card sm:px-5">
+              <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{k.l}</dt>
+              <dd className="mt-1 text-2xl font-bold tracking-tight text-primary tabular">{k.n}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {/* Aufgeräumte Revolut-Filterkarte */}
+        <section aria-label="Events filtern" className="rounded-2xl border border-border bg-white p-4 shadow-card sm:p-5">
+          <div className="flex flex-wrap gap-1.5">
+            {GRUPPEN.map((g) => {
+              const Icon = g.icon;
+              const active = gruppe === g.key;
+              return (
                 <button
                   key={g.key}
+                  type="button"
                   onClick={() => setGruppe(g.key)}
-                  aria-pressed={gruppe === g.key}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
-                    gruppe === g.key ? "bg-primary text-primary-foreground" : "border border-border bg-card text-foreground/75 hover:border-foreground/20 hover:text-foreground"
-                  }`}
+                  aria-pressed={active}
+                  className={cn(
+                    "press inline-flex min-h-9 items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                    active
+                      ? "bg-primary text-white shadow-sm"
+                      : "bg-secondary/60 text-foreground/80 hover:bg-accent hover:text-primary",
+                  )}
                 >
+                  {Icon && <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />}
                   {g.label}
                 </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-3.5 grid grid-cols-1 gap-2.5 sm:grid-cols-[1fr_220px]">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+              <Input
+                value={suche}
+                onChange={(e) => setSuche(e.target.value)}
+                placeholder="Suche: München, IHK, KI, Pitch, E-Commerce …"
+                className="h-11 rounded-xl bg-secondary/35 pl-10 focus:bg-white"
+              />
+            </div>
+            <select value={region} onChange={(e) => setRegion(e.target.value)} aria-label="Bundesland" className={selectCls}>
+              <option value="all">Alle Bundesländer</option>
+              {regionen.map((r) => (
+                <option key={r} value={r}>
+                  {BUNDESLAND_NAMES[r]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mt-3.5 flex flex-wrap items-center gap-4 border-t border-border/60 pt-3 text-xs font-medium text-foreground">
+            <label className="inline-flex cursor-pointer items-center gap-2">
+              <input type="checkbox" className="h-4 w-4 accent-[hsl(var(--primary))]" checked={nurKostenlos} onChange={(e) => setNurKostenlos(e.target.checked)} />
+              Nur kostenlose
+            </label>
+            <label className="inline-flex cursor-pointer items-center gap-2">
+              <input type="checkbox" className="h-4 w-4 accent-[hsl(var(--primary))]" checked={nurOnline} onChange={(e) => setNurOnline(e.target.checked)} />
+              Online teilnehmen
+            </label>
+            <span className="ml-auto text-xs font-semibold text-muted-foreground tabular">
+              {nurFristen ? `${fristen.length} Programme` : `${gefiltert.length} von ${aktiv.length} Events`}
+            </span>
+          </div>
+        </section>
+
+        {/* Bewerbungsfristen (sauber hell statt gelber Warnwand) */}
+        {(nurFristen || fristenOffen.length > 0) && (
+          <section className="space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="flex items-center gap-2 text-base font-bold text-primary sm:text-lg">
+                <Trophy className="h-4 w-4 text-brand-green" aria-hidden="true" />
+                Fristen-Radar: Wettbewerbe &amp; Accelerator
+              </h2>
+              {!nurFristen && (
+                <button type="button" onClick={() => setGruppe("fristen")} className="text-xs font-semibold text-accent-blue hover:underline">
+                  Alle {fristen.length} Programme ansehen →
+                </button>
+              )}
+            </div>
+            {fristenOffen.length > 0 && (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {(nurFristen ? fristenOffen : fristenOffen.slice(0, 4)).map((f) => (
+                  <FristKarte key={f.slug} f={f} heute={heute} />
+                ))}
+              </div>
+            )}
+            {nurFristen && fristenLaufend.length > 0 && (
+              <>
+                <h3 className="pt-3 text-sm font-semibold text-muted-foreground">Laufend bewerben</h3>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {fristenLaufend.map((f) => (
+                    <FristKarte key={f.slug} f={f} heute={heute} />
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
+        )}
+
+        {!nurFristen && termine.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-lg font-bold tracking-tight text-primary">Nächste Termine</h2>
+            <div className="space-y-3">
+              {termine.slice(0, sichtbar).map((e, i, liste) => {
+                const neuerMonat = i === 0 || e.datum!.slice(0, 7) !== liste[i - 1].datum!.slice(0, 7);
+                return (
+                  <div key={e.slug}>
+                    {neuerMonat && (
+                      <h3 className="pb-2 pt-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                        {monatsName(e.datum!)}
+                      </h3>
+                    )}
+                    <EventKarte e={e} />
+                  </div>
+                );
+              })}
+            </div>
+            {termine.length > sichtbar && (
+              <div className="pt-2 text-center">
+                <Button variant="outline" className="rounded-xl bg-white" onClick={() => setSichtbar((n) => n + SEITE * 2)}>
+                  Weitere Termine anzeigen ({termine.length - sichtbar})
+                </Button>
+              </div>
+            )}
+          </section>
+        )}
+
+        {!nurFristen && laufend.length > 0 && (
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-lg font-bold tracking-tight text-primary">Regelmäßige Formate</h2>
+              <p className="text-sm text-muted-foreground">Finden laufend statt, den nächsten Termin findest du beim Veranstalter.</p>
+            </div>
+            <div className="space-y-3">
+              {laufend.map((e) => (
+                <EventKarte key={e.slug} e={e} />
               ))}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-[1fr_220px] gap-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  value={suche}
-                  onChange={(e) => setSuche(e.target.value)}
-                  placeholder="Suche: München, IHK, Claude, Pitch, KI …"
-                  className="pl-9 bg-background"
-                />
-              </div>
-              <select
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                aria-label="Bundesland"
-                className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/25"
-              >
-                <option value="all">Alle Bundesländer</option>
-                {regionen.map((r) => (
-                  <option key={r} value={r}>
-                    {BUNDESLAND_NAMES[r]}
+          </section>
+        )}
+
+        {!nurFristen && gefiltert.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-border bg-white p-10 text-center text-sm text-muted-foreground">
+            Für diese Filter gibt es gerade nichts. Nimm einen Filter heraus oder schau in die Event-Kalender unten.
+          </div>
+        )}
+
+        {/* Abonnierbare Kalender */}
+        <section className="rounded-2xl border border-border bg-white p-5 shadow-card sm:p-6">
+          <h2 className="flex items-center gap-2 text-base font-bold text-primary">
+            <CalendarPlus className="h-4 w-4 text-accent-blue" aria-hidden="true" />
+            Termine automatisch im eigenen Kalender
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Abonniere den Kalender für dein Bundesland (inkl. Online-Events) oder alle Bewerbungsfristen für Google, Apple oder Outlook.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <select
+              aria-label="Bundesland für den Kalender"
+              className="h-10 rounded-xl border border-input bg-white px-3 text-sm font-medium"
+              value={region === "all" ? "" : region}
+              onChange={(ev) => setRegion(ev.target.value || "all")}
+            >
+              <option value="">Ganz Deutschland</option>
+              {Object.entries(BUNDESLAND_NAMES)
+                .filter(([k]) => k !== "bund")
+                .map(([k, n]) => (
+                  <option key={k} value={k}>
+                    {n}
                   </option>
                 ))}
-              </select>
-            </div>
-            <div className="flex flex-wrap items-center gap-4 text-sm">
-              <label className="inline-flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={nurKostenlos} onChange={(e) => setNurKostenlos(e.target.checked)} />
-                Nur kostenlose
-              </label>
-              <label className="inline-flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={nurOnline} onChange={(e) => setNurOnline(e.target.checked)} />
-                Online teilnehmen
-              </label>
-              <span className="ml-auto text-xs text-muted-foreground">
-                {nurFristen ? `${fristen.length} Programme` : `${gefiltert.length} von ${aktiv.length}`}
-              </span>
-            </div>
+            </select>
+            <a
+              className="inline-flex h-10 items-center rounded-xl bg-primary px-4 text-xs font-semibold text-white transition-colors hover:bg-primary/90 sm:text-sm"
+              href={`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`}
+            >
+              Events abonnieren
+            </a>
+            <a
+              className="inline-flex h-10 items-center rounded-xl border border-border bg-white px-4 text-xs font-semibold text-foreground transition-colors hover:bg-secondary sm:text-sm"
+              href="webcal://gruenderx.de/kalender/fristen.ics"
+            >
+              Fristen abonnieren
+            </a>
+            <a
+              className="text-xs font-semibold text-accent-blue hover:underline"
+              href={`https://calendar.google.com/calendar/r?cid=${encodeURIComponent(`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`)}`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              in Google Kalender öffnen
+            </a>
           </div>
+        </section>
 
-          {/* Fristen-Radar */}
-          {(nurFristen || fristenOffen.length > 0) && (
-            <div className="mb-10 rounded-2xl border border-warning/25 bg-warning-soft p-4 sm:p-6">
-              <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                <h2 className="flex items-center gap-2 text-lg font-semibold md:text-xl"><Trophy className="h-5 w-5 text-warning" aria-hidden="true" /> Fristen-Radar: Wettbewerbe, Stipendien & Accelerator</h2>
-                {!nurFristen && (
-                  <button onClick={() => setGruppe("fristen")} className="text-xs font-semibold text-accent-blue hover:underline">
-                    Alle {fristen.length} Programme →
-                  </button>
-                )}
-              </div>
-              {fristenOffen.length > 0 && (
-                <>
-                  <div className="mb-2 text-sm font-medium text-muted-foreground">Bewerbung jetzt offen</div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {(nurFristen ? fristenOffen : fristenOffen.slice(0, 4)).map((f) => (
-                      <FristKarte key={f.slug} f={f} heute={heute} />
-                    ))}
-                  </div>
-                </>
-              )}
-              {nurFristen && fristenLaufend.length > 0 && (
-                <>
-                  <div className="mb-2 mt-5 text-sm font-medium text-muted-foreground">
-                    Laufend bewerben oder nächste Runde vormerken
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {fristenLaufend.map((f) => (
-                      <FristKarte key={f.slug} f={f} heute={heute} />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-
-          {!nurFristen && termine.length > 0 && (
-            <>
-              <h2 className="mb-3 text-xl font-semibold md:text-2xl">Nächste Termine</h2>
-              <div className="space-y-3 mb-4">
-                {termine.slice(0, sichtbar).map((e, i, liste) => {
-                  const neuerMonat = i === 0 || e.datum!.slice(0, 7) !== liste[i - 1].datum!.slice(0, 7);
-                  return (
-                    <div key={e.slug}>
-                      {neuerMonat && (
-                        <h3 className="pb-2 pt-4 text-sm font-semibold text-muted-foreground">
-                          {monatsName(e.datum!)}
-                        </h3>
-                      )}
-                      <EventKarte e={e} />
-                    </div>
-                  );
-                })}
-              </div>
-              {termine.length > sichtbar && (
-                <div className="text-center mb-10">
-                  <Button variant="outline" onClick={() => setSichtbar((n) => n + SEITE * 2)}>
-                    Weitere Termine anzeigen ({termine.length - sichtbar})
-                  </Button>
-                </div>
-              )}
-              {termine.length <= sichtbar && <div className="mb-10" />}
-            </>
-          )}
-
-          {!nurFristen && laufend.length > 0 && (
-            <>
-              <h2 className="mb-1 text-xl font-semibold md:text-2xl">Regelmäßige Formate</h2>
-              <p className="text-sm text-muted-foreground mb-3">
-                Finden laufend statt – den nächsten Termin findest du jeweils beim Veranstalter.
+        {/* Event-Kalender-Quellen */}
+        {EVENT_KALENDER.length > 0 && (
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-base font-bold text-primary">Weitere Event-Quellen</h2>
+              <p className="text-xs text-muted-foreground">
+                Unser Monitor liest täglich 14 Quellen aus, darunter IHK-Kalender, Luma, Meetup, Google Developer Groups und Eventbrite.
               </p>
-              <div className="space-y-3 mb-10">
-                {laufend.map((e) => (
-                  <EventKarte key={e.slug} e={e} />
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {EVENT_KALENDER.map((k) => (
+                <a
+                  key={k.url}
+                  href={k.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="group rounded-2xl border border-border bg-white p-4 shadow-card transition-colors hover:border-primary/35"
+                >
+                  <div className="flex items-center gap-2">
+                    {k.art === "build" ? (
+                      <Zap className="h-4 w-4 text-accent-blue" aria-hidden="true" />
+                    ) : (
+                      <Landmark className="h-4 w-4 text-primary" aria-hidden="true" />
+                    )}
+                    <span className="flex-1 text-sm font-bold text-primary">{k.name}</span>
+                    <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+                  </div>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{k.kurz}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {!inCockpit && (
+          <>
+            <section className="space-y-3">
+              <h2 className="text-lg font-bold text-primary">Häufige Fragen</h2>
+              <div className="space-y-2.5">
+                {faqs.map((f) => (
+                  <div key={f.q} className="rounded-2xl border border-border bg-white p-5 shadow-card">
+                    <h3 className="text-sm font-bold text-primary">{f.q}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+                  </div>
                 ))}
               </div>
-            </>
-          )}
+            </section>
 
-          {!nurFristen && gefiltert.length === 0 && (
-            <div className="mb-10 rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
-              Für diese Filter gibt es gerade nichts. Nimm einen Filter heraus oder schau in die Event-Kalender unten.
-            </div>
-          )}
-
-          {/* Build-Session vorbereiten */}
-          <div className="mb-10 rounded-2xl border border-border bg-card p-5 shadow-card sm:p-6">
-            <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold"><Zap className="h-5 w-5 text-accent-blue" aria-hidden="true" /> In 3 Stunden zum ersten Tool: so nutzt du eine Build-Session</h2>
-            <p className="text-sm mb-3">
-              Mit Timer und Prompt-Vorlagen:{" "}
-              <Link to="/hackathon-starter-kit" className="text-accent-blue font-semibold hover:underline">Hackathon-Starter-Kit öffnen →</Link>{" "}
-              <Link to="/startup-guthaben" className="text-accent-blue font-semibold hover:underline">KI- & Cloud-Guthaben sichern →</Link>
-            </p>
-            <ol className="list-decimal pl-5 space-y-1.5 text-sm text-muted-foreground">
-              <li>
-                <strong className="text-foreground">Vorher (30 Min.):</strong> ein Problem in einem Satz aufschreiben, das
-                du selbst hast. Prüf mit dem{" "}
-                <Link to="/tools/brand-check" className="text-accent-blue hover:underline">Marken- und Domain-Check</Link>,
-                ob der Name frei ist.
-              </li>
-              <li>
-                <strong className="text-foreground">Stunde 1:</strong> nur den Kern bauen – eine Eingabe, ein Ergebnis.
-                KI-Werkzeuge wie Claude, Lovable oder Cursor schreiben den Großteil des Codes.
-              </li>
-              <li>
-                <strong className="text-foreground">Stunde 2:</strong> von drei anderen Teilnehmern ausprobieren lassen und
-                das Wichtigste nachbessern.
-              </li>
-              <li>
-                <strong className="text-foreground">Stunde 3:</strong> online stellen und einen 60-Sekunden-Pitch üben:
-                Problem, Lösung, wer zahlt.
-              </li>
-              <li>
-                <strong className="text-foreground">Danach:</strong> Wenn Leute zahlen wollen, steht die Gründung an – den
-                Weg dahin zeigt dir der{" "}
-                <Link to="/rechtsform-finden" className="text-accent-blue hover:underline">Rechtsform-Finder</Link>.
-              </li>
-            </ol>
-          </div>
-
-          {/* Abonnierbare Kalender */}
-          <div className="mb-10 rounded-2xl border border-foreground/25 bg-accent/60 p-5 sm:p-6">
-            <h2 className="mb-1 flex items-center gap-2 text-lg font-semibold"><CalendarPlus className="h-5 w-5 text-accent-blue" aria-hidden="true" /> Termine automatisch im eigenen Kalender</h2>
-            <p className="text-sm text-muted-foreground mb-3">
-              Abonniere den Kalender für dein Bundesland (inklusive Online-Events) oder alle Bewerbungsfristen – er
-              aktualisiert sich von selbst in Google Kalender, Apple Kalender oder Outlook.
-            </p>
-            <div className="flex flex-wrap gap-2 items-center">
-              <select
-                aria-label="Bundesland für den Kalender"
-                className="h-10 rounded-md border border-input bg-card px-2 text-sm"
-                value={region === "all" ? "" : region}
-                onChange={(ev) => setRegion(ev.target.value || "all")}
-              >
-                <option value="">Ganz Deutschland</option>
-                {Object.entries(BUNDESLAND_NAMES).filter(([k]) => k !== "bund").map(([k, n]) => (
-                  <option key={k} value={k}>{n}</option>
-                ))}
-              </select>
-              <a
-                className="inline-flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-                href={`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`}
-              >
-                Events abonnieren
-              </a>
-              <a className="inline-flex h-10 items-center rounded-lg border border-input bg-card px-4 text-sm font-semibold transition-colors hover:bg-secondary" href="webcal://gruenderx.de/kalender/fristen.ics">
-                Fristen abonnieren
-              </a>
-              <a
-                className="text-xs text-accent-blue hover:underline"
-                href={`https://calendar.google.com/calendar/r?cid=${encodeURIComponent(`webcal://gruenderx.de/kalender/${region === "all" ? "gruender-events" : `gruender-events-${region.toLowerCase()}`}.ics`)}`}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                in Google Kalender öffnen
-              </a>
-            </div>
-          </div>
-
-          {/* Kalender */}
-          {EVENT_KALENDER.length > 0 && (
-            <div className="mb-10">
-              <h2 className="mb-1 text-xl font-semibold md:text-2xl">Event-Kalender, die sich lohnen</h2>
-              <p className="text-sm text-muted-foreground mb-3">
-                Unser Monitor liest täglich 14 Quellen aus – von Gründungswoche, IHK-Kalendern und Startup-Hubs bis Luma,
-                Meetup, Google Developer Groups und Eventbrite. Für alles Weitere: Hier
-                tragen Veranstalter ihre Termine selbst ein.
+            <div className="rounded-2xl border-2 border-primary bg-white p-7 text-center shadow-soft">
+              <h2 className="text-xl font-bold text-primary">Vom Gründerabend zur fertigen Gründung</h2>
+              <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
+                Auf dem Event bekommst du den Überblick. GründerX führt dich danach Schritt für Schritt durch
+                Gewerbeanmeldung, Steuern und Förderung.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {EVENT_KALENDER.map((k) => (
-                  <a
-                    key={k.url}
-                    href={k.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="group rounded-xl border border-border bg-card p-4 hover:border-foreground/30 transition-colors"
-                  >
-                    <div className="flex items-center gap-2">
-                      {k.art === "build" ? <Zap className="h-4 w-4 text-accent-blue" aria-hidden="true" /> : <Landmark className="h-4 w-4 text-muted-foreground" aria-hidden="true" />}
-                      <span className="font-semibold text-sm flex-1">{k.name}</span>
-                      <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{k.kurz}</p>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* FAQ */}
-          <h2 className="mb-3 text-xl font-semibold md:text-2xl">Häufige Fragen</h2>
-          <div className="space-y-3 mb-10">
-            {faqs.map((f) => (
-              <div key={f.q} className="rounded-xl border border-border bg-card p-5">
-                <h3 className="font-semibold mb-1.5">{f.q}</h3>
-                <p className="text-sm text-muted-foreground">{f.a}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="relative overflow-hidden rounded-2xl bg-ink p-8 text-center text-primary-foreground">
-            <h2 className="mb-2 text-2xl font-semibold">Vom Gründerabend zur fertigen Gründung</h2>
-            <p className="mx-auto mb-6 max-w-xl text-sm text-primary-foreground/75">
-              Auf dem Event bekommst du den Überblick – GründerX führt dich danach Schritt für Schritt durch
-              Gewerbeanmeldung, Steuern und Förderung.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <Link to="/gratis-tools">
-                <Button size="lg" className="w-full rounded-xl bg-card font-semibold text-primary hover:bg-card/90 sm:w-auto">
-                  Gratis-Tools ansehen <ArrowRight />
+              <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
+                <Button asChild size="lg" className="rounded-xl">
+                  <Link to="/gratis-tools">
+                    Gratis-Tools ansehen <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                  </Link>
                 </Button>
-              </Link>
-              <Link to="/guides">
-                <Button size="lg" variant="outline" className="w-full rounded-xl border-white/20 bg-transparent text-primary-foreground hover:bg-white/10 hover:text-primary-foreground sm:w-auto">Alle Guides</Button>
-              </Link>
+                <Button asChild size="lg" variant="outline" className="rounded-xl">
+                  <Link to="/guides">Alle Guides</Link>
+                </Button>
+              </div>
             </div>
-          </div>
 
-          <HubNav show={["tools", "guides", "ratgeber"]} />
+            <HubNav show={["tools", "guides", "ratgeber"]} />
+          </>
+        )}
       </div>
     </AdaptiveAppShell>
   );

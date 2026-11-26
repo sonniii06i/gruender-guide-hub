@@ -124,9 +124,15 @@ const MitgruenderBoerse = () => {
     laden();
   };
 
+const EVENTS_TABS = [
+  { label: "Gründer-Events", to: "/gruender-events" },
+  { label: "Mein Event-Radar", to: "/cockpit/event-radar" },
+  { label: "Mitgründer-Börse", to: "/community/mitgruender" },
+];
+
   if (ladeFehler)
     return (
-      <CockpitShell eyebrow="Community" title="Mitgründer-Börse" subtitle="Finde Mitgründer mit den Fähigkeiten, die dir fehlen.">
+      <CockpitShell eyebrow="Events & Netzwerk" title="Mitgründer-Börse" subtitle="Finde Mitgründer mit den Fähigkeiten, die dir fehlen." tabs={EVENTS_TABS}>
         <EmptyState
           icon={Clock}
           title="Verbindung prüfen"
@@ -138,7 +144,7 @@ const MitgruenderBoerse = () => {
 
   if (verfuegbar === false)
     return (
-      <CockpitShell eyebrow="Community" title="Mitgründer-Börse" subtitle="Finde Mitgründer mit den Fähigkeiten, die dir fehlen.">
+      <CockpitShell eyebrow="Events & Netzwerk" title="Mitgründer-Börse" subtitle="Finde Mitgründer mit den Fähigkeiten, die dir fehlen." tabs={EVENTS_TABS}>
         <EmptyState
           icon={Clock}
           title="Bald verfügbar"
@@ -153,9 +159,10 @@ const MitgruenderBoerse = () => {
 
   return (
     <CockpitShell
-      eyebrow="Community · Mitgründer-Börse"
+      eyebrow="Events & Netzwerk · Mitgründer-Börse"
       title="Finde deinen Mitgründer"
-      subtitle="Profile anderer GründerX-Mitglieder nach Rolle, Region und Branche. Kontakt läuft über Anfragen: Deine Kontaktdaten gibst du erst weiter, wenn du eine Anfrage annimmst."
+      subtitle="Profile anderer GründerX-Mitglieder nach Rolle, Region und Branche. Deine Kontaktdaten gibst du erst weiter, wenn du eine Anfrage annimmst."
+      tabs={EVENTS_TABS}
     >
       <div role="tablist" aria-label="Bereiche" className="mb-6 inline-flex flex-wrap gap-1 rounded-xl border border-border bg-secondary/60 p-1">
         {(

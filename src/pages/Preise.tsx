@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { PageHeader } from "@/components/landing/PageHeader";
-import { Check, Gift, ShoppingCart, Receipt, CalendarX, Info, Plus } from "lucide-react";
+import { Check, Gift, ShoppingCart, Receipt, CalendarX, Info, Plus, Sparkles } from "lucide-react";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
+import { StartAngebotButton } from "@/components/StartAngebotButton";
 import { useAuth } from "@/hooks/useAuth";
 import { rememberCartVariant } from "@/lib/cart";
 import {
@@ -172,6 +173,32 @@ const Preise = () => {
         />
 
         <div className="container max-w-5xl px-4 pb-20 pt-10 md:pt-12">
+        {/* 7-Tage-für-1-€-Startangebot prominent im Revolut-Stil */}
+        <section
+          aria-labelledby="startangebot-box"
+          className="relative mb-8 overflow-hidden rounded-2xl border border-brand-green/35 bg-white p-5 pl-6 shadow-card md:p-7 md:pl-8"
+        >
+          <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1.5 bg-brand-green" />
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div className="min-w-0 max-w-xl">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-green-soft px-2.5 py-1 text-xs font-bold text-brand-green">
+                <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                Für Neukunden · 7 Tage testen
+              </span>
+              <h2 id="startangebot-box" className="mt-2.5 text-xl font-bold tracking-tight text-primary sm:text-2xl">
+                Alles 7 Tage für 1,00 € ausprobieren
+              </h2>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                Voller Zugriff auf alle {LANDING_TOOLS.length} Tools, 81 Kurse und Felix. Wenn es nicht passt, kündigst du in den 7 Tagen
+                mit einem Klick. Danach {formatEurCents(PLANS.gruenderx.grossCents)}/Monat (inkl. 19 % USt., monatlich kündbar).
+              </p>
+            </div>
+            <div className="shrink-0 md:w-64">
+              <StartAngebotButton variant="default" cta="preise-startangebot" />
+            </div>
+          </div>
+        </section>
+
         {/* Preiskarten: Klare 2-Spalten-Ansicht im Lexoffice-Stil */}
         <section aria-labelledby="plaene" className="mb-16">
           <h2 id="plaene" className="sr-only">Pläne</h2>

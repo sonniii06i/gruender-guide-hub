@@ -1,6 +1,6 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BellRing, CalendarClock, CheckCircle2, ExternalLink, MapPin, Search, Sparkles } from "lucide-react";
+import { ArrowRight, BellRing, CalendarClock, CheckCircle2, ExternalLink, MapPin, Search, Sparkles, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Seo } from "@/components/Seo";
@@ -8,6 +8,8 @@ import { HubNav } from "@/components/landing/HubNav";
 import { AdaptiveAppShell } from "@/components/AdaptiveAppShell";
 import { selectCls } from "@/components/cockpit/kit";
 import { PublicSection, FaqList, CtaBand, ctaPrimaryOnInk, ctaSecondaryOnInk } from "@/components/public/PublicBlocks";
+import { useAuth } from "@/hooks/useAuth";
+import { isPrerender } from "@/lib/prerender";
 import { breadcrumbSchema, faqSchema } from "@/lib/freetools/schema";
 import { BUNDESLAND_NAMES } from "@/data/foerderprogramme";
 import { aktuelleEvents, GRUENDER_FRISTEN } from "@/data/gruenderEvents";
@@ -44,30 +46,46 @@ function ChanceKarte({ c, heute }: { c: Chance; heute: string }) {
   const a = CHANCEN_ARTEN[c.art];
   const bald = c.frist && c.frist <= plusTage(heute, 7);
   return (
-    <li className="rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/20">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted-foreground">
-        <span className="inline-flex items-center gap-1 rounded-full border border-border bg-background px-2 py-0.5 text-foreground/80">
-          <span aria-hidden="true">{a.emoji}</span> {a.name}
+    <li className="relative overflow-hidden rounded-2xl border border-border bg-white p-4 pl-5 shadow-card transition-[border-color,box-shadow] hover:border-primary/35 hover:shadow-soft">
+      <span
+        aria-hidden="true"
+        className={`absolute inset-y-0 left-0 w-1 ${bald ? "bg-danger" : c.preis ? "bg-brand-green" : "bg-primary/35"}`}
+      />
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold">
+        <span className="inline-flex items-center gap-1 rounded-md bg-accent px-2 py-0.5 text-primary">
+          {a.name}
         </span>
-        {c.frist && (
-          <span className={bald ? "font-semibold text-destructive" : "text-foreground/80"}>
-            {c.art === "hackathon" ? "Einreichen" : "Bewerben"} bis {tag(c.frist)}
-          </span>
-        )}
-        {!c.frist && c.datum && <span className="text-foreground/80">{tag(c.datum)}{c.datumBis && c.datumBis !== c.datum ? ` – ${tag(c.datumBis)}` : ""}</span>}
-        {c.vormerken && <span className="text-foreground/80">Vormerken: {c.vormerken}</span>}
-        {c.kostenlos && <span className="text-brand-green">kostenlos</span>}
-        {c.nurFrauen && <span className="rounded-full bg-accent px-2 py-0.5 text-accent-blue">für Frauen</span>}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {c.kostenlos && <span className="rounded-md bg-brand-green-soft px-2 py-0.5 text-[11px] font-bold text-brand-green">Kostenlos</span>}
+          {c.frist && (
+            <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold tabular ${bald ? "bg-danger-soft text-danger" : "bg-secondary text-foreground"}`}>
+              {c.art === "hackathon" ? "Einreichen" : "Frist"} {tag(c.frist)}
+            </span>
+          )}
+          {!c.frist && c.datum && (
+            <span className="rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-foreground tabular">
+              {tag(c.datum)}{c.datumBis && c.datumBis !== c.datum ? ` bis ${tag(c.datumBis)}` : ""}
+            </span>
+          )}
+        </div>
       </div>
-      <a href={c.url} target="_blank" rel="noopener noreferrer" className="mt-1.5 inline-flex items-start gap-1.5 text-[15px] font-semibold leading-snug text-foreground hover:text-accent-blue">
+
+      <a href={c.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-start gap-1.5 text-[15px] font-bold leading-snug text-primary hover:text-accent-blue">
         {c.titel} <ExternalLink className="mt-1 h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
       </a>
-      {c.preis && <p className="mt-1 text-sm font-medium text-foreground">💰 {c.preis}</p>}
-      {c.kurz && <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{c.kurz}</p>}
-      <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-        <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" aria-hidden="true" />{c.ort}</span>
+
+      {c.preis && (
+        <p className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-brand-green-soft px-2.5 py-1 text-xs font-bold text-brand-green">
+          <Trophy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> {c.preis}
+        </p>
+      )}
+      {c.kurz && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.kurz}</p>}
+
+      <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-2.5 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1 font-medium text-foreground/80"><MapPin className="h-3 w-3" aria-hidden="true" />{c.ort}</span>
         {c.veranstalter && <span>{c.veranstalter}</span>}
-        {c.frist && c.datum && c.datum !== c.frist && <span>Finale/Start {tag(c.datum)}</span>}
+        {c.nurFrauen && <span className="rounded-md bg-accent px-1.5 py-0.5 font-semibold text-primary">für Frauen</span>}
+        {c.vormerken && <span>Vormerken: {c.vormerken}</span>}
       </p>
     </li>
   );
@@ -151,6 +169,8 @@ function ChancenAlarmBox() {
 }
 
 export default function GruenderChancen() {
+  const { user } = useAuth();
+  const inCockpit = Boolean(user) && !isPrerender();
   const heute = new Date().toISOString().slice(0, 10);
   const alle = useMemo(
     () => sammleChancen({ events: aktuelleEvents(heute), fristen: GRUENDER_FRISTEN, hackathons: hackathonsLive.eintraege as Hackathon[], heute }),
@@ -203,8 +223,14 @@ export default function GruenderChancen() {
 
   return (
     <AdaptiveAppShell
-      eyebrow="Geld & Chancen"
+      eyebrow="Chancen & Förderung"
       width="max-w-5xl"
+      tabs={[
+        { label: "Chancen-Radar", to: "/cockpit/chancen-radar" },
+        { label: "Gründer-Chancen", to: "/gruender-chancen" },
+        { label: "Startup-Guthaben", to: "/startup-guthaben" },
+        { label: "Förder-Datenbank", to: "/cockpit/foerderung" },
+      ]}
       seo={
         <Seo
           title={`Gründer-Chancen ${new Date().getFullYear()}: Wettbewerbe, Preisgeld & Pitch-Events`}
@@ -295,25 +321,31 @@ export default function GruenderChancen() {
             )}
           </section>
 
-          <CtaBand
-            title="Bevor du pitchst: Unterlagen fertig machen"
-            actions={
-              <>
-                <Button asChild size="lg" className={ctaPrimaryOnInk}>
-                  <Link to="/cockpit/pitch-deck">Pitch-Deck bauen <ArrowRight /></Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className={ctaSecondaryOnInk}>
-                  <Link to="/startup-guthaben">Startup-Guthaben</Link>
-                </Button>
-              </>
-            }
-          >
-            Pitch-Deck, Finanzplan und Businessplan baust du im GründerX-Cockpit – Schritt für Schritt mit Felix.
-          </CtaBand>
+          {!inCockpit && (
+            <>
+              <CtaBand
+                title="Bevor du pitchst: Unterlagen fertig machen"
+                actions={
+                  <>
+                    <Button asChild size="lg" className={ctaPrimaryOnInk}>
+                      <Link to="/cockpit/pitch-deck">Pitch-Deck bauen <ArrowRight /></Link>
+                    </Button>
+                    <Button asChild size="lg" variant="outline" className={ctaSecondaryOnInk}>
+                      <Link to="/startup-guthaben">Startup-Guthaben</Link>
+                    </Button>
+                  </>
+                }
+              >
+                Pitch-Deck, Finanzplan und Businessplan baust du im GründerX-Cockpit Schritt für Schritt mit Felix.
+              </CtaBand>
 
-          <PublicSection title="Häufige Fragen">
-            <FaqList items={faqs} />
-          </PublicSection>
+              <PublicSection title="Häufige Fragen">
+                <FaqList items={faqs} />
+              </PublicSection>
+
+              <HubNav show={["tools", "guides", "ratgeber"]} />
+            </>
+          )}
 
           <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
@@ -321,7 +353,6 @@ export default function GruenderChancen() {
             Event-Monitor und von Devpost. Preisgelder sind Angaben der Veranstalter, kein Anspruch. Alle Termine vor der Anmeldung beim
             Veranstalter prüfen. Mehr Termine je Bundesland: <Link to="/gruender-events" className="text-accent-blue hover:underline">Gründer-Events</Link>.
           </p>
-          <HubNav show={["tools", "guides", "ratgeber"]} />
       </div>
     </AdaptiveAppShell>
   );

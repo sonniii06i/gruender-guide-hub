@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 const links = [
   { label: "Guides", href: "/guides" },
   { label: "Quizze", href: "/quiz" },
-  { label: "Listicles", href: "/listicles" },
   { label: "Gratis-Tools", href: "/gratis-tools" },
   { label: "Tools", href: "/tools" },
   { label: "Ratgeber", href: "/ratgeber" },
   { label: "Preise", href: "/preise" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 /**
@@ -118,11 +118,11 @@ export const Navbar = () => {
                 </NavLink>
               ))}
               <Link
-                to="/faq"
+                to="/listicles"
                 onClick={() => setOpen(false)}
                 className="flex min-h-12 items-center justify-between border-b border-border py-3 text-base font-medium text-foreground/80"
               >
-                FAQ
+                Listicles
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </Link>
               <Link

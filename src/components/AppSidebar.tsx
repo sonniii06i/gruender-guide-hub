@@ -30,13 +30,13 @@ import {
   Trophy,
   Users,
   Wrench,
-  Percent,
   FileX,
   Sparkles,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
 import { useRadarZaehler } from "@/lib/eventRadar";
 import { LANDING_TOOLS } from "@/data/features";
+import { ANBIETER_ANZAHL } from "@/data/kennzahlen";
 import { RUNDGANG_EVENT } from "@/lib/tourLage";
 
 const ZU_KEY = "gx-sidebar-zu-v2";
@@ -174,14 +174,14 @@ export function AppSidebar() {
               <Item to="/playbooks" icon={GraduationCap} label="Kurse & Guides" hint="Alle 81 Kurse" active={isKurse} dataTour="gruppe-lernen" />
               <Item to="/dashboard?view=tools" icon={Wrench} label="Tools & Rechner" hint="90 Rechner & Wizards" active={isTools} dataTour="gruppe-werkzeuge" />
               <Item to="/cockpit/steuer" icon={Calculator} label="Steuern & Fristen" hint="Steuer-Cockpit & Kalender" active={isSteuer} />
-              <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" hint="210 Anbieter" active={pathname === "/anbieter" || pathname.startsWith("/anbieter/")} />
+              <Item to="/anbieter" icon={Trophy} label="Anbieter-Vergleich" hint={`${ANBIETER_ANZAHL} Anbieter`} active={pathname === "/anbieter" || pathname.startsWith("/anbieter/")} />
               <Item to="/felix" icon={MessageSquare} label="Felix fragen" hint="KI-Co-Pilot & Chats" active={pathname === "/felix" || pathname.startsWith("/felix/")} />
               {isAdmin && <Item to="/admin" icon={Shield} label="Admin" active={pathname === "/admin"} />}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Eine kompakte Zusatz-Gruppe */}
+        {/* Eine kompakte Zusatz-Gruppe (Partnerprogramm ausgeblendet) */}
         <Gruppe
           id="mehr"
           titel="Chancen & Mehr"
@@ -190,10 +190,9 @@ export function AppSidebar() {
           collapsed={collapsed}
           badge={neueChancen + radar.neu}
         >
-          <Item to="/quiz" icon={Sparkles} label="Quizze & Checks" hint="XP & Startplan" active={pathname.startsWith("/quiz") || pathname.startsWith("/umfrage")} />
+          <Item to="/quiz" icon={Sparkles} label="Quizze & Checks" hint="XP & Wissens-Checks" active={pathname.startsWith("/quiz") || pathname.startsWith("/umfrage")} />
           <Item to="/cockpit/chancen-radar" icon={Target} label="Chancen & Förderung" hint="Förderung, Preisgeld & Guthaben" active={isChancen} badge={neueChancen} dataTour="gruppe-geld" />
           <Item to="/gruender-events" icon={CalendarDays} label="Events & Netzwerk" hint="Events, Radar & Mitgründer" active={isEvents} badge={radar.neu} dataTour="gruppe-netzwerk" />
-          <Item to="/affiliate" icon={Percent} label="Partnerprogramm" active={pathname === "/affiliate"} />
         </Gruppe>
       </SidebarContent>
 

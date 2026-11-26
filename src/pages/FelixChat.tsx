@@ -5,7 +5,21 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { TokenBudgetNotice } from "@/components/TokenBudgetNotice";
-import { Send, Loader2, FileText, Download, ArrowUpRight } from "lucide-react";
+import {
+  Send,
+  Loader2,
+  FileText,
+  Download,
+  ArrowUpRight,
+  Building2,
+  Calculator,
+  Globe2,
+  ShoppingBag,
+  History,
+  Plus,
+  Copy,
+  Check,
+} from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import { toast } from "sonner";
@@ -16,15 +30,29 @@ import { ReferralNudge } from "@/components/ReferralNudge";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const SUGGESTIONS = [
-  "Soll ich UG oder GmbH gründen bei 80k € Gewinn?",
-  "Wie funktioniert der § 8b KStG bei Holdings?",
-  "Was muss ich für Amazon FBA in DE anmelden?",
-  "Lohnt sich eine US-LLC für mein SaaS?",
+const SUGGESTIONS: { tag: string; icon: typeof Building2; text: string }[] = [
+  {
+    tag: "Rechtsform",
+    icon: Building2,
+    text: "Soll ich UG oder GmbH gründen bei 80k € Gewinn?",
+  },
+  {
+    tag: "Holding & Steuern",
+    icon: Calculator,
+    text: "Wie funktioniert der § 8b KStG bei Holdings?",
+  },
+  {
+    tag: "E-Commerce",
+    icon: ShoppingBag,
+    text: "Was muss ich für Amazon FBA in DE anmelden?",
+  },
+  {
+    tag: "US-Setup",
+    icon: Globe2,
+    text: "Lohnt sich eine US-LLC für mein SaaS?",
+  },
 ];
 
-// PDF-Links aus einer Felix-Antwort ziehen → unten als Datei-Anhang-Karte rendern,
-// damit die PDF sichtbar "mit übergeben" wird statt nur als Text-Link.
 const PDF_URL_RE = /(https?:\/\/[^\s)]+\.pdf|\/[^\s)]+\.pdf)/gi;
 const extractPdfUrls = (content: string): string[] =>
   Array.from(new Set(content.match(PDF_URL_RE) ?? []));
@@ -41,29 +69,25 @@ const PdfAttachment = ({ url }: { url: string }) => (
     download
     target="_blank"
     rel="noopener noreferrer"
-    className="group mt-3 flex items-center gap-3 rounded-xl border border-border bg-card p-3 no-underline transition-[border-color,box-shadow] hover:border-foreground/30"
+    className="group mt-3 flex items-center gap-3 rounded-xl border border-border bg-[#F8FAFC] p-3 no-underline transition-[border-color,box-shadow] hover:border-primary/35 hover:bg-white"
   >
     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-danger-soft text-danger">
       <FileText className="h-5 w-5" aria-hidden="true" />
     </div>
     <div className="min-w-0 flex-1">
-      <p className="text-sm font-medium text-foreground truncate">{pdfLabel(url)}</p>
+      <p className="truncate text-sm font-semibold text-foreground">{pdfLabel(url)}</p>
       <p className="text-xs text-muted-foreground">PDF zum Herunterladen</p>
     </div>
-    <Download className="h-4 w-4 text-muted-foreground group-hover:text-accent-blue shrink-0" />
+    <Download className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-primary" />
   </a>
 );
 
-// Links in Felix-Antworten: PDFs/Dateien + externe URLs in neuem Tab öffnen
-// (sonst geht der Chat verloren / PDF lädt nicht), interne App-Routen per
-// React-Router-Link (kein Full-Page-Reload).
 const mdComponents: Components = {
   a: ({ href, children }) => {
     const url = href ?? "";
     if (!url) return <>{children}</>;
     const isFile = url.startsWith("/forms/") || url.endsWith(".pdf");
     const isExternal = /^https?:\/\//i.test(url);
-    // Datei (PDF) → direkt herunterladen, neuer Tab als Fallback
     if (isFile) {
       return (
         <a href={url} target="_blank" rel="noopener noreferrer" download>
@@ -91,35 +115,25 @@ const FelixChat = () => {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
-  // Bleibender Hinweis, wenn Felix nicht antworten konnte (Toast allein verschwindet, die Frage bliebe unbeantwortet stehen).
   const [fehler, setFehler] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
   const [firstName, setFirstName] = useState<string | null>(
     () => readProfileCache(user?.id)?.first_name ?? null,
   );
   const scrollRef = useRef<HTMLDivElement>(null);
-  // Welche Conversation steckt aktuell lokal in `messages`? Verhindert, dass der
-  // Load-Effekt die Nachrichten überschreibt, wenn wir die Conversation gerade
-  // selbst per send() erstellt haben (sonst „verschluckt" er die erste Nachricht).
   const loadedConvRef = useRef<string | null>(null);
-  // Welche Conversation ist gerade SICHTBAR? Ein laufender Stream schreibt nur
-  // dann in `messages`, wenn seine Conversation noch angezeigt wird. Vorher
-  // haengte sich die Antwort beim Chatwechsel an den anderen Verlauf an.
   const liveConvRef = useRef<string | null>(convId);
-  // Kennung des laufenden Sendevorgangs; nur der aktuelle darf `streaming` beenden.
   const sendTokenRef = useRef(0);
 
   useEffect(() => {
     if (liveConvRef.current !== convId) {
       liveConvRef.current = convId;
-      // Der alte Stream laeuft im Hintergrund zu Ende und wird in SEINER
-      // Conversation gespeichert; die neue Ansicht ist sofort bedienbar.
       sendTokenRef.current++;
       setStreaming(false);
     }
   }, [convId]);
 
-  // Vorname für die Begrüßung (Cache zuerst, sonst aus profiles nachladen)
   useEffect(() => {
     if (!user) return;
     const cached = readProfileCache(user.id)?.first_name;
@@ -137,8 +151,6 @@ const FelixChat = () => {
       });
   }, [user]);
 
-  // Handle ?new=1: clear and remove the param. ?frage=… füllt das Eingabefeld vor
-  // (z. B. Pitch-Training aus dem Pitch-Deck-Generator) – gesendet wird erst per Klick.
   const vorbelegt = params.get("frage");
   useEffect(() => {
     if (isNew || vorbelegt) {
@@ -148,7 +160,6 @@ const FelixChat = () => {
     }
   }, [isNew, vorbelegt, setParams]);
 
-  // Load messages of selected conversation
   useEffect(() => {
     if (!user || !convId) {
       if (!convId) {
@@ -157,8 +168,6 @@ const FelixChat = () => {
       }
       return;
     }
-    // Bereits geladen / gerade selbst bespielt (z.B. neu erstellt während send) → kein Reload,
-    // sonst überschreibt das DB-Ergebnis die lokale (noch ungespeicherte) Nachricht.
     if (loadedConvRef.current === convId) return;
     setLoading(true);
     supabase
@@ -178,19 +187,29 @@ const FelixChat = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, streaming]);
 
-  const send = async () => {
-    if (!input.trim() || !user || streaming) return;
-    const text = input.trim();
-    const userMsg: Msg = { role: "user", content: text };
+  const copyAnswer = (text: string, idx: number) => {
+    navigator.clipboard?.writeText(text).then(
+      () => {
+        setCopiedIdx(idx);
+        setTimeout(() => setCopiedIdx(null), 1800);
+      },
+      () => undefined,
+    );
+  };
+
+  const send = async (overrideText?: string) => {
+    const raw = (overrideText ?? input).trim();
+    if (!raw || !user || streaming) return;
+    const userMsg: Msg = { role: "user", content: raw };
     const token = ++sendTokenRef.current;
-    const restoreInput = () => setInput((cur) => (cur ? cur : text));
+    const restoreInput = () => setInput((cur) => (cur ? cur : raw));
     setInput("");
     setStreaming(true);
     setFehler(null);
 
     let activeConvId = convId;
     if (!activeConvId) {
-      const title = text.slice(0, 60) + (text.length > 60 ? "…" : "");
+      const title = raw.slice(0, 60) + (raw.length > 60 ? "…" : "");
       const { data, error } = await supabase
         .from("chat_conversations")
         .insert({ user_id: user.id, title, last_message_at: new Date().toISOString() })
@@ -203,8 +222,6 @@ const FelixChat = () => {
         return;
       }
       activeConvId = data.id;
-      // VOR setParams als „lokal bespielt" markieren → der durch den convId-Wechsel
-      // ausgelöste Load-Effekt überspringt dann den Reload (kein Verschlucken).
       loadedConvRef.current = activeConvId;
       liveConvRef.current = activeConvId;
       setParams({ c: activeConvId }, { replace: true });
@@ -223,7 +240,7 @@ const FelixChat = () => {
     const sichtbar = () => liveConvRef.current === activeConvId;
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
-      if (!sichtbar()) return; // andere Conversation offen: nur sammeln, nicht anzeigen
+      if (!sichtbar()) return;
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant") {
@@ -239,8 +256,6 @@ const FelixChat = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // User-JWT wenn eingeloggt → Edge-Function kann Memory laden/speichern.
-          // Fallback auf Anon-Key für non-logged-in (Memory wird dann übersprungen).
           Authorization: `Bearer ${session?.access_token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ messages: [...messages, userMsg] }),
@@ -248,12 +263,11 @@ const FelixChat = () => {
 
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));
-        // Interne Texte (Credits, Provider-Fehler) nur in die Konsole, nicht an Nutzer.
         console.error("chat-felix:", resp.status, err);
         const text =
           resp.status === 429
-            ? "Felix ist gerade überlastet. Deine Frage steht wieder im Eingabefeld – schick sie gleich noch einmal ab."
-            : "Felix ist gerade nicht erreichbar. Deine Frage steht wieder im Eingabefeld – versuch es in ein paar Minuten noch einmal. Tools, Guides und der Steuerkalender funktionieren weiter.";
+            ? "Felix ist gerade überlastet. Deine Frage steht wieder im Eingabefeld. Schick sie gleich noch einmal ab."
+            : "Felix ist gerade nicht erreichbar. Deine Frage steht wieder im Eingabefeld. Versuch es in ein paar Minuten noch einmal. Tools, Guides und der Steuerkalender funktionieren weiter.";
         toast.error(resp.status === 429 ? "Felix ist gerade überlastet." : "Felix ist gerade nicht erreichbar.");
         if (sichtbar()) {
           setFehler(text);
@@ -293,7 +307,7 @@ const FelixChat = () => {
       }
 
       if (assistantSoFar && activeConvId) {
-        markValueEvent("felix_answer"); // echter Output → ab jetzt darf der Referral-Prompt kommen
+        markValueEvent("felix_answer");
         await supabase.from("chat_messages").insert({
           user_id: user.id,
           role: "assistant",
@@ -310,7 +324,7 @@ const FelixChat = () => {
       console.error(e);
       toast.error("Verbindung zu Felix fehlgeschlagen");
       if (sichtbar() && !assistantSoFar) {
-        setFehler("Die Verbindung zu Felix ist abgebrochen. Deine Frage steht wieder im Eingabefeld – schick sie noch einmal ab.");
+        setFehler("Die Verbindung zu Felix ist abgebrochen. Deine Frage steht wieder im Eingabefeld. Schick sie noch einmal ab.");
         restoreInput();
       }
     } finally {
@@ -320,6 +334,55 @@ const FelixChat = () => {
 
   return (
     <div className="flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden bg-background">
+      {/* Ruhige Revolut × Lexoffice Assistenten-Kopfzeile */}
+      <div className="border-b border-border bg-white px-4 py-2.5 md:px-6">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <div className="relative">
+              <img
+                src="/mascots/felix-face-192.webp"
+                alt="Felix"
+                width={34}
+                height={34}
+                className="h-8 w-8 rounded-xl border border-border bg-secondary/50 object-contain p-0.5"
+              />
+              <span
+                className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-brand-green"
+                aria-hidden="true"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold leading-tight text-primary">Felix</p>
+              <p className="truncate text-[11px] font-medium text-muted-foreground">
+                KI-Co-Pilot · kennt dein Profil &amp; alle 81 Kurse
+              </p>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1.5">
+            {messages.length > 0 && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setParams({ new: "1" })}
+                className="h-8 gap-1.5 rounded-lg px-2.5 text-xs font-semibold"
+              >
+                <Plus className="h-3.5 w-3.5" aria-hidden="true" />
+                <span className="hidden sm:inline">Neuer Chat</span>
+              </Button>
+            )}
+            <Button asChild variant="ghost" size="sm" className="h-8 gap-1.5 rounded-lg px-2.5 text-xs font-semibold text-muted-foreground hover:text-primary">
+              <Link to="/felix/chats">
+                <History className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>Verlauf</span>
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Nachrichten-Canvas */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain">
         {loading ? (
           <div className="mx-auto max-w-3xl space-y-4 px-4 py-8 md:px-6" aria-busy="true">
@@ -331,31 +394,47 @@ const FelixChat = () => {
             ))}
           </div>
         ) : messages.length === 0 ? (
-          <div className="flex min-h-full flex-col items-center justify-center px-4 py-10 text-center">
-            <img
-              src="/mascots/felix-face-192.webp"
-              alt="Felix, dein KI-Gründungs-Copilot"
-              width={72}
-              height={72}
-              className="mb-5 h-[4.5rem] w-[4.5rem] rounded-2xl border border-border bg-card object-contain p-1.5 shadow-card"
-            />
-            <h1 className="mb-2 text-[1.75rem] font-semibold tracking-[-0.02em] md:text-[2.5rem]">
+          <div className="mx-auto flex min-h-full max-w-3xl flex-col items-center justify-center px-4 py-10 text-center md:px-6">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-white p-2 shadow-card">
+              <img
+                src="/mascots/felix-face-192.webp"
+                alt="Felix, dein KI-Gründungs-Copilot"
+                width={56}
+                height={56}
+                className="h-full w-full object-contain"
+              />
+            </div>
+            <h1 className="text-2xl font-bold tracking-[-0.025em] text-primary sm:text-3xl">
               {firstName ? `Willkommen zurück, ${firstName}` : "Willkommen zurück"}
             </h1>
-            <p className="mb-8 max-w-md text-base text-muted-foreground md:text-lg">
+            <p className="mt-1.5 max-w-md text-sm text-muted-foreground sm:text-base">
               Wobei kann ich dir heute helfen?
             </p>
-            <div className="grid w-full max-w-2xl gap-2.5 sm:grid-cols-2">
-              {SUGGESTIONS.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setInput(s)}
-                  className="press group flex items-start justify-between gap-3 rounded-xl border border-border bg-card p-3.5 text-left text-sm leading-relaxed hover:border-foreground/30"
-                >
-                  <span>{s}</span>
-                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-accent-blue" aria-hidden="true" />
-                </button>
-              ))}
+
+            <div className="mt-7 grid w-full gap-2.5 sm:grid-cols-2">
+              {SUGGESTIONS.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <button
+                    key={s.text}
+                    type="button"
+                    onClick={() => setInput(s.text)}
+                    className="press group flex flex-col justify-between gap-2 rounded-2xl border border-border bg-white p-4 text-left shadow-card transition-[border-color,box-shadow] hover:border-primary/40 hover:shadow-soft"
+                  >
+                    <div className="flex w-full items-center justify-between gap-2">
+                      <span className="inline-flex items-center gap-1.5 rounded-md bg-accent px-2 py-0.5 text-[11px] font-semibold text-primary">
+                        <Icon className="h-3 w-3" aria-hidden="true" />
+                        {s.tag}
+                      </span>
+                      <ArrowUpRight
+                        className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <span className="text-sm font-medium leading-snug text-foreground">{s.text}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         ) : (
@@ -369,65 +448,88 @@ const FelixChat = () => {
                     alt="Felix"
                     width={32}
                     height={32}
-                    className="mt-0.5 h-8 w-8 shrink-0 rounded-lg border border-border bg-card object-contain p-0.5"
+                    className="mt-0.5 h-8 w-8 shrink-0 rounded-xl border border-border bg-white object-contain p-0.5 shadow-sm"
                   />
                 )}
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                    m.role === "user" ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-tl-md border border-border bg-card shadow-card"
-                  }`}
+                  className={
+                    m.role === "user"
+                      ? "max-w-[82%] rounded-2xl rounded-br-md bg-primary px-4 py-3 text-white shadow-sm"
+                      : "group max-w-[88%] rounded-2xl rounded-tl-md border border-border bg-white px-4 py-3.5 shadow-card"
+                  }
                 >
                   {m.role === "user" ? (
-                    <p className="text-sm whitespace-pre-wrap">{m.content}</p>
+                    <p className="whitespace-pre-wrap text-sm leading-relaxed">{m.content}</p>
                   ) : (
                     <>
-                      <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-accent-blue prose-li:my-0">
+                      <div className="prose prose-sm max-w-none text-foreground prose-headings:font-bold prose-headings:text-primary prose-strong:text-foreground prose-a:font-medium prose-a:text-accent-blue prose-li:my-0.5">
                         <ReactMarkdown components={mdComponents}>{m.content}</ReactMarkdown>
                       </div>
                       {extractPdfUrls(m.content).map((u) => (
                         <PdfAttachment key={u} url={u} />
                       ))}
+                      <div className="mt-2.5 flex justify-end border-t border-border/50 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => copyAnswer(m.content, i)}
+                          className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+                        >
+                          {copiedIdx === i ? (
+                            <>
+                              <Check className="h-3 w-3 text-brand-green" aria-hidden="true" /> Kopiert
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-3 w-3" aria-hidden="true" /> Kopieren
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </>
                   )}
                 </div>
               </div>
             ))}
             {streaming && messages[messages.length - 1]?.role === "user" && (
-              <div className="flex items-start gap-2.5 justify-start">
+              <div className="flex items-start justify-start gap-2.5">
                 <img
                   src="/mascots/felix-face-192.webp"
                   alt="Felix"
                   width={32}
                   height={32}
-                  className="mt-0.5 h-8 w-8 shrink-0 rounded-lg border border-border bg-card object-contain p-0.5"
+                  className="mt-0.5 h-8 w-8 shrink-0 rounded-xl border border-border bg-white object-contain p-0.5 shadow-sm"
                 />
-                <div className="inline-flex items-center gap-2 rounded-2xl rounded-tl-md border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-card" role="status">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" /> Felix denkt nach…
+                <div
+                  className="inline-flex items-center gap-2 rounded-2xl rounded-tl-md border border-border bg-white px-4 py-3 text-sm text-muted-foreground shadow-card"
+                  role="status"
+                >
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" aria-hidden="true" /> Felix denkt nach…
                 </div>
               </div>
             )}
             {fehler && !streaming && (
-              <div role="alert" className="ml-10 rounded-2xl rounded-tl-md border border-amber-300/60 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+              <div
+                role="alert"
+                className="ml-10 rounded-2xl rounded-tl-md border border-warning/35 bg-warning-soft px-4 py-3 text-sm leading-relaxed text-foreground"
+              >
                 {fehler}
               </div>
             )}
             {!streaming && messages.some((m) => m.role === "assistant") && (
-              <ReferralNudge
-                className="mt-6"
-                headline="Hat Felix dir das gerade beantwortet?"
-              />
+              <ReferralNudge className="mt-6" headline="Hat Felix dir das gerade beantwortet?" />
             )}
           </div>
         )}
       </div>
 
-      <div className="border-t border-border bg-card">
-        <div className="max-w-3xl mx-auto px-4 md:px-6 py-3 md:py-4">
-          {/* Kosten-Kontingent (weich). Rendert nichts unterhalb der
-              Warnschwelle — ein Dauerbanner liest niemand mehr. */}
+      {/* Moderner schwebender Composer */}
+      <div className="border-t border-border bg-white">
+        <div className="mx-auto max-w-3xl px-4 py-3 md:px-6 md:py-4">
           <TokenBudgetNotice className="mb-3" />
-          <div className="flex items-end gap-2 rounded-2xl border border-input bg-card p-1.5 shadow-card transition-[border-color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/25">
-            <label htmlFor="felix-eingabe" className="sr-only">Nachricht an Felix</label>
+          <div className="flex items-end gap-2 rounded-2xl border border-border bg-[#F8FAFC] p-1.5 shadow-sm transition-[border-color,box-shadow,background-color] focus-within:border-primary/50 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/15">
+            <label htmlFor="felix-eingabe" className="sr-only">
+              Nachricht an Felix
+            </label>
             <Textarea
               id="felix-eingabe"
               value={input}
@@ -435,21 +537,31 @@ const FelixChat = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  send();
+                  void send();
                 }
               }}
-              placeholder="Frag Felix…"
+              placeholder="Frag Felix zu Steuern, Rechtsform, Shop oder US-Setup …"
               rows={1}
-              className="max-h-32 min-h-[44px] resize-none border-0 bg-transparent shadow-none focus-visible:ring-0"
+              className="max-h-36 min-h-[44px] resize-none border-0 bg-transparent px-3 py-2.5 text-sm shadow-none focus-visible:ring-0"
             />
-            <Button onClick={send} disabled={!input.trim() || streaming} size="icon" className="h-10 w-10 shrink-0 rounded-xl" aria-label="Nachricht senden">
-              {streaming ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
+            <Button
+              onClick={() => void send()}
+              disabled={!input.trim() || streaming}
+              size="icon"
+              className="press h-10 w-10 shrink-0 rounded-xl bg-primary text-white hover:bg-primary/90"
+              aria-label="Nachricht senden"
+            >
+              {streaming ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Send className="h-4 w-4" aria-hidden="true" />
+              )}
             </Button>
           </div>
           <p className="mt-2 text-center text-[11px] leading-relaxed text-muted-foreground">
-            <span className="hidden sm:inline">Enter sendet, Shift+Enter für eine neue Zeile. </span>Felix kann Fehler machen, prüfe wichtige Infos.
-            Keine Steuer-/Rechtsberatung. Für eine verbindliche Auslegung den{" "}
-            <Link to="/cockpit/stb-finder" className="underline hover:text-foreground">
+            <span className="hidden sm:inline">Enter sendet, Shift+Enter für eine neue Zeile. </span>
+            Felix kann Fehler machen, prüfe wichtige Infos. Keine Steuer-/Rechtsberatung. Für eine verbindliche Auslegung den{" "}
+            <Link to="/cockpit/stb-finder" className="font-medium underline hover:text-primary">
               StB-Finder
             </Link>{" "}
             konsultieren.

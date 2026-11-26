@@ -166,14 +166,14 @@ const FoerderungDb = () => {
         {filtered.map((f) => {
           const typeInfo = TYPE_LABELS[f.type];
           return (
-            <li key={f.slug} className="rounded-2xl border border-border bg-card p-5 shadow-card transition-[border-color,box-shadow] hover:border-foreground/30 md:p-6">
+            <li key={f.slug} className="rounded-2xl border border-border bg-white p-5 shadow-card transition-[border-color,box-shadow] hover:border-primary/35 hover:shadow-soft md:p-6">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="flex min-w-0 flex-1 items-start gap-3.5">
                   <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${toneSoft(typeInfo.tone)}`}>
                     <typeInfo.Icon className={`h-5 w-5 ${toneText(typeInfo.tone)}`} aria-hidden="true" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h2 className="text-base font-semibold leading-snug">
+                    <h2 className="text-base font-bold leading-snug text-primary">
                       <a href={f.antragUrl} target="_blank" rel="noreferrer noopener" className="hover:text-accent-blue">
                         {f.name}
                       </a>
@@ -189,9 +189,9 @@ const FoerderungDb = () => {
                     </div>
                   </div>
                 </div>
-                <div className="shrink-0 text-left sm:text-right">
-                  <p className="text-xs text-muted-foreground">Max. Förderung</p>
-                  <p className="font-semibold tabular">{f.maxFunding}</p>
+                <div className="shrink-0 rounded-xl bg-brand-green-soft px-3.5 py-2 text-left sm:text-right">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-brand-green">Max. Förderung</p>
+                  <p className="text-sm font-bold text-primary tabular sm:text-base">{f.maxFunding}</p>
                 </div>
               </div>
               <p className="mt-4 max-w-[75ch] text-sm leading-relaxed text-foreground/80">{f.description}</p>

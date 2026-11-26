@@ -18,27 +18,31 @@ const plusTage = (iso: string, n: number) => new Date(Date.parse(`${iso}T12:00:0
 
 const RadarKarte = ({ e, neu, gemerkt, merken }: { e: GruenderEvent; neu: boolean; gemerkt: boolean; merken: () => void }) => {
   const art = ART_LABELS[e.art];
+  const d = new Date(`${e.datum}T12:00:00`);
+  const month = d.toLocaleDateString("de-DE", { month: "short" }).replace(".", "").toUpperCase();
   return (
-    <div className={`flex gap-3 rounded-xl border bg-card p-3 transition-[border-color,box-shadow] sm:gap-4 sm:p-4 ${neu ? "border-foreground/25" : "border-border"}`}>
-      <div className="w-14 shrink-0 rounded-lg bg-secondary/70 py-1.5 text-center">
-        <div className="text-[11px] text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short" })}</div>
-        <div className="text-lg font-semibold leading-tight tabular">{e.datum!.slice(8, 10)}</div>
-        <div className="text-[11px] text-muted-foreground">{new Date(`${e.datum}T12:00:00`).toLocaleDateString("de-DE", { month: "short" })}</div>
+    <div className={`flex gap-3.5 rounded-2xl border bg-white p-4 shadow-card transition-[border-color,box-shadow] hover:border-primary/35 ${neu ? "border-primary/40" : "border-border"}`}>
+      <div className="flex h-16 w-14 shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-white text-center">
+        <div className="bg-primary py-0.5 text-[10px] font-bold tracking-wider text-white">{month}</div>
+        <div className="flex flex-1 flex-col items-center justify-center py-1">
+          <div className="text-base font-bold leading-none text-primary tabular">{e.datum!.slice(8, 10)}</div>
+          <div className="mt-0.5 text-[10px] font-medium text-muted-foreground">{d.toLocaleDateString("de-DE", { weekday: "short" })}</div>
+        </div>
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
-          <a href={e.url} target="_blank" rel="noreferrer noopener" className="flex-1 text-sm font-semibold leading-snug hover:text-accent-blue">
+          <a href={e.url} target="_blank" rel="noreferrer noopener" className="flex-1 text-sm font-bold leading-snug text-primary hover:text-accent-blue">
             {e.name}
           </a>
           {neu && <ToneBadge tone="accent" className="shrink-0">Neu</ToneBadge>}
         </div>
         <div className="mt-2 flex flex-wrap gap-1.5 text-[11px]">
-          <span className="rounded-md bg-accent px-1.5 py-0.5 font-medium text-accent-foreground">{art.name}</span>
-          <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-1.5 py-0.5 text-muted-foreground">
+          <span className="rounded-md bg-accent px-2 py-0.5 font-semibold text-primary">{art.name}</span>
+          <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-muted-foreground">
             {e.format === "online" ? <Wifi className="h-3 w-3" aria-hidden="true" /> : <MapPin className="h-3 w-3" aria-hidden="true" />} {e.format === "online" ? "Online" : e.ort}
           </span>
           {e.dauer && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-1.5 py-0.5 text-muted-foreground">
+            <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-muted-foreground">
               <Timer className="h-3 w-3" aria-hidden="true" /> {e.dauer}
             </span>
           )}
@@ -51,7 +55,7 @@ const RadarKarte = ({ e, neu, gemerkt, merken }: { e: GruenderEvent; neu: boolea
           type="button"
           onClick={merken}
           aria-label={gemerkt ? "Von der Merkliste nehmen" : "Merken"}
-          className={`rounded-md p-1.5 transition-colors hover:bg-secondary ${gemerkt ? "text-warning" : "text-muted-foreground"}`}
+          className={`rounded-lg border border-border p-2 transition-colors hover:border-primary/40 hover:bg-secondary ${gemerkt ? "border-warning/40 bg-warning-soft text-warning" : "bg-white text-muted-foreground"}`}
         >
           <Star className="h-4 w-4" fill={gemerkt ? "currentColor" : "none"} />
         </button>
@@ -59,7 +63,7 @@ const RadarKarte = ({ e, neu, gemerkt, merken }: { e: GruenderEvent; neu: boolea
           type="button"
           aria-label="In den Kalender"
           onClick={() => ladeIcsHerunter({ uid: e.slug, titel: e.name, start: e.datum!, ende: e.datumBis, ort: e.format === "online" ? "Online" : e.ort, beschreibung: e.veranstalter, url: e.url }, e.name)}
-          className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-secondary"
+          className="rounded-lg border border-border bg-white p-2 text-muted-foreground transition-colors hover:border-primary/40 hover:bg-secondary hover:text-primary"
         >
           <CalendarPlus className="h-4 w-4" />
         </button>

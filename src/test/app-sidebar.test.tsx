@@ -16,7 +16,7 @@ const zeigen = () =>
   );
 
 describe("AppSidebar", () => {
-  it("zeigt eine entschlackte Hauptnavigation und Chancen & Mehr", () => {
+  it("zeigt eine entschlackte Hauptnavigation und versteckt Admin sowie Partnerprogramm", () => {
     zeigen();
     for (const label of [
       "Übersicht",
@@ -29,16 +29,18 @@ describe("AppSidebar", () => {
     ]) {
       expect(screen.getByText(label)).toBeTruthy();
     }
+    expect(screen.queryByText("Admin")).toBeNull();
+    expect(screen.queryByText("Partnerprogramm")).toBeNull();
     expect(screen.getByRole("link", { name: /Chancen & Förderung/ }).getAttribute("href")).toBe("/cockpit/chancen-radar");
   });
 
   it("Zusatz-Gruppe lässt sich zuklappen", () => {
     zeigen();
-    expect(screen.queryByText("Partnerprogramm")).toBeTruthy();
+    expect(screen.queryByText("Events & Netzwerk")).toBeTruthy();
     fireEvent.click(screen.getByText("Chancen & Mehr"));
-    expect(screen.queryByText("Partnerprogramm")).toBeNull();
+    expect(screen.queryByText("Events & Netzwerk")).toBeNull();
     fireEvent.click(screen.getByText("Chancen & Mehr"));
-    expect(screen.queryByText("Partnerprogramm")).toBeTruthy();
+    expect(screen.queryByText("Events & Netzwerk")).toBeTruthy();
   });
 
   it("Tool-Suche findet Tools über Titel und Beschreibung", () => {

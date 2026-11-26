@@ -17,6 +17,6 @@ export const TOOL_COUNT = 90;
 export const GUIDE_COUNT = 81;
 
 /** Anzahl der Einträge in PROVIDERS (Anbieter-Vergleich). */
-export const ANBIETER_ANZAHL = 210;
+export const ANBIETER_ANZAHL = 240;
 /** Anzahl der Kategorien im Anbieter-Vergleich. */
-export const ANBIETER_KATEGORIEN = 38;
+export const ANBIETER_KATEGORIEN = 40;

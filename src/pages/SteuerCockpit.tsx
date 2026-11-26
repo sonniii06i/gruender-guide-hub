@@ -4,10 +4,11 @@ import CockpitShell from "@/components/cockpit/CockpitShell";
 import { NumberField } from "@/components/ui/number-field";
 import { HebesatzPicker } from "@/components/ui/hebesatz-picker";
 import { Button } from "@/components/ui/button";
-import { Calendar, Calculator, PiggyBank, ShoppingCart, Settings2, Sparkles, ArrowRight } from "lucide-react";
+import { Calendar, Calculator, PiggyBank, ShoppingCart, Settings2, Sparkles, ArrowRight, CalendarClock, TrendingDown } from "lucide-react";
 import { Callout, ChoiceGroup, EmptyState, Field, ToneBadge, ToolSection, type Tone } from "@/components/cockpit/kit";
 import { kstGewstRate, IAB_GEWINN_GRENZE } from "@/lib/germanTax";
 import { einzelSteuer } from "@/lib/einzelSteuer";
+import { cn } from "@/lib/utils";
 
 type LegalForm = "ein" | "ug" | "gmbh";
 type UstMode = "monatlich" | "quartal" | "keine";
@@ -18,10 +19,8 @@ interface Setup {
   dauerfrist: boolean;
   oss: boolean;
   zm: boolean;
-  /** ZM monatlich: innergemeinschaftliche Warenlieferungen über 50.000 € im Quartal (§ 18a Abs. 1 UStG) */
   zmMonatlich: boolean;
   mitarbeiter: boolean;
-  /** Lohnsteuer des Vorjahres (bei Neugründung: aufs Jahr hochgerechnete erste Monate) */
   lstVorjahr: number;
 }
 
@@ -35,6 +34,8 @@ export function lohnsteuerRhythmus(lstVorjahr: number): "monatlich" | "quartal" 
 
 interface Frist {
   date: string; // "DD.MM."
+  day: string;
+  monthIdx: number; // 0..11
   title: string;
   detail?: string;
   category: "ust" | "lohn" | "kst" | "est" | "gewst" | "oss" | "zm" | "stb" | "year-end";
@@ -42,145 +43,137 @@ interface Frist {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const MONAT = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+const MONAT_KURZ = ["JAN", "FEB", "MÄR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEZ"];
+
+const mkFrist = (
+  day: number,
+  monthIdx: number,
+  title: string,
+  category: Frist["category"],
+  detail?: string,
+): Frist => ({
+  date: `${pad(day)}.${pad(monthIdx + 1)}.`,
+  day: pad(day),
+  monthIdx,
+  title,
+  detail,
+  category,
+});
 
 /** Berechnet alle Steuer-Fristen aus Setup. Termine 2026-konform. */
 function buildFristen(s: Setup): Frist[] {
   const fristen: Frist[] = [];
 
-  // ============ USt-Voranmeldung ============
   if (s.ustMode !== "keine") {
     const dfOffset = s.dauerfrist ? 1 : 0;
     if (s.ustMode === "monatlich") {
       for (let m = 0; m < 12; m++) {
         const due = (m + 1 + dfOffset) % 12;
         const yearMark = m + 1 + dfOffset >= 12 ? " (Folgejahr)" : "";
-        fristen.push({
-          date: `10.${pad(due + 1)}.`,
-          title: `USt-VA ${MONAT[m]}${yearMark}`,
-          detail: s.dauerfrist ? "Mit Dauerfristverlängerung (+1 Monat)" : undefined,
-          category: "ust",
-        });
+        fristen.push(
+          mkFrist(
+            10,
+            due,
+            `USt-VA ${MONAT[m]}${yearMark}`,
+            "ust",
+            s.dauerfrist ? "Mit Dauerfristverlängerung (+1 Monat)" : undefined,
+          ),
+        );
       }
     } else {
-      // Quartalsweise: Quartals-Ende-Monate (März/Juni/Sept/Dez)
       const quartals = [
-        { end: 2, label: "Q1 (Jan–Mär)" },
-        { end: 5, label: "Q2 (Apr–Jun)" },
-        { end: 8, label: "Q3 (Jul–Sep)" },
-        { end: 11, label: "Q4 (Okt–Dez)" },
+        { end: 2, label: "Q1 (Jan bis Mär)" },
+        { end: 5, label: "Q2 (Apr bis Jun)" },
+        { end: 8, label: "Q3 (Jul bis Sep)" },
+        { end: 11, label: "Q4 (Okt bis Dez)" },
       ];
       for (const q of quartals) {
         const due = (q.end + 1 + dfOffset) % 12;
         const yearMark = q.end + 1 + dfOffset >= 12 ? " (Folgejahr)" : "";
-        fristen.push({
-          date: `10.${pad(due + 1)}.`,
-          title: `USt-VA ${q.label}${yearMark}`,
-          detail: s.dauerfrist ? "Mit Dauerfristverlängerung (+1 Monat)" : undefined,
-          category: "ust",
-        });
+        fristen.push(
+          mkFrist(
+            10,
+            due,
+            `USt-VA ${q.label}${yearMark}`,
+            "ust",
+            s.dauerfrist ? "Mit Dauerfristverlängerung (+1 Monat)" : undefined,
+          ),
+        );
       }
     }
   }
 
-  // ============ Zusammenfassende Meldung (ZM) ============
-  // Pflicht bei innergemeinschaftlichen B2B-Lieferungen/Sonstige Leistungen.
-  // Frist: 25. nach Ablauf des Meldezeitraums. Dauerfrist gilt NICHT für ZM!
-  // Rhythmus nach § 18a UStG, unabhängig vom USt-VA-Rhythmus: monatlich, wenn die Warenlieferungen im laufenden
-  // oder einem der vier vorangegangenen Quartale 50.000 € übersteigen; sonstige Leistungen allein: quartalsweise.
   if (s.zm) {
     if (s.zmMonatlich) {
       for (let m = 0; m < 12; m++) {
         const due = (m + 1) % 12;
-        fristen.push({
-          date: `25.${pad(due + 1)}.`,
-          title: `ZM ${MONAT[m]}`,
-          detail: "Zusammenfassende Meldung – keine Dauerfrist",
-          category: "zm",
-        });
+        fristen.push(mkFrist(25, due, `ZM ${MONAT[m]}`, "zm", "Zusammenfassende Meldung, keine Dauerfrist"));
       }
     } else {
-      // Quartalsweise (Default für ZM)
-      fristen.push({ date: "25.04.", title: "ZM Q1", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
-      fristen.push({ date: "25.07.", title: "ZM Q2", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
-      fristen.push({ date: "25.10.", title: "ZM Q3", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
-      fristen.push({ date: "25.01.", title: "ZM Q4 (Folgejahr)", detail: "Zusammenfassende Meldung – keine Dauerfrist", category: "zm" });
+      fristen.push(mkFrist(25, 3, "ZM Q1", "zm", "Zusammenfassende Meldung, keine Dauerfrist"));
+      fristen.push(mkFrist(25, 6, "ZM Q2", "zm", "Zusammenfassende Meldung, keine Dauerfrist"));
+      fristen.push(mkFrist(25, 9, "ZM Q3", "zm", "Zusammenfassende Meldung, keine Dauerfrist"));
+      fristen.push(mkFrist(25, 0, "ZM Q4 (Folgejahr)", "zm", "Zusammenfassende Meldung, keine Dauerfrist"));
     }
   }
 
-  // ============ OSS (One-Stop-Shop) ============
-  // Quartalsweise, immer Monatsende, keine Dauerfrist.
   if (s.oss) {
-    fristen.push({ date: "30.04.", title: "OSS-Meldung Q1", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
-    fristen.push({ date: "31.07.", title: "OSS-Meldung Q2", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
-    fristen.push({ date: "31.10.", title: "OSS-Meldung Q3", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
-    fristen.push({ date: "31.01.", title: "OSS-Meldung Q4 (Folgejahr)", detail: "Fernverkäufe + B2C-Leistungen EU – keine Dauerfrist", category: "oss" });
+    fristen.push(mkFrist(30, 3, "OSS-Meldung Q1", "oss", "Fernverkäufe + B2C-Leistungen EU, keine Dauerfrist"));
+    fristen.push(mkFrist(31, 6, "OSS-Meldung Q2", "oss", "Fernverkäufe + B2C-Leistungen EU, keine Dauerfrist"));
+    fristen.push(mkFrist(31, 9, "OSS-Meldung Q3", "oss", "Fernverkäufe + B2C-Leistungen EU, keine Dauerfrist"));
+    fristen.push(mkFrist(31, 0, "OSS-Meldung Q4 (Folgejahr)", "oss", "Fernverkäufe + B2C-Leistungen EU, keine Dauerfrist"));
   }
 
-  // ============ Lohnsteuer-Anmeldung ============
-  // Nur wenn Mitarbeiter beschäftigt (egal welche Rechtsform). Keine Dauerfrist.
   if (s.mitarbeiter) {
-    // Rhythmus hängt an der Lohnsteuer des Vorjahres (§41a Abs. 2 EStG), nicht an der Umsatzsteuer
     const rhythmus = lohnsteuerRhythmus(s.lstVorjahr);
     if (rhythmus === "jaehrlich") {
-      fristen.push({ date: "10.01.", title: "Lohnsteuer-Jahresanmeldung (Folgejahr)", detail: "Vorjahres-Lohnsteuer bis 1.080 € – keine Dauerfrist", category: "lohn" });
+      fristen.push(mkFrist(10, 0, "Lohnsteuer-Jahresanmeldung (Folgejahr)", "lohn", "Vorjahres-Lohnsteuer bis 1.080 €, keine Dauerfrist"));
     } else if (rhythmus === "monatlich") {
       for (let m = 0; m < 12; m++) {
         const due = (m + 1) % 12;
-        fristen.push({
-          date: `10.${pad(due + 1)}.`,
-          title: `Lohnsteuer-Anmeldung ${MONAT[m]}`,
-          detail: "Vorjahres-Lohnsteuer über 5.000 € – keine Dauerfrist",
-          category: "lohn",
-        });
+        fristen.push(mkFrist(10, due, `Lohnsteuer-Anmeldung ${MONAT[m]}`, "lohn", "Vorjahres-Lohnsteuer über 5.000 €, keine Dauerfrist"));
       }
     } else {
-      // Quartalsweise
-      fristen.push({ date: "10.04.", title: "Lohnsteuer Q1", detail: "Vorjahres-Lohnsteuer 1.080–5.000 € – keine Dauerfrist", category: "lohn" });
-      fristen.push({ date: "10.07.", title: "Lohnsteuer Q2", category: "lohn" });
-      fristen.push({ date: "10.10.", title: "Lohnsteuer Q3", category: "lohn" });
-      fristen.push({ date: "10.01.", title: "Lohnsteuer Q4 (Folgejahr)", category: "lohn" });
+      fristen.push(mkFrist(10, 3, "Lohnsteuer Q1", "lohn", "Vorjahres-Lohnsteuer 1.080 bis 5.000 €, keine Dauerfrist"));
+      fristen.push(mkFrist(10, 6, "Lohnsteuer Q2", "lohn"));
+      fristen.push(mkFrist(10, 9, "Lohnsteuer Q3", "lohn"));
+      fristen.push(mkFrist(10, 0, "Lohnsteuer Q4 (Folgejahr)", "lohn"));
     }
   }
 
-  // ============ Körperschaftsteuer-VZ (nur GmbH/UG) ============
   if (s.legalForm === "gmbh" || s.legalForm === "ug") {
-    fristen.push({ date: "10.03.", title: "KSt-Vorauszahlung Q1", category: "kst" });
-    fristen.push({ date: "10.06.", title: "KSt-Vorauszahlung Q2", category: "kst" });
-    fristen.push({ date: "10.09.", title: "KSt-Vorauszahlung Q3", category: "kst" });
-    fristen.push({ date: "10.12.", title: "KSt-Vorauszahlung Q4", category: "kst" });
+    fristen.push(mkFrist(10, 2, "KSt-Vorauszahlung Q1", "kst"));
+    fristen.push(mkFrist(10, 5, "KSt-Vorauszahlung Q2", "kst"));
+    fristen.push(mkFrist(10, 8, "KSt-Vorauszahlung Q3", "kst"));
+    fristen.push(mkFrist(10, 11, "KSt-Vorauszahlung Q4", "kst"));
   }
 
-  // ============ Einkommensteuer-VZ (nur Einzelunternehmen) ============
   if (s.legalForm === "ein") {
-    fristen.push({ date: "10.03.", title: "ESt-Vorauszahlung Q1", category: "est" });
-    fristen.push({ date: "10.06.", title: "ESt-Vorauszahlung Q2", category: "est" });
-    fristen.push({ date: "10.09.", title: "ESt-Vorauszahlung Q3", category: "est" });
-    fristen.push({ date: "10.12.", title: "ESt-Vorauszahlung Q4", category: "est" });
+    fristen.push(mkFrist(10, 2, "ESt-Vorauszahlung Q1", "est"));
+    fristen.push(mkFrist(10, 5, "ESt-Vorauszahlung Q2", "est"));
+    fristen.push(mkFrist(10, 8, "ESt-Vorauszahlung Q3", "est"));
+    fristen.push(mkFrist(10, 11, "ESt-Vorauszahlung Q4", "est"));
   }
 
-  // ============ Gewerbesteuer-VZ ============
-  fristen.push({ date: "15.02.", title: "Gewerbesteuer-VZ Q1", category: "gewst" });
-  fristen.push({ date: "15.05.", title: "Gewerbesteuer-VZ Q2", category: "gewst" });
-  fristen.push({ date: "15.08.", title: "Gewerbesteuer-VZ Q3", category: "gewst" });
-  fristen.push({ date: "15.11.", title: "Gewerbesteuer-VZ Q4", category: "gewst" });
+  fristen.push(mkFrist(15, 1, "Gewerbesteuer-VZ Q1", "gewst"));
+  fristen.push(mkFrist(15, 4, "Gewerbesteuer-VZ Q2", "gewst"));
+  fristen.push(mkFrist(15, 7, "Gewerbesteuer-VZ Q3", "gewst"));
+  fristen.push(mkFrist(15, 10, "Gewerbesteuer-VZ Q4", "gewst"));
 
-  // ============ Steuererklärung Vorjahr ============
-  fristen.push({ date: "31.07.", title: "Steuererklärung Vorjahr (ohne StB)", detail: "Mit StB: 28.02. übernächstes Jahr", category: "stb" });
+  fristen.push(mkFrist(31, 6, "Steuererklärung Vorjahr (ohne StB)", "stb", "Mit StB: 28.02. übernächstes Jahr"));
+  fristen.push(
+    mkFrist(
+      31,
+      11,
+      "Pre-Year-End: Investitionen, Rückstellungen, Gewinnverlagerung",
+      "year-end",
+      "Steuer-Reduktion durch IAB, Bonuszahlungen, Vorauszahlungen",
+    ),
+  );
 
-  // ============ Pre-Year-End ============
-  fristen.push({
-    date: "31.12.",
-    title: "Pre-Year-End: Investitionen, Rückstellungen, Gewinnverlagerung",
-    detail: "Steuer-Reduktion durch IAB, Bonuszahlungen, Vorauszahlungen",
-    category: "year-end",
-  });
-
-  // Sortiere nach Datum (DD.MM.)
   return fristen.sort((a, b) => {
-    const [da, ma] = a.date.split(".");
-    const [db, mb] = b.date.split(".");
-    if (ma !== mb) return parseInt(ma) - parseInt(mb);
-    return parseInt(da) - parseInt(db);
+    if (a.monthIdx !== b.monthIdx) return a.monthIdx - b.monthIdx;
+    return parseInt(a.day, 10) - parseInt(b.day, 10);
   });
 }
 
@@ -217,29 +210,45 @@ const SteuerCockpit = () => {
   const [zmMonatlich, setZmMonatlich] = useState(false);
   const [mitarbeiter, setMitarbeiter] = useState(false);
   const [lstVorjahr, setLstVorjahr] = useState(6000);
+  const [katFilter, setKatFilter] = useState<string>("alle");
 
   const fristen = useMemo(
     () => buildFristen({ legalForm, ustMode, dauerfrist, oss, zm, zmMonatlich, mitarbeiter, lstVorjahr }),
     [legalForm, ustMode, dauerfrist, oss, zm, zmMonatlich, mitarbeiter, lstVorjahr],
   );
 
-  // IAB §7g — mit Voraussetzungs-Check
+  // Nächste anstehende Frist ab heute ermitteln
+  const naechsteFrist = useMemo(() => {
+    if (!fristen.length) return null;
+    const now = new Date();
+    const curMonth = now.getMonth();
+    const curDay = now.getDate();
+    return (
+      fristen.find((f) => f.monthIdx > curMonth || (f.monthIdx === curMonth && parseInt(f.day, 10) >= curDay)) ??
+      fristen[0]
+    );
+  }, [fristen]);
+
+  const sichtbareFristen = useMemo(
+    () => (katFilter === "alle" ? fristen : fristen.filter((f) => f.category === katFilter)),
+    [fristen, katFilter],
+  );
+
+  // IAB §7g
   const [iabBasis, setIabBasis] = useState(80000);
   const [iabGewinnVor, setIabGewinnVor] = useState(150000);
   const [hebesatz, setHebesatz] = useState(400);
   const iabBasisClamped = Math.max(0, iabBasis);
   const iabKapGes = legalForm === "gmbh" || legalForm === "ug";
-  // §7g Abs. 1 Satz 2 Nr. 1 EStG (seit JStG 2020): einheitlich Gewinn ≤ 200.000 € für alle Rechtsformen
   const iabEligible = iabGewinnVor <= IAB_GEWINN_GRENZE;
   const iab = iabEligible ? Math.min(iabBasisClamped * 0.5, 200000) : 0;
   const iabKstGewSt = kstGewstRate(hebesatz);
-  // Einzelunternehmen: Differenz der Jahressteuer (ESt nach § 35, SolZ mit Freigrenze, GewSt) mit und ohne IAB
   const iabSteuer = iabKapGes
     ? iab * iabKstGewSt
     : einzelSteuer({ gewinn: iabGewinnVor, hebesatz, gewerbe: true }).total -
       einzelSteuer({ gewinn: iabGewinnVor - iab, hebesatz, gewerbe: true }).total;
 
-  // Quartal: Brutto/Netto + echte Steuerberechnung
+  // Quartal
   const [eingabeBrutto, setEingabeBrutto] = useState(false);
   const [umsatz, setUmsatz] = useState(60000);
   const [kosten, setKosten] = useState(28000);
@@ -248,22 +257,20 @@ const SteuerCockpit = () => {
   const kostenNetto = istKU || !eingabeBrutto ? kosten : Math.round(kosten / 1.19);
   const ustVerbindlichkeit = istKU || !eingabeBrutto ? 0 : Math.round((umsatz - kosten) - (umsatzNetto - kostenNetto));
   const gewinn = Math.max(0, umsatzNetto - kostenNetto);
-  // Echte Steuerlast statt Pauschal-30%/35%
-  const gewinnHochgerechnet = gewinn * 4; // Q→Jahr-Hochrechnung als Schätzung
+  const gewinnHochgerechnet = gewinn * 4;
   const ruecklage = (() => {
-    if (iabKapGes) {
-      return gewinn * iabKstGewSt; // KSt+GewSt+SolZ effektiv
-    }
-    // ESt nach § 35-Anrechnung, SolZ mit Freigrenze 20.350 € und Milderungszone (§§ 3, 4 SolzG), GewSt
-    return einzelSteuer({ gewinn: gewinnHochgerechnet, hebesatz, gewerbe: true }).total / 4; // zurück auf Quartal
+    if (iabKapGes) return gewinn * iabKstGewSt;
+    return einzelSteuer({ gewinn: gewinnHochgerechnet, hebesatz, gewerbe: true }).total / 4;
   })();
   const steuersatz = gewinn > 0 ? ruecklage / gewinn : 0;
+  const verbleibend = Math.max(0, gewinn - ruecklage);
+  const ruecklagePct = gewinn > 0 ? Math.min(100, Math.round((ruecklage / gewinn) * 100)) : 0;
 
   return (
     <CockpitShell
       eyebrow="Steuern & Fristen"
-      title="Steuer-Cockpit: Fristen, IAB & Quartals-Schätzung"
-      subtitle="Personalisiert auf deine Konstellation: Setup unten wählen, die Fristen aktualisieren sich live."
+      title="Steuer-Cockpit"
+      subtitle="Deine Fristen, geschätzte Quartals-Rücklage und IAB-Steuerersparnis auf einen Blick. Alles reagiert live auf dein Setup."
       tabs={[
         { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
         { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
@@ -271,8 +278,69 @@ const SteuerCockpit = () => {
         { label: "Anlage EÜR", to: "/cockpit/anlage-euer" },
         { label: "Neu ab 2027", to: "/cockpit/aktuell" },
       ]}
+      actions={
+        <Button asChild size="sm" variant="outline" className="rounded-xl bg-white font-semibold">
+          <Link to="/cockpit/steuerkalender">
+            <Calendar className="mr-1.5 h-4 w-4 text-primary" aria-hidden="true" />
+            Als Kalender (.ics) exportieren
+          </Link>
+        </Button>
+      }
     >
-      <ToolSection title="Dein Setup" icon={Settings2} className="mb-6" description="Rechtsform, USt-Rhythmus und Sonderfälle bestimmen deinen Frist-Kalender.">
+      {/* Revolut × Lexoffice Top-KPI-Leiste */}
+      <section aria-label="Steuer-Überblick" className="mb-6 grid gap-3.5 md:grid-cols-3">
+        <div className="rounded-2xl border border-primary bg-primary p-5 text-white shadow-soft">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-brand-green-glow">Nächste Frist</p>
+            <CalendarClock className="h-4 w-4 text-white/75" aria-hidden="true" />
+          </div>
+          {naechsteFrist ? (
+            <>
+              <p className="mt-2 text-2xl font-bold tracking-tight tabular">{naechsteFrist.date}</p>
+              <p className="mt-1 truncate text-sm font-medium text-white/90">{naechsteFrist.title}</p>
+              <p className="mt-2 text-xs text-white/70 tabular">{fristen.length} Termine im Jahr für dein Setup</p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-white/80">Keine Fristen konfiguriert</p>
+          )}
+        </div>
+
+        <div className="rounded-2xl border border-border bg-white p-5 shadow-card">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Quartals-Rücklage</p>
+            <PiggyBank className="h-4 w-4 text-primary" aria-hidden="true" />
+          </div>
+          <p className="mt-2 text-2xl font-bold tracking-tight text-primary tabular">
+            {Math.round(ruecklage).toLocaleString("de-DE")} €
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground tabular">
+            ca. {(steuersatz * 100).toFixed(0)} % auf {gewinn.toLocaleString("de-DE")} € Quartalsgewinn
+          </p>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary">
+            <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${ruecklagePct}%` }} />
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-border bg-white p-5 shadow-card">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">IAB-Steuerersparnis (§ 7g)</p>
+            <TrendingDown className="h-4 w-4 text-brand-green" aria-hidden="true" />
+          </div>
+          <p className="mt-2 text-2xl font-bold tracking-tight text-brand-green tabular">
+            {iabEligible ? `${Math.round(iabSteuer).toLocaleString("de-DE")} €` : "0 €"}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground tabular">
+            {iabEligible
+              ? `bei ${iab.toLocaleString("de-DE")} € Vorab-Abzug (50 %)`
+              : `Gewinn über 200.000 € Grenze`}
+          </p>
+          <Link to="/cockpit/iab-rechner" className="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-accent-blue hover:underline">
+            Detail-IAB-Rechner <ArrowRight className="h-3 w-3" aria-hidden="true" />
+          </Link>
+        </div>
+      </section>
+
+      <ToolSection title="Dein Steuer-Setup" icon={Settings2} className="mb-6" description="Rechtsform, USt-Rhythmus und Sonderfälle passen Fristen und Schätzung sofort an.">
         <div className="mb-5 grid gap-5 sm:grid-cols-2">
           <Field label="Rechtsform">
             <ChoiceGroup<LegalForm>
@@ -280,7 +348,7 @@ const SteuerCockpit = () => {
               value={legalForm}
               onChange={setLegalForm}
               options={[
-                { value: "ein", label: "Einzel" },
+                { value: "ein", label: "Einzelunternehmen" },
                 { value: "ug", label: "UG" },
                 { value: "gmbh", label: "GmbH" },
               ]}
@@ -305,48 +373,73 @@ const SteuerCockpit = () => {
             checked={dauerfrist}
             onChange={setDauerfrist}
             label="Dauerfristverlängerung"
-            help="USt-VA-Frist verschiebt sich um 1 Monat. Bei monatlicher Abgabe 1/11-Sondervorauszahlung (fällig 10.02.); bei Quartalsabgabe keine."
+            help="USt-VA-Frist verschiebt sich um 1 Monat. Bei monatlicher Abgabe 1/11-Sondervorauszahlung (fällig 10.02.)."
             disabled={ustMode === "keine"}
           />
           <Toggle
             checked={oss}
             onChange={setOss}
             label="OSS-Verfahren (EU-B2C)"
-            help="One-Stop-Shop für Fernverkäufe in andere EU-Länder. Quartal-Meldung."
+            help="One-Stop-Shop für Fernverkäufe in andere EU-Länder. Quartals-Meldung zum Monatsende."
           />
           <Toggle
             checked={zm}
             onChange={setZm}
             label="Zusammenfassende Meldung (ZM)"
-            help="Pflicht bei innergemeinschaftlichen B2B-Lieferungen und sonstigen Leistungen. Bis zum 25. nach Ablauf des Meldezeitraums (Quartal oder Monat), keine Dauerfrist."
+            help="Pflicht bei innergemeinschaftlichen B2B-Leistungen. Bis zum 25. nach Meldezeitraum, keine Dauerfrist."
           />
           {zm && (
             <Toggle
               checked={zmMonatlich}
               onChange={setZmMonatlich}
-              label="ZM monatlich (Lieferungen über 50.000 €/Quartal)"
-              help="Monatlich, wenn deine innergemeinschaftlichen Warenlieferungen im laufenden oder einem der vier vorangegangenen Quartale über 50.000 € lagen (§ 18a Abs. 1 UStG). Nur sonstige Leistungen: immer quartalsweise."
+              label="ZM monatlich (> 50.000 €/Quartal)"
+              help="Monatlich bei innergemeinschaftlichen Warenlieferungen über 50.000 € im Quartal (§ 18a Abs. 1 UStG)."
             />
           )}
           <Toggle
             checked={mitarbeiter}
             onChange={setMitarbeiter}
             label="Mitarbeiter beschäftigt"
-            help="Aktiviert die Lohnsteuer-Anmeldung. Auch bei Einzelunternehmen relevant; ohne Mitarbeiter keine Lohnsteuer."
+            help="Aktiviert die Lohnsteuer-Anmeldung je nach Vorjahres-Lohnsteuer (§ 41a Abs. 2 EStG)."
           />
           {mitarbeiter && (
-            <Field label="Lohnsteuer im Vorjahr (€)" hint="Bei Neugründung: Lohnsteuer des ersten Monats × 12. Über 5.000 € monatlich, über 1.080 € vierteljährlich, sonst jährlich (§41a Abs. 2 EStG).">
-              <NumberField value={lstVorjahr} onChange={setLstVorjahr} min={0} aria-label="Lohnsteuer im Vorjahr in Euro" />
+            <Field label="Lohnsteuer im Vorjahr" hint="Über 5.000 € monatlich, über 1.080 € quartalsweise, sonst jährlich.">
+              <NumberField value={lstVorjahr} onChange={setLstVorjahr} min={0} suffix="€" aria-label="Lohnsteuer im Vorjahr in Euro" />
             </Field>
           )}
         </div>
       </ToolSection>
 
+      {/* Frist-Kalender im Revolut-Timeline-Stil */}
       <ToolSection
         title={`Frist-Kalender ${new Date().getFullYear()}`}
         icon={Calendar}
         className="mb-6"
-        actions={<span className="text-sm text-muted-foreground tabular">{fristen.length} Termine, nach Datum sortiert</span>}
+        actions={
+          <div className="flex flex-wrap items-center gap-1.5">
+            {[
+              { id: "alle", label: `Alle (${fristen.length})` },
+              { id: "ust", label: "USt" },
+              { id: "gewst", label: "GewSt" },
+              { id: iabKapGes ? "kst" : "est", label: iabKapGes ? "KSt" : "ESt" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                aria-pressed={katFilter === tab.id}
+                onClick={() => setKatFilter(tab.id)}
+                className={cn(
+                  "rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors",
+                  katFilter === tab.id
+                    ? "bg-primary text-white"
+                    : "bg-white text-muted-foreground ring-1 ring-border hover:text-primary",
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        }
       >
         {dauerfrist && ustMode !== "keine" && (
           <Callout tone="info" title="Dauerfristverlängerung aktiv" className="mb-4">
@@ -356,38 +449,98 @@ const SteuerCockpit = () => {
           </Callout>
         )}
 
-        {fristen.length === 0 ? (
-          <EmptyState icon={Calendar} title="Keine Fristen konfiguriert" description="Passe dein Setup oben an." />
+        {sichtbareFristen.length === 0 ? (
+          <EmptyState icon={Calendar} title="Keine Fristen in diesem Filter" description="Wähle oben „Alle“ oder passe dein Setup an." />
         ) : (
-          <ol className="divide-y divide-border/70 rounded-xl border border-border">
-            {fristen.map((f, i) => (
-              <li key={i} className="flex items-start gap-3 px-4 py-3 sm:items-center">
-                <span className="w-14 shrink-0 text-sm font-semibold text-accent-blue tabular">{f.date}</span>
+          <ol className="divide-y divide-border/70 overflow-hidden rounded-xl border border-border bg-white">
+            {sichtbareFristen.map((f, i) => (
+              <li key={`${f.date}-${f.title}-${i}`} className="flex items-center gap-3.5 px-4 py-3 transition-colors hover:bg-secondary/30">
+                <div className="flex w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-border bg-[#F8FAFC] py-1.5 text-center">
+                  <span className="text-[10px] font-bold tracking-wider text-muted-foreground">{MONAT_KURZ[f.monthIdx]}</span>
+                  <span className="text-base font-bold leading-tight text-primary tabular">{f.day}</span>
+                </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <ToneBadge tone={CATEGORY_TONE[f.category]}>{CATEGORY_LABEL[f.category]}</ToneBadge>
-                    <span className="text-sm font-medium">{f.title}</span>
+                    <span className="text-sm font-semibold text-foreground">{f.title}</span>
+                    <span className="text-xs font-medium text-muted-foreground tabular">({f.date})</span>
                   </div>
                   {f.detail && <p className="mt-0.5 text-xs text-muted-foreground">{f.detail}</p>}
                 </div>
+                <ToneBadge tone={CATEGORY_TONE[f.category]} className="shrink-0">
+                  {CATEGORY_LABEL[f.category]}
+                </ToneBadge>
               </li>
             ))}
           </ol>
         )}
       </ToolSection>
 
+      {/* Quartals-Schätzung & IAB nebeneinander */}
       <div className="mb-6 grid gap-6 md:grid-cols-2">
-        <ToolSection title="IAB-Rechner" icon={Calculator}>
-          <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Investitionsabzugsbetrag (§ 7g EStG):</strong> Du kannst bis zu 50 % einer geplanten Investition (binnen 3 Jahren) <em>vorab</em> als Betriebsausgabe ansetzen und damit deinen aktuellen Gewinn (und Steuerlast) reduzieren. Sinnvoll z.&nbsp;B. für geplante Geschäftsfahrzeuge, Maschinen, Lager-Equipment oder IT-Hardware.
+        <ToolSection title="Quartals-Schätzung" icon={PiggyBank}>
+          {!istKU && (
+            <Field label="Eingabe" className="mb-4">
+              <ChoiceGroup<boolean>
+                label="Eingabe netto oder brutto"
+                size="sm"
+                value={eingabeBrutto}
+                onChange={setEingabeBrutto}
+                options={[
+                  { value: false, label: "Netto" },
+                  { value: true, label: "Brutto (inkl. 19 %)" },
+                ]}
+              />
+            </Field>
+          )}
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={`Umsatz im Quartal (${istKU ? "netto" : eingabeBrutto ? "brutto" : "netto"})`}>
+              <NumberField value={umsatz} onChange={setUmsatz} min={0} suffix="€" aria-label="Umsatz im Quartal in Euro" />
+            </Field>
+            <Field label={`Kosten im Quartal (${istKU ? "netto" : eingabeBrutto ? "brutto" : "netto"})`}>
+              <NumberField value={kosten} onChange={setKosten} min={0} suffix="€" aria-label="Kosten im Quartal in Euro" />
+            </Field>
+          </div>
+
+          {/* Visuelle Aufteilung */}
+          {gewinn > 0 && (
+            <div className="mt-5 rounded-xl border border-border bg-[#F8FAFC] p-3.5">
+              <div className="mb-2 flex items-center justify-between text-xs font-semibold tabular">
+                <span className="text-brand-green">Bleibt nach Steuern: {Math.round(verbleibend).toLocaleString("de-DE")} €</span>
+                <span className="text-primary">Rücklage: {ruecklagePct} %</span>
+              </div>
+              <div className="flex h-2.5 overflow-hidden rounded-full bg-secondary">
+                <div className="bg-brand-green transition-[width] duration-300" style={{ width: `${100 - ruecklagePct}%` }} />
+                <div className="bg-primary transition-[width] duration-300" style={{ width: `${ruecklagePct}%` }} />
+              </div>
+            </div>
+          )}
+
+          <div className="mt-4 space-y-2 text-sm">
+            {!istKU && eingabeBrutto && (
+              <>
+                <Row label="Netto-Umsatz" value={`${umsatzNetto.toLocaleString("de-DE")} €`} />
+                <Row label="Netto-Kosten" value={`${kostenNetto.toLocaleString("de-DE")} €`} />
+                <Row label="USt-Schuld (ca.)" value={`${ustVerbindlichkeit.toLocaleString("de-DE")} €`} />
+              </>
+            )}
+            <Row label="Gewinn (netto)" value={`${gewinn.toLocaleString("de-DE")} €`} />
+            <Row label={`Steuer-Rücklage (${(steuersatz * 100).toFixed(0)} %)`} value={`${Math.round(ruecklage).toLocaleString("de-DE")} €`} highlight />
+          </div>
+        </ToolSection>
+
+        <ToolSection title="IAB-Rechner (§ 7g EStG)" icon={Calculator}>
+          <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+            Bis zu 50 % einer geplanten Investition (binnen 3 Jahren) vorab als Betriebsausgabe ansetzen und aktuelle
+            Steuerlast senken.
           </p>
           <div className="space-y-4">
-            <Field label="Geplante Investition in 3 Jahren (€)">
-              <NumberField value={iabBasis} onChange={setIabBasis} min={0} aria-label="Geplante Investition in Euro" />
+            <Field label="Geplante Investition in 3 Jahren">
+              <NumberField value={iabBasis} onChange={setIabBasis} min={0} suffix="€" aria-label="Geplante Investition in Euro" />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Gewinn vor IAB (€/Jahr)">
-                <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} aria-label="Gewinn vor IAB in Euro pro Jahr" />
+              <Field label="Gewinn vor IAB (pro Jahr)">
+                <NumberField value={iabGewinnVor} onChange={setIabGewinnVor} min={0} suffix="€" aria-label="Gewinn vor IAB in Euro pro Jahr" />
               </Field>
               <Field label="GewSt-Hebesatz (%)">
                 <HebesatzPicker value={hebesatz} onChange={setHebesatz} />
@@ -406,47 +559,9 @@ const SteuerCockpit = () => {
             <Row label="Steuer-Ersparnis heute" value={`${Math.round(iabSteuer).toLocaleString("de-DE")} €`} highlight />
           </div>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            Max. 200.000 € pro Betrieb. Voraussetzung 2026: Gewinn vor IAB ≤ 200.000 €/Jahr, für alle Rechtsformen gleich (die Bilanzsummen-Grenze ist seit dem JStG 2020 abgeschafft). Bei Nicht-Investition binnen 3 Jahren: rückwirkende Auflösung + Nachzahlungszinsen 0,15 % pro Monat (1,8 % p.a., §233a i. V. m. §238 Abs. 1a AO).
+            Max. 200.000 € pro Betrieb. Voraussetzung 2026: Gewinn vor IAB ≤ 200.000 €/Jahr. Bei Nicht-Investition
+            binnen 3 Jahren: rückwirkende Auflösung + Zinsen 0,15 %/Monat (§ 233a AO).
           </p>
-        </ToolSection>
-
-        <ToolSection title="Quartals-Schätzung" icon={PiggyBank}>
-          {/* Brutto/Netto-Umschalter (bei Kleinunternehmer keine USt, daher ausgeblendet) */}
-          {!istKU && (
-            <Field label="Eingabe" className="mb-4">
-              <ChoiceGroup<boolean>
-                label="Eingabe netto oder brutto"
-                size="sm"
-                value={eingabeBrutto}
-                onChange={setEingabeBrutto}
-                options={[
-                  { value: false, label: "Netto" },
-                  { value: true, label: "Brutto (inkl. 19 %)" },
-                ]}
-              />
-            </Field>
-          )}
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={`Umsatz im Quartal (${istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})`}>
-              <NumberField value={umsatz} onChange={setUmsatz} min={0} aria-label="Umsatz im Quartal in Euro" />
-            </Field>
-            <Field label={`Kosten im Quartal (${istKU ? "€" : eingabeBrutto ? "brutto" : "netto"})`}>
-              <NumberField value={kosten} onChange={setKosten} min={0} aria-label="Kosten im Quartal in Euro" />
-            </Field>
-          </div>
-
-          <div className="mt-5 space-y-2 text-sm">
-            {!istKU && eingabeBrutto && (
-              <>
-                <Row label="Netto-Umsatz" value={`${umsatzNetto.toLocaleString("de-DE")} €`} />
-                <Row label="Netto-Kosten" value={`${kostenNetto.toLocaleString("de-DE")} €`} />
-                <Row label="USt-Schuld (ca.)" value={`${ustVerbindlichkeit.toLocaleString("de-DE")} €`} />
-              </>
-            )}
-            <Row label="Gewinn (netto)" value={`${gewinn.toLocaleString("de-DE")} €`} />
-            <Row label={`Steuer-Rücklage (${(steuersatz * 100).toFixed(0)} %)`} value={`${Math.round(ruecklage).toLocaleString("de-DE")} €`} highlight />
-          </div>
         </ToolSection>
       </div>
 
@@ -454,39 +569,34 @@ const SteuerCockpit = () => {
         title="Amazon-Verkäufer mit PayJoe oder Taxdoo?"
         icon={ShoppingCart}
         className="mb-6"
-        description="Amazon-FBA-Buchhaltung ist ein Spezialthema: Die meisten Steuerberater kennen die FBA-Spezifika nicht (Lagerumlagerungen zwischen EU-Lagern, OSS vs. lokale Registrierung, VCS-Reports, Auszahlungs-Splits, MwSt.-Trennung pro Marktplatz, B2B-Reverse-Charge)."
+        description="Amazon-FBA-Buchhaltung hat eigene Spielregeln: EU-Lagerumlagerungen, OSS vs. lokale USt-ID, Auszahlungs-Splits und B2B-Reverse-Charge."
       >
-        <p className="mb-2 text-sm font-medium">Wir helfen bei:</p>
-        <ul className="mb-4 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-          <li>Korrekter Verbuchung von Amazon-Auszahlungen (PayJoe / Taxdoo / Amainvoice)</li>
-          <li>OSS-Setup vs. lokale UStID in EU-Lagerländern (PL, CZ, IT, ES, FR)</li>
-          <li>Stock-Movement-Verbuchung (Sachspende vs. Lagerumlagerung)</li>
-          <li>Integration mit Lexware Office / sevDesk / DATEV (DATEV-Export aus PayJoe)</li>
-          <li>Empfehlungen für FBA-erfahrene StB in deinem Bundesland</li>
-        </ul>
         <Callout tone="accent" icon={Sparkles} className="mb-4">
-          <span className="font-semibold text-foreground">Neu:</span> Komplette Liste aller PayJoe/Lexware-Office
-          Amazon-Buchungstexte (AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees etc.) mit SKR03/04-Konto,
-          USt-Behandlung und Live-Lookup-Tool.
+          <span className="font-semibold text-foreground">Live-Lookup:</span> Komplette Liste aller PayJoe-/Lexware-Office
+          Amazon-Buchungstexte (AMA-SG-DE, AMA-BG-IT, AUSZ-DE, MZNFS, FBAFees etc.) mit SKR03/04-Konto und USt-Behandlung.
         </Callout>
         <div className="flex flex-wrap gap-2">
-          <Button asChild size="sm">
+          <Button asChild size="sm" className="rounded-xl">
             <Link to="/cockpit/amazon-buchungen">
               Buchungs-Codes nachschlagen <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
-          <Button asChild size="sm" variant="outline">
+          <Button asChild size="sm" variant="outline" className="rounded-xl">
             <Link to="/felix">Felix fragen</Link>
           </Button>
-          <Button asChild size="sm" variant="outline">
-            <Link to="/kontakt">Setup-Call buchen</Link>
+          <Button asChild size="sm" variant="outline" className="rounded-xl">
+            <Link to="/cockpit/stb-finder">StB-Finder</Link>
           </Button>
         </div>
       </ToolSection>
 
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Hinweis: Orientierende Schätzungen, keine Steuerberatung. Final immer mit StB klären.
-        Termine 2026 ohne Wochenend- und Feiertagsverschiebung: Fällt ein Termin auf Sa/So/Feiertag, ist der nächste Werktag maßgeblich.
+        Hinweis: Orientierende Schätzungen, keine Steuerberatung. Termine 2026 ohne Wochenend- und Feiertagsverschiebung:
+        Für feiertagsgenaue Termine samt .ics-Kalender-Export nutze den{" "}
+        <Link to="/cockpit/steuerkalender" className="font-semibold text-accent-blue hover:underline">
+          Steuerkalender
+        </Link>
+        .
       </p>
     </CockpitShell>
   );
@@ -499,17 +609,21 @@ const Toggle = ({ checked, onChange, label, help, disabled }: { checked: boolean
     aria-checked={checked}
     onClick={() => !disabled && onChange(!checked)}
     disabled={disabled}
-    className={`rounded-xl border p-3.5 text-left transition-colors ${
-      disabled ? "cursor-not-allowed border-border bg-card opacity-50" :
-      checked ? "border-foreground/25 bg-accent" : "border-border bg-card hover:border-foreground/25"
-    }`}
+    className={cn(
+      "rounded-xl border p-3.5 text-left transition-colors",
+      disabled
+        ? "cursor-not-allowed border-border bg-white opacity-50"
+        : checked
+          ? "border-primary/40 bg-accent/50"
+          : "border-border bg-white hover:border-primary/30",
+    )}
   >
     <div className="flex items-start gap-3">
-      <span className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${checked ? "bg-primary" : "bg-border"}`} aria-hidden="true">
-        <span className={`h-4 w-4 rounded-full bg-white shadow transition-transform ${checked ? "translate-x-[18px]" : "translate-x-0.5"}`} />
+      <span className={cn("mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full transition-colors", checked ? "bg-primary" : "bg-border")} aria-hidden="true">
+        <span className={cn("h-4 w-4 rounded-full bg-white shadow transition-transform", checked ? "translate-x-[18px]" : "translate-x-0.5")} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-sm font-semibold">{label}</span>
+        <span className="block text-sm font-semibold text-foreground">{label}</span>
         <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">{help}</span>
       </span>
     </div>
@@ -517,9 +631,9 @@ const Toggle = ({ checked, onChange, label, help, disabled }: { checked: boolean
 );
 
 const Row = ({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) => (
-  <div className={`flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 ${highlight ? "border border-foreground/25 bg-accent" : "bg-secondary/60"}`}>
-    <span className={highlight ? "font-medium text-foreground" : "text-muted-foreground"}>{label}</span>
-    <span className={`font-semibold tabular ${highlight ? "text-accent-blue" : ""}`}>{value}</span>
+  <div className={cn("flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5", highlight ? "border border-primary/20 bg-accent/60" : "bg-secondary/50")}>
+    <span className={highlight ? "font-semibold text-primary" : "text-muted-foreground"}>{label}</span>
+    <span className={cn("font-bold tabular", highlight ? "text-primary" : "text-foreground")}>{value}</span>
   </div>
 );
 

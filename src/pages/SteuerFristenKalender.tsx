@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { CalendarPlus, SlidersHorizontal } from "lucide-react";
+import { CalendarPlus, SlidersHorizontal, Clock } from "lucide-react";
 import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,8 +10,16 @@ import { baueIcs } from "@/lib/ics";
 
 const SPEICHER = "gx-steuerkalender-v1";
 const STANDARD: FristProfil = {
-  rechtsform: "einzel", ust: "quartal", dauerfrist: false, ekVorauszahlung: false, gewstVorauszahlung: false,
-  mitarbeiter: "keine", lohnsteuer: "monat", zm: "keine", steuerberater: false, gruendungsjahr: new Date().getFullYear(),
+  rechtsform: "einzel",
+  ust: "quartal",
+  dauerfrist: false,
+  ekVorauszahlung: false,
+  gewstVorauszahlung: false,
+  mitarbeiter: "keine",
+  lohnsteuer: "monat",
+  zm: "keine",
+  steuerberater: false,
+  gruendungsjahr: new Date().getFullYear(),
 };
 const lade = (): FristProfil => {
   try {
@@ -60,10 +68,10 @@ const Auswahl = <T extends string>({ label, wert, setze, optionen }: { label: st
 };
 
 const Haken = ({ label, wert, setze, hilfe }: { label: string; wert: boolean; setze: (v: boolean) => void; hilfe?: string }) => (
-  <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-background/60 px-3 py-2.5 text-sm transition-colors hover:border-foreground/20">
+  <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-white px-3.5 py-2.5 text-sm transition-colors hover:border-primary/35">
     <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]" checked={wert} onChange={(e) => setze(e.target.checked)} />
     <span>
-      <span className="font-medium">{label}</span>
+      <span className="font-semibold text-foreground">{label}</span>
       {hilfe && <span className="mt-0.5 block text-xs text-muted-foreground">{hilfe}</span>}
     </span>
   </label>
@@ -82,9 +90,19 @@ const SteuerFristenKalender = () => {
   const set = <K extends keyof FristProfil>(k: K, v: FristProfil[K]) => setP((x) => ({ ...x, [k]: v }));
   const { fristen, hinweise } = useMemo(() => fristenFuer(p, heute, 12), [p, heute]);
 
+  const tageBisNaechste = fristen[0]
+    ? Math.max(0, Math.ceil((Date.parse(`${fristen[0].datum}T12:00:00Z`) - Date.parse(`${heute}T12:00:00Z`)) / 864e5))
+    : null;
+
   const exportieren = () => {
     const ics = baueIcs(
-      fristen.map((f) => ({ uid: `steuer-${f.original}-${f.art}-${f.titel.length}`, titel: f.titel, start: f.datum, beschreibung: f.hinweis, erinnerungTage: 3 })),
+      fristen.map((f) => ({
+        uid: `steuer-${f.original}-${f.art}-${f.titel.length}`,
+        titel: f.titel,
+        start: f.datum,
+        beschreibung: f.hinweis,
+        erinnerungTage: 3,
+      })),
       "Meine Steuerfristen (GründerX)",
     );
     const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
@@ -103,7 +121,7 @@ const SteuerFristenKalender = () => {
     <CockpitShell
       eyebrow="Steuern & Fristen · Stand 22.11.2026"
       title="Dein persönlicher Steuerkalender"
-      subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation: USt-Voranmeldung, Vorauszahlungen, Lohn, Zusammenfassende Meldung, Jahreserklärungen. Wochenenden und Feiertage sind eingerechnet."
+      subtitle="Alle Abgabe- und Zahlungstermine der nächsten 12 Monate für deine Situation. Wochenenden und bundesweite Feiertage sind eingerechnet."
       tabs={[
         { label: "Steuer-Cockpit", to: "/cockpit/steuer" },
         { label: "Steuerkalender", to: "/cockpit/steuerkalender" },
@@ -112,12 +130,18 @@ const SteuerFristenKalender = () => {
         { label: "Neu ab 2027", to: "/cockpit/aktuell" },
       ]}
     >
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-8">
-        <ToolSection title="Deine Situation" description="Wird nur in diesem Browser gespeichert." icon={SlidersHorizontal} className="lg:sticky lg:top-20" bodyClassName="space-y-4">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-7">
+        <ToolSection
+          title="Deine Situation"
+          description="Wird nur lokal in diesem Browser gespeichert."
+          icon={SlidersHorizontal}
+          className="lg:sticky lg:top-20"
+          bodyClassName="space-y-4"
+        >
           <Auswahl label="Rechtsform" wert={p.rechtsform} setze={(v) => set("rechtsform", v)} optionen={[["einzel", "Einzelunternehmen (Gewerbe)"], ["freiberufler", "Freiberufler"], ["kapital", "GmbH / UG"]]} />
           <Auswahl label="Umsatzsteuer" wert={p.ust} setze={(v) => set("ust", v)} optionen={[["quartal", "Quartalsweise Voranmeldung"], ["monat", "Monatliche Voranmeldung"], ["jahr", "Keine Voranmeldung (Vorjahr ≤ 2.000 €)"], ["kleinunternehmer", "Kleinunternehmer (§ 19)"]]} />
           <Field label="Gründungsjahr" htmlFor="sfk-gruendungsjahr">
-            <Input id="sfk-gruendungsjahr" type="number" inputMode="numeric" value={p.gruendungsjahr} onChange={(e) => set("gruendungsjahr", Number(e.target.value) || STANDARD.gruendungsjahr)} />
+            <Input id="sfk-gruendungsjahr" type="number" inputMode="numeric" className="h-11 rounded-xl" value={p.gruendungsjahr} onChange={(e) => set("gruendungsjahr", Number(e.target.value) || STANDARD.gruendungsjahr)} />
           </Field>
           <div className="space-y-2">
             {p.ust !== "kleinunternehmer" && p.ust !== "jahr" && <Haken label="Dauerfristverlängerung" wert={p.dauerfrist} setze={(v) => set("dauerfrist", v)} hilfe="Ein Monat mehr Zeit; bei Monatszahlern Sondervorauszahlung 1/11" />}
@@ -127,7 +151,7 @@ const SteuerFristenKalender = () => {
           <Auswahl label="Mitarbeiter" wert={p.mitarbeiter} setze={(v) => set("mitarbeiter", v)} optionen={[["keine", "keine"], ["minijob", "nur Minijobber"], ["sv", "sozialversicherungspflichtig"]]} />
           {p.mitarbeiter !== "keine" && <Auswahl label="Lohnsteuer-Anmeldung" wert={p.lohnsteuer} setze={(v) => set("lohnsteuer", v)} optionen={[["monat", "monatlich (> 5.000 € Vorjahr)"], ["quartal", "vierteljährlich (1.080 bis 5.000 €)"], ["jahr", "jährlich (≤ 1.080 €)"]]} />}
           <Auswahl label="EU-Geschäft an Unternehmen (ZM)" wert={p.zm} setze={(v) => set("zm", v)} optionen={[["keine", "keine"], ["quartal", "vierteljährlich"], ["monat", "monatlich (> 50.000 € Lieferungen)"]]} />
-          <Haken label="Ich beauftrage selbständige Künstler oder Publizisten" wert={!!p.ksa} setze={(v) => set("ksa", v)} hilfe="Zum Beispiel für Fotos, Texte oder Design. Meldung an die Künstlersozialkasse bis 31.03. (§ 27 KSVG)" />
+          <Haken label="Ich beauftrage selbständige Künstler oder Publizisten" wert={!!p.ksa} setze={(v) => set("ksa", v)} hilfe="Z. B. Fotos, Texte oder Design. Meldung an KSK bis 31.03. (§ 27 KSVG)" />
           <Haken label="Mit Steuerberater" wert={p.steuerberater} setze={(v) => set("steuerberater", v)} hilfe="Verlängert die Frist der Jahreserklärungen" />
         </ToolSection>
 
@@ -137,19 +161,26 @@ const SteuerFristenKalender = () => {
             kicker="Deine nächsten 12 Monate"
             title={`${fristen.length} Termine in den nächsten 12 Monaten`}
             actions={
-              <Button onClick={exportieren} disabled={!fristen.length} className="bg-card text-primary shadow-none hover:bg-card/90">
-                <CalendarPlus className="h-4 w-4" /> In den Kalender (mit Erinnerung)
+              <Button onClick={exportieren} disabled={!fristen.length} className="press rounded-xl bg-white font-semibold text-primary shadow-none hover:bg-white/90">
+                <CalendarPlus className="mr-1.5 h-4 w-4" /> In den Kalender (.ics)
               </Button>
             }
           >
             {fristen[0] && (
-              <p className="text-sm">
-                Nächster Termin:{" "}
-                <span className="font-semibold text-primary-foreground">
-                  {new Date(`${fristen[0].datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" })}
-                </span>
-                , {fristen[0].titel}
-              </p>
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white/10 px-4 py-3 text-sm">
+                <div>
+                  <p className="text-xs text-white/75">Nächster Termin</p>
+                  <p className="mt-0.5 font-semibold text-white">
+                    {new Date(`${fristen[0].datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" })} · {fristen[0].titel}
+                  </p>
+                </div>
+                {tageBisNaechste !== null && (
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-brand-green px-2.5 py-1 text-xs font-bold text-white tabular">
+                    <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                    {tageBisNaechste === 0 ? "Heute fällig" : `in ${tageBisNaechste} Tagen`}
+                  </span>
+                )}
+              </div>
             )}
           </ResultPanel>
 
@@ -164,25 +195,35 @@ const SteuerFristenKalender = () => {
           {fristen.length === 0 ? (
             <EmptyState icon={CalendarPlus} title="Keine Termine in den nächsten 12 Monaten" description="Für deine Angaben stehen keine Abgabe- oder Zahlungstermine an. Ändere links deine Situation, falls etwas nicht passt." />
           ) : (
-            <ol className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <ol className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
               {fristen.map((f, i) => {
-                const monat = new Date(`${f.datum}T12:00:00`).toLocaleDateString("de-DE", { month: "long", year: "numeric" });
+                const d = new Date(`${f.datum}T12:00:00`);
+                const monat = d.toLocaleDateString("de-DE", { month: "long", year: "numeric" });
                 const kopf = monat !== letzterMonat;
                 letzterMonat = monat;
                 return (
                   <li key={`${f.datum}-${f.titel}-${i}`}>
-                    {kopf && <h3 className="border-b border-border/70 bg-secondary/60 px-4 py-2 text-sm font-semibold text-foreground">{monat}</h3>}
-                    <div className="flex items-start gap-3 border-b border-border/60 px-4 py-3 last:border-b-0">
-                      <div className="w-16 shrink-0 text-sm font-semibold tabular sm:w-20">
-                        {new Date(`${f.datum}T12:00:00`).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" })}
+                    {kopf && (
+                      <h3 className="border-b border-border bg-[#F8FAFC] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-primary">
+                        {monat}
+                      </h3>
+                    )}
+                    <div className="flex items-center gap-3.5 border-b border-border/60 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-secondary/25">
+                      <div className="flex w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-border bg-[#F8FAFC] py-1.5 text-center">
+                        <span className="text-[10px] font-semibold uppercase text-muted-foreground">
+                          {d.toLocaleDateString("de-DE", { weekday: "short" })}
+                        </span>
+                        <span className="text-base font-bold leading-tight text-primary tabular">
+                          {d.toLocaleDateString("de-DE", { day: "2-digit" })}
+                        </span>
                       </div>
-                      <div className="min-w-0 flex-1 text-sm">
-                        {f.titel}
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-foreground">{f.titel}</p>
                         {(f.hinweis || f.datum !== f.original) && (
-                          <div className="mt-0.5 text-xs text-muted-foreground">
+                          <p className="mt-0.5 text-xs text-muted-foreground">
                             {f.datum !== f.original && `verschoben vom ${f.original.split("-").reverse().join(".")} (Wochenende/Feiertag). `}
                             {f.hinweis}
-                          </div>
+                          </p>
                         )}
                       </div>
                       <ToneBadge tone={TON[f.art]} className="shrink-0">{KURZ[f.art]}</ToneBadge>
@@ -193,12 +234,12 @@ const SteuerFristenKalender = () => {
             </ol>
           )}
           <p className="text-xs leading-relaxed text-muted-foreground">
-            Eingerechnet sind bundesweite Feiertage (§ 108 Abs. 3 AO). Landesfeiertage wie Reformationstag oder Allerheiligen
-            können eine Frist in deinem Bundesland um einen Tag verschieben. Bei Sozialversicherungsbeiträgen wirkt ein
-            Landesfeiertag umgekehrt: Der Termin rückt nach vorn, maßgeblich ist der Sitz der Krankenkasse bzw. der
-            Minijob-Zentrale (NRW). Die IHK-Beitragsfälligkeit steht im Bescheid
-            deiner IHK. Mehr zur Voranmeldung:{" "}
-            <Link to="/cockpit/ust-voranmeldung" className="text-accent-blue hover:underline">USt-Voranmeldung-Walkthrough</Link>.
+            Eingerechnet sind bundesweite Feiertage (§ 108 Abs. 3 AO). Landesfeiertage können eine Frist in deinem
+            Bundesland um einen Tag verschieben. Mehr zur Voranmeldung:{" "}
+            <Link to="/cockpit/ust-voranmeldung" className="font-semibold text-accent-blue hover:underline">
+              USt-Voranmeldung-Walkthrough
+            </Link>
+            .
           </p>
         </div>
       </div>

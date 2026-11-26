@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, X } from "lucide-react";
 import { SectionHead } from "@/components/marketing/Marketing";
-import { GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
+import { ANBIETER_ANZAHL, GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 
 const ROWS = [
   {
@@ -27,7 +27,7 @@ const ROWS = [
   {
     thema: "Anbieter-Auswahl",
     ohne: "Affiliate-Rankings ohne echte Schwächen oder Nebenkosten",
-    mit: "210 Anbieter im 3er-Direktvergleich mit ehrlichen Stärken, Schwächen und Bruttopreisen",
+    mit: `${ANBIETER_ANZAHL} Anbieter im 3er-Direktvergleich mit ehrlichen Stärken, Schwächen und Bruttopreisen`,
   },
 ];
 
