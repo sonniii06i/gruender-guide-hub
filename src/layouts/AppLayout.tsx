@@ -1,17 +1,18 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import HeaderActions from "@/components/HeaderActions";
 import { GlobalSearch } from "@/components/GlobalSearch";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccess } from "@/hooks/useAccess";
-import { Loader2, HelpCircle } from "lucide-react";
+import { Loader2, HelpCircle, Zap, Flame } from "lucide-react";
 import OnboardingTour, { TourStep } from "@/components/OnboardingTour";
 import { TOOL_COUNT } from "@/data/kennzahlen";
 import { merkeBesuch } from "@/lib/zuletztGenutzt";
 import { merkeRundgang, rundgangGesehen } from "@/lib/cockpitZustand";
 import { MobileAppTabs } from "@/components/MobileAppTabs";
+import { GAMIFICATION_EVENT, getLevelInfo, readGamification } from "@/lib/gamification";
 
 const GGH_TOUR: TourStep[] = [
   { title: "Einmal kurz durchs Cockpit", text: "Etwa eine Minute. Danach weißt du, wo dein Fahrplan steht, wo du Guides und Tools findest und wo du Hilfe bekommst." },
@@ -19,7 +20,7 @@ const GGH_TOUR: TourStep[] = [
   { selector: '[data-tour="termine"]', title: "Die nächsten 14 Tage", text: "Steuertermine, Bewerbungsfristen und gemerkte Events der kommenden zwei Wochen. Steht etwas an, kannst du Felix direkt fragen, was zuerst dran ist." },
   { selector: '[data-tour="suche"]', title: "Suche", text: "Findet jeden Guide und jedes Tool. Am Rechner öffnest du sie auch mit ⌘K oder Strg+K." },
   { selector: '[data-tour="start"]', menue: true, title: "Übersicht und Felix", text: "Die Übersicht ist diese Seite. Felix ist dein KI-Gründungsberater für Fragen zu Gründung, Recht und Steuern. Frühere Gespräche liegen unter „Meine Chats“." },
-  { selector: '[data-tour="gruppe-lernen"]', menue: true, title: "Lernen", text: "Die Guides führen dich Schritt für Schritt durch ein Thema. Was du begonnen hast, findest du unter „Meine Guides“." },
+  { selector: '[data-tour="gruppe-lernen"]', menue: true, title: "Lernen", text: "Die Guides führen dich Schritt für Schritt durch ein Thema. Was du begonnen hast, findest du unter „Meine Kurse“." },
   { selector: '[data-tour="gruppe-werkzeuge"]', menue: true, title: "Werkzeuge", text: `${TOOL_COUNT} Tools und Rechner. Die wichtigsten stehen direkt hier: Rechtsform finden, Steuern, Fristen, Finanzplan und der Anbieter-Vergleich.` },
   { selector: '[data-tour="gruppe-geld"]', menue: true, title: "Geld & Chancen", text: "Förder-Datenbank, Wettbewerbe mit Preisgeld und Startup-Guthaben. Eine Zahl am Chancen-Radar heißt: Es gibt neue Einträge." },
   { selector: '[data-tour="gruppe-netzwerk"]', menue: true, title: "Events & Netzwerk", text: "Gründer-Events, dein Event-Radar, die Mitgründer-Börse und das Partnerprogramm." },
@@ -32,9 +33,17 @@ export default function AppLayout() {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const [rundgangFaellig, setRundgangFaellig] = useState(false);
+  const [gamTick, setGamTick] = useState(0);
 
-  // Rundgang einmal von selbst: beim ersten Besuch im Cockpit nach dem Onboarding.
-  // Ob er schon gesehen wurde, weiß erst das Gerät, dann das Konto (gilt auf allen Geräten).
+  useEffect(() => {
+    const onGam = () => setGamTick((n) => n + 1);
+    window.addEventListener(GAMIFICATION_EVENT, onGam);
+    return () => window.removeEventListener(GAMIFICATION_EVENT, onGam);
+  }, []);
+
+  const gam = useMemo(() => readGamification(user?.id), [user?.id, gamTick]);
+  const lvl = useMemo(() => getLevelInfo(gam.xp), [gam.xp]);
+
   const uid = user?.id;
   const imCockpit = pathname === "/dashboard" && !search;
   const cockpitOffen = !accessLoading && accessKnown && onboardingCompleted && (hasActiveSub || isAdmin);
@@ -49,7 +58,6 @@ export default function AppLayout() {
     merkeRundgang(uid);
   }, [uid]);
 
-  // „Zuletzt geöffnet“ im Cockpit: nur Tool-Seiten, nur auf diesem Gerät.
   useEffect(() => { merkeBesuch(user?.id, pathname); }, [user?.id, pathname]);
 
   useEffect(() => {
@@ -58,10 +66,6 @@ export default function AppLayout() {
       navigate("/auth", { replace: true });
       return;
     }
-    // Neue, noch nicht eingerichtete User zuverlässig auf die Daten-/Account-Seite
-    // führen — unabhängig davon, wohin der E-Mail-Bestätigungslink landet.
-    // Bei einem Abfragefehler ohne bekannten Stand NICHT umleiten: Ein
-    // Netzfehler ist kein "Onboarding offen".
     if (!accessLoading && accessKnown && !onboardingCompleted) {
       navigate("/onboarding", { replace: true });
     }
@@ -80,11 +84,27 @@ export default function AppLayout() {
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-14 flex items-center gap-3 border-b border-border bg-card sticky top-0 z-30 px-3 md:px-4">
+          <header className="h-14 flex items-center gap-3 border-b border-border bg-white sticky top-0 z-30 px-3 md:px-4">
             <SidebarTrigger />
             <div className="flex-1 flex justify-center">
               <GlobalSearch />
             </div>
+            <Link
+              to="/quiz"
+              title={`Level ${lvl.level} (${lvl.titel}) · ${gam.xp} XP · ${gam.streak} Tage Serie`}
+              className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-xs font-semibold text-foreground transition-colors hover:border-primary/30 hover:bg-secondary"
+            >
+              <span className="inline-flex items-center gap-1 text-brand-green tabular">
+                <Zap className="h-3.5 w-3.5" aria-hidden="true" />
+                L{lvl.level} · {gam.xp} XP
+              </span>
+              {gam.streak > 0 && (
+                <span className="inline-flex items-center gap-0.5 text-amber-600 tabular">
+                  <Flame className="h-3 w-3" aria-hidden="true" />
+                  {gam.streak}T
+                </span>
+              )}
+            </Link>
             <div className="flex items-center gap-1" data-tour="hilfe">
               <button
                 type="button"

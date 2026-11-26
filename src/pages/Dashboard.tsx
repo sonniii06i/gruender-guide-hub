@@ -166,16 +166,15 @@ const Dashboard = () => {
         <ReferralNudge className="mb-5" />
       )}
 
-      {/* Masterclass × Duolingo Deep-Navy Studio Hero */}
-      <section className="gx-stage relative mb-6 overflow-hidden rounded-3xl p-5 text-white shadow-lift md:p-7">
-        <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative z-10 grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_330px]">
+      {/* Helle Lexoffice × Studyflix Cockpit-Übersicht */}
+      <section className="gx-card mb-6 p-5 md:p-7">
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_330px]">
           <div className="min-w-0">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-3 py-1 text-xs font-bold text-[#6EE7B7]">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-green-soft px-2.5 py-1 text-xs font-semibold text-brand-green">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Dein Lern-Studio
+              Dein Cockpit
             </span>
-            <h1 className="mt-3 text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-white md:text-[2rem]">
+            <h1 className="mt-2.5 text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-primary md:text-[1.95rem]">
               Hi {profile?.first_name ?? "Gründer"}. Dein nächster Schritt wartet.
             </h1>
 
@@ -184,7 +183,7 @@ const Dashboard = () => {
                 {merkmale.map((m) => (
                   <li
                     key={m}
-                    className="rounded-lg border border-white/15 bg-white/[0.08] px-2.5 py-1 text-xs font-semibold text-white/90"
+                    className="rounded-md border border-border bg-secondary/60 px-2.5 py-1 text-xs font-medium text-foreground/85"
                   >
                     {m}
                   </li>
@@ -192,88 +191,88 @@ const Dashboard = () => {
               </ul>
             )}
 
-            {/* Studio-Schnellzugriff */}
+            {/* Schnellzugriff */}
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
                 to="/playbooks"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl bg-[#10B981] px-4 text-xs font-bold text-[#042016] shadow-sm hover:bg-[#34D399]"
+                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl bg-primary px-4 text-xs font-semibold text-white hover:bg-primary/90"
               >
                 <GraduationCap className="h-4 w-4" aria-hidden="true" />
                 Alle {PLAYBOOKS.length} Kurse
               </Link>
               <Link
                 to="/playbook/preview/amex-us-beantragen"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-white/20 bg-white/[0.08] px-3.5 text-xs font-semibold text-white hover:bg-white/15"
+                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-secondary/50"
               >
-                <CreditCard className="h-3.5 w-3.5 text-[#FDE68A]" aria-hidden="true" />
+                <CreditCard className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
                 Amex US Guide
               </Link>
               <Link
                 to="/quiz"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-white/20 bg-white/[0.08] px-3.5 text-xs font-semibold text-white hover:bg-white/15"
+                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-secondary/50"
               >
-                <Trophy className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
+                <Trophy className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
                 Quizze (+150 XP)
               </Link>
               <Link
                 to="/felix"
-                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-white/20 bg-white/[0.08] px-3.5 text-xs font-semibold text-white hover:bg-white/15"
+                className="press inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-secondary/50"
               >
-                <MessageSquare className="h-3.5 w-3.5 text-sky-300" aria-hidden="true" />
+                <MessageSquare className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
                 Felix fragen
               </Link>
             </div>
           </div>
 
-          {/* Rechte Karte: Live Level-Ring, XP, Serie & Tages-Mission */}
-          <div className="gx-glass rounded-2xl p-4 sm:p-5">
+          {/* Rechte Karte: Heller Level-Ring, XP, Serie & Abzeichen */}
+          <div className="rounded-2xl border border-border bg-secondary/45 p-4 sm:p-5">
             <div className="flex items-center gap-4">
               <div className="relative flex h-16 w-16 shrink-0 items-center justify-center">
                 <svg className="h-16 w-16 -rotate-90" viewBox="0 0 64 64" aria-hidden="true">
-                  <circle cx="32" cy="32" r={ringRadius} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="5" />
+                  <circle cx="32" cy="32" r={ringRadius} fill="none" stroke="hsl(var(--border))" strokeWidth="5" />
                   <circle
                     cx="32"
                     cy="32"
                     r={ringRadius}
                     fill="none"
-                    stroke="#10B981"
+                    stroke="hsl(var(--brand-green))"
                     strokeWidth="5"
                     strokeLinecap="round"
                     strokeDasharray={ringCircumference}
                     strokeDashoffset={ringDashOffset}
                   />
                 </svg>
-                <span className="absolute text-sm font-bold text-white tabular">L{lvl.level}</span>
+                <span className="absolute text-sm font-bold text-primary tabular">L{lvl.level}</span>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[#6EE7B7]">Dein Gründer-Level</p>
-                <p className="truncate text-base font-bold text-white">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-green">Dein Gründer-Level</p>
+                <p className="truncate text-base font-bold text-primary">
                   Level {lvl.level}: {lvl.titel}
                 </p>
-                <p className="mt-0.5 text-xs text-white/70 tabular">
+                <p className="mt-0.5 text-xs text-muted-foreground tabular">
                   {gam.xp} XP {lvl.nextXp > gam.xp ? `· noch ${lvl.nextXp - gam.xp} XP bis L${lvl.level + 1}` : "· Maximallevel"}
                 </p>
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-xl bg-black/20 px-2 py-2">
-                <p className="inline-flex items-center gap-1 text-xs font-bold text-[#6EE7B7] tabular">
+              <div className="rounded-xl border border-border bg-white px-2 py-2">
+                <p className="inline-flex items-center gap-1 text-xs font-bold text-brand-green tabular">
                   <Zap className="h-3 w-3" aria-hidden="true" /> {gam.xp}
                 </p>
-                <p className="text-[10px] text-white/60">XP gesamt</p>
+                <p className="text-[10px] text-muted-foreground">XP gesamt</p>
               </div>
-              <div className="rounded-xl bg-black/20 px-2 py-2">
-                <p className="inline-flex items-center gap-1 text-xs font-bold text-amber-300 tabular">
+              <div className="rounded-xl border border-border bg-white px-2 py-2">
+                <p className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 tabular">
                   <Flame className="h-3 w-3" aria-hidden="true" /> {gam.streak} T
                 </p>
-                <p className="text-[10px] text-white/60">Serie</p>
+                <p className="text-[10px] text-muted-foreground">Serie</p>
               </div>
-              <div className="rounded-xl bg-black/20 px-2 py-2">
-                <p className="inline-flex items-center gap-1 text-xs font-bold text-sky-300 tabular">
+              <div className="rounded-xl border border-border bg-white px-2 py-2">
+                <p className="inline-flex items-center gap-1 text-xs font-bold text-accent-blue tabular">
                   <Award className="h-3 w-3" aria-hidden="true" /> {gam.badges.length}/{ALL_BADGES.length}
                 </p>
-                <p className="text-[10px] text-white/60">Abzeichen</p>
+                <p className="text-[10px] text-muted-foreground">Abzeichen</p>
               </div>
             </div>
           </div>

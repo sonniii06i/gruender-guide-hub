@@ -178,93 +178,90 @@ const Playbooks = () => {
         }}
       />
 
-      {/* Masterclass Featured Course Hero */}
-      <section className="gx-stage relative mb-7 overflow-hidden rounded-3xl p-6 text-white shadow-lift md:p-8">
-        <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative z-10">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-3 py-1 text-xs font-bold text-[#6EE7B7]">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Lern-Studio · {PLAYBOOKS.length} Kurse mit Arbeitsfenster
-            </span>
+      {/* Heller Udemy × Studyflix Kurs-Empfehlungskopf */}
+      <section className="gx-card mb-7 overflow-hidden">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-[#F4F7FC] px-6 py-3.5 md:px-7">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+            <Sparkles className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
+            Kursbibliothek · {PLAYBOOKS.length} Kurse mit Arbeitsfenster
+          </span>
 
-            <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Empfohlene Kurse">
-              {SPOTLIGHT_SLUGS.map((slug, idx) => {
-                const pb = PLAYBOOKS.find((x) => x.slug === slug);
-                if (!pb) return null;
-                return (
-                  <button
-                    key={slug}
-                    type="button"
-                    role="tab"
-                    aria-selected={spotIdx === idx}
-                    onClick={() => setSpotIdx(idx)}
-                    className={cn(
-                      "rounded-xl px-3 py-1.5 text-xs font-bold transition-colors",
-                      spotIdx === idx
-                        ? "bg-white text-[#0B1B40]"
-                        : "bg-white/10 text-white/75 hover:bg-white/20 hover:text-white",
-                    )}
-                  >
-                    {idx === 0 ? "Amex US" : idx === 1 ? "App bauen" : "GmbH"}
-                  </button>
-                );
-              })}
+          <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Empfohlene Kurse">
+            {SPOTLIGHT_SLUGS.map((slug, idx) => {
+              const pb = PLAYBOOKS.find((x) => x.slug === slug);
+              if (!pb) return null;
+              return (
+                <button
+                  key={slug}
+                  type="button"
+                  role="tab"
+                  aria-selected={spotIdx === idx}
+                  onClick={() => setSpotIdx(idx)}
+                  className={cn(
+                    "rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
+                    spotIdx === idx
+                      ? "bg-primary text-white shadow-sm"
+                      : "bg-white text-foreground/80 ring-1 ring-border hover:text-primary",
+                  )}
+                >
+                  {idx === 0 ? "Amex US" : idx === 1 ? "App bauen" : "GmbH"}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="grid items-end gap-6 p-6 md:p-7 lg:grid-cols-[minmax(0,1fr)_auto]">
+          <div>
+            <h1 className="text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-primary md:text-[2rem]">
+              {spotlight.title}
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              {spotlight.outcome}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2.5 py-1 text-foreground tabular">
+                <ListChecks className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                {spotlight.steps.length} Schritte
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2.5 py-1 text-foreground">
+                <Clock className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                {spotlight.duration}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2.5 py-1 text-brand-green tabular">
+                <Zap className="h-3.5 w-3.5" aria-hidden="true" /> +{spotlight.steps.length * 100} XP
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2.5 py-1 text-foreground">
+                <Wrench className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" /> Direktes Arbeitsfenster
+              </span>
             </div>
           </div>
 
-          <div className="mt-5 grid items-end gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
-            <div>
-              <h1 className="text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-white md:text-[2.25rem]">
-                {spotlight.title}
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
-                {spotlight.outcome}
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold">
-                <span className="inline-flex items-center gap-1 rounded-lg bg-white/12 px-2.5 py-1 text-white tabular">
-                  <ListChecks className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
-                  {spotlight.steps.length} Schritte
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-lg bg-white/12 px-2.5 py-1 text-white">
-                  <Clock className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
-                  {spotlight.duration}
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-lg bg-[#10B981]/20 px-2.5 py-1 text-[#6EE7B7] tabular">
-                  <Zap className="h-3.5 w-3.5" aria-hidden="true" /> +{spotlight.steps.length * 100} XP
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-lg bg-white/12 px-2.5 py-1 text-white">
-                  <Wrench className="h-3.5 w-3.5 text-[#FDE68A]" aria-hidden="true" /> Direktes Arbeitsfenster
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2.5">
-              <Button
-                size="lg"
-                disabled={starting === spotlight.slug}
-                onClick={() => start(spotlight.slug)}
-                className="press h-12 rounded-xl bg-[#10B981] px-6 font-bold text-[#042016] shadow-lg hover:bg-[#34D399]"
-              >
-                {starting === spotlight.slug ? (
-                  <>
-                    <Loader2 className="mr-1.5 h-4 w-4 animate-spin" aria-hidden="true" /> Startet…
-                  </>
-                ) : (
-                  <>
-                    Kurs starten <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
-                  </>
-                )}
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="press h-12 rounded-xl border-white/25 bg-white/[0.08] px-5 font-semibold text-white hover:bg-white/15 hover:text-white"
-              >
-                <Link to={`/playbook/preview/${spotlight.slug}`}>Lehrplan ansehen</Link>
-              </Button>
-            </div>
+          <div className="flex flex-wrap gap-2.5">
+            <Button
+              size="lg"
+              disabled={starting === spotlight.slug}
+              onClick={() => start(spotlight.slug)}
+              className="press h-11 rounded-xl bg-primary px-6 font-semibold text-white hover:bg-primary/90"
+            >
+              {starting === spotlight.slug ? (
+                <>
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" aria-hidden="true" /> Startet…
+                </>
+              ) : (
+                <>
+                  Kurs starten <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                </>
+              )}
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="press h-11 rounded-xl px-5 font-semibold"
+            >
+              <Link to={`/playbook/preview/${spotlight.slug}`}>Lehrplan ansehen</Link>
+            </Button>
           </div>
         </div>
       </section>

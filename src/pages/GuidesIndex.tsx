@@ -72,7 +72,7 @@ const GuidesIndex = () => {
           crumbs={[{ label: "Start", to: "/" }, { label: "Guides" }]}
           title={
             <>
-              {GUIDE_LANDINGS.length} Kurse zum <span className="text-[#6EE7B7]">Durchklicken.</span>
+              {GUIDE_LANDINGS.length} Kurse zum <span className="text-accent-blue">Durchklicken.</span>
             </>
           }
           lead={
@@ -83,37 +83,37 @@ const GuidesIndex = () => {
           }
         />
 
-        <div className="container max-w-6xl px-4 py-10 md:py-14">
+        <div className="container max-w-6xl px-4 py-10 md:py-12">
           {/* Spotlight-Einstieg: Amex US & Quiz */}
           <div className="mb-7 grid gap-3.5 sm:grid-cols-2">
             <Link
               to="/guides/amex-us-beantragen"
-              className="gx-stage press group flex items-center justify-between gap-4 rounded-2xl p-5 text-white shadow-soft"
+              className="gx-card gx-card-hover press group flex items-center justify-between gap-4 border-amber-300/60 bg-[#FDF6E7]/70 p-5"
             >
               <div className="flex items-start gap-3.5">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/12 text-[#FDE68A]">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#B45309] text-white">
                   <CreditCard className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#6EE7B7]">Neu · Stand 11/2026</p>
-                  <p className="mt-0.5 text-base font-bold text-white">Amex US beantragen (Privat &amp; Business)</p>
-                  <p className="mt-0.5 text-xs text-white/75">Global Transfer, Cloud Residence, Tello eSIM, US-Bank</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-[#92400E]">Neu · Stand 11/2026</p>
+                  <p className="mt-0.5 text-base font-bold text-primary">Amex US beantragen (Privat &amp; Business)</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">Global Transfer, Cloud Residence, Tello eSIM, US-Bank</p>
                 </div>
               </div>
-              <ArrowRight className="h-4 w-4 shrink-0 text-[#6EE7B7] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              <ArrowRight className="h-4 w-4 shrink-0 text-[#92400E] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
 
             <Link
               to="/quiz/gruendertyp"
-              className="gx-card gx-card-hover press flex items-center justify-between gap-4 border-brand-green/35 bg-brand-green-soft/60 p-5"
+              className="gx-card gx-card-hover press flex items-center justify-between gap-4 border-brand-green/30 bg-brand-green-soft/55 p-5"
             >
               <div className="flex items-start gap-3.5">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green text-white">
                   <Sparkles className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-brand-green">Nicht sicher wo anfangen?</p>
-                  <p className="mt-0.5 text-base font-bold text-foreground">60-Sekunden-Gründertyp-Quiz</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-green">Nicht sicher wo anfangen?</p>
+                  <p className="mt-0.5 text-base font-bold text-primary">60-Sekunden-Gründertyp-Quiz</p>
                   <p className="mt-0.5 text-xs text-muted-foreground">Alter &amp; Ziel wählen, passenden Kurs + Aktionscode bekommen</p>
                 </div>
               </div>

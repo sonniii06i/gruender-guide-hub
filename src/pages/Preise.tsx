@@ -159,7 +159,7 @@ const Preise = () => {
         <PageHeader
           zentriert
           crumbs={[{ label: "Start", to: "/" }, { label: "Preise" }]}
-          title={<>Ein Abo. <span className="text-[#6EE7B7]">Alle {LANDING_TOOLS.length} Tools &amp; 81 Kurse.</span></>}
+          title={<>Ein Abo. <span className="text-accent-blue">Alle {LANDING_TOOLS.length} Tools &amp; 81 Kurse.</span></>}
           lead={
             <p>
               Alle Tools aus der{" "}
@@ -171,8 +171,8 @@ const Preise = () => {
           }
         />
 
-        <div className="container max-w-5xl px-4 pb-20 pt-10 md:pt-14">
-        {/* Preiskarten: Modern 2-Spalten Nebeneinander (Monat vs. Jahr Spotlight) */}
+        <div className="container max-w-5xl px-4 pb-20 pt-10 md:pt-12">
+        {/* Preiskarten: Klare 2-Spalten-Ansicht im Lexoffice-Stil */}
         <section aria-labelledby="plaene" className="mb-16">
           <h2 id="plaene" className="sr-only">Pläne</h2>
           {PRODUCTS.map((p) => {
@@ -184,13 +184,13 @@ const Preise = () => {
                   {/* Monatszugang */}
                   <div className="gx-card flex flex-col p-6 md:p-8">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-primary">
+                      <span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-semibold text-primary">
                         Flexibel starten
                       </span>
                       <span className="text-xs font-medium text-muted-foreground">Art.-Nr. {m.sku}</span>
                     </div>
                     <h3 className="mt-4 text-xl font-bold text-primary">{p.title} · Monatlich</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">Monatlich kündbar, voller Zugriff auf das gesamte Lern-Studio.</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Monatlich kündbar, voller Zugriff auf alle Kurse und Tools.</p>
                     <div className="mt-5 flex items-baseline gap-1.5">
                       <span className="text-4xl font-bold tracking-[-0.03em] text-primary tabular">{formatEurCents(m.grossCents)}</span>
                       <span className="text-sm font-medium text-muted-foreground">/ {periodWord(m)}</span>
@@ -201,42 +201,40 @@ const Preise = () => {
                     <Button
                       data-cta={`kauf-${m.id}`}
                       onClick={() => buy(m.id)}
-                      className="press mt-6 h-12 w-full rounded-xl bg-primary font-bold text-white shadow-sm hover:bg-primary/90"
+                      variant="outline"
+                      className="press mt-6 h-12 w-full rounded-xl border-primary text-sm font-semibold text-primary hover:bg-primary hover:text-white"
                     >
                       <ShoppingCart className="mr-1.5 h-4 w-4" />
                       Monatszugang wählen
                     </Button>
                   </div>
 
-                  {/* Jahreszugang Deep-Navy Spotlight */}
-                  <div className="gx-stage relative flex flex-col overflow-hidden rounded-2xl p-6 text-white shadow-lift md:p-8">
-                    <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
-                    <div className="relative z-10 flex flex-1 flex-col">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="rounded-full bg-[#10B981] px-3 py-1 text-xs font-bold text-[#042016]">
-                          {formatEurCents(yearSaving(y))} günstiger (2 Monate gratis)
-                        </span>
-                        <span className="text-xs font-medium text-white/65">Art.-Nr. {y.sku}</span>
-                      </div>
-                      <h3 className="mt-4 text-xl font-bold text-white">{p.title} · Jährlich</h3>
-                      <p className="mt-1 text-sm text-white/75">Derselbe volle Funktionsumfang, einmal jährlich abgerechnet.</p>
-                      <div className="mt-5 flex items-baseline gap-1.5">
-                        <span className="text-4xl font-bold tracking-[-0.03em] text-white tabular">{formatEurCents(y.grossCents)}</span>
-                        <span className="text-sm font-medium text-white/75">/ {periodWord(y)}</span>
-                      </div>
-                      <p className="mt-1 text-xs text-white/70 tabular">
-                        inkl. {VAT_PERCENT} % USt. ({formatEurCents(netCentsOf(y.grossCents))} netto)
-                        {y.anchorCents ? ` · statt ${formatEurCents(y.anchorCents)} bei 12 Monatszahlungen` : ""}
-                      </p>
-                      <Button
-                        data-cta={`kauf-${y.id}`}
-                        onClick={() => buy(y.id)}
-                        className="press mt-6 h-12 w-full rounded-xl bg-[#10B981] font-bold text-[#042016] shadow-lg hover:bg-[#34D399]"
-                      >
-                        <ShoppingCart className="mr-1.5 h-4 w-4" />
-                        Jahreszugang wählen
-                      </Button>
+                  {/* Jahreszugang klar hervorgehoben */}
+                  <div className="flex flex-col rounded-2xl border-2 border-primary bg-white p-6 shadow-soft md:p-8">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="rounded-md bg-brand-green px-2.5 py-1 text-xs font-semibold text-white">
+                        {formatEurCents(yearSaving(y))} günstiger (2 Monate gratis)
+                      </span>
+                      <span className="text-xs font-medium text-muted-foreground">Art.-Nr. {y.sku}</span>
                     </div>
+                    <h3 className="mt-4 text-xl font-bold text-primary">{p.title} · Jährlich</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">Derselbe volle Funktionsumfang, einmal jährlich abgerechnet.</p>
+                    <div className="mt-5 flex items-baseline gap-1.5">
+                      <span className="text-4xl font-bold tracking-[-0.03em] text-primary tabular">{formatEurCents(y.grossCents)}</span>
+                      <span className="text-sm font-medium text-muted-foreground">/ {periodWord(y)}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground tabular">
+                      inkl. {VAT_PERCENT} % USt. ({formatEurCents(netCentsOf(y.grossCents))} netto)
+                      {y.anchorCents ? ` · statt ${formatEurCents(y.anchorCents)} bei 12 Monatszahlungen` : ""}
+                    </p>
+                    <Button
+                      data-cta={`kauf-${y.id}`}
+                      onClick={() => buy(y.id)}
+                      className="press mt-6 h-12 w-full rounded-xl bg-primary text-sm font-semibold text-white hover:bg-primary/90"
+                    >
+                      <ShoppingCart className="mr-1.5 h-4 w-4" />
+                      Jahreszugang wählen
+                    </Button>
                   </div>
                 </div>
 

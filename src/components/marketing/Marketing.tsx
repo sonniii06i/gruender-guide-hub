@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Check, type LucideIcon } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Lock, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Screenshot } from "@/data/screenshots";
@@ -13,9 +13,9 @@ export interface HeroCta {
 }
 
 /**
- * Full-Bleed GründerX Deep-Navy Studio Hero (Rebuild 11/2026):
- * Markante Navy-Vollfläche mit Architektur-Raster, strahlend weißer Geist-Display-Typo,
- * kontrastreicher Emerald-Hauptaktion (AAA) und interaktiver Produkt-Bühne rechts.
+ * Heller, ruhiger Editorial-Hero im Studyflix- / Udemy- / Lexoffice-Stil:
+ * Saubere weiße Fläche mit feiner Trennlinie, kräftige GründerX-Navy-Überschrift,
+ * klarer blauer Akzent und echte interaktive Vorschau rechts.
  */
 export const HeroCentered = (p: {
   eyebrow: ReactNode;
@@ -28,25 +28,24 @@ export const HeroCentered = (p: {
   crumbs?: { label: string; to?: string }[];
   children?: ReactNode;
 }) => (
-  <section className="gx-stage relative overflow-x-clip pb-16 pt-24 text-white md:pb-24 md:pt-28">
-    <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+  <section className="relative overflow-x-clip border-b border-border bg-white pb-14 pt-24 text-foreground md:pb-20 md:pt-28">
     <div
       className={cn(
-        "container relative z-10 max-w-6xl px-4",
-        p.children && "grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-12",
+        "container max-w-6xl px-4",
+        p.children && "grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.06fr)] lg:gap-12",
       )}
     >
       <div className={cn("min-w-0", !p.children && "max-w-3xl")}>
         {p.crumbs && p.crumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-white/65">
+          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
             {p.crumbs.map((c, i) => (
               <span key={i} className="flex items-center gap-1.5">
                 {c.to ? (
-                  <Link to={c.to} className="rounded-md transition-colors hover:text-white">
+                  <Link to={c.to} className="rounded-md transition-colors hover:text-primary">
                     {c.label}
                   </Link>
                 ) : (
-                  <span className="font-medium text-white">{c.label}</span>
+                  <span className="font-medium text-foreground">{c.label}</span>
                 )}
                 {i < p.crumbs!.length - 1 && <span aria-hidden="true">/</span>}
               </span>
@@ -54,24 +53,24 @@ export const HeroCentered = (p: {
           </nav>
         )}
 
-        <div className="mb-5 inline-flex max-w-full flex-wrap items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.08] px-3.5 py-1.5 text-[13px] font-medium leading-snug text-white/90 backdrop-blur-sm sm:rounded-full">
+        <div className="mb-4 inline-flex max-w-full flex-wrap items-center gap-2 rounded-xl border border-border bg-secondary/70 px-3 py-1.5 text-[13px] font-medium leading-snug text-primary sm:rounded-full">
           {p.eyebrow}
         </div>
 
-        <h1 className="text-balance text-[2.25rem] font-bold leading-[1.05] tracking-[-0.03em] text-white sm:text-[2.75rem] md:text-[3.35rem]">
+        <h1 className="text-balance text-[2.15rem] font-bold leading-[1.07] tracking-[-0.028em] text-primary sm:text-[2.65rem] md:text-[3.15rem]">
           {p.title}
-          {p.accent && <span className="block text-[#6EE7B7] sm:inline"> {p.accent}</span>}
+          {p.accent && <span className="block text-accent-blue sm:inline"> {p.accent}</span>}
         </h1>
 
-        <div className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-white/80 md:text-[18px]">
+        <div className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-[17.5px]">
           {p.lead}
         </div>
 
-        <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+        <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
           <Button
             asChild
             size="lg"
-            className="press h-12 w-full gap-2 rounded-xl bg-[#10B981] px-6 text-[15px] font-bold text-[#042016] shadow-lg hover:bg-[#34D399] sm:w-auto"
+            className="press h-12 w-full gap-2 rounded-xl bg-primary px-6 text-[15px] font-semibold text-primary-foreground hover:bg-primary/90 sm:w-auto"
           >
             <Link to={p.primary.to}>
               {p.primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -82,7 +81,7 @@ export const HeroCentered = (p: {
               asChild
               size="lg"
               variant="outline"
-              className="press h-12 w-full rounded-xl border-white/25 bg-white/[0.07] px-6 text-[15px] font-semibold text-white hover:bg-white/15 hover:text-white sm:w-auto"
+              className="press h-12 w-full rounded-xl border-border bg-white px-6 text-[15px] font-semibold text-foreground hover:bg-secondary sm:w-auto"
             >
               <Link to={p.secondary.to}>{p.secondary.label}</Link>
             </Button>
@@ -90,10 +89,10 @@ export const HeroCentered = (p: {
         </div>
 
         {p.trust && p.trust.length > 0 && (
-          <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/75">
+          <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
             {p.trust.map((t) => (
               <li key={t} className="inline-flex items-center gap-2">
-                <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#10B981]/25 text-[#6EE7B7]">
+                <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-brand-green-soft text-brand-green">
                   <Check className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" />
                 </span>
                 <span>{t}</span>
@@ -107,7 +106,7 @@ export const HeroCentered = (p: {
   </section>
 );
 
-/** Echter App-Screenshot im dunklen Studio-Fensterrahmen. */
+/** Echter App-Screenshot im hellen, sachlichen Fensterrahmen (Lexoffice / Studyflix). */
 export const ScreenshotFrame = ({
   shot,
   priority = false,
@@ -122,14 +121,14 @@ export const ScreenshotFrame = ({
   className?: string;
 }) => (
   <figure className={cn("relative", className)}>
-    <div className="overflow-hidden rounded-2xl border border-white/15 bg-card shadow-2xl ring-1 ring-black/10">
-      <div className="flex items-center gap-2 border-b border-border bg-[#0F214C] px-4 py-2.5" aria-hidden="true">
+    <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-soft">
+      <div className="flex items-center gap-2 border-b border-border bg-secondary/70 px-4 py-2.5" aria-hidden="true">
         <span className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
         </span>
-        <span className="ml-2 hidden truncate rounded-md bg-white/10 px-2.5 py-0.5 text-xs font-medium text-white/80 sm:inline">
+        <span className="ml-2 hidden truncate rounded-md border border-border bg-white px-2.5 py-0.5 text-xs font-medium text-muted-foreground sm:inline">
           gruenderx.de{shot.pfad}
         </span>
       </div>
@@ -158,14 +157,14 @@ export const ScreenshotFrame = ({
         </picture>
       </div>
     </div>
-    {caption && <figcaption className="mt-3 text-xs text-current opacity-75">{caption}</figcaption>}
+    {caption && <figcaption className="mt-2.5 text-xs text-muted-foreground">{caption}</figcaption>}
   </figure>
 );
 
 export const TextMarquee = ({ label, items }: { label: string; items: string[] }) => (
-  <section aria-label={label} className="border-y border-border bg-card py-5">
+  <section aria-label={label} className="border-y border-border bg-white py-5">
     <div className="container flex max-w-6xl flex-col gap-3 px-4 md:flex-row md:items-center md:gap-5">
-      <p className="shrink-0 text-xs font-bold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="shrink-0 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
       <ul className="flex flex-wrap gap-2 text-sm font-medium text-foreground/85">
         {items.map((t) => (
           <li
@@ -191,14 +190,14 @@ export const SectionHead = ({
   align?: "center" | "left";
 }) => (
   <header className="mb-8 max-w-2xl md:mb-10">
-    <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-primary/[0.06] px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+    <p className="mb-2.5 inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/70 px-3 py-1 text-xs font-semibold text-primary">
       {eyebrow}
     </p>
-    <h2 className="text-balance text-2xl font-bold leading-[1.1] tracking-[-0.025em] text-primary md:text-[2.35rem]">
+    <h2 className="text-balance text-2xl font-bold leading-[1.12] tracking-[-0.022em] text-primary md:text-[2.15rem]">
       {title}
     </h2>
     {lead && (
-      <p className="mt-3.5 text-pretty text-base leading-relaxed text-muted-foreground md:text-[17px]">
+      <p className="mt-3 text-pretty text-base leading-relaxed text-muted-foreground md:text-[16.5px]">
         {lead}
       </p>
     )}
@@ -230,7 +229,7 @@ export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
           )}
         >
           {it.bild && (
-            <div className="relative h-44 overflow-hidden bg-[#0E2250] px-4 pt-4 md:h-52 md:px-5 md:pt-5">
+            <div className="relative h-44 overflow-hidden border-b border-border bg-secondary/60 px-4 pt-4 md:h-52 md:px-5 md:pt-5">
               <img
                 src={it.bild.klein}
                 srcSet={`${it.bild.klein} 520w, ${it.bild.gross} 1000w`}
@@ -240,10 +239,10 @@ export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
                 height={it.bild.hoehe}
                 loading="lazy"
                 decoding="async"
-                className="w-full rounded-t-xl border border-b-0 border-white/15 object-cover object-top shadow-lg transition-transform duration-300 group-hover:scale-[1.02]"
+                className="w-full rounded-t-xl border border-b-0 border-border bg-white object-cover object-top shadow-sm transition-transform duration-200 group-hover:scale-[1.015]"
               />
               {it.chip && (
-                <span className="absolute right-4 top-4 rounded-full bg-[#10B981] px-2.5 py-0.5 text-xs font-bold text-[#042016] shadow-sm">
+                <span className="absolute right-4 top-4 rounded-full bg-brand-green px-2.5 py-0.5 text-xs font-semibold text-white shadow-sm">
                   {it.chip}
                 </span>
               )}
@@ -251,15 +250,15 @@ export const BentoGrid = ({ items }: { items: BentoItem[] }) => (
           )}
           <div className="flex flex-1 flex-col p-5">
             {!it.bild && it.chip && (
-              <span className="mb-3 self-start rounded-full bg-brand-green-soft px-2.5 py-0.5 text-xs font-bold text-brand-green">
+              <span className="mb-3 self-start rounded-full bg-brand-green-soft px-2.5 py-0.5 text-xs font-semibold text-brand-green">
                 {it.chip}
               </span>
             )}
             <span className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
                 <it.icon className="h-4 w-4" aria-hidden="true" />
               </span>
-              <span className="text-base font-bold text-foreground">{it.title}</span>
+              <span className="text-base font-bold text-primary">{it.title}</span>
               <ArrowUpRight
                 className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
                 aria-hidden="true"
@@ -281,47 +280,72 @@ export interface PathStep {
   meta?: string;
 }
 
+/**
+ * Saubere vertikale Lehrplan-Liste im Udemy- / Studyflix-Stil:
+ * Einheitliche Zeilen ohne ungleich hohe Leerkästen. Vorschau-Schritte zeigen
+ * direkt ihre Erklärung (crawlbar im HTML), weitere Schritte stehen kompakt mit Schloss.
+ */
 export const StepsPath = ({ steps, note }: { steps: PathStep[]; note?: ReactNode }) => (
-  <div>
-    <ol className="grid gap-3.5 md:grid-cols-2">
-      {steps.map((s, i) => (
-        <li
-          key={i}
-          className={cn(
-            "flex gap-4 rounded-2xl border p-5 transition-colors",
-            s.description
-              ? "border-border bg-card shadow-card"
-              : "border-border/70 bg-secondary/45",
-          )}
-        >
-          <span
+  <div className="max-w-4xl">
+    <ol className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+      {steps.map((s, i) => {
+        const isPreview = Boolean(s.description);
+        return (
+          <li
+            key={i}
             className={cn(
-              "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold tabular",
-              s.description
-                ? "bg-primary text-white shadow-sm"
-                : "border border-border bg-card text-muted-foreground",
+              "flex items-start gap-4 px-5 py-4 sm:px-6",
+              isPreview ? "bg-white" : "bg-secondary/35",
             )}
           >
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <div className="min-w-0">
-            <p className="font-bold leading-snug text-foreground">{s.title}</p>
-            {s.description && (
-              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
-            )}
-            {s.meta && (
-              <p className="mt-2 inline-flex rounded-lg bg-secondary px-2.5 py-0.5 text-xs font-semibold text-foreground/75">
-                {s.meta}
-              </p>
-            )}
-          </div>
-        </li>
-      ))}
+            <span
+              className={cn(
+                "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold tabular",
+                isPreview
+                  ? "bg-primary text-white"
+                  : "border border-border bg-white text-muted-foreground",
+              )}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className={cn("min-w-0 font-semibold leading-snug", isPreview ? "text-foreground" : "text-foreground/85")}>
+                  {s.title}
+                </p>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {s.meta && (
+                    <span className="max-w-full rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-muted-foreground tabular">
+                      {s.meta}
+                    </span>
+                  )}
+                  {isPreview ? (
+                    <span className="rounded-md bg-brand-green-soft px-2 py-0.5 text-[11px] font-semibold text-brand-green">
+                      Vorschau
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 rounded-md border border-border bg-white px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                      <Lock className="h-3 w-3" aria-hidden="true" />
+                      Im Kurs
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {s.description && (
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
+              )}
+            </div>
+          </li>
+        );
+      })}
     </ol>
-    {note && <p className="mt-4 text-sm text-muted-foreground">{note}</p>}
+    {note && <div className="mt-4">{note}</div>}
   </div>
 );
 
+/** Ruhiger, solider GründerX-Navy-Abschlussblock ohne Glow oder Raster. */
 export const FinalCta = ({
   title,
   text,
@@ -334,20 +358,19 @@ export const FinalCta = ({
   secondary?: HeroCta;
 }) => (
   <section className="container max-w-6xl px-4 pb-16 pt-4 md:pb-24">
-    <div className="gx-stage relative overflow-hidden rounded-3xl px-6 py-10 text-white shadow-2xl md:px-12 md:py-14">
-      <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
-      <div className="relative z-10 flex flex-col gap-7 md:flex-row md:items-center md:justify-between md:gap-10">
+    <div className="rounded-2xl bg-primary px-6 py-10 text-primary-foreground shadow-soft md:px-12 md:py-12">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
         <div className="min-w-0 max-w-2xl">
-          <h2 className="text-balance text-2xl font-bold leading-[1.1] tracking-[-0.025em] md:text-[2.25rem]">
+          <h2 className="text-balance text-2xl font-bold leading-[1.12] tracking-[-0.02em] text-white md:text-[2rem]">
             {title}
           </h2>
-          <p className="mt-3 text-pretty text-base leading-relaxed text-white/80 md:text-lg">{text}</p>
+          <p className="mt-2.5 text-pretty text-base leading-relaxed text-white/85 md:text-[17px]">{text}</p>
         </div>
-        <div className="flex shrink-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center md:flex-col md:items-stretch lg:flex-row lg:items-center">
+        <div className="flex shrink-0 flex-col items-stretch gap-2.5 sm:flex-row sm:items-center md:flex-col md:items-stretch lg:flex-row lg:items-center">
           <Button
             asChild
             size="lg"
-            className="press h-12 gap-2 rounded-xl bg-[#10B981] px-6 font-bold text-[#042016] shadow-lg hover:bg-[#34D399]"
+            className="press h-12 gap-2 rounded-xl bg-white px-6 font-semibold text-primary hover:bg-white/90"
           >
             <Link to={primary.to}>
               {primary.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -356,7 +379,7 @@ export const FinalCta = ({
           {secondary && (
             <Link
               to={secondary.to}
-              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/25 bg-white/[0.07] px-5 text-[15px] font-semibold text-white transition-colors hover:bg-white/15"
+              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/25 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
             >
               {secondary.label}
             </Link>

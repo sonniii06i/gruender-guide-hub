@@ -24,7 +24,6 @@ import {
   Calculator,
   Compass,
   FileSpreadsheet,
-  Flame,
   Gift,
   GraduationCap,
   HandCoins,
@@ -46,14 +45,11 @@ import {
   Sparkles,
   BookOpen,
   CreditCard,
-  Zap,
 } from "lucide-react";
 import { useRole } from "@/hooks/useRole";
-import { useAuth } from "@/hooks/useAuth";
 import { useRadarZaehler } from "@/lib/eventRadar";
 import { LANDING_TOOLS } from "@/data/features";
 import { RUNDGANG_EVENT } from "@/lib/tourLage";
-import { getLevelInfo, readGamification, GAMIFICATION_EVENT } from "@/lib/gamification";
 
 const ZU_KEY = "gx-sidebar-zu-v1";
 const CHANCEN_BESUCH = "gx-chancen-radar-besuch";
@@ -111,25 +107,19 @@ function useNeueChancen(pathname: string) {
   return n;
 }
 
+/**
+ * Ruhige, helle Lexoffice-Sidebar:
+ * Deckend weißer Grund mit feiner Trennlinie, klar gegliederte Gruppen,
+ * schlanker Footer ohne störende Extra-Boxen und dezente Scrollleiste.
+ */
 export function AppSidebar() {
   const { state, isMobile, setOpenMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname, search } = useLocation();
   const { isAdmin } = useRole();
-  const { user } = useAuth();
   const radar = useRadarZaehler();
   const neueChancen = useNeueChancen(pathname);
   const { zu, umschalten } = useZugeklappt();
-  const [gamTick, setGamTick] = useState(0);
-
-  useEffect(() => {
-    const onGam = () => setGamTick((n) => n + 1);
-    window.addEventListener(GAMIFICATION_EVENT, onGam);
-    return () => window.removeEventListener(GAMIFICATION_EVENT, onGam);
-  }, []);
-
-  const gam = useMemo(() => readGamification(user?.id), [user?.id, gamTick]);
-  const lvl = useMemo(() => getLevelInfo(gam.xp), [gam.xp]);
 
   const closeOnMobile = () => {
     if (isMobile) setOpenMobile(false);
@@ -140,25 +130,23 @@ export function AppSidebar() {
   const dash = (view: string) => pathname === "/dashboard" && search.includes(`view=${view}`);
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-white/10">
-      <SidebarHeader className="h-16 justify-center border-b border-white/10 py-0">
+    <Sidebar collapsible="icon" className="border-r border-border bg-white">
+      <SidebarHeader className="h-14 justify-center border-b border-border py-0">
         <Link to="/dashboard" aria-label="Zur Übersicht" className="flex items-center gap-2.5 px-2">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15">
-            <Logo asImage className="h-5 w-5 brightness-0 invert" />
-          </span>
+          <Logo asImage className="h-6 w-6 shrink-0" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
-              <span className="text-[15px] font-bold tracking-tight text-white">GründerX</span>
-              <span className="text-[11px] font-medium text-[#6EE7B7]">Lern-Studio</span>
+              <span className="text-[15px] font-bold tracking-tight text-primary">GründerX</span>
+              <span className="text-[11px] font-medium text-muted-foreground">Gründer-Cockpit</span>
             </div>
           )}
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="gap-0">
+      <SidebarContent className="gx-scroll gap-0">
         {!collapsed && <ToolSuche onGo={closeOnMobile} />}
 
-        <SidebarGroup data-tour="start">
+        <SidebarGroup className="py-1.5" data-tour="start">
           <SidebarGroupContent>
             <SidebarMenu>
               <Item to="/dashboard" icon={LayoutDashboard} label="Übersicht" active={pathname === "/dashboard" && !search} />
@@ -170,7 +158,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <Gruppe id="lernen" titel="Lernen" zu={zu} umschalten={umschalten} collapsed={collapsed}>
-          <Item to="/playbooks" icon={GraduationCap} label="Alle 81 Kurse" active={pathname === "/playbooks"} />
+          <Item to="/playbooks" icon={GraduationCap} label="Alle Kurse (81)" active={pathname === "/playbooks"} />
           <Item to="/playbook/preview/amex-us-beantragen" icon={CreditCard} label="Amex US Guide" hint="Privat & Business" active={pathname.includes("amex-us-beantragen")} />
           <Item to="/dashboard?view=meine" icon={PlayCircle} label="Meine Kurse" active={dash("meine")} />
           <Item to="/quiz" icon={Sparkles} label="Quizze & Checks" hint="XP & Rabatt" active={isActive("/quiz", false) || isActive("/umfrage", false)} />
@@ -203,62 +191,36 @@ export function AppSidebar() {
         </Gruppe>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-white/10">
-        {!collapsed && (
-          <Link
-            to="/quiz"
-            onClick={closeOnMobile}
-            className="mx-1 mb-2 block rounded-xl border border-white/12 bg-white/[0.06] p-3 transition-colors hover:bg-white/[0.11]"
-          >
-            <div className="flex items-center justify-between gap-2 text-xs">
-              <span className="inline-flex items-center gap-1 font-bold text-white">
-                <Zap className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
-                Lvl {lvl.level} · {lvl.titel}
-              </span>
-              <span className="inline-flex items-center gap-1 font-semibold text-amber-300 tabular">
-                <Flame className="h-3 w-3" aria-hidden="true" />
-                {gam.streak} T
-              </span>
-            </div>
-            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/15">
-              <div className="h-full rounded-full bg-[#10B981]" style={{ width: `${Math.max(8, lvl.progressPercent)}%` }} />
-            </div>
-            <p className="mt-1.5 flex items-center justify-between text-[11px] text-white/65 tabular">
-              <span>{gam.xp} XP</span>
-              <span className="font-semibold text-[#6EE7B7]">+150 XP Quiz →</span>
-            </p>
-          </Link>
-        )}
-
+      <SidebarFooter className="border-t border-border py-1.5">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Discord-Community">
+            <SidebarMenuButton asChild tooltip="Discord-Community" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
               <a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" onClick={closeOnMobile}>
-                <Users className="h-4 w-4" />
+                <Users className="h-3.5 w-3.5" />
                 <span>Discord-Community</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/support"} tooltip="Support">
+            <SidebarMenuButton asChild isActive={pathname === "/support"} tooltip="Support" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
               <NavLink to="/support" onClick={closeOnMobile}>
-                <LifeBuoy className="h-4 w-4" />
+                <LifeBuoy className="h-3.5 w-3.5" />
                 <span>Support</span>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/kuendigen"} tooltip="Verträge hier kündigen">
+            <SidebarMenuButton asChild isActive={pathname === "/kuendigen"} tooltip="Verträge hier kündigen" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
               <NavLink to="/kuendigen" onClick={closeOnMobile}>
-                <FileX className="h-4 w-4" />
+                <FileX className="h-3.5 w-3.5" />
                 <span>Verträge hier kündigen</span>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/faq"} tooltip="FAQ">
+            <SidebarMenuButton asChild isActive={pathname === "/faq"} tooltip="FAQ" className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-secondary hover:text-foreground">
               <NavLink to="/faq" onClick={closeOnMobile}>
-                <MessageCircle className="h-4 w-4" />
+                <MessageCircle className="h-3.5 w-3.5" />
                 <span>FAQ</span>
               </NavLink>
             </SidebarMenuButton>
@@ -294,12 +256,12 @@ const Gruppe = ({
           type="button"
           onClick={() => umschalten(id)}
           aria-expanded={offen}
-          className="w-full justify-between text-[11px] font-bold uppercase tracking-wider text-white/55 hover:text-white"
+          className="h-7 w-full justify-between text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary"
         >
           <span>{titel}</span>
           <span className="flex items-center gap-1.5">
             {!offen && !!badge && (
-              <span className="tabular rounded-md bg-[#10B981] px-1.5 text-[10px] font-bold leading-4 text-[#042016]">
+              <span className="tabular rounded-md bg-brand-green px-1.5 text-[10px] font-bold leading-4 text-white">
                 {badge > 99 ? "99+" : badge}
               </span>
             )}
@@ -358,9 +320,9 @@ const ToolSuche = ({ onGo }: { onGo: () => void }) => {
   };
 
   return (
-    <div className="px-2 pb-1 pt-3">
+    <div className="px-2 pb-1 pt-2.5">
       <div className="relative">
-        <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/50" aria-hidden="true" />
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <input
           ref={ref}
           value={q}
@@ -383,14 +345,14 @@ const ToolSuche = ({ onGo }: { onGo: () => void }) => {
           }}
           placeholder="Tool suchen …"
           aria-label="Tool suchen"
-          className="h-9 w-full rounded-xl border border-white/15 bg-white/[0.08] pl-8 pr-10 text-[13px] text-white outline-none transition-colors placeholder:text-white/50 focus:border-[#6EE7B7] focus:bg-white/[0.12]"
+          className="h-8 w-full rounded-lg border border-border bg-secondary/60 pl-8 pr-9 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/40 focus:bg-white"
         />
-        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-white/15 bg-white/10 px-1.5 py-px font-sans text-[10px] text-white/70">
+        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-border bg-white px-1 py-px font-sans text-[10px] text-muted-foreground">
           ⌘K
         </kbd>
       </div>
       {q.trim() && (
-        <ul className="mt-1.5 overflow-hidden rounded-xl border border-border bg-card p-1 text-foreground shadow-lift" role="listbox">
+        <ul className="mt-1.5 overflow-hidden rounded-xl border border-border bg-white p-1 text-foreground shadow-soft" role="listbox">
           {treffer.map((t, i) => (
             <li key={t.slug} role="option" aria-selected={i === aktiv}>
               <button
@@ -439,16 +401,16 @@ const Item = ({
         tooltip={hint ? `${label}: ${hint}` : label}
         className={
           active
-            ? "rounded-xl bg-white/14 font-semibold text-white hover:bg-white/18 hover:text-white data-[active=true]:bg-white/14 data-[active=true]:text-white"
-            : "rounded-xl text-white/80 hover:bg-white/10 hover:text-white"
+            ? "h-8 rounded-lg bg-accent font-semibold text-primary hover:bg-accent hover:text-primary data-[active=true]:bg-accent data-[active=true]:text-primary"
+            : "h-8 rounded-lg text-foreground/80 hover:bg-secondary hover:text-primary"
         }
       >
         <NavLink to={to} data-tour={to} onClick={() => { if (isMobile) setOpenMobile(false); }}>
-          <Icon className={active ? "h-4 w-4 text-[#6EE7B7]" : "h-4 w-4 text-white/65"} />
-          <span>{label}</span>
+          <Icon className={active ? "h-4 w-4 text-primary" : "h-4 w-4 text-muted-foreground"} />
+          <span className="text-[13px]">{label}</span>
           {!!badge && (
             <span
-              className="tabular ml-auto rounded-md bg-[#10B981] px-1.5 text-[10px] font-bold leading-4 text-[#042016]"
+              className="tabular ml-auto rounded-md bg-brand-green px-1.5 text-[10px] font-bold leading-4 text-white"
               aria-label={`${badge} neu`}
             >
               {badge > 99 ? "99+" : badge}

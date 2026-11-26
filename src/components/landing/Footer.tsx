@@ -71,28 +71,26 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
   },
 ];
 
-const linkCls = "text-white/70 transition-colors hover:text-white";
+const linkCls = "text-muted-foreground transition-colors hover:text-primary";
 
 export const Footer = () => (
-  <footer id="kontakt" className="border-t border-white/10 bg-[#081330] text-white/80">
-    <div className="container max-w-6xl px-4 pb-12 pt-16">
+  <footer id="kontakt" className="border-t border-border bg-white text-foreground">
+    <div className="container max-w-6xl px-4 pb-12 pt-14">
       <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr,1fr,1fr,1fr,1fr] md:gap-8">
         <div className="col-span-2 md:col-span-1">
-          <Link to="/" aria-label="Zur Startseite" className="mb-4 flex w-fit items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15">
-              <Logo asImage className="h-6 w-6 brightness-0 invert" />
-            </span>
-            <span className="text-lg font-bold tracking-tight text-white">GründerX</span>
+          <Link to="/" aria-label="Zur Startseite" className="mb-3 flex w-fit items-center gap-2.5">
+            <Logo asImage className="h-7 w-7" />
+            <span className="text-lg font-bold tracking-tight text-primary">GründerX</span>
           </Link>
-          <p className="max-w-xs text-sm leading-relaxed text-white/70">
-            Das interaktive Lern-Studio für Gründung, Website, App, Steuern und US-Setup. In der richtigen Reihenfolge.
+          <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+            Das Lern- &amp; Gründungs-Cockpit für Website, App, Gewerbe, Steuern und US-Setup. In der richtigen Reihenfolge.
           </p>
         </div>
 
         {COLUMNS.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">{col.title}</h2>
-            <ul className="space-y-1 text-sm md:space-y-2.5">
+            <h2 className="mb-3.5 text-xs font-bold uppercase tracking-wider text-primary">{col.title}</h2>
+            <ul className="space-y-1 text-sm md:space-y-2">
               {col.links.map((l) => (
                 <li key={l.to}>
                   {l.native ? (
@@ -118,19 +116,19 @@ export const Footer = () => (
         ))}
       </div>
 
-      <div className="mt-12 rounded-2xl border border-white/10 bg-card p-6 text-foreground shadow-lg">
+      <div className="mt-10 rounded-2xl border border-border bg-secondary/50 p-6">
         <NewsletterOptin kompakt quelle="footer" />
       </div>
 
-      <div className="mt-12 flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-xs text-white/60 md:flex-row">
+      <div className="mt-10 flex flex-col justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
         <span>© {new Date().getFullYear()} GründerX. Alle Rechte vorbehalten.</span>
         <span>Gebaut in Deutschland · Software, keine Steuer- oder Rechtsberatung</span>
       </div>
-      <p className="mt-3 max-w-4xl text-[11px] leading-relaxed text-white/55">
-        <strong className="font-semibold text-white/75">*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
+      <p className="mt-3 max-w-4xl text-[11px] leading-relaxed text-muted-foreground">
+        <strong className="font-semibold text-foreground">*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
         Vertragsabschluss über diese Links erhält GründerX ggf. eine Provision, für dich entstehen
         keine Mehrkosten. Empfehlungen erfolgen unabhängig von der Vergütung. Details in{" "}
-        <a href="/agb" className="underline hover:text-white">§ 14 AGB</a>.
+        <a href="/agb" className="underline hover:text-primary">§ 14 AGB</a>.
       </p>
     </div>
   </footer>

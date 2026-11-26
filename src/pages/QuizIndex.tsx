@@ -60,7 +60,7 @@ const QuizIndex = () => {
           crumbs={[{ label: "Start", to: "/" }, { label: "Quizze & Umfragen" }]}
           title={
             <>
-              Spielerisch testen. <span className="text-[#6EE7B7]">Klarheit mitnehmen.</span>
+              Spielerisch testen. <span className="text-accent-blue">Klarheit mitnehmen.</span>
             </>
           }
           lead={
@@ -132,23 +132,20 @@ const QuizIndex = () => {
                   )}
                 >
                   <div
-                    className="flex items-center justify-between gap-2 px-5 py-3 text-xs font-bold text-white"
-                    style={{
-                      backgroundImage:
-                        q.kind === "umfrage"
-                          ? "linear-gradient(135deg, #092B25 0%, #0F513E 100%)"
-                          : "linear-gradient(135deg, #0B1B40 0%, #173678 100%)",
-                    }}
+                    className={cn(
+                      "flex items-center justify-between gap-2 border-b border-border/70 px-5 py-3 text-xs font-semibold",
+                      q.kind === "umfrage" ? "bg-[#ECF8F3] text-brand-green" : "bg-[#EDF2FA] text-primary",
+                    )}
                   >
                     <span className="inline-flex items-center gap-1.5">
                       {q.kind === "umfrage" ? (
-                        <ClipboardList className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
+                        <ClipboardList className="h-3.5 w-3.5" aria-hidden="true" />
                       ) : (
-                        <Sparkles className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
+                        <Sparkles className="h-3.5 w-3.5 text-accent-blue" aria-hidden="true" />
                       )}
                       {q.kategorie}
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-black/25 px-2.5 py-0.5 text-[11px] text-[#6EE7B7] tabular">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-white px-2 py-0.5 text-[11px] font-semibold text-brand-green ring-1 ring-border tabular">
                       {done ? (
                         <>
                           <CheckCircle2 className="h-3 w-3" aria-hidden="true" /> Erledigt

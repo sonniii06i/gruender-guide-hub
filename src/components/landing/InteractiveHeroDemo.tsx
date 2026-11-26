@@ -5,7 +5,6 @@ import {
   Building2,
   Check,
   CreditCard,
-  Flame,
   Smartphone,
   Wrench,
   Zap,
@@ -85,9 +84,8 @@ const TRACKS: DemoTrack[] = [
 ];
 
 /**
- * Interaktive Mini-Studio-Vorschau im Startseiten-Hero:
- * Besucher können direkt Tracks wechseln, Schritte abhaken (+50 XP live) und das
- * Arbeitsfenster aufklappen — statt eines statischen Screenshots.
+ * Helle, interaktive Produkt-Vorschau im Studyflix-/Udemy-/Lexoffice-Stil:
+ * Besucher testen direkt Themen, haken echte Schritte ab und klappen das Arbeitsfenster auf.
  */
 export const InteractiveHeroDemo = () => {
   const [trackId, setTrackId] = useState<string>("amex");
@@ -106,11 +104,11 @@ export const InteractiveHeroDemo = () => {
 
   return (
     <div
-      className="relative overflow-hidden rounded-3xl border border-white/15 bg-[#081534]/90 p-4 text-white shadow-2xl ring-1 ring-white/10 backdrop-blur-md sm:p-5"
-      aria-label="Interaktive Produktvorschau GründerX Lern-Studio"
+      className="overflow-hidden rounded-2xl border border-border bg-white shadow-soft"
+      aria-label="Interaktive Produktvorschau GründerX"
     >
-      {/* Top Studio Bar: Track-Tabs + Live XP */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3.5">
+      {/* Kopfzeile mit Themen-Tabs + XP */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-secondary/50 px-4 py-3">
         <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Beispiel-Kurse">
           {TRACKS.map((t) => {
             const Icon = t.icon;
@@ -126,10 +124,10 @@ export const InteractiveHeroDemo = () => {
                   setWorkspaceOpen(false);
                 }}
                 className={cn(
-                  "press inline-flex min-h-9 items-center gap-1.5 rounded-xl px-3 text-xs font-bold transition-colors",
+                  "press inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition-colors",
                   active
-                    ? "bg-white text-[#0B1B40] shadow-sm"
-                    : "bg-white/[0.07] text-white/75 hover:bg-white/15 hover:text-white",
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-white text-foreground/80 ring-1 ring-border hover:text-primary",
                 )}
               >
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
@@ -139,128 +137,122 @@ export const InteractiveHeroDemo = () => {
           })}
         </div>
 
-        <div className="flex items-center gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#10B981]/20 px-2.5 py-1 text-[11px] font-bold text-[#6EE7B7] tabular">
-            <Zap className="h-3 w-3" aria-hidden="true" />
-            {xp} XP
-          </span>
-          <span className="hidden items-center gap-1 rounded-full bg-amber-400/15 px-2.5 py-1 text-[11px] font-bold text-amber-300 tabular sm:inline-flex">
-            <Flame className="h-3 w-3" aria-hidden="true" />
-            3 Tage
-          </span>
-        </div>
+        <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2.5 py-1 text-xs font-semibold text-brand-green tabular">
+          <Zap className="h-3.5 w-3.5" aria-hidden="true" />
+          {xp} XP
+        </span>
       </div>
 
-      {/* Aktiver Kurs-Header */}
-      <div className="mt-4">
-        <div className="flex items-center justify-between gap-2 text-xs text-white/65">
-          <span className="font-semibold uppercase tracking-wider text-[#6EE7B7]">Live-Vorschau · Klick zum Testen</span>
-          <span className="font-semibold tabular text-white/85">{doneInTrack} von {track.steps.length} erledigt</span>
+      {/* Kurs-Inhalt */}
+      <div className="p-4 sm:p-5">
+        <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span className="font-semibold text-brand-green">Interaktive Vorschau (klickbar)</span>
+          <span className="font-semibold text-foreground tabular">{doneInTrack} von {track.steps.length} erledigt</span>
         </div>
-        <p className="mt-1 text-base font-bold leading-snug text-white sm:text-lg">{track.title}</p>
-        <p className="mt-0.5 text-xs text-white/65">{track.subtitle}</p>
+        <p className="mt-1 text-base font-bold leading-snug text-primary sm:text-lg">{track.title}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">{track.subtitle}</p>
 
-        {/* Segmentierter Fortschrittsbalken */}
+        {/* Fortschrittsbalken */}
         <div className="mt-3 flex items-center gap-1.5" aria-label={`Fortschritt ${pct} Prozent`}>
           {track.steps.map((s) => (
             <span
               key={s.id}
               className={cn(
                 "h-2 flex-1 rounded-full transition-colors duration-200",
-                doneMap[s.id] ? "bg-[#10B981]" : "bg-white/15",
+                doneMap[s.id] ? "bg-brand-green" : "bg-secondary",
               )}
             />
           ))}
         </div>
-      </div>
 
-      {/* Klickbare Schritt-Karten */}
-      <div className="mt-4 space-y-2">
-        {track.steps.map((s, idx) => {
-          const checked = Boolean(doneMap[s.id]);
-          return (
-            <button
-              key={s.id}
-              type="button"
-              aria-pressed={checked}
-              onClick={() => toggleStep(s.id)}
-              className={cn(
-                "press flex w-full items-start gap-3 rounded-2xl border p-3 text-left transition-colors",
-                checked
-                  ? "border-[#10B981]/45 bg-[#10B981]/12"
-                  : "border-white/12 bg-white/[0.05] hover:border-white/25 hover:bg-white/[0.09]",
-              )}
-            >
-              <span
+        {/* Klickbare Schritt-Karten */}
+        <div className="mt-4 space-y-2">
+          {track.steps.map((s, idx) => {
+            const checked = Boolean(doneMap[s.id]);
+            return (
+              <button
+                key={s.id}
+                type="button"
+                aria-pressed={checked}
+                onClick={() => toggleStep(s.id)}
                 className={cn(
-                  "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-xs font-bold tabular transition-colors",
-                  checked ? "bg-[#10B981] text-[#042016]" : "bg-white/15 text-white",
+                  "press flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-colors",
+                  checked
+                    ? "border-brand-green/35 bg-brand-green-soft/60"
+                    : "border-border bg-white hover:border-primary/35 hover:bg-secondary/40",
                 )}
               >
-                {checked ? <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" /> : idx + 1}
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className={cn("block text-[13px] font-semibold leading-snug", checked ? "text-white/75 line-through" : "text-white")}>
-                  {s.title}
+                <span
+                  className={cn(
+                    "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold tabular transition-colors",
+                    checked ? "bg-brand-green text-white" : "bg-secondary text-primary",
+                  )}
+                >
+                  {checked ? <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" /> : idx + 1}
                 </span>
-                <span className="mt-0.5 block text-[11px] text-white/55">{s.meta}</span>
-              </span>
-              <span
-                className={cn(
-                  "shrink-0 rounded-md px-2 py-0.5 text-[10px] font-bold tabular",
-                  checked ? "bg-[#10B981]/25 text-[#6EE7B7]" : "bg-white/10 text-white/70",
-                )}
-              >
-                {checked ? "+50 XP ✓" : "+50 XP"}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+                <span className="min-w-0 flex-1">
+                  <span className={cn("block text-[13px] font-semibold leading-snug", checked ? "text-muted-foreground line-through" : "text-foreground")}>
+                    {s.title}
+                  </span>
+                  <span className="mt-0.5 block text-[11px] text-muted-foreground">{s.meta}</span>
+                </span>
+                <span
+                  className={cn(
+                    "shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold tabular",
+                    checked ? "bg-brand-green-soft text-brand-green" : "bg-secondary text-muted-foreground",
+                  )}
+                >
+                  {checked ? "+50 XP ✓" : "+50 XP"}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-      {/* Aufklappbares Arbeitsfenster direkt in der Demo */}
-      <div className="mt-3.5 rounded-2xl border border-white/15 bg-white/[0.06] p-3">
-        <button
-          type="button"
-          aria-expanded={workspaceOpen}
-          onClick={() => setWorkspaceOpen((v) => !v)}
-          className="flex w-full items-center justify-between gap-2 text-left text-xs font-bold text-white"
-        >
-          <span className="inline-flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#10B981]/20 text-[#6EE7B7]">
-              <Wrench className="h-3.5 w-3.5" aria-hidden="true" />
+        {/* Aufklappbares Arbeitsfenster */}
+        <div className="mt-3.5 rounded-xl border border-border bg-secondary/45 p-3">
+          <button
+            type="button"
+            aria-expanded={workspaceOpen}
+            onClick={() => setWorkspaceOpen((v) => !v)}
+            className="flex w-full items-center justify-between gap-2 text-left text-xs font-semibold text-primary"
+          >
+            <span className="inline-flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-primary shadow-sm ring-1 ring-border">
+                <Wrench className="h-3.5 w-3.5" aria-hidden="true" />
+              </span>
+              {track.workspaceTitle}
             </span>
-            {track.workspaceTitle}
-          </span>
-          <span className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-[#6EE7B7]">
-            {workspaceOpen ? "Schließen" : "Fenster öffnen"}
-          </span>
-        </button>
+            <span className="rounded-lg border border-border bg-white px-2.5 py-1 text-[11px] font-semibold text-accent-blue">
+              {workspaceOpen ? "Schließen" : "Fenster öffnen"}
+            </span>
+          </button>
 
-        {workspaceOpen && (
-          <ul className="mt-3 space-y-1.5 border-t border-white/10 pt-2.5 text-xs">
-            {track.workspaceRows.map((row) => (
-              <li key={row.label} className="flex items-center justify-between gap-2 rounded-lg bg-black/20 px-2.5 py-1.5">
-                <span className="text-white/75">{row.label}</span>
-                <span className={cn("font-semibold", row.ok ? "text-[#6EE7B7]" : "text-amber-300")}>
-                  {row.value}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+          {workspaceOpen && (
+            <ul className="mt-3 space-y-1.5 border-t border-border pt-2.5 text-xs">
+              {track.workspaceRows.map((row) => (
+                <li key={row.label} className="flex items-center justify-between gap-2 rounded-lg bg-white px-2.5 py-1.5 ring-1 ring-border/70">
+                  <span className="text-muted-foreground">{row.label}</span>
+                  <span className={cn("font-semibold", row.ok ? "text-brand-green" : "text-warning")}>
+                    {row.value}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-      {/* Direkt-Link zum echten Guide */}
-      <div className="mt-3.5 flex items-center justify-between gap-2 pt-1 text-xs">
-        <span className="text-white/55">81 Kurse · Handy &amp; Web</span>
-        <Link
-          to={track.href}
-          className="inline-flex items-center gap-1 font-bold text-[#6EE7B7] hover:underline"
-        >
-          Kompletten Guide ansehen
-          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-        </Link>
+        {/* Direkt-Link */}
+        <div className="mt-3.5 flex items-center justify-between gap-2 border-t border-border pt-3 text-xs">
+          <span className="text-muted-foreground">81 Kurse · Handy &amp; Web</span>
+          <Link
+            to={track.href}
+            className="inline-flex items-center gap-1 font-semibold text-accent-blue hover:underline"
+          >
+            Kompletten Guide ansehen
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </div>
   );

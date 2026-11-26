@@ -16,10 +16,15 @@ const links = [
   { label: "Preise", href: "/preise" },
 ];
 
+/**
+ * Klarer, deckend weißer Header im Studyflix- / Udemy- / Lexoffice-Stil:
+ * Immer 100 % deckend weiß mit scharfer 1px-Linie und kontrastreicher Navy-Tinte,
+ * ohne Transparenz- oder Blur-Spielereien.
+ */
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="site-nav fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#091636]/92 text-white backdrop-blur-md">
+    <header className="site-nav fixed inset-x-0 top-0 z-50 border-b border-border bg-white text-foreground">
       <a
         href="#inhalt"
         onClick={(e) => {
@@ -29,7 +34,7 @@ export const Navbar = () => {
           main.setAttribute("tabindex", "-1");
           main.focus();
         }}
-        className="sr-only rounded-lg bg-[#10B981] px-4 py-2 text-sm font-semibold text-[#042016] focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
+        className="sr-only rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
       >
         Zum Inhalt springen
       </a>
@@ -37,29 +42,22 @@ export const Navbar = () => {
         aria-label="Hauptnavigation"
         className="container flex h-16 max-w-6xl items-center justify-between gap-4 px-4"
       >
-        <Link to="/" aria-label="Zur Startseite" className="group flex items-center gap-2.5 rounded-xl">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15 transition-colors group-hover:bg-white/15">
-            <Logo asImage className="h-6 w-6 brightness-0 invert" />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="text-[15px] font-bold tracking-tight text-white">GründerX</span>
-            <span className="mt-0.5 hidden text-[10px] font-medium tracking-wide text-white/60 sm:inline">
-              Lern-Studio
-            </span>
-          </span>
+        <Link to="/" aria-label="Zur Startseite" className="flex shrink-0 items-center gap-2.5 rounded-lg">
+          <Logo asImage className="h-7 w-7" />
+          <span className="text-[17px] font-bold tracking-tight text-primary">GründerX</span>
         </Link>
 
-        <div className="hidden items-center gap-0.5 rounded-full border border-white/10 bg-white/[0.05] p-1 lg:flex">
+        <div className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
             <NavLink
               key={l.href}
               to={l.href}
               className={({ isActive }) =>
                 cn(
-                  "rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors",
+                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-white text-[#0B1B40] font-semibold shadow-sm"
-                    : "text-white/75 hover:bg-white/10 hover:text-white",
+                    ? "bg-accent font-semibold text-primary"
+                    : "text-foreground/75 hover:bg-secondary hover:text-primary",
                 )
               }
             >
@@ -71,13 +69,13 @@ export const Navbar = () => {
         <div className="hidden items-center gap-2 lg:flex">
           <Link
             to="/auth?mode=signin"
-            className="rounded-xl px-3.5 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+            className="rounded-lg px-3.5 py-2 text-sm font-semibold text-foreground/80 transition-colors hover:bg-secondary hover:text-primary"
           >
             Anmelden
           </Link>
           <Button
             asChild
-            className="press h-10 rounded-xl bg-[#10B981] px-4 text-sm font-bold text-[#042016] shadow-sm hover:bg-[#34D399]"
+            className="press h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
             <Link to="/auth?mode=signup" className="inline-flex items-center gap-1.5">
               Kostenlos starten
@@ -91,18 +89,16 @@ export const Navbar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="h-11 w-11 rounded-xl text-white hover:bg-white/10 hover:text-white lg:hidden"
+              className="h-11 w-11 rounded-lg text-foreground hover:bg-secondary lg:hidden"
               aria-label="Menü öffnen"
             >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent className="flex w-[86vw] max-w-sm flex-col border-l border-white/10 bg-[#091636] text-white">
-            <SheetTitle className="flex items-center gap-2.5 text-white">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
-                <Logo asImage className="h-5 w-5 brightness-0 invert" />
-              </span>
-              GründerX Lern-Studio
+          <SheetContent className="flex w-[86vw] max-w-sm flex-col border-l border-border bg-white text-foreground">
+            <SheetTitle className="flex items-center gap-2.5 text-primary">
+              <Logo asImage className="h-6 w-6" />
+              GründerX
             </SheetTitle>
             <div className="mt-6 flex flex-col">
               {links.map((l) => (
@@ -112,37 +108,37 @@ export const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      "flex min-h-12 items-center justify-between border-b border-white/10 py-3 text-base font-medium",
-                      isActive ? "font-semibold text-[#6EE7B7]" : "text-white/85",
+                      "flex min-h-12 items-center justify-between border-b border-border py-3 text-base font-medium",
+                      isActive ? "font-semibold text-primary" : "text-foreground/85",
                     )
                   }
                 >
                   {l.label}
-                  <ArrowRight className="h-4 w-4 text-white/45" />
+                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
                 </NavLink>
               ))}
               <Link
                 to="/faq"
                 onClick={() => setOpen(false)}
-                className="flex min-h-12 items-center justify-between border-b border-white/10 py-3 text-base font-medium text-white/80"
+                className="flex min-h-12 items-center justify-between border-b border-border py-3 text-base font-medium text-foreground/80"
               >
                 FAQ
-                <ArrowRight className="h-4 w-4 text-white/45" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </Link>
               <Link
                 to="/kontakt"
                 onClick={() => setOpen(false)}
-                className="flex min-h-12 items-center justify-between border-b border-white/10 py-3 text-base font-medium text-white/80"
+                className="flex min-h-12 items-center justify-between border-b border-border py-3 text-base font-medium text-foreground/80"
               >
                 Kontakt
-                <ArrowRight className="h-4 w-4 text-white/45" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </Link>
             </div>
             <div className="mt-auto flex flex-col gap-2.5 pb-2 pt-6">
               <Button
                 asChild
                 size="lg"
-                className="h-12 w-full rounded-xl bg-[#10B981] font-bold text-[#042016] hover:bg-[#34D399]"
+                className="h-12 w-full rounded-xl bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
               >
                 <Link to="/auth?mode=signup" onClick={() => setOpen(false)}>
                   Kostenlos starten
@@ -152,7 +148,7 @@ export const Navbar = () => {
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-12 w-full rounded-xl border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                className="h-12 w-full rounded-xl"
               >
                 <Link to="/auth?mode=signin" onClick={() => setOpen(false)}>
                   Anmelden

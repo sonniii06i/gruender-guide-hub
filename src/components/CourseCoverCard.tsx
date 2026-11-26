@@ -23,67 +23,78 @@ import { cn } from "@/lib/utils";
 export interface CourseTheme {
   id: string;
   label: string;
-  gradient: string;
-  accentText: string;
-  accentBg: string;
+  bandBg: string;
+  iconBg: string;
+  iconText: string;
+  pillText: string;
   icon: LucideIcon;
 }
 
+/**
+ * 7 ruhige, helle Studyflix-/Udemy-Themenwelten (Pastell-Akzent statt schwerer dunkler Blöcke).
+ */
 const THEMES: Record<string, CourseTheme> = {
   us: {
     id: "us",
     label: "US & Ausland",
-    gradient: "linear-gradient(135deg, #091636 0%, #15316F 60%, #1E4699 100%)",
-    accentText: "text-[#FDE68A]",
-    accentBg: "bg-[#F59E0B]/20 border-[#FDE68A]/25",
+    bandBg: "bg-[#FDF6E7]",
+    iconBg: "bg-[#B45309]",
+    iconText: "text-white",
+    pillText: "text-[#92400E]",
     icon: CreditCard,
   },
   webapp: {
     id: "webapp",
     label: "Website & App",
-    gradient: "linear-gradient(135deg, #0A1E46 0%, #16448E 62%, #1D61B8 100%)",
-    accentText: "text-[#93C5FD]",
-    accentBg: "bg-[#3B82F6]/20 border-[#93C5FD]/25",
+    bandBg: "bg-[#EDF4FF]",
+    iconBg: "bg-[#1E56C5]",
+    iconText: "text-white",
+    pillText: "text-[#1E40AF]",
     icon: Smartphone,
   },
   ecom: {
     id: "ecom",
     label: "Shop & Marktplätze",
-    gradient: "linear-gradient(135deg, #092B25 0%, #0F513E 62%, #166B51 100%)",
-    accentText: "text-[#6EE7B7]",
-    accentBg: "bg-[#10B981]/20 border-[#6EE7B7]/25",
+    bandBg: "bg-[#ECF8F3]",
+    iconBg: "bg-[#1E7F5C]",
+    iconText: "text-white",
+    pillText: "text-[#166534]",
     icon: ShoppingBag,
   },
   steuern: {
     id: "steuern",
     label: "Steuern & Finanzen",
-    gradient: "linear-gradient(135deg, #101E3A 0%, #1E345E 62%, #294880 100%)",
-    accentText: "text-[#A7F3D0]",
-    accentBg: "bg-[#10B981]/20 border-[#A7F3D0]/25",
+    bandBg: "bg-[#EEF2F9]",
+    iconBg: "bg-[#122B64]",
+    iconText: "text-white",
+    pillText: "text-[#122B64]",
     icon: Calculator,
   },
   creator: {
     id: "creator",
     label: "Creator & Wachstum",
-    gradient: "linear-gradient(135deg, #161B48 0%, #27327A 62%, #35449E 100%)",
-    accentText: "text-[#BFDBFE]",
-    accentBg: "bg-[#60A5FA]/20 border-[#BFDBFE]/25",
+    bandBg: "bg-[#F3EEFE]",
+    iconBg: "bg-[#5B21B6]",
+    iconText: "text-white",
+    pillText: "text-[#5B21B6]",
     icon: Sparkles,
   },
   team: {
     id: "team",
     label: "Team & Kapital",
-    gradient: "linear-gradient(135deg, #0E1F3D 0%, #1E3B6E 62%, #295092 100%)",
-    accentText: "text-[#FDE68A]",
-    accentBg: "bg-[#F59E0B]/20 border-[#FDE68A]/25",
+    bandBg: "bg-[#F1F5F9]",
+    iconBg: "bg-[#334155]",
+    iconText: "text-white",
+    pillText: "text-[#334155]",
     icon: Users,
   },
   gruendung: {
     id: "gruendung",
     label: "Gründung & Recht",
-    gradient: "linear-gradient(135deg, #0B1B40 0%, #11295F 60%, #1A3C87 100%)",
-    accentText: "text-[#6EE7B7]",
-    accentBg: "bg-[#10B981]/20 border-[#6EE7B7]/25",
+    bandBg: "bg-[#EDF2FA]",
+    iconBg: "bg-[#122B64]",
+    iconText: "text-white",
+    pillText: "text-[#122B64]",
     icon: Building2,
   },
 };
@@ -107,7 +118,6 @@ export interface CourseCoverCardProps {
   difficulty: string;
   stepsCount: number;
   to: string;
-  /** Optional interaktiver Direktstart-Button (z. B. im eingeloggten Cockpit). */
   onStart?: () => void;
   starting?: boolean;
   doneSteps?: number;
@@ -117,9 +127,9 @@ export interface CourseCoverCardProps {
 }
 
 /**
- * Einheitliche Udemy-/Masterclass-Kurskarte für alle 81 Guides (öffentlich & eingeloggt):
- * Farbiger Themen-Header mit Blueprint-Raster, Icon, XP-Wert, Fortschrittsbalken und
- * Arbeitsfenster-Hinweis statt grauer Textkästchen.
+ * Helle, übersichtliche Studyflix-/Udemy-Kurskarte für alle 81 Guides:
+ * Sanfte Pastell-Kopfzeile mit Themen-Icon, klarer Navy-Titel auf Weiß,
+ * kompakte Metadaten (Schritte, Dauer, Arbeitsfenster) und Fortschrittsbalken.
  */
 export const CourseCoverCard = ({
   slug,
@@ -142,62 +152,53 @@ export const CourseCoverCard = ({
   const pct = stepsCount > 0 ? Math.min(100, Math.round((doneSteps / stepsCount) * 100)) : 0;
 
   const header = (
-    <div
-      className="relative overflow-hidden px-4 pb-4 pt-4 text-white"
-      style={{ backgroundImage: theme.gradient }}
-    >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.18) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-        aria-hidden="true"
-      />
-      <div className="relative z-10 flex items-center justify-between gap-2">
-        <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-bold", theme.accentBg, theme.accentText)}>
-          <Icon className="h-3 w-3" aria-hidden="true" />
+    <div className={cn("flex items-center justify-between gap-2 border-b border-border/70 px-4 py-3", theme.bandBg)}>
+      <span className="inline-flex min-w-0 items-center gap-2">
+        <span className={cn("flex h-7 w-7 shrink-0 items-center justify-center rounded-lg", theme.iconBg, theme.iconText)}>
+          <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+        </span>
+        <span className={cn("truncate text-xs font-semibold", theme.pillText)}>
           {badgeText ?? theme.label}
         </span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-black/25 px-2.5 py-0.5 text-[11px] font-bold text-[#6EE7B7] tabular">
-          <Zap className="h-3 w-3" aria-hidden="true" />
-          +{xp} XP
-        </span>
-      </div>
-
-      <div className="relative z-10 mt-3.5 flex items-end justify-between gap-3">
-        <h3 className="line-clamp-2 text-[16px] font-bold leading-snug tracking-tight text-white">
-          {title}
-        </h3>
-        {completed && (
-          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#10B981] px-2 py-0.5 text-[10px] font-bold text-[#042016]">
+      </span>
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-md bg-white px-2 py-0.5 text-[11px] font-semibold text-brand-green shadow-sm ring-1 ring-border tabular">
+        {completed ? (
+          <>
             <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
             Fertig
-          </span>
+          </>
+        ) : (
+          <>
+            <Zap className="h-3 w-3" aria-hidden="true" />
+            +{xp} XP
+          </>
         )}
-      </div>
+      </span>
     </div>
   );
 
   const body = (
     <div className="flex flex-1 flex-col p-4">
+      <h3 className="line-clamp-2 text-[16px] font-bold leading-snug tracking-tight text-primary group-hover:text-accent-blue">
+        {title}
+      </h3>
+
       {!compact && (
-        <p className="mb-3.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-1.5 mb-3.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {subtitle}
         </p>
       )}
 
-      <div className="mb-3.5 flex flex-wrap items-center gap-2 text-xs font-medium text-muted-foreground">
-        <span className="inline-flex items-center gap-1 rounded-lg bg-secondary px-2 py-1 text-foreground/80 tabular">
+      <div className="mb-3.5 mt-auto flex flex-wrap items-center gap-1.5 pt-1 text-xs font-medium text-muted-foreground">
+        <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-foreground/80 tabular">
           <ListChecks className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
           {stepsCount} Schritte
         </span>
-        <span className="inline-flex items-center gap-1 rounded-lg bg-secondary px-2 py-1 text-foreground/80">
+        <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-foreground/80">
           <Clock className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
           {duration}
         </span>
-        <span className="inline-flex items-center gap-1 rounded-lg bg-brand-green-soft px-2 py-1 font-semibold text-brand-green">
+        <span className="inline-flex items-center gap-1 rounded-md bg-brand-green-soft px-2 py-1 font-semibold text-brand-green">
           <Wrench className="h-3 w-3" aria-hidden="true" />
           Arbeitsfenster
         </span>
@@ -206,16 +207,16 @@ export const CourseCoverCard = ({
       {doneSteps > 0 && (
         <div className="mb-3.5">
           <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-muted-foreground tabular">
-            <span>Dein Kurs-Fortschritt</span>
+            <span>Kurs-Fortschritt</span>
             <span className="text-brand-green">{pct} %</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-secondary">
+          <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
             <div className="h-full rounded-full bg-brand-green transition-[width] duration-300" style={{ width: `${pct}%` }} />
           </div>
         </div>
       )}
 
-      <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-3">
+      <div className="flex items-center justify-between gap-2 border-t border-border/70 pt-3">
         {onStart ? (
           <>
             <Button
@@ -227,7 +228,7 @@ export const CourseCoverCard = ({
                 e.stopPropagation();
                 onStart();
               }}
-              className="press h-9 gap-1.5 rounded-xl bg-primary px-3.5 text-xs font-semibold text-white hover:bg-primary/90"
+              className="press h-9 gap-1.5 rounded-lg bg-primary px-3.5 text-xs font-semibold text-white hover:bg-primary/90"
             >
               {starting ? (
                 <>
@@ -254,8 +255,8 @@ export const CourseCoverCard = ({
         ) : (
           <>
             <span className="text-xs font-medium text-muted-foreground">{difficulty}</span>
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-primary group-hover:text-accent-blue">
-              Guide ansehen
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent-blue group-hover:underline">
+              Kurs ansehen
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </span>
           </>

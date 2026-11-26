@@ -176,9 +176,9 @@ export const Hero = () => {
               alt=""
               width={20}
               height={20}
-              className="h-5 w-5 rounded-full border border-white/25 bg-white/10 object-cover"
+              className="h-5 w-5 rounded-full border border-border bg-white object-cover"
             />
-            Das interaktive Lern-Studio für Gründung, Website, App &amp; Steuern
+            Das Lern- &amp; Gründungs-Cockpit für Website, App, Gewerbe &amp; Steuern
           </>
         }
         title="Gründen wie ein Kurs."
@@ -186,7 +186,7 @@ export const Hero = () => {
         lead={
           <>
             Wenig Text, klare Schritte, direkte Arbeitsfenster: Klick dich von der ersten Website oder App bis zu
-            Gewerbe, ELSTER, Amazon und Amex US. Gebaut für Handy und Web, für alle von 12 bis 70.
+            Gewerbe, ELSTER, Amazon und Amex US. Gemacht für Handy und Web, für alle von 12 bis 70.
           </>
         }
         primary={{ to: "/quiz/gruendertyp", label: "60-Sekunden-Quiz starten" }}
@@ -200,17 +200,19 @@ export const Hero = () => {
         <InteractiveHeroDemo />
       </HeroCentered>
 
-      {/* Schwebende Fakten-Leiste über der Hero-Kante */}
-      <div className="container relative z-20 -mt-7 max-w-6xl px-4">
-        <dl className="grid grid-cols-2 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-lift md:grid-cols-4 md:divide-x md:divide-y-0">
-          {proof.map((p) => (
-            <div key={p.label} className="px-5 py-4 md:px-6 md:py-5">
-              <dt className="sr-only">{p.label}</dt>
-              <dd className="text-2xl font-bold tracking-tight text-primary tabular md:text-[1.75rem]">{p.value}</dd>
-              <dd className="mt-0.5 text-xs font-medium text-muted-foreground md:text-sm">{p.label}</dd>
-            </div>
-          ))}
-        </dl>
+      {/* Ruhige Fakten-Leiste (Studyflix / Lexoffice) */}
+      <div className="border-b border-border bg-secondary/45">
+        <div className="container max-w-6xl px-4 py-6">
+          <dl className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {proof.map((p) => (
+              <div key={p.label} className="rounded-xl border border-border bg-white px-4 py-3.5 shadow-card">
+                <dt className="sr-only">{p.label}</dt>
+                <dd className="text-2xl font-bold tracking-tight text-primary tabular md:text-[1.65rem]">{p.value}</dd>
+                <dd className="mt-0.5 text-xs font-medium text-muted-foreground md:text-sm">{p.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
 
       {/* Interaktiver Alters- & Ziel-Wechsler (12 bis 70) */}
@@ -221,7 +223,6 @@ export const Hero = () => {
           lead="Alle 81 Kurse stehen jedem offen. Klick auf deine Lebenslage und sieh direkt, was zuerst kommt und was warten kann."
         />
 
-        {/* Interaktive Tab-Leiste */}
         <div className="mb-5 flex flex-wrap gap-2" role="tablist" aria-label="Zielgruppe wählen">
           {ALTER_WEGE.map((item) => {
             const Icon = item.icon;
@@ -237,15 +238,15 @@ export const Hero = () => {
                   "press inline-flex min-h-11 items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition-colors",
                   active
                     ? "border-primary bg-primary text-white shadow-sm"
-                    : "border-border bg-card text-foreground/85 hover:border-primary/40 hover:bg-secondary/60",
+                    : "border-border bg-white text-foreground/85 hover:border-primary/40 hover:bg-secondary/60",
                 )}
               >
                 <Icon className="h-4 w-4" aria-hidden="true" />
                 <span>{item.titel}</span>
                 <span
                   className={cn(
-                    "hidden rounded-md px-1.5 py-0.5 text-[11px] font-bold sm:inline",
-                    active ? "bg-white/15 text-[#6EE7B7]" : "bg-secondary text-muted-foreground",
+                    "hidden rounded-md px-1.5 py-0.5 text-[11px] font-semibold sm:inline",
+                    active ? "bg-white/20 text-white" : "bg-secondary text-muted-foreground",
                   )}
                 >
                   {item.badge}
@@ -255,11 +256,10 @@ export const Hero = () => {
           })}
         </div>
 
-        {/* Interaktives 3-Schritte-Studio für die gewählte Zielgruppe */}
         <div className="gx-card overflow-hidden">
           <div className="flex flex-col justify-between gap-4 border-b border-border bg-secondary/40 px-5 py-5 sm:flex-row sm:items-center md:px-7">
             <div>
-              <span className="inline-flex items-center rounded-full bg-brand-green-soft px-2.5 py-0.5 text-xs font-bold text-brand-green">
+              <span className="inline-flex items-center rounded-md bg-brand-green-soft px-2.5 py-0.5 text-xs font-semibold text-brand-green">
                 {aktiverPfad.badge}
               </span>
               <h3 className="mt-1.5 text-xl font-bold text-primary">{aktiverPfad.titel}</h3>
@@ -274,7 +274,7 @@ export const Hero = () => {
               </Link>
               <Link
                 to={aktiverPfad.quizLink}
-                className="press inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-border bg-card px-4 text-sm font-semibold text-foreground hover:border-primary/40"
+                className="press inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-border bg-white px-4 text-sm font-semibold text-foreground hover:border-primary/40"
               >
                 Passendes Quiz starten
               </Link>
@@ -284,24 +284,23 @@ export const Hero = () => {
           <ol className="grid divide-y divide-border md:grid-cols-3 md:divide-x md:divide-y-0">
             {aktiverPfad.steps.map((s) => (
               <li key={s.nr} className="p-5 md:p-6">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-xs font-bold text-white tabular">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-xs font-bold text-primary tabular">
                   {s.nr}
                 </span>
-                <p className="mt-3 text-base font-bold text-foreground">{s.label}</p>
+                <p className="mt-3 text-base font-bold text-primary">{s.label}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.detail}</p>
               </li>
             ))}
           </ol>
         </div>
 
-        {/* Schnell-Leiste: Quizze & Amex US Listicle */}
         <div className="mt-5 grid gap-3.5 md:grid-cols-2">
           <Link
             to="/quiz"
-            className="gx-card gx-card-hover press flex items-center justify-between gap-4 border-brand-green/35 bg-brand-green-soft/65 p-5"
+            className="gx-card gx-card-hover press flex items-center justify-between gap-4 border-brand-green/30 bg-brand-green-soft/50 p-5"
           >
             <div className="flex items-center gap-3.5">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green text-white shadow-sm">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green text-white">
                 <Trophy className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
@@ -319,7 +318,7 @@ export const Hero = () => {
             className="gx-card gx-card-hover press flex items-center justify-between gap-4 p-5"
           >
             <div className="flex items-center gap-3.5">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
                 <ListChecks className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
@@ -334,18 +333,18 @@ export const Hero = () => {
         </div>
       </section>
 
-      {/* Udemy / Masterclass Kurs-Regal direkt auf der Startseite */}
-      <section className="border-y border-border bg-secondary/35 py-14 md:py-20">
+      {/* Udemy / Studyflix Kurs-Regal */}
+      <section className="border-y border-border bg-white py-14 md:py-20">
         <div className="container max-w-6xl px-4">
           <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHead
-              eyebrow="Masterclass-Kursbibliothek"
+              eyebrow="Kursbibliothek"
               title="81 Kurse zum Durchklicken, mit direktem Arbeitsfenster."
-              lead="Kein stundenlanges Suchen in Foren. Jeder Kurs zerlegt ein Ziel in kleine Schritte mit Checkliste, Kosten, XP und Werkzeug."
+              lead="Jeder Kurs zerlegt ein Ziel in kleine Schritte mit Checkliste, Kosten, XP und Werkzeug."
             />
             <Link
               to="/guides"
-              className="press inline-flex min-h-11 shrink-0 items-center gap-1.5 self-start rounded-xl border border-primary/25 bg-card px-4 text-sm font-bold text-primary shadow-sm hover:bg-primary hover:text-white sm:mb-10"
+              className="press inline-flex min-h-11 shrink-0 items-center gap-1.5 self-start rounded-xl border border-border bg-white px-4 text-sm font-semibold text-primary shadow-card hover:border-primary/40 hover:bg-secondary sm:mb-10"
             >
               Alle {GUIDE_COUNT} Kurse ansehen <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>

@@ -3,88 +3,91 @@
 @tailwind utilities;
 
 /* Font: Geist (index.html, variabel 400-800).
-   GründerX Design-System (Rebuild 11/2026): helles, ruhiges Lern-Studio im
-   GründerX-CI (Navy #122B64 als Tinte & Hauptaktion, Felix-Grün für Fortschritt,
-   XP & Erledigt, Link-Blau für Interaktion). Weiche Radien, fein geschichtete
-   Schatten und präzise Micro-Interactions. */
+   GründerX Design-System (Studyflix × Udemy × Lexoffice):
+   Klares, helles Lern- & Arbeits-System in echter GründerX-CI:
+   - Weiß (#FFFFFF) & ruhiges Hellgrau (#F7F8FB) als Arbeitsfläche
+   - GründerX Navy (#122B64) als Tinte, Überschriften & Hauptaktion
+   - Interaktives Blau (#1E56C5) für Links & Fokus
+   - Felix-Grün (#1E7F5C) & Soft-Mint (#ECF8F3) für Fortschritt, Erledigt & XP
+   Keine dunklen Glow-Verläufe, kein Glassmorphismus, keine Neon-Farben. */
 
 @layer base {
   :root {
-    --background: 220 25% 97.5%;
-    --foreground: 222 47% 13%;
+    --background: 220 23% 97.5%;
+    --foreground: 222 45% 14%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 13%;
+    --card-foreground: 222 45% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 13%;
+    --popover-foreground: 222 45% 14%;
 
-    --primary: 223 70% 23%;
+    /* GründerX Navy #122B64 */
+    --primary: 222 70% 23%;
     --primary-foreground: 0 0% 100%;
 
-    /* Link-Blau: dunkel genug für 4,5:1 auf Weiß und auf der grauen Fläche. */
-    --accent-blue: 221 72% 42%;
+    /* Link-Blau: 4,5:1+ auf Weiß und auf hellem Grau */
+    --accent-blue: 220 74% 44%;
     --accent-blue-foreground: 0 0% 100%;
 
-    --secondary: 220 22% 94.5%;
-    --secondary-foreground: 222 47% 13%;
+    --secondary: 220 22% 95%;
+    --secondary-foreground: 222 45% 14%;
 
-    --muted: 220 20% 94.5%;
-    --muted-foreground: 220 14% 37%;
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 15% 38%;
 
-    --accent: 220 28% 94%;
-    --accent-foreground: 223 70% 23%;
+    --accent: 220 35% 94.5%;
+    --accent-foreground: 222 70% 23%;
 
-    --success: 152 58% 30%;
+    --success: 156 58% 30%;
     --success-foreground: 0 0% 100%;
-    --success-soft: 150 42% 94.5%;
+    --success-soft: 152 48% 94.5%;
 
-    /* Status-Töne für Tool-Ergebnisse (Ampel, Hinweise). */
-    --warning: 32 92% 34%;
+    /* Status-Töne für Tool-Ergebnisse (Ampel, Hinweise) */
+    --warning: 32 90% 34%;
     --warning-foreground: 0 0% 100%;
-    --warning-soft: 40 84% 95%;
+    --warning-soft: 40 88% 95%;
     --danger: 0 68% 44%;
-    --danger-soft: 0 70% 97%;
-    --info: 221 72% 42%;
-    --info-soft: 220 55% 96.5%;
+    --danger-soft: 0 72% 97%;
+    --info: 220 74% 44%;
+    --info-soft: 218 65% 96%;
 
-    /* Felix-Grün: zweite Markenfarbe für Fortschritt, XP und Erledigt. */
-    --brand-green: 156 50% 30%;
+    /* Felix-Grün: zweite Markenfarbe für Fortschritt, XP und Erledigt */
+    --brand-green: 158 62% 31%;
     --brand-green-foreground: 0 0% 100%;
-    /* nur auf dunklem Navy (Ergebnis-Karte) */
-    --brand-green-glow: 150 48% 72%;
-    --brand-green-soft: 150 38% 93.5%;
+    --brand-green-glow: 155 48% 72%;
+    --brand-green-soft: 153 46% 94.5%;
 
     --destructive: 0 68% 44%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 18% 88.5%;
-    /* Rahmen von Eingabefeldern: 3:1 gegen Weiß. */
-    --input: 220 12% 55%;
-    --ring: 221 72% 42%;
+    --border: 220 18% 89%;
+    /* Rahmen von Eingabefeldern: >= 3:1 gegen Weiß */
+    --input: 220 14% 58%;
+    --ring: 220 74% 44%;
 
-    /* Moderne, freundliche Radien: Knöpfe/Felder 10px, Karten 16px, Bühnen 24px. */
     --radius: 0.75rem;
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
-    /* GründerX Studio Bühnen & Tiefe (Rebuild 11/2026) */
-    --gradient-hero: linear-gradient(155deg, #091636 0%, #11295f 56%, #16367a 100%);
-    --gradient-primary: linear-gradient(135deg, #11295f 0%, #193b87 100%);
-    --gradient-ink: linear-gradient(155deg, #091636 0%, #11295f 100%);
-    --ink: 223 64% 15%;
-    --shadow-card: 0 1px 2px hsl(222 47% 13% / 0.05), 0 4px 12px -4px hsl(222 47% 13% / 0.06);
-    --shadow-soft: 0 2px 6px hsl(222 47% 13% / 0.06), 0 12px 28px -10px hsl(222 47% 13% / 0.16);
-    --shadow-lift: 0 4px 12px hsl(222 47% 13% / 0.08), 0 20px 44px -14px hsl(223 70% 18% / 0.22);
-    --shadow-glow: 0 2px 8px hsl(222 47% 13% / 0.08), 0 12px 32px -10px hsl(223 70% 23% / 0.24);
+    /* Flache, ruhige Flächen & dezente Kanten (Lexoffice / Studyflix) */
+    --gradient-hero: linear-gradient(180deg, #f3f6fb 0%, #f7f8fb 100%);
+    --gradient-primary: linear-gradient(180deg, #122b64 0%, #122b64 100%);
+    --gradient-ink: linear-gradient(180deg, #122b64 0%, #122b64 100%);
+    --ink: 222 65% 18%;
+    --shadow-card: 0 1px 2px hsl(222 45% 14% / 0.04), 0 2px 6px -2px hsl(222 45% 14% / 0.05);
+    --shadow-soft: 0 2px 6px hsl(222 45% 14% / 0.05), 0 8px 20px -8px hsl(222 45% 14% / 0.09);
+    --shadow-lift: 0 4px 10px hsl(222 45% 14% / 0.06), 0 14px 30px -12px hsl(222 45% 14% / 0.12);
+    --shadow-glow: 0 2px 8px hsl(222 45% 14% / 0.07);
 
-    --sidebar-background: 223 68% 14%;
-    --sidebar-foreground: 220 35% 88%;
-    --sidebar-primary: 158 64% 52%;
-    --sidebar-primary-foreground: 223 68% 12%;
-    --sidebar-accent: 223 55% 21%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 223 48% 23%;
-    --sidebar-ring: 158 64% 52%;
+    /* Helle, ruhige Lexoffice-Sidebar (kein dunkler Block) */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 30% 24%;
+    --sidebar-primary: 222 70% 23%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 35% 95%;
+    --sidebar-accent-foreground: 222 70% 23%;
+    --sidebar-border: 220 18% 90%;
+    --sidebar-ring: 220 74% 44%;
   }
 }
 
@@ -140,7 +143,6 @@
 }
 
 @layer utilities {
-  /* Frühere Verlaufs- und Texturklassen: gleiche Namen, flache Flächen. */
   .bg-hero {
     background: hsl(var(--background));
   }
@@ -177,16 +179,11 @@
   /* Taktile Rückmeldung beim Tippen und Hovern (emil-design-eng). */
   .press {
     transition:
-      transform 160ms var(--ease-out),
-      background-color 160ms var(--ease-out),
-      border-color 160ms var(--ease-out),
-      color 160ms var(--ease-out),
-      box-shadow 200ms var(--ease-out);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .press:hover {
-      box-shadow: var(--shadow-soft);
-    }
+      transform 140ms var(--ease-out),
+      background-color 140ms var(--ease-out),
+      border-color 140ms var(--ease-out),
+      color 140ms var(--ease-out),
+      box-shadow 160ms var(--ease-out);
   }
   .press:active {
     transform: scale(0.985);
@@ -206,11 +203,23 @@
 .gx-marquee { animation: gx-marquee 38s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .gx-marquee { animation: none; } }
 
-/* ---------- Tippziele auf Touch-Geraeten ----------
-   Gemessen bei 375px: 16 Links unter 32px Hoehe -- Footer-Sitemap (17px)
-   und die beiden Textlinks "Jetzt ausprobieren"/"Jetzt freischalten" (20px).
-   Auf einem Handy trifft man da den falschen. Nur bis 900px, damit die
-   kompakte Desktop-Darstellung bleibt. */
+/* Dezente, dünne Scrollleiste für die Sidebar */
+.gx-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+.gx-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.gx-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.gx-scroll::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 9999px;
+}
+
+/* ---------- Tippziele auf Touch-Geraeten ---------- */
 @media (max-width: 900px) {
   footer a,
   footer button {
@@ -220,9 +229,7 @@
   }
 }
 
-/* ---------- Knopfbeschriftungen auf sehr schmalen Geraeten ----------
-   Die Button-Komponente setzt whitespace-nowrap; lange deutsche Labels
-   sprengen damit einen 320px-Bildschirm. */
+/* ---------- Knopfbeschriftungen auf sehr schmalen Geraeten ---------- */
 @media (max-width: 400px) {
   button.whitespace-nowrap,
   a.whitespace-nowrap {
@@ -237,8 +244,8 @@
 
 /* ── Hero-Szene „Fahrplan“ (components/landing/HeroFahrplan.tsx) ────── */
 .gx-plan { margin: 0; }
-.gx-plan-fenster { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 10px; overflow: hidden;
-  box-shadow: var(--shadow-soft); }
+.gx-plan-fenster { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 14px; overflow: hidden;
+  box-shadow: var(--shadow-card); }
 .gx-plan-kopf { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid hsl(var(--border)); }
 .gx-plan-felix { width: 36px; height: 36px; border-radius: 999px; background: hsl(var(--brand-green-soft)); flex: none; object-fit: cover; }
 .gx-plan-titel { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: hsl(var(--foreground)); }
@@ -249,7 +256,6 @@
 
 .gx-plan-liste { list-style: none; margin: 0; padding: 10px 0 12px; position: relative; }
 .gx-plan-schritt { position: relative; padding: 0 20px 0 62px; }
-/* Schiene zwischen den Knoten */
 .gx-plan-schritt::before { content: ""; position: absolute; left: 33px; top: 0; bottom: 0; width: 2px; background: hsl(var(--border)); }
 .gx-plan-schritt:first-child::before { top: 24px; }
 .gx-plan-schritt:last-child::before { bottom: calc(100% - 24px); }
@@ -275,8 +281,6 @@
   background: hsl(var(--secondary)); border: 1px solid hsl(var(--border)); }
 .gx-plan-caption { margin-top: 12px; font-size: 12.5px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
 
-/* Einziger Bewegungsmoment beim Laden: Fortschritt fuellt sich, der
-   aktuelle Schritt meldet sich einmal. */
 @media (prefers-reduced-motion: no-preference) {
   .gx-plan-balken > span { animation: gx-fuellen 900ms 500ms cubic-bezier(.3,.7,.2,1) both; }
   [data-status="jetzt"] > .gx-plan-knoten { animation: gx-puls 1200ms 1300ms ease-out 1 both; }
@@ -302,40 +306,19 @@
 }
 @media (max-width: 639px) { .gx-plan-fall { white-space: normal; } }
 
-/* GründerX Studio Bühnen & Karten (Masterclass × Linear × Duolingo) */
-.gx-stage {
-  background-color: #0b1b40;
-  background-image:
-    radial-gradient(60% 70% at 82% 8%, rgba(45, 110, 232, 0.28) 0%, rgba(11, 27, 64, 0) 70%),
-    radial-gradient(45% 55% at 12% 95%, rgba(16, 185, 129, 0.14) 0%, rgba(11, 27, 64, 0) 70%),
-    linear-gradient(155deg, #091636 0%, #11295f 58%, #16367a 100%);
-}
-
-.gx-stage-grid {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
+/* Einheitliche, helle Studyflix/Lexoffice-Karten */
 .gx-card {
   background-color: hsl(var(--card));
   border: 1px solid hsl(var(--border));
   border-radius: 1rem;
   box-shadow: var(--shadow-card);
-  transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out), border-color 180ms ease;
+  transition: transform 150ms var(--ease-out), box-shadow 150ms var(--ease-out), border-color 150ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .gx-card-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lift);
-    border-color: hsl(var(--primary) / 0.32);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+    border-color: hsl(var(--primary) / 0.35);
   }
-}
-
-.gx-glass {
-  background: rgba(255, 255, 255, 0.075);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(12px);
 }
