@@ -6,9 +6,6 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { Menu, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/* Hauptnavigation der öffentlichen Seiten. Vorher zeigte "Über uns" auf den
-   Anker /#ueber-uns, den es auf der Startseite nicht mehr gibt (toter Link).
-   Jetzt: die Hub-Seiten, die es wirklich gibt. Kontakt und FAQ stehen im Footer. */
 const links = [
   { label: "Guides", href: "/guides" },
   { label: "Quizze", href: "/quiz" },
@@ -22,8 +19,7 @@ const links = [
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="site-nav fixed inset-x-0 top-0 z-50 border-b border-border bg-card">
-      {/* Skip-Link: springt zum ersten <main> der Seite (alle öffentlichen Seiten haben eins). */}
+    <header className="site-nav fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#091636]/92 text-white backdrop-blur-md">
       <a
         href="#inhalt"
         onClick={(e) => {
@@ -33,30 +29,37 @@ export const Navbar = () => {
           main.setAttribute("tabindex", "-1");
           main.focus();
         }}
-        className="sr-only rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
+        className="sr-only rounded-lg bg-[#10B981] px-4 py-2 text-sm font-semibold text-[#042016] focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
       >
         Zum Inhalt springen
       </a>
       <nav
         aria-label="Hauptnavigation"
-        className="container flex h-14 max-w-6xl items-center justify-between gap-4 px-4"
+        className="container flex h-16 max-w-6xl items-center justify-between gap-4 px-4"
       >
-        <Link to="/" aria-label="Zur Startseite" className="flex items-center gap-2 rounded-lg">
-          <Logo asImage className="h-8 w-8" />
-          <span className="text-base font-semibold">GründerX</span>
+        <Link to="/" aria-label="Zur Startseite" className="group flex items-center gap-2.5 rounded-xl">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15 transition-colors group-hover:bg-white/15">
+            <Logo asImage className="h-6 w-6 brightness-0 invert" />
+          </span>
+          <span className="flex flex-col leading-none">
+            <span className="text-[15px] font-bold tracking-tight text-white">GründerX</span>
+            <span className="mt-0.5 hidden text-[10px] font-medium tracking-wide text-white/60 sm:inline">
+              Lern-Studio
+            </span>
+          </span>
         </Link>
 
-        <div className="hidden items-center lg:flex">
+        <div className="hidden items-center gap-0.5 rounded-full border border-white/10 bg-white/[0.05] p-1 lg:flex">
           {links.map((l) => (
             <NavLink
               key={l.href}
               to={l.href}
               className={({ isActive }) =>
                 cn(
-                  "relative flex h-14 items-center px-2.5 text-sm font-medium transition-colors",
+                  "rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors",
                   isActive
-                    ? "text-foreground after:absolute after:inset-x-2.5 after:bottom-0 after:h-0.5 after:bg-primary"
-                    : "text-foreground/70 hover:text-foreground",
+                    ? "bg-white text-[#0B1B40] font-semibold shadow-sm"
+                    : "text-white/75 hover:bg-white/10 hover:text-white",
                 )
               }
             >
@@ -65,29 +68,43 @@ export const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden items-center gap-1.5 lg:flex">
+        <div className="hidden items-center gap-2 lg:flex">
           <Link
             to="/auth?mode=signin"
-            className="rounded-md px-3 py-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-secondary hover:text-foreground"
+            className="rounded-xl px-3.5 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
           >
             Anmelden
           </Link>
-          <Button asChild className="h-9 px-4 font-semibold">
-            <Link to="/auth?mode=signup">
+          <Button
+            asChild
+            className="press h-10 rounded-xl bg-[#10B981] px-4 text-sm font-bold text-[#042016] shadow-sm hover:bg-[#34D399]"
+          >
+            <Link to="/auth?mode=signup" className="inline-flex items-center gap-1.5">
               Kostenlos starten
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>
         </div>
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-11 w-11 lg:hidden" aria-label="Menü öffnen">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-11 w-11 rounded-xl text-white hover:bg-white/10 hover:text-white lg:hidden"
+              aria-label="Menü öffnen"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent className="flex w-[85vw] max-w-sm flex-col">
-            <SheetTitle className="sr-only">Menü</SheetTitle>
-            <div className="mt-8 flex flex-col">
+          <SheetContent className="flex w-[86vw] max-w-sm flex-col border-l border-white/10 bg-[#091636] text-white">
+            <SheetTitle className="flex items-center gap-2.5 text-white">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
+                <Logo asImage className="h-5 w-5 brightness-0 invert" />
+              </span>
+              GründerX Lern-Studio
+            </SheetTitle>
+            <div className="mt-6 flex flex-col">
               {links.map((l) => (
                 <NavLink
                   key={l.href}
@@ -95,29 +112,48 @@ export const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      "flex items-center justify-between border-b border-border py-3.5 text-base font-medium",
-                      isActive && "font-semibold text-primary",
+                      "flex min-h-12 items-center justify-between border-b border-white/10 py-3 text-base font-medium",
+                      isActive ? "font-semibold text-[#6EE7B7]" : "text-white/85",
                     )
                   }
                 >
                   {l.label}
-                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                  <ArrowRight className="h-4 w-4 text-white/45" />
                 </NavLink>
               ))}
-              <Link to="/faq" onClick={() => setOpen(false)} className="border-b border-border py-3.5 text-base font-medium">
+              <Link
+                to="/faq"
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 items-center justify-between border-b border-white/10 py-3 text-base font-medium text-white/80"
+              >
                 FAQ
+                <ArrowRight className="h-4 w-4 text-white/45" />
               </Link>
-              <Link to="/kontakt" onClick={() => setOpen(false)} className="border-b border-border py-3.5 text-base font-medium">
+              <Link
+                to="/kontakt"
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 items-center justify-between border-b border-white/10 py-3 text-base font-medium text-white/80"
+              >
                 Kontakt
+                <ArrowRight className="h-4 w-4 text-white/45" />
               </Link>
             </div>
-            <div className="mt-auto flex flex-col gap-2 pb-2">
-              <Button asChild size="lg" className="w-full font-semibold">
+            <div className="mt-auto flex flex-col gap-2.5 pb-2 pt-6">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 w-full rounded-xl bg-[#10B981] font-bold text-[#042016] hover:bg-[#34D399]"
+              >
                 <Link to="/auth?mode=signup" onClick={() => setOpen(false)}>
                   Kostenlos starten
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="w-full">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 w-full rounded-xl border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white"
+              >
                 <Link to="/auth?mode=signin" onClick={() => setOpen(false)}>
                   Anmelden
                 </Link>

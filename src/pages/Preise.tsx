@@ -159,81 +159,104 @@ const Preise = () => {
         <PageHeader
           zentriert
           crumbs={[{ label: "Start", to: "/" }, { label: "Preise" }]}
-          title={<>Ein Abo. <span className="text-accent-blue">Alle {LANDING_TOOLS.length} Tools.</span></>}
+          title={<>Ein Abo. <span className="text-[#6EE7B7]">Alle {LANDING_TOOLS.length} Tools &amp; 81 Kurse.</span></>}
           lead={
             <p>
               Alle Tools aus der{" "}
-              <Link to="/tools" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Tool-Übersicht</Link>, alle{" "}
-              <Link to="/guides" className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Guides</Link> und der KI-Co-Pilot Felix,
+              <Link to="/tools">Tool-Übersicht</Link>, alle{" "}
+              <Link to="/guides">Kurse &amp; Guides</Link> und der KI-Co-Pilot Felix,
               ohne Abrechnung pro Tool oder pro Frage.{" "}
-              <strong className="font-semibold text-foreground">Alle Preise sind Endpreise inkl. {VAT_PERCENT}&nbsp;% USt.</strong>
+              <strong>Alle Preise sind Endpreise inkl. {VAT_PERCENT}&nbsp;% USt.</strong>
             </p>
           }
         />
 
-        <div className="container max-w-5xl px-4 pb-20">
-        {/* Preiskarten */}
+        <div className="container max-w-5xl px-4 pb-20 pt-10 md:pt-14">
+        {/* Preiskarten: Modern 2-Spalten Nebeneinander (Monat vs. Jahr Spotlight) */}
         <section aria-labelledby="plaene" className="mb-16">
           <h2 id="plaene" className="sr-only">Pläne</h2>
-          {/* Seit 20.11.2026 nur noch eine Karte (Founder-Set eingestellt): zentriert statt halbes Raster. */}
-          <div className="mx-auto grid max-w-2xl gap-5">
-            {PRODUCTS.map((p) => {
-              const m = PLANS[p.month];
-              const y = PLANS[p.year];
-              return (
-                <div
-                  key={p.key}
-                  className="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-md md:p-8"
-                >
-                  <div>
-                    <h3 className="text-xl font-semibold">{p.title}</h3>
-                    <p className="mt-1.5 text-sm text-muted-foreground">{p.subtitle}</p>
+          {PRODUCTS.map((p) => {
+            const m = PLANS[p.month];
+            const y = PLANS[p.year];
+            return (
+              <div key={p.key} className="space-y-8">
+                <div className="grid gap-5 md:grid-cols-2">
+                  {/* Monatszugang */}
+                  <div className="gx-card flex flex-col p-6 md:p-8">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-primary">
+                        Flexibel starten
+                      </span>
+                      <span className="text-xs font-medium text-muted-foreground">Art.-Nr. {m.sku}</span>
+                    </div>
+                    <h3 className="mt-4 text-xl font-bold text-primary">{p.title} · Monatlich</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">Monatlich kündbar, voller Zugriff auf das gesamte Lern-Studio.</p>
+                    <div className="mt-5 flex items-baseline gap-1.5">
+                      <span className="text-4xl font-bold tracking-[-0.03em] text-primary tabular">{formatEurCents(m.grossCents)}</span>
+                      <span className="text-sm font-medium text-muted-foreground">/ {periodWord(m)}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground tabular">
+                      inkl. {VAT_PERCENT} % USt. ({formatEurCents(netCentsOf(m.grossCents))} netto)
+                    </p>
+                    <Button
+                      data-cta={`kauf-${m.id}`}
+                      onClick={() => buy(m.id)}
+                      className="press mt-6 h-12 w-full rounded-xl bg-primary font-bold text-white shadow-sm hover:bg-primary/90"
+                    >
+                      <ShoppingCart className="mr-1.5 h-4 w-4" />
+                      Monatszugang wählen
+                    </Button>
                   </div>
 
-                  <div className="mt-6 space-y-3">
-                    {[m, y].map((v) => (
-                      <div key={v.id} className="rounded-xl border border-border bg-background/60 p-4">
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <span className="text-sm font-medium">{v.period === "year" ? "Jährlich" : "Monatlich"}</span>
-                          <span>
-                            <span className="text-3xl font-semibold tracking-[-0.02em] tabular">{formatEurCents(v.grossCents)}</span>
-                            <span className="text-sm text-muted-foreground"> / {periodWord(v)}</span>
-                          </span>
-                        </div>
-                        <p className="mt-1 text-xs text-muted-foreground tabular">
-                          inkl. {VAT_PERCENT} % USt. ({formatEurCents(netCentsOf(v.grossCents))} netto) · Art.-Nr. {v.sku}
-                        </p>
-                        {v.period === "year" && v.anchorCents && (
-                          <p className="mt-1 text-xs font-medium text-success tabular">
-                            {formatEurCents(yearSaving(v))} günstiger als 12 Monatszahlungen ({formatEurCents(v.anchorCents)})
-                          </p>
-                        )}
-                        <Button
-                          data-cta={`kauf-${v.id}`}
-                          onClick={() => buy(v.id)}
-                          variant={v.period === "year" ? "outline" : "default"}
-                          className={`mt-4 h-11 w-full rounded-xl font-semibold ${v.period === "year" ? "" : "bg-gradient-primary hover:opacity-95"}`}
-                        >
-                          <ShoppingCart className="mr-1 h-4 w-4" />
-                          {v.period === "year" ? "Jahreszugang wählen" : "Monatszugang wählen"}
-                        </Button>
+                  {/* Jahreszugang Deep-Navy Spotlight */}
+                  <div className="gx-stage relative flex flex-col overflow-hidden rounded-2xl p-6 text-white shadow-lift md:p-8">
+                    <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+                    <div className="relative z-10 flex flex-1 flex-col">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="rounded-full bg-[#10B981] px-3 py-1 text-xs font-bold text-[#042016]">
+                          {formatEurCents(yearSaving(y))} günstiger (2 Monate gratis)
+                        </span>
+                        <span className="text-xs font-medium text-white/65">Art.-Nr. {y.sku}</span>
                       </div>
-                    ))}
+                      <h3 className="mt-4 text-xl font-bold text-white">{p.title} · Jährlich</h3>
+                      <p className="mt-1 text-sm text-white/75">Derselbe volle Funktionsumfang, einmal jährlich abgerechnet.</p>
+                      <div className="mt-5 flex items-baseline gap-1.5">
+                        <span className="text-4xl font-bold tracking-[-0.03em] text-white tabular">{formatEurCents(y.grossCents)}</span>
+                        <span className="text-sm font-medium text-white/75">/ {periodWord(y)}</span>
+                      </div>
+                      <p className="mt-1 text-xs text-white/70 tabular">
+                        inkl. {VAT_PERCENT} % USt. ({formatEurCents(netCentsOf(y.grossCents))} netto)
+                        {y.anchorCents ? ` · statt ${formatEurCents(y.anchorCents)} bei 12 Monatszahlungen` : ""}
+                      </p>
+                      <Button
+                        data-cta={`kauf-${y.id}`}
+                        onClick={() => buy(y.id)}
+                        className="press mt-6 h-12 w-full rounded-xl bg-[#10B981] font-bold text-[#042016] shadow-lg hover:bg-[#34D399]"
+                      >
+                        <ShoppingCart className="mr-1.5 h-4 w-4" />
+                        Jahreszugang wählen
+                      </Button>
+                    </div>
                   </div>
+                </div>
 
-                  <h4 className="mb-3 mt-8 text-sm font-semibold text-foreground">Leistungen</h4>
-                  <ul className="space-y-2.5">
+                {/* Enthaltene Leistungen */}
+                <div className="gx-card p-6 md:p-8">
+                  <h4 className="text-base font-bold text-primary">In beiden Zugängen vollständig enthalten</h4>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                     {p.contents.map((c) => (
                       <li key={c} className="flex items-start gap-2.5 text-sm leading-relaxed">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-green-soft text-brand-green">
+                          <Check className="h-3 w-3" strokeWidth={2.75} aria-hidden="true" />
+                        </span>
                         <span>{c}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
           <p className="mt-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             Weiter zur gesicherten Zahlung bei Stripe; erst dort wird die Bestellung kostenpflichtig. Ohne Konto
             entsteht dein Konto direkt nach der Zahlung. Gutscheincode {FOUNDER_CODE.code}:{" "}

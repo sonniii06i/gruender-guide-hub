@@ -1,24 +1,28 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import CockpitShell from "@/components/cockpit/CockpitShell";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { GuideCard } from "@/components/dashboard/GuideCard";
 import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
-import { GamificationBar } from "@/components/gamification/GamificationBar";
 import { PLAYBOOKS } from "@/data/playbooks";
+import { useGuideStart } from "@/hooks/useGuideStart";
 import {
+  ArrowRight,
   BookOpen,
   Building2,
+  Clock,
   CreditCard,
-  Globe,
+  ListChecks,
+  Loader2,
   Search,
   ShoppingBag,
-  Sparkles,
   Smartphone,
+  Sparkles,
   Users,
+  Wrench,
+  Zap,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ChoiceGroup, EmptyState } from "@/components/cockpit/kit";
+import { EmptyState } from "@/components/cockpit/kit";
 import { Seo } from "@/components/Seo";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +42,7 @@ interface LernPfad {
 }
 
 const LERNPFADE: LernPfad[] = [
-  { id: "all", label: "Alle Guides", kurz: "Alle Themen", icon: BookOpen },
+  { id: "all", label: "Alle Kurse", kurz: "Alle Themen", icon: BookOpen },
   {
     id: "start",
     label: "Start & Rechtsform",
@@ -130,12 +134,17 @@ const LERNPFADE: LernPfad[] = [
   },
 ];
 
+const SPOTLIGHT_SLUGS = ["amex-us-beantragen", "eigene-app-launchen", "gmbh-gruendung"] as const;
+
 const Playbooks = () => {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<string>("all");
   const [pfad, setPfad] = useState<string>("all");
+  const [spotIdx, setSpotIdx] = useState(0);
+  const { start, starting } = useGuideStart();
 
   const activePfad = LERNPFADE.find((p) => p.id === pfad) ?? LERNPFADE[0];
+  const spotlight = PLAYBOOKS.find((p) => p.slug === SPOTLIGHT_SLUGS[spotIdx]) ?? PLAYBOOKS[0];
 
   const list = useMemo(() => {
     const ql = q.trim().toLowerCase();
@@ -152,10 +161,10 @@ const Playbooks = () => {
   }, [q, filter, activePfad]);
 
   return (
-    <>
+    <div className="container max-w-6xl px-4 pb-24 pt-5 md:px-6 md:pb-16 md:pt-7">
       <Seo
-        title="Lern-Studio: Alle Gründungs-Guides | GründerX"
-        description={`${PLAYBOOKS.length} interaktive Schritt-für-Schritt-Guides: Gründung, Website, App, Amazon, TikTok Shop, US-LLC und Amex US.`}
+        title="Lern-Studio: Alle 81 Gründungs-Kurse | GründerX"
+        description={`${PLAYBOOKS.length} interaktive Schritt-für-Schritt-Kurse: Gründung, Website, App, Amazon, TikTok Shop, US-LLC und Amex US.`}
         path="/playbooks"
         jsonLd={{
           "@context": "https://schema.org",
@@ -168,128 +177,196 @@ const Playbooks = () => {
           })),
         }}
       />
-      <CockpitShell
-        eyebrow="Lern-Studio"
-        title="Alle Guides auf einen Blick"
-        subtitle="Wähle dein Ziel, klick dich Schritt für Schritt durch und öffne passende Werkzeuge direkt im Guide. Jeder Schritt bringt XP."
-      >
-        {/* Gamification-Status */}
-        <GamificationBar className="mb-6" />
 
-        {/* Weiterlernen */}
-        <div className="mb-6">
-          <ContinueLearning />
-        </div>
-
-        {/* Highlight-Banner: Neu Amex US Guide & Quizzes */}
-        <div className="mb-6 grid gap-3 sm:grid-cols-2">
-          <Link
-            to="/playbook/preview/amex-us-beantragen"
-            className="press flex min-w-0 items-center gap-3.5 overflow-hidden rounded-xl border border-brand-green/35 bg-brand-green-soft/60 p-4 transition-colors hover:border-brand-green"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green text-brand-green-foreground">
-              <Globe className="h-5 w-5" aria-hidden="true" />
+      {/* Masterclass Featured Course Hero */}
+      <section className="gx-stage relative mb-7 overflow-hidden rounded-3xl p-6 text-white shadow-lift md:p-8">
+        <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+        <div className="relative z-10">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-3 py-1 text-xs font-bold text-[#6EE7B7]">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+              Lern-Studio · {PLAYBOOKS.length} Kurse mit Arbeitsfenster
             </span>
-            <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-green">Neu · Stand 11/2026</p>
-              <p className="truncate text-sm font-semibold text-foreground">Amex US Guide (Privat & Business)</p>
-              <p className="truncate text-xs text-muted-foreground">Global Transfer, Cloud Residence, Tello eSIM, US-Bank</p>
-            </div>
-          </Link>
 
-          <Link
-            to="/quiz"
-            className="press flex min-w-0 items-center gap-3.5 overflow-hidden rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Sparkles className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-accent-blue">Interaktiv · +150 XP</p>
-              <p className="truncate text-sm font-semibold text-foreground">Gründer-Quizze & Schnell-Checks</p>
-              <p className="truncate text-xs text-muted-foreground">In 60 Sekunden deinen nächsten Guide finden</p>
+            <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Empfohlene Kurse">
+              {SPOTLIGHT_SLUGS.map((slug, idx) => {
+                const pb = PLAYBOOKS.find((x) => x.slug === slug);
+                if (!pb) return null;
+                return (
+                  <button
+                    key={slug}
+                    type="button"
+                    role="tab"
+                    aria-selected={spotIdx === idx}
+                    onClick={() => setSpotIdx(idx)}
+                    className={cn(
+                      "rounded-xl px-3 py-1.5 text-xs font-bold transition-colors",
+                      spotIdx === idx
+                        ? "bg-white text-[#0B1B40]"
+                        : "bg-white/10 text-white/75 hover:bg-white/20 hover:text-white",
+                    )}
+                  >
+                    {idx === 0 ? "Amex US" : idx === 1 ? "App bauen" : "GmbH"}
+                  </button>
+                );
+              })}
             </div>
-          </Link>
+          </div>
+
+          <div className="mt-5 grid items-end gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
+            <div>
+              <h1 className="text-balance text-2xl font-bold leading-tight tracking-[-0.025em] text-white md:text-[2.25rem]">
+                {spotlight.title}
+              </h1>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+                {spotlight.outcome}
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold">
+                <span className="inline-flex items-center gap-1 rounded-lg bg-white/12 px-2.5 py-1 text-white tabular">
+                  <ListChecks className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
+                  {spotlight.steps.length} Schritte
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-lg bg-white/12 px-2.5 py-1 text-white">
+                  <Clock className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" />
+                  {spotlight.duration}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-lg bg-[#10B981]/20 px-2.5 py-1 text-[#6EE7B7] tabular">
+                  <Zap className="h-3.5 w-3.5" aria-hidden="true" /> +{spotlight.steps.length * 100} XP
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-lg bg-white/12 px-2.5 py-1 text-white">
+                  <Wrench className="h-3.5 w-3.5 text-[#FDE68A]" aria-hidden="true" /> Direktes Arbeitsfenster
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2.5">
+              <Button
+                size="lg"
+                disabled={starting === spotlight.slug}
+                onClick={() => start(spotlight.slug)}
+                className="press h-12 rounded-xl bg-[#10B981] px-6 font-bold text-[#042016] shadow-lg hover:bg-[#34D399]"
+              >
+                {starting === spotlight.slug ? (
+                  <>
+                    <Loader2 className="mr-1.5 h-4 w-4 animate-spin" aria-hidden="true" /> Startet…
+                  </>
+                ) : (
+                  <>
+                    Kurs starten <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                  </>
+                )}
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="press h-12 rounded-xl border-white/25 bg-white/[0.08] px-5 font-semibold text-white hover:bg-white/15 hover:text-white"
+              >
+                <Link to={`/playbook/preview/${spotlight.slug}`}>Lehrplan ansehen</Link>
+              </Button>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* Kuratierte Ziel-Kategorien (Udemy / Knowunity-Stil) */}
-        <div className="-mx-4 mb-5 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
-          {LERNPFADE.map((item) => {
-            const Icon = item.icon;
-            const active = pfad === item.id;
-            return (
+      {/* Weiterlernen */}
+      <div className="mb-7">
+        <ContinueLearning />
+      </div>
+
+      {/* Filter- & Such-Studio */}
+      <section className="gx-card mb-7 p-4 md:p-5" aria-label="Kurse filtern">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center">
+          <div className="relative flex-1">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+            <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Kurs suchen, z. B. Amex US, Website, App, GmbH, ELSTER, Amazon…"
+              aria-label="Kurse suchen"
+              className="h-11 rounded-xl pl-10"
+            />
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {FILTERS.map((f) => (
               <button
-                key={item.id}
+                key={f.id}
                 type="button"
-                aria-pressed={active}
-                onClick={() => setPfad(item.id)}
+                aria-pressed={filter === f.id}
+                onClick={() => setFilter(f.id)}
                 className={cn(
-                  "press inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border px-3.5 py-2 text-left text-sm font-medium transition-colors",
-                  active
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card text-foreground hover:border-primary/40",
+                  "press min-h-10 rounded-xl border px-3.5 text-xs font-bold transition-colors",
+                  filter === f.id
+                    ? "border-primary bg-primary text-white"
+                    : "border-border bg-background text-muted-foreground hover:text-foreground",
                 )}
               >
-                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{item.label}</span>
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Lernpfad-Cluster */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {LERNPFADE.map((lp) => {
+            const Icon = lp.icon;
+            const active = pfad === lp.id;
+            return (
+              <button
+                key={lp.id}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setPfad(lp.id)}
+                className={cn(
+                  "press inline-flex min-h-10 items-center gap-2 rounded-xl border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                  active
+                    ? "border-primary bg-primary text-white shadow-sm"
+                    : "border-border bg-secondary/50 text-foreground/85 hover:border-primary/40 hover:bg-secondary",
+                )}
+              >
+                <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>{lp.label}</span>
               </button>
             );
           })}
         </div>
+      </section>
 
-        {/* Suche & Schwierigkeit */}
-        <div className="mb-6 flex flex-col gap-3 rounded-xl border border-border bg-card p-3 shadow-sm md:flex-row md:items-center md:p-4">
-          <div className="relative flex-1 md:max-w-md">
-            <label htmlFor="guide-suche" className="sr-only">Guides durchsuchen</label>
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="guide-suche"
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Guide suchen, z. B. Amex US, App, GmbH, Website…"
-              className="h-11 pl-9"
-            />
-          </div>
-          <ChoiceGroup<string>
-            label="Schwierigkeit"
-            size="sm"
-            value={filter}
-            onChange={setFilter}
-            options={FILTERS.map((f) => ({ value: f.id, label: f.label }))}
-          />
-          <p className="text-sm text-muted-foreground tabular md:ml-auto" aria-live="polite">
-            {list.length} von {PLAYBOOKS.length} Guides
-          </p>
+      {/* Kurs-Katalog */}
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h2 className="text-lg font-bold text-primary">
+          {activePfad.label}{" "}
+          <span className="text-sm font-medium text-muted-foreground tabular">({list.length} Kurse)</span>
+        </h2>
+      </div>
+
+      {list.length === 0 ? (
+        <EmptyState
+          icon={Search}
+          title="Kein passender Kurs gefunden"
+          description="Setz den Filter zurück oder such nach einem kürzeren Begriff wie GmbH, App, Amazon oder Amex."
+          action={
+            <Button
+              variant="outline"
+              onClick={() => {
+                setQ("");
+                setFilter("all");
+                setPfad("all");
+              }}
+            >
+              Filter zurücksetzen
+            </Button>
+          }
+        />
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((pb) => (
+            <GuideCard key={pb.slug} pb={pb} />
+          ))}
         </div>
-
-        {list.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {list.map((p) => (
-              <GuideCard key={p.slug} pb={p} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            icon={Search}
-            title="Keine Guides gefunden"
-            description="Versuch einen anderen Suchbegriff oder wähle oben „Alle Guides“."
-            action={
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setQ("");
-                  setFilter("all");
-                  setPfad("all");
-                }}
-              >
-                Filter zurücksetzen
-              </Button>
-            }
-          />
-        )}
-      </CockpitShell>
-    </>
+      )}
+    </div>
   );
 };
 

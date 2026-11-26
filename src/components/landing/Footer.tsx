@@ -3,9 +3,6 @@ import Logo from "@/components/Logo";
 import { openConsentSettings } from "@/utils/consent";
 import { NewsletterOptin } from "@/components/NewsletterOptin";
 
-/* Alle Links bleiben erhalten (interne Verlinkung): /faq und /partner waren
-   früher von keiner Seite aus verlinkt und standen nur in der Sitemap. Die
-   Footer-Links sind deshalb Pflicht, nicht Deko. Nur neu gruppiert. */
 const COLUMNS: { title: string; links: { to: string; label: string; native?: boolean }[] }[] = [
   {
     title: "Produkt",
@@ -42,8 +39,6 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
       { to: "/ratgeber", label: "Ratgeber" },
       { to: "/lexikon", label: "Gründer-Lexikon" },
       { to: "/buero", label: "Büro-Ausstattung" },
-      // Ratgeber mit den meisten Impressionen bei guten Positionen (GSC 30 T:
-      // 430 Impr., Ø Platz 11,4), war aber nur vom /ratgeber-Hub verlinkt.
       { to: "/ratgeber/bestes-geschaeftskonto-gruender-vergleich-2026", label: "Geschäftskonto-Vergleich" },
       { to: "/gruender-events", label: "Gründer-Events" },
       { to: "/gruender-chancen", label: "Gründer-Chancen: Wettbewerbe & Preisgeld" },
@@ -76,26 +71,28 @@ const COLUMNS: { title: string; links: { to: string; label: string; native?: boo
   },
 ];
 
-const linkCls = "text-muted-foreground transition-colors hover:text-foreground";
+const linkCls = "text-white/70 transition-colors hover:text-white";
 
 export const Footer = () => (
-  <footer id="kontakt" className="border-t border-border bg-card">
-    <div className="container max-w-6xl pb-10 pt-16">
+  <footer id="kontakt" className="border-t border-white/10 bg-[#081330] text-white/80">
+    <div className="container max-w-6xl px-4 pb-12 pt-16">
       <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr,1fr,1fr,1fr,1fr] md:gap-8">
         <div className="col-span-2 md:col-span-1">
-          <Link to="/" aria-label="Zur Startseite" className="mb-4 flex w-fit items-center gap-2">
-            <Logo asImage className="h-8 w-8" />
-            <span className="text-lg font-semibold tracking-tight">GründerX</span>
+          <Link to="/" aria-label="Zur Startseite" className="mb-4 flex w-fit items-center gap-2.5">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15">
+              <Logo asImage className="h-6 w-6 brightness-0 invert" />
+            </span>
+            <span className="text-lg font-bold tracking-tight text-white">GründerX</span>
           </Link>
-          <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Der KI-Co-Pilot für Gründer, Creator und E-Commerce-Operator.
+          <p className="max-w-xs text-sm leading-relaxed text-white/70">
+            Das interaktive Lern-Studio für Gründung, Website, App, Steuern und US-Setup. In der richtigen Reihenfolge.
           </p>
         </div>
 
         {COLUMNS.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <h2 className="mb-4 text-sm font-semibold text-foreground">{col.title}</h2>
-            <ul className="space-y-0.5 text-sm md:space-y-2.5">
+            <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">{col.title}</h2>
+            <ul className="space-y-1 text-sm md:space-y-2.5">
               {col.links.map((l) => (
                 <li key={l.to}>
                   {l.native ? (
@@ -121,19 +118,19 @@ export const Footer = () => (
         ))}
       </div>
 
-      <div className="mt-12 border-t border-border pt-8">
+      <div className="mt-12 rounded-2xl border border-white/10 bg-card p-6 text-foreground shadow-lg">
         <NewsletterOptin kompakt quelle="footer" />
       </div>
 
-      <div className="mt-14 flex flex-col justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
+      <div className="mt-12 flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-xs text-white/60 md:flex-row">
         <span>© {new Date().getFullYear()} GründerX. Alle Rechte vorbehalten.</span>
-        <span>Gebaut in Deutschland</span>
+        <span>Gebaut in Deutschland · Software, keine Steuer- oder Rechtsberatung</span>
       </div>
-      <p className="mt-3 max-w-4xl text-[11px] leading-relaxed text-muted-foreground">
-        <strong className="font-semibold">*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
-        Vertragsabschluss über diese Links erhält GründerX ggf. eine Provision — für dich entstehen
+      <p className="mt-3 max-w-4xl text-[11px] leading-relaxed text-white/55">
+        <strong className="font-semibold text-white/75">*Affiliate-Hinweis:</strong> Manche Links auf dieser Seite sind Partner-Links. Bei einem
+        Vertragsabschluss über diese Links erhält GründerX ggf. eine Provision, für dich entstehen
         keine Mehrkosten. Empfehlungen erfolgen unabhängig von der Vergütung. Details in{" "}
-        <a href="/agb" className="underline hover:text-foreground">§ 14 AGB</a>.
+        <a href="/agb" className="underline hover:text-white">§ 14 AGB</a>.
       </p>
     </div>
   </footer>

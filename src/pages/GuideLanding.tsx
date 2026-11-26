@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { LandingPage, type LandingFaq } from "@/components/landing/LandingPage";
+import { getCourseTheme } from "@/components/CourseCoverCard";
 import { guideDaten } from "@/lib/landingDaten";
 import { relatedToolsFor } from "@/lib/internalLinks";
 import { RelatedArticles } from "@/components/landing/RelatedArticles";
@@ -11,6 +13,8 @@ import { LexikonVerweise } from "@/components/lexikon/LexikonVerweise";
 import { guideHref, isMergedGuide } from "@/data/guideMerges";
 import { SCREENS } from "@/data/screenshots";
 import SchwesterTipp from "@/components/SchwesterTipp";
+import { ChevronDown, Clock, ListChecks, Lock, Wrench, Zap } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const SITE = "https://gruenderx.de";
 
@@ -21,6 +25,7 @@ const SITE = "https://gruenderx.de";
  */
 const GuideLanding = () => {
   const { slug = "" } = useParams();
+  const [openStep, setOpenStep] = useState<number>(0);
   // Nur die Datei dieses Guides (Texte + Umriss + verwandte), nicht alle 80 Playbooks.
   const daten = isMergedGuide(slug) ? null : guideDaten(slug);
   const guide = daten?.guide;
@@ -122,6 +127,89 @@ const GuideLanding = () => {
       disclaimer={copy.disclaimer}
       faq={faq}
       screenshot={slug === "tiktok-shop-starten" ? SCREENS.guideTiktok : SCREENS.dashboard}
+      heroRight={(() => {
+        const theme = getCourseTheme(guide.slug, guide.title);
+        const ThemeIcon = theme.icon;
+        const previewSteps = guide.outline.slice(0, 4);
+        return (
+          <div className="rounded-3xl border border-white/15 bg-[#081534]/90 p-5 text-white shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3.5">
+              <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold", theme.accentBg, theme.accentText)}>
+                <ThemeIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                {theme.label}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#10B981]/20 px-2.5 py-1 text-xs font-bold text-[#6EE7B7] tabular">
+                <Zap className="h-3 w-3" aria-hidden="true" /> +{guide.steps * 100} XP
+              </span>
+            </div>
+
+            <div className="mt-3.5 flex flex-wrap gap-2 text-xs text-white/80">
+              <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 font-semibold tabular">
+                <ListChecks className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" /> {guide.steps} Schritte
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 font-semibold">
+                <Clock className="h-3.5 w-3.5 text-[#6EE7B7]" aria-hidden="true" /> {guide.duration}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 font-semibold">
+                <Wrench className="h-3.5 w-3.5 text-[#FDE68A]" aria-hidden="true" /> Arbeitsfenster
+              </span>
+            </div>
+
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-wider text-white/55">
+              Interaktive Lehrplan-Vorschau (klicken zum Aufklappen)
+            </p>
+            <div className="mt-2.5 space-y-2">
+              {previewSteps.map((st, idx) => {
+                const isSample = idx < SAMPLE;
+                const expanded = openStep === idx;
+                return (
+                  <button
+                    key={st.title}
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() => setOpenStep(expanded ? -1 : idx)}
+                    className={cn(
+                      "w-full rounded-2xl border p-3 text-left transition-colors",
+                      expanded
+                        ? "border-[#10B981]/45 bg-white/12"
+                        : "border-white/12 bg-white/[0.05] hover:border-white/25 hover:bg-white/[0.08]",
+                    )}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#10B981]/20 text-[11px] font-bold text-[#6EE7B7] tabular">
+                        {idx + 1}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-xs font-bold text-white sm:text-[13px]">
+                        {st.title}
+                      </span>
+                      {!isSample ? (
+                        <Lock className="h-3.5 w-3.5 shrink-0 text-white/45" aria-hidden="true" />
+                      ) : (
+                        <ChevronDown
+                          className={cn("h-4 w-4 shrink-0 text-white/60 transition-transform", expanded && "rotate-180")}
+                          aria-hidden="true"
+                        />
+                      )}
+                    </div>
+                    {expanded && (
+                      <p className="mt-2 pl-8 text-xs leading-relaxed text-white/75">
+                        {isSample
+                          ? st.description
+                          : "Checkliste, Eingabe-Arbeitsfenster und Praxishinweise stehen im GründerX Lern-Studio bereit."}
+                      </p>
+                    )}
+                  </button>
+                );
+              })}
+              {guide.steps > 4 && (
+                <p className="pt-1 text-center text-xs text-white/60 tabular">
+                  + {guide.steps - 4} weitere Schritte im vollständigen Kurs
+                </p>
+              )}
+            </div>
+          </div>
+        );
+      })()}
       ctaTitle={`„${guide.title}" Schritt für Schritt im GründerX Lern-Studio`}
       ctaText={`${guide.steps} Schritte in der richtigen Reihenfolge mit direkten Arbeitsfenstern, plus alle weiteren Guides, Rechner und Wizards im Abo.`}
       primaryHref="/preise"

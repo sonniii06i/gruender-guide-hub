@@ -68,7 +68,7 @@ type Item = {
 };
 
 const SOLO_CONTENTS = [
-  "Felix — KI-Co-Pilot, unbegrenzt im Chat",
+  "Felix: KI-Co-Pilot, unbegrenzt im Chat",
   // Zahl aus data/features (eine Quelle), nicht hart eingetragen.
   `${TOOL_COUNT} Wizards, Rechner und Cockpits`,
   "Gründung: Rechtsform, Gewerbeanmeldung, Finanzamt-Fragebogen",

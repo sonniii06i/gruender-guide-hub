@@ -1,171 +1,171 @@
 import { Link } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { DISCORD_INVITE_URL } from "@/config/links";
 import {
-  Building2,
-  Globe,
-  ShoppingBag,
+  ArrowRight,
   Calculator,
-  CreditCard,
+  CheckCircle2,
+  Flame,
   MessageSquare,
-  RefreshCw,
-  Users,
-  ArrowUpRight,
+  Scale,
+  Trophy,
+  Wrench,
+  Zap,
 } from "lucide-react";
+import { SectionHead } from "@/components/marketing/Marketing";
+import { ANBIETER_ANZAHL, GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 
-const features = [
-  {
-    icon: Building2,
-    title: "Rechtsform, Gewerbe & Finanzamt",
-    desc: "Einzelunternehmen, UG oder GmbH? Wir zeigen dir Haftung, Kosten und Aufwand direkt nebeneinander und führen dich Feld für Feld durch Gewerbeanmeldung und ELSTER-Fragebogen. Die Entscheidung triffst du.",
-    to: "/guides/gewerbeanmeldung-schritt-fuer-schritt",
-    chip: "Start in DE",
-  },
-  {
-    icon: MessageSquare,
-    title: "Felix, dein KI-Begleiter im Cockpit",
-    desc: "Wenn du an einem Formular, einer Frist oder einem Begriff hängst, stellst du deine Frage direkt im Chat. Felix antwortet mit Quellen, nächsten Schritten und passenden Anbietern für deinen Fall.",
-    to: "/tools/ki-assistent",
-    chip: "Direkt im Guide",
-  },
-  {
-    icon: Globe,
-    title: "Webseite, App & erstes Angebot",
-    desc: "Vom leeren Blatt zur ersten eigenen Webseite oder App: Domain, Impressum, Bezahlstrecke, SEO und Sichtbarkeit für Google und KI-Suche in klaren, kurzen Schritten.",
-    to: "/webseite-und-app",
-    chip: "Von 12 bis 70",
-  },
-  {
-    icon: ShoppingBag,
-    title: "Online-Shop, Amazon & Creator",
-    desc: "Schritt für Schritt zum Shopify-Store, Amazon Seller Account oder Creator-Setup inklusive Verpackungsregister LUCID, OSS, Brand Registry und Buchhaltungs-Anbindung.",
-    to: "/amazon-fba-gruender",
-    chip: "E-Commerce",
-  },
-  {
-    icon: Calculator,
-    title: "Buchhaltung, Rechnungen & Fristen",
-    desc: "Wir vergleichen Lexware Office, sevDesk, Accountable, Qonto und Finom ehrlich nebeneinander. Dazu bekommst du deinen persönlichen Steuerkalender und den Rechnungs-Generator.",
-    to: "/tools/steuerkalender",
-    chip: "Ordnung",
-  },
-  {
-    icon: CreditCard,
-    title: "US-LLC, Amex US & internationales Setup",
-    desc: "Klare Anleitungen für US-LLC, Non-Resident Banking, Cloud Residence, Tello eSIM, Global Transfer und US Business Amex inklusive ehrlicher Risiko-Hinweise.",
-    to: "/us-setup",
-    chip: "US & Global",
-  },
-];
-
-const LAYOUT: Record<string, string> = {
-  "Rechtsform, Gewerbe & Finanzamt": "lg:col-span-2",
-  "Felix, dein KI-Begleiter im Cockpit": "lg:row-span-2 bg-ink text-primary-foreground border-transparent",
-  "US-LLC, Amex US & internationales Setup": "lg:col-span-2",
-};
-
+/**
+ * Asymmetrisches Studio-Bento-Grid (Rebuild 11/2026):
+ * Zeigt konkret die 5 Kern-Bausteine von GründerX mit sichtbarer Mini-UI statt leerer Icon-Boxen.
+ */
 export const Features = () => (
-  <section id="leistungen" className="border-y border-border bg-background py-14 md:py-20">
+  <section id="features" className="border-t border-border bg-background py-16 md:py-24">
     <div className="container max-w-6xl px-4">
-      <div className="mb-8 max-w-2xl md:mb-10">
-        <p className="mb-2.5 inline-flex items-center rounded-full border border-border bg-card px-3 py-0.5 text-[12.5px] font-semibold text-primary shadow-sm">
-          Was in GründerX steckt
-        </p>
-        <h2 className="text-balance text-2xl font-semibold leading-[1.14] tracking-[-0.02em] text-primary md:text-[2.125rem]">
-          Vom ersten Klick bis zum fertigen Setup. Alles an einem Ort.
-        </h2>
-      </div>
+      <SectionHead
+        eyebrow="Wie das Lern-Studio funktioniert"
+        title="Kein PDF-Friedhof. Ein echtes Arbeits-Studio."
+        lead="Kurse, direkte Eingabe-Fenster, Rechner, Quizze, Anbieter-Vergleich und Felix greifen ineinander, damit du am Ende nicht nur gelesen, sondern umgesetzt hast."
+      />
 
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-3 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-        {features.map((f) => {
-          const dark = f.title.startsWith("Felix");
-          return (
-            <Link
-              key={f.title}
-              to={f.to}
-              className={cn(
-                "press group relative flex w-[84%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card hover:border-primary/35 md:w-auto",
-                LAYOUT[f.title],
-              )}
-            >
-              <div className="mb-4 flex items-center justify-between gap-2">
-                <span
-                  className={cn(
-                    "flex h-10 w-10 items-center justify-center rounded-xl",
-                    dark ? "bg-primary-foreground/15 text-primary-foreground" : "bg-secondary text-primary",
-                  )}
-                >
-                  <f.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold",
-                    dark ? "bg-brand-green text-brand-green-foreground" : "bg-secondary text-muted-foreground",
-                  )}
-                >
-                  {f.chip}
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+      <div className="grid gap-4 lg:grid-cols-12">
+        {/* Kachel 1 (Groß, Deep Navy): Guides + Arbeitsfenster */}
+        <Link
+          to="/guides"
+          className="gx-stage press group relative overflow-hidden rounded-3xl p-6 text-white shadow-lift md:p-8 lg:col-span-7"
+        >
+          <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div className="relative z-10 flex h-full flex-col justify-between gap-6">
+            <div>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/12 px-3 py-1 text-xs font-bold text-[#6EE7B7]">
+                <Wrench className="h-3.5 w-3.5" aria-hidden="true" />
+                {GUIDE_COUNT} Kurse + Arbeitsfenster
+              </span>
+              <h3 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">
+                Schritt lesen, Fenster öffnen, direkt erledigen.
+              </h3>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/80 md:text-base">
+                Statt zehn offener Tabs öffnest du das GewA1-Formular, den Notar-Finder, den Firmennamen-Check oder den
+                Amex-US-Startcheck direkt im jeweiligen Kursschritt.
+              </p>
+            </div>
+
+            {/* Mini-Visual eines Arbeitsfensters */}
+            <div className="rounded-2xl border border-white/15 bg-black/25 p-4">
+              <div className="flex items-center justify-between gap-2 text-xs">
+                <span className="font-bold text-white">Schritt 3 · GewA1-Arbeitsfenster</span>
+                <span className="rounded-md bg-[#10B981] px-2 py-0.5 text-[11px] font-bold text-[#042016]">
+                  PDF exportierbar
                 </span>
               </div>
-              <h3 className="mb-2 text-lg font-semibold leading-snug">{f.title}</h3>
-              <p
-                className={cn(
-                  "max-w-prose text-[15px] leading-relaxed",
-                  dark ? "text-primary-foreground/80" : "text-muted-foreground",
-                )}
-              >
-                {f.desc}
-              </p>
-              {dark && (
-                <img
-                  src="/mascots/felix-34-t.webp"
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  width={160}
-                  height={197}
-                  className="pointer-events-none mt-auto hidden w-36 self-end pt-6 lg:block"
-                />
-              )}
-            </Link>
-          );
-        })}
-      </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                {["Tätigkeit (WZ-Code)", "Betriebsstätte", "Startdatum"].map((f) => (
+                  <div key={f} className="rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-xs">
+                    <span className="block text-[10px] text-white/55">{f}</span>
+                    <span className="mt-0.5 inline-flex items-center gap-1 font-semibold text-[#6EE7B7]">
+                      <CheckCircle2 className="h-3 w-3" aria-hidden="true" /> Gespeichert
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Link>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <div className="flex gap-3.5 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-green-soft text-brand-green">
-            <RefreshCw className="h-4 w-4" aria-hidden="true" />
-          </span>
+        {/* Kachel 2 (Rechts oben, Emerald/Light): Gamification & Quizze */}
+        <Link
+          to="/quiz"
+          className="gx-card gx-card-hover press flex flex-col justify-between gap-5 p-6 md:p-7 lg:col-span-5"
+        >
           <div>
-            <h3 className="mb-1 text-base font-semibold">Laufend geprüft statt veraltet</h3>
-            <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
-              Keine Anleitungen von vor drei Jahren: Wir prüfen Guides, Grenzwerte, Förderprogramme und Anbieterpreise
-              regelmäßig gegen Gesetze und Primärquellen und passen an, was sich ändert.
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-green-soft px-3 py-1 text-xs font-bold text-brand-green">
+              <Trophy className="h-3.5 w-3.5" aria-hidden="true" />
+              Spielerisch dranbleiben
+            </span>
+            <h3 className="mt-3 text-xl font-bold tracking-tight text-primary md:text-2xl">
+              XP, Level, Serien &amp; 12 interaktive Quizze
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Jeder erledigte Schritt und jeder Kurz-Check bringt XP. So siehst du deinen echten Fortschritt vom ersten
+              Klick bis zur fertigen Gründung.
             </p>
           </div>
-        </div>
-        <div className="flex gap-3.5 rounded-2xl border border-border bg-card p-5 shadow-card md:p-6">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
-            <Users className="h-4 w-4" aria-hidden="true" />
-          </span>
+
+          <div className="rounded-2xl border border-border bg-secondary/50 p-4">
+            <div className="flex items-center justify-between gap-2 text-xs font-bold">
+              <span className="inline-flex items-center gap-1.5 text-primary">
+                <Zap className="h-4 w-4 text-brand-green" aria-hidden="true" /> Level 3 · Umsetzer
+              </span>
+              <span className="inline-flex items-center gap-1 text-amber-600 tabular">
+                <Flame className="h-3.5 w-3.5" aria-hidden="true" /> 5 Tage Serie
+              </span>
+            </div>
+            <div className="mt-2.5 h-2.5 overflow-hidden rounded-full bg-card">
+              <div className="h-full w-3/4 rounded-full bg-brand-green" />
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground tabular">
+              <span>450 / 600 XP</span>
+              <span className="font-semibold text-primary">Quiz spielen →</span>
+            </div>
+          </div>
+        </Link>
+
+        {/* Kachel 3 (Unten links): 90 Tools & Rechner */}
+        <Link
+          to="/tools"
+          className="gx-card gx-card-hover press flex flex-col justify-between gap-4 p-6 lg:col-span-4"
+        >
           <div>
-            <h3 className="mb-1 text-base font-semibold">Gründer-Feeds im Discord</h3>
-            <p className="max-w-prose text-[15px] leading-relaxed text-muted-foreground">
-              Im{" "}
-              <a
-                href={DISCORD_INVITE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-accent-blue underline-offset-4 hover:underline"
-              >
-                GründerX-Discord
-              </a>{" "}
-              laufen Gründer-Events, Fristen-Radar und Startup-Guthaben als Feed, und du stellst deine Fragen direkt im
-              Server.
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white">
+              <Calculator className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 text-lg font-bold text-primary">{TOOL_COUNT} Tools, Rechner &amp; Wizards</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Gewerbe-Check, ELSTER-Begleiter, Rechnungs-Generator (PDF + XRechnung), LUCID, WEEE, Marge-Tracker und
+              Steuerkalender.
             </p>
           </div>
-        </div>
+          <span className="inline-flex items-center gap-1 text-xs font-bold text-accent-blue">
+            Alle Tools ansehen <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
+        </Link>
+
+        {/* Kachel 4 (Unten Mitte): Felix KI-Co-Pilot */}
+        <Link
+          to="/auth?mode=signup"
+          className="gx-card gx-card-hover press flex flex-col justify-between gap-4 p-6 lg:col-span-4"
+        >
+          <div>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green text-white">
+              <MessageSquare className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 text-lg font-bold text-primary">Felix erklärt dir jede Formularzeile</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Direkt aus jedem Kursschritt fragen. Felix antwortet ruhig mit Stand, Paragraf und nächstem Schritt (Software, keine Rechts- oder Steuerberatung).
+            </p>
+          </div>
+          <div className="rounded-xl border border-border bg-secondary/50 px-3 py-2 text-xs text-muted-foreground">
+            „Muss ich bei 18.000 € Umsatz Umsatzsteuer ausweisen?“ → <strong className="text-foreground">§ 19 UStG erklärt</strong>
+          </div>
+        </Link>
+
+        {/* Kachel 5 (Unten rechts): 210 Anbieter-Vergleich */}
+        <Link
+          to="/anbieter"
+          className="gx-card gx-card-hover press flex flex-col justify-between gap-4 p-6 lg:col-span-4"
+        >
+          <div>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white">
+              <Scale className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 text-lg font-bold text-primary">{ANBIETER_ANZAHL} Anbieter direkt nebeneinander</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Geschäftskonten, Kreditkarten, Buchhaltung, Shop-Systeme und Versicherungen mit klaren Bruttopreisen,
+              Stärken, Schwächen und 3er-Direktvergleich.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1 text-xs font-bold text-accent-blue">
+            Anbieter vergleichen <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
+        </Link>
       </div>
     </div>
   </section>

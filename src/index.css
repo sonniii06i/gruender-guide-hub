@@ -63,28 +63,28 @@
     --input: 220 12% 55%;
     --ring: 221 72% 42%;
 
-    /* Moderne, freundliche Radien: Knöpfe/Felder 8px (md), Karten 12-16px (lg/xl), große Bühnen 20px (2xl). */
+    /* Moderne, freundliche Radien: Knöpfe/Felder 10px, Karten 16px, Bühnen 24px. */
     --radius: 0.75rem;
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
-    /* Die drei Namen bleiben für bestehende Klassen erhalten. */
-    --gradient-hero: none;
-    --gradient-primary: none;
-    --gradient-ink: none;
-    --ink: 223 58% 16%;
-    --shadow-card: 0 1px 2px hsl(222 47% 13% / 0.04), 0 0 0 1px hsl(222 47% 13% / 0.03);
-    --shadow-soft: 0 1px 2px hsl(222 47% 13% / 0.05), 0 8px 24px -10px hsl(222 47% 13% / 0.14);
-    --shadow-lift: 0 2px 6px hsl(222 47% 13% / 0.06), 0 14px 32px -12px hsl(222 47% 13% / 0.16);
-    --shadow-glow: 0 1px 2px hsl(222 47% 13% / 0.05), 0 8px 24px -10px hsl(223 70% 23% / 0.16);
+    /* GründerX Studio Bühnen & Tiefe (Rebuild 11/2026) */
+    --gradient-hero: linear-gradient(155deg, #091636 0%, #11295f 56%, #16367a 100%);
+    --gradient-primary: linear-gradient(135deg, #11295f 0%, #193b87 100%);
+    --gradient-ink: linear-gradient(155deg, #091636 0%, #11295f 100%);
+    --ink: 223 64% 15%;
+    --shadow-card: 0 1px 2px hsl(222 47% 13% / 0.05), 0 4px 12px -4px hsl(222 47% 13% / 0.06);
+    --shadow-soft: 0 2px 6px hsl(222 47% 13% / 0.06), 0 12px 28px -10px hsl(222 47% 13% / 0.16);
+    --shadow-lift: 0 4px 12px hsl(222 47% 13% / 0.08), 0 20px 44px -14px hsl(223 70% 18% / 0.22);
+    --shadow-glow: 0 2px 8px hsl(222 47% 13% / 0.08), 0 12px 32px -10px hsl(223 70% 23% / 0.24);
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 24% 28%;
-    --sidebar-primary: 223 70% 23%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 22% 94.5%;
-    --sidebar-accent-foreground: 222 47% 13%;
-    --sidebar-border: 220 18% 88.5%;
-    --sidebar-ring: 221 72% 42%;
+    --sidebar-background: 223 68% 14%;
+    --sidebar-foreground: 220 35% 88%;
+    --sidebar-primary: 158 64% 52%;
+    --sidebar-primary-foreground: 223 68% 12%;
+    --sidebar-accent: 223 55% 21%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 223 48% 23%;
+    --sidebar-ring: 158 64% 52%;
   }
 }
 
@@ -301,3 +301,41 @@
   .gx-plan-jetzt { margin-left: 0; margin-top: 4px; display: table; }
 }
 @media (max-width: 639px) { .gx-plan-fall { white-space: normal; } }
+
+/* GründerX Studio Bühnen & Karten (Masterclass × Linear × Duolingo) */
+.gx-stage {
+  background-color: #0b1b40;
+  background-image:
+    radial-gradient(60% 70% at 82% 8%, rgba(45, 110, 232, 0.28) 0%, rgba(11, 27, 64, 0) 70%),
+    radial-gradient(45% 55% at 12% 95%, rgba(16, 185, 129, 0.14) 0%, rgba(11, 27, 64, 0) 70%),
+    linear-gradient(155deg, #091636 0%, #11295f 58%, #16367a 100%);
+}
+
+.gx-stage-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.gx-card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out), border-color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gx-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+    border-color: hsl(var(--primary) / 0.32);
+  }
+}
+
+.gx-glass {
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+}

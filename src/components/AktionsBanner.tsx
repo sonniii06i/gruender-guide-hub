@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isPrerender } from "@/lib/prerender";
 import { isGruenderXIosApp } from "@/lib/iosApp";
 import { useAuth } from "@/hooks/useAuth";
@@ -54,6 +54,7 @@ export default function AktionsBanner() {
   const [a, setA] = useState<Aktion | null>(null);
   const [kopiert, setKopiert] = useState(false);
   const [pfad, setPfad] = useState(() => (typeof window !== "undefined" ? window.location.pathname : "/"));
+  const bannerRef = useRef<HTMLDivElement | null>(null);
 
   // Reagiert auch auf SPA-Navigationen (pushState/popstate), da AktionsBanner über dem Router sitzen kann.
   useEffect(() => {
@@ -92,7 +93,36 @@ export default function AktionsBanner() {
     };
   }, [gesperrt]);
 
-  if (gesperrt || !a?.aktiv) return null;
+  const sichtbar = !gesperrt && Boolean(a?.aktiv);
+
+  // Informiert ConsentBanner über CSS-Variable mit echter gerenderter Höhe, damit sich beide Leisten nie überlappen (auch mehrzeilig auf Mobil).
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (!sichtbar) {
+      document.documentElement.style.setProperty("--gx-banner-offset", "0px");
+      return;
+    }
+    const updateOffset = () => {
+      const h = bannerRef.current ? Math.ceil(bannerRef.current.getBoundingClientRect().height) : 64;
+      document.documentElement.style.setProperty("--gx-banner-offset", `${h}px`);
+    };
+    updateOffset();
+    const raf = window.requestAnimationFrame(updateOffset);
+    window.addEventListener("resize", updateOffset);
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && bannerRef.current) {
+      ro = new ResizeObserver(updateOffset);
+      ro.observe(bannerRef.current);
+    }
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", updateOffset);
+      ro?.disconnect();
+      document.documentElement.style.setProperty("--gx-banner-offset", "0px");
+    };
+  }, [sichtbar, a?.text, a?.code]);
+
+  if (!sichtbar || !a) return null;
 
   const schliessen = () => {
     try {
@@ -105,6 +135,7 @@ export default function AktionsBanner() {
 
   return (
     <div
+      ref={bannerRef}
       role="region"
       aria-label="Aktuelle Aktion"
       className="fixed inset-x-0 bottom-0 z-50 bg-primary px-4 py-2.5 pr-12 text-center text-sm font-semibold text-primary-foreground shadow-lg"

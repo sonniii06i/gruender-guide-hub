@@ -1,83 +1,97 @@
 import { Link } from "react-router-dom";
-import { Check, X, ArrowRight } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
+import { SectionHead } from "@/components/marketing/Marketing";
+import { GUIDE_COUNT, TOOL_COUNT } from "@/data/kennzahlen";
 
-const generic = [
-  "Allgemeine Textwände ohne Reihenfolge für deinen Fall",
-  "Kein Überblick, was du schon erledigt hast und was noch warten kann",
-  "Führt dich nicht Feld für Feld durch ELSTER, LUCID oder Gewerbeanmeldung",
-  "Keine interaktiven Arbeitsfenster, Rechner oder Kurz-Checks pro Schritt",
-  "Kein persönlicher Fristen-Kalender und keine laufende Quellenprüfung",
-];
-
-const ours = [
-  "81 interaktive Schritt-für-Schritt-Guides: Webseite, App, Shop, Steuern und US-Setup",
-  "Klare Reihenfolge nach Alter (12 bis 70) und Vorhaben mit sichtbarem Fortschritt und XP",
-  "Arbeitsfenster öffnen sich direkt im Schritt: Rechner, Wizards, Checklisten und Notizen",
-  "Ehrliche Anbieter-Vergleiche mit Preisen, Stärken, Schwächen und echten Praxis-Hinweisen",
-  "Fristen-Kalender für Steuern, Rechnungs-Generator und Felix im Chat bei Rückfragen",
+const ROWS = [
+  {
+    thema: "Reihenfolge & Aktualität",
+    ohne: "14 widersprüchliche YouTube-Videos, veraltete Grenzen (22.000 € statt 25.000 €)",
+    mit: "Aktuelle Regeln 2026 mit Stand & Paragraf, klar sortiert: erst das, dann das",
+  },
+  {
+    thema: "Umsetzung statt Theorie",
+    ohne: "Lange Blogtexte ohne Werkzeug, du hängst trotzdem im Formular fest",
+    mit: `${GUIDE_COUNT} Kurse zum Durchklicken mit direkten Arbeitsfenstern & ${TOOL_COUNT} Tools`,
+  },
+  {
+    thema: "Handy & Alltag",
+    ohne: "Unlesbare PDFs und Tabellen, die auf dem Smartphone nicht bedienbar sind",
+    mit: "Handy-first gebaut: Check-Karten, Quizze, XP-Fortschritt und eigene iOS-App-Hülle",
+  },
+  {
+    thema: "Pflichten & Fristen",
+    ohne: "LUCID, WEEE, Transparenzregister oder ELSTER-Frist erst nach Mahnung entdeckt",
+    mit: "Fristen-Kalender, Schwellen-Checks und klare Vorab-Warnungen vor dem Start",
+  },
+  {
+    thema: "Anbieter-Auswahl",
+    ohne: "Affiliate-Rankings ohne echte Schwächen oder Nebenkosten",
+    mit: "210 Anbieter im 3er-Direktvergleich mit ehrlichen Stärken, Schwächen und Bruttopreisen",
+  },
 ];
 
 export const Comparison = () => (
-  <section className="py-14 md:py-20">
+  <section className="border-t border-border bg-background py-16 md:py-24">
     <div className="container max-w-6xl px-4">
-      <div className="mb-8 max-w-2xl md:mb-10">
-        <p className="mb-2.5 inline-flex items-center rounded-full border border-border bg-card px-3 py-0.5 text-[12.5px] font-semibold text-primary shadow-sm">
-          Der Unterschied im Alltag
-        </p>
-        <h2 className="text-balance text-2xl font-semibold leading-[1.14] tracking-[-0.02em] text-primary md:text-[2.125rem]">
-          Andere erklären nur. Mit GründerX hakst du jeden Schritt ab.
-        </h2>
-      </div>
+      <SectionHead
+        eyebrow="Der Unterschied im Alltag"
+        title="Zusammengegooglet vs. GründerX Lern-Studio."
+        lead="Warum die meisten nicht an fehlender Motivation scheitern, sondern an der falschen Reihenfolge."
+      />
 
-      <div className="grid gap-4 md:grid-cols-[0.9fr,1.1fr]">
-        <div className="rounded-2xl border border-border bg-secondary/65 p-6 md:p-7">
-          <h3 className="text-lg font-semibold text-muted-foreground">Suche, Foren &amp; freie KI-Chats</h3>
-          <p className="mb-6 text-sm text-muted-foreground">40 offene Tabs, widersprüchliche Tipps</p>
-          <ul className="space-y-3.5">
-            {generic.map((t) => (
-              <li key={t} className="flex items-start gap-3 text-[15px] text-muted-foreground">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-background/80">
-                  <X className="h-3.5 w-3.5 text-muted-foreground/70" aria-hidden="true" />
+      <div className="grid gap-4 lg:grid-cols-2">
+        {/* Links: Ohne Struktur */}
+        <div className="rounded-3xl border border-border bg-card p-6 md:p-8">
+          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ohne System</p>
+          <h3 className="mt-1.5 text-xl font-bold text-foreground">YouTube, Foren &amp; offene Tabs</h3>
+          <ul className="mt-6 space-y-4">
+            {ROWS.map((r) => (
+              <li key={r.thema} className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-danger-soft text-danger">
+                  <X className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden="true" />
                 </span>
-                <span>{t}</span>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{r.thema}</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{r.ohne}</p>
+                </div>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-2xl border-2 border-primary bg-card p-6 shadow-md md:p-7">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="text-lg font-semibold text-primary">GründerX Lern-Studio &amp; Cockpit</h3>
-            <span className="rounded-full bg-brand-green-soft px-2.5 py-0.5 text-xs font-semibold text-brand-green">
-              Ein System
-            </span>
+        {/* Rechts: Deep-Navy GründerX Spotlight */}
+        <div className="gx-stage relative overflow-hidden rounded-3xl p-6 text-white shadow-lift md:p-8">
+          <div className="gx-stage-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div className="relative z-10">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#6EE7B7]">Mit GründerX</p>
+            <h3 className="mt-1.5 text-xl font-bold text-white">Interaktives Lern-Studio &amp; Cockpit</h3>
+            <ul className="mt-6 space-y-4">
+              {ROWS.map((r) => (
+                <li key={r.thema} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#10B981] text-[#042016]">
+                    <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-white">{r.thema}</p>
+                    <p className="mt-0.5 text-sm text-white/80">{r.mit}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-          <p className="mb-6 text-sm font-medium text-muted-foreground">
-            Geführte Kurse, direkte Tools und ein Plan für alle von 12 bis 70
-          </p>
-          <ul className="space-y-3.5">
-            {ours.map((t) => (
-              <li key={t} className="flex items-start gap-3 text-[15px]">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-green text-brand-green-foreground">
-                  <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />
-                </span>
-                <span className="text-foreground">{t}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
 
-      <p className="mt-6 max-w-3xl text-[15px] leading-relaxed text-muted-foreground">
-        Und der Steuerberater? Was er kostet, was er übernimmt und wann er die bessere Wahl ist, steht offen im{" "}
+      <p className="mt-6 text-sm text-muted-foreground">
+        Unsicher, wann ein Steuerberater sinnvoller ist?{" "}
         <Link
           to="/vergleich/gruendung-selbst-steuerberater-gruenderx"
-          className="inline-flex items-center gap-1 font-semibold text-accent-blue underline-offset-4 hover:underline"
+          className="inline-flex items-center gap-1 font-semibold text-primary underline underline-offset-4 hover:text-accent-blue"
         >
-          Vergleich: Gründung selbst, mit Steuerberater oder mit GründerX
+          Zum Vergleich: Selbst, Steuerberater oder GründerX
           <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </Link>
-        .
       </p>
     </div>
   </section>

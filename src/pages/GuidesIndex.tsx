@@ -6,7 +6,8 @@ import { Seo } from "@/components/Seo";
 import { HubNav } from "@/components/landing/HubNav";
 import { PageHeader } from "@/components/landing/PageHeader";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Search, Sparkles } from "lucide-react";
+import { CourseCoverCard } from "@/components/CourseCoverCard";
+import { ArrowRight, CreditCard, Search, Sparkles } from "lucide-react";
 import { GUIDE_LANDINGS } from "@/data/guides";
 import { guideHref } from "@/data/guideMerges";
 import { MobileCtaBar } from "@/components/landing/MobileCtaBar";
@@ -21,10 +22,6 @@ const FILTER_CHIPS = [
   { id: "Komplex", label: "Komplex" },
 ];
 
-/**
- * Öffentliche Übersicht aller Guides (/guides) — crawlbarer Hub, der auf jede
- * /guides/:slug-Landing verlinkt. Zeigt KEINEN Bezahl-Inhalt.
- */
 const GuidesIndex = () => {
   const [q, setQ] = useState("");
   const [diff, setDiff] = useState("all");
@@ -73,57 +70,71 @@ const GuidesIndex = () => {
         <PageHeader
           zentriert
           crumbs={[{ label: "Start", to: "/" }, { label: "Guides" }]}
-          title="Guides zum Durchklicken."
+          title={
+            <>
+              {GUIDE_LANDINGS.length} Kurse zum <span className="text-[#6EE7B7]">Durchklicken.</span>
+            </>
+          }
           lead={
             <p>
-              {GUIDE_LANDINGS.length} Schritt-für-Schritt-Guides von Website und App über Gewerbe, GmbH und Steuern
-              bis US-Amex. Kurz erklärt, mobil optimiert, mit direkten Arbeitsfenstern.
+              Von Website und App über Gewerbe, GmbH und Steuern bis Amex US. Jeder Kurs hat klare Schritte, XP und
+              direkte Arbeitsfenster statt endloser Textwände.
             </p>
           }
         />
 
-        <div className="container max-w-5xl px-4 py-10 md:py-14">
-          {/* Schnell-Einstieg Quiz & Amex US */}
-          <div className="mb-6 grid gap-3 sm:grid-cols-2">
+        <div className="container max-w-6xl px-4 py-10 md:py-14">
+          {/* Spotlight-Einstieg: Amex US & Quiz */}
+          <div className="mb-7 grid gap-3.5 sm:grid-cols-2">
             <Link
               to="/guides/amex-us-beantragen"
-              className="press flex items-center justify-between gap-3 rounded-xl border border-brand-green/35 bg-brand-green-soft/60 p-4 transition-colors hover:border-brand-green"
+              className="gx-stage press group flex items-center justify-between gap-4 rounded-2xl p-5 text-white shadow-soft"
             >
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-green">Neu · Stand 11/2026</p>
-                <p className="text-sm font-semibold text-foreground">Amex US beantragen (Privat & Business)</p>
-                <p className="text-xs text-muted-foreground">Global Transfer, Cloud Residence, Tello eSIM, US-Bank</p>
+              <div className="flex items-start gap-3.5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/12 text-[#FDE68A]">
+                  <CreditCard className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#6EE7B7]">Neu · Stand 11/2026</p>
+                  <p className="mt-0.5 text-base font-bold text-white">Amex US beantragen (Privat &amp; Business)</p>
+                  <p className="mt-0.5 text-xs text-white/75">Global Transfer, Cloud Residence, Tello eSIM, US-Bank</p>
+                </div>
               </div>
-              <ArrowRight className="h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
+              <ArrowRight className="h-4 w-4 shrink-0 text-[#6EE7B7] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
 
             <Link
               to="/quiz/gruendertyp"
-              className="press flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
+              className="gx-card gx-card-hover press flex items-center justify-between gap-4 border-brand-green/35 bg-brand-green-soft/60 p-5"
             >
-              <div>
-                <p className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-accent-blue">
-                  <Sparkles className="h-3 w-3" aria-hidden="true" /> Nicht sicher wo anfangen?
-                </p>
-                <p className="text-sm font-semibold text-foreground">60-Sekunden-Gründertyp-Quiz</p>
-                <p className="text-xs text-muted-foreground">Alter & Ziel wählen, passenden Guide + Rabatt bekommen</p>
+              <div className="flex items-start gap-3.5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green text-white">
+                  <Sparkles className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-brand-green">Nicht sicher wo anfangen?</p>
+                  <p className="mt-0.5 text-base font-bold text-foreground">60-Sekunden-Gründertyp-Quiz</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">Alter &amp; Ziel wählen, passenden Kurs + Aktionscode bekommen</p>
+                </div>
               </div>
-              <ArrowRight className="h-4 w-4 shrink-0 text-accent-blue" aria-hidden="true" />
+              <ArrowRight className="h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
             </Link>
           </div>
 
           {/* Suche & Filter */}
-          <div className="mb-6 flex flex-col gap-3 rounded-xl border border-border bg-card p-3 sm:flex-row sm:items-center sm:p-4">
+          <div className="gx-card mb-7 flex flex-col gap-3 p-3.5 sm:flex-row sm:items-center sm:p-4">
             <div className="relative flex-1">
-              <label htmlFor="public-guide-suche" className="sr-only">Guides suchen</label>
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+              <label htmlFor="public-guide-suche" className="sr-only">
+                Guides suchen
+              </label>
+              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
               <Input
                 id="public-guide-suche"
                 type="search"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Guide suchen, z. B. Amex US, App, GmbH, Website…"
-                className="h-11 pl-9"
+                placeholder="Kurs suchen, z. B. Amex US, App, GmbH, Website…"
+                className="h-11 rounded-xl pl-10"
               />
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -134,9 +145,9 @@ const GuidesIndex = () => {
                   aria-pressed={diff === c.id}
                   onClick={() => setDiff(c.id)}
                   className={cn(
-                    "min-h-10 rounded-lg border px-3 text-xs font-semibold transition-colors",
+                    "press min-h-10 rounded-xl border px-3.5 text-xs font-bold transition-colors",
                     diff === c.id
-                      ? "border-primary bg-primary text-primary-foreground"
+                      ? "border-primary bg-primary text-white"
                       : "border-border bg-background text-muted-foreground hover:text-foreground",
                   )}
                 >
@@ -146,24 +157,19 @@ const GuidesIndex = () => {
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((g) => (
-              <Link
+              <CourseCoverCard
                 key={g.slug}
+                slug={g.slug}
+                title={g.title}
+                subtitle={g.tagline}
+                duration={g.duration}
+                difficulty={g.difficulty}
+                stepsCount={g.steps}
                 to={guideHref(g.slug)}
-                className="press group flex flex-col rounded-xl border border-border bg-card p-5 shadow-sm transition-[border-color,box-shadow] duration-150 hover:border-brand-green/50 hover:shadow-md"
-              >
-                <p className="mb-1.5 flex items-start justify-between gap-2 font-semibold">
-                  {g.title}
-                  <ArrowRight className="mt-1 h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-brand-green" aria-hidden="true" />
-                </p>
-                <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">{g.tagline}</p>
-                <p className="flex flex-wrap gap-1.5 text-[11px] font-medium text-muted-foreground">
-                  <span className="rounded-md bg-secondary px-2 py-0.5">{g.duration}</span>
-                  <span className="rounded-md bg-secondary px-2 py-0.5">{g.difficulty}</span>
-                  <span className="rounded-md bg-secondary px-2 py-0.5 tabular">{g.steps} Schritte</span>
-                </p>
-              </Link>
+                badgeText={g.slug === "amex-us-beantragen" ? "Neu · US & Amex" : undefined}
+              />
             ))}
           </div>
 

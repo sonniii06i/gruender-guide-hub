@@ -50,7 +50,8 @@ export const ConsentBanner = () => {
       role="dialog"
       aria-live="polite"
       aria-label="Einwilligung für Marketing-Cookies"
-      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-4xl rounded-2xl border border-border bg-card shadow-soft sm:inset-x-4 sm:bottom-4"
+      style={{ bottom: "calc(12px + var(--gx-banner-offset, 0px))" }}
+      className="fixed inset-x-3 z-[100] mx-auto max-w-4xl rounded-2xl border border-border bg-card shadow-lift sm:inset-x-4"
     >
       <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
         <div className="flex min-w-0 items-start gap-3">

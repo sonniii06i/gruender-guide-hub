@@ -57,6 +57,8 @@ export interface LandingPageProps {
   bottomSlot?: React.ReactNode;
   topSlot?: React.ReactNode;
   screenshot?: Screenshot;
+  /** Optionale interaktive Produkt-/Kurs-Vorschau rechts im Hero (ersetzt statischen Screenshot). */
+  heroRight?: React.ReactNode;
 }
 
 /**
@@ -83,7 +85,7 @@ export const LandingPage = (p: LandingPageProps) => {
           secondary={p.secondaryHref ? { to: p.secondaryHref, label: p.secondaryLabel ?? "Mehr erfahren" } : undefined}
           trust={["Monatlich kündbar", `${GUIDE_COUNT} interaktive Guides`, `${TOOL_COUNT} Tools & Wizards`]}
         >
-          {p.screenshot && <ScreenshotFrame shot={p.screenshot} priority caption="Echte Ansicht aus dem GründerX-Cockpit" />}
+          {p.heroRight ?? (p.screenshot && <ScreenshotFrame shot={p.screenshot} priority caption="Echte Ansicht aus dem GründerX-Cockpit" />)}
         </HeroCentered>
 
         {p.topSlot && <div className="container max-w-4xl px-4 pt-8">{p.topSlot}</div>}

@@ -86,7 +86,7 @@ export const schemaPrice = (cents: number): string => (cents / 100).toFixed(2);
 
 /** Kündigungsregel — derselbe Wortlaut überall. */
 export const CANCEL_NOTE =
-  "Jederzeit im Konto kündbar, wirksam zum Ende der laufenden Abrechnungsperiode — danach keine weitere Abbuchung. Keine Mindestlaufzeit über die gebuchte Periode hinaus. Widerrufsrecht für Verbraucher nach § 355 BGB.";
+  "Jederzeit im Konto kündbar, wirksam zum Ende der laufenden Abrechnungsperiode, danach keine weitere Abbuchung. Keine Mindestlaufzeit über die gebuchte Periode hinaus. Widerrufsrecht für Verbraucher nach § 355 BGB.";
 
 /**
  * Gutschein FOUNDER: 20 % auf die ERSTE RECHNUNG (Stripe: Gutschein „once“, ohne
@@ -120,7 +120,7 @@ export const FOUNDER_SATZ =
 
 /** Voller Funktionsumfang des GründerX-Zugangs. */
 export const SOLO_CONTENTS = [
-  "Felix — KI-Co-Pilot für Gründung, Steuern und Marketplaces, unbegrenzt im Chat",
+  "Felix: KI-Co-Pilot für Gründung, Steuern und Marketplaces, unbegrenzt im Chat",
   "Gründung: Rechtsform-Wizard, Gewerbeanmeldung, Fragebogen zur steuerlichen Erfassung (Einzel, Personen- und Kapitalgesellschaft), Erste-Schritte-Roadmap, Entscheidungs-Engine, Gewerbe-Check",
   "Steuer-Cockpit: USt-Voranmeldung, Anlage EÜR, BWA-Generator, DATEV-Mapper, Quartals-Steuerschätzung, IAB-Rechner, Abschreibungs-Erklärer, Fristen-Kalender",
   "Belege & Buchhaltung: Rechnungs-Generator (PDF), Settlement-Parser, Reisekosten-Logger, Kfz-Optimizer, Crypto-Steuer, Steuer-ABC-Glossar",
