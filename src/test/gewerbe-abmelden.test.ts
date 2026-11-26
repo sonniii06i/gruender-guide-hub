@@ -342,4 +342,11 @@ describe("Seite: SEO, Quellen, Links", () => {
     expect(c.downloads![0].href).toBe("/forms/gewa3.pdf");
     expect(existsSync(resolve(__dirname, "../../public/forms/gewa3.pdf"))).toBe(true);
   });
+
+  it("der Funnel-Link der Free-Tool-Seite trägt data-quelle (Gate pruefe_tool) und zählt den Klick", () => {
+    const seite = readFileSync(resolve(__dirname, "../pages/FreeToolPage.tsx"), "utf8");
+    expect(seite).toContain("data-quelle={`tool:${config.slug}`}");
+    expect(seite).toContain('trackTraffic.internerFunnelKlick(`tool:${config.slug}`, "/preise")');
+    expect(seite).not.toContain("?utm_");
+  });
 });

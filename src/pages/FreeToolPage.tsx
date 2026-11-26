@@ -207,6 +207,7 @@ export default function FreeToolPage({ config }: FreeToolPageProps) {
             </p>
             <Link
               to="/preise"
+              data-quelle={`tool:${config.slug}`}
               onClick={() => trackTraffic.internerFunnelKlick(`tool:${config.slug}`, "/preise")}
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-blue hover:underline"
             >
