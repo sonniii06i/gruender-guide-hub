@@ -1,18 +1,18 @@
 {
- "stand": "2026-11-26T13:58:23.979Z",
+ "stand": "2026-11-27T13:57:29.508Z",
  "quelle": {
   "ok": true,
-  "roh": 149,
+  "roh": 151,
   "uebernommen": 20,
   "verworfen": {
-   "nur_einladung": 14,
+   "nur_einladung": 15,
    "vor_ort_fern": 50,
-   "frist_vorbei": 1,
-   "preis_unter_5000_usd": 59,
+   "frist_vorbei": 3,
+   "preis_unter_5000_usd": 58,
    "kein_usd_betrag": 5,
    "ueber_max": 0
   },
-  "letzterErfolg": "2026-11-26T13:58:23.979Z"
+  "letzterErfolg": "2026-11-27T13:57:29.507Z"
  },
  "anzahl": 20,
  "eintraege": [
@@ -23,7 +23,7 @@
    "ende": "2026-11-30",
    "preisUsd": 30000,
    "geldpreise": 6,
-   "anmeldungen": 5617,
+   "anmeldungen": 5798,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -38,8 +38,8 @@
    "url": "https://kiroween.devpost.com/",
    "ende": "2026-12-04",
    "preisUsd": 100000,
-   "geldpreise": 15,
-   "anmeldungen": 19522,
+   "geldpreise": 1,
+   "anmeldungen": 19777,
    "ort": "Online",
    "veranstalter": "Kiro",
    "themen": [
@@ -54,8 +54,8 @@
    "url": "https://deckthepixels.devpost.com/",
    "ende": "2026-12-07",
    "preisUsd": 25000,
-   "geldpreise": 6,
-   "anmeldungen": 2318,
+   "geldpreise": 1,
+   "anmeldungen": 2427,
    "ort": "Online",
    "veranstalter": "Google",
    "themen": [
@@ -71,7 +71,7 @@
    "ende": "2026-12-07",
    "preisUsd": 15000,
    "geldpreise": 1,
-   "anmeldungen": 29,
+   "anmeldungen": 52,
    "ort": "Online",
    "veranstalter": "Zyrelyx",
    "themen": [
@@ -87,7 +87,7 @@
    "ende": "2026-12-08",
    "preisUsd": 35000,
    "geldpreise": 5,
-   "anmeldungen": 2901,
+   "anmeldungen": 3030,
    "ort": "Online",
    "veranstalter": "reddit",
    "themen": [
@@ -102,7 +102,7 @@
    "ende": "2026-12-11",
    "preisUsd": 64000,
    "geldpreise": 16,
-   "anmeldungen": 571,
+   "anmeldungen": 583,
    "ort": "Online",
    "veranstalter": "AWS",
    "themen": [
@@ -118,7 +118,7 @@
    "ende": "2026-12-15",
    "preisUsd": 50000,
    "geldpreise": 14,
-   "anmeldungen": 2651,
+   "anmeldungen": 2721,
    "ort": "Online",
    "veranstalter": "QNX",
    "themen": [
@@ -134,7 +134,7 @@
    "ende": "2026-12-21",
    "preisUsd": 7800,
    "geldpreise": 5,
-   "anmeldungen": 1505,
+   "anmeldungen": 1535,
    "ort": "Online",
    "veranstalter": "Arbiter ",
    "themen": [
@@ -150,7 +150,7 @@
    "ende": "2026-12-22",
    "preisUsd": 120000,
    "geldpreise": 7,
-   "anmeldungen": 5565,
+   "anmeldungen": 5736,
    "ort": "Online",
    "veranstalter": "Atlassian",
    "themen": [
@@ -166,7 +166,7 @@
    "ende": "2026-12-31",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 17,
+   "anmeldungen": 22,
    "ort": "Online",
    "veranstalter": "AI SKILLS LAB KIET",
    "themen": [
@@ -182,7 +182,7 @@
    "ende": "2027-01-10",
    "preisUsd": 18700,
    "geldpreise": 6,
-   "anmeldungen": 602,
+   "anmeldungen": 615,
    "ort": "Online",
    "veranstalter": "Hack United",
    "themen": [
@@ -198,7 +198,7 @@
    "ende": "2027-01-10",
    "preisUsd": 15560,
    "geldpreise": 8,
-   "anmeldungen": 153,
+   "anmeldungen": 156,
    "ort": "Online",
    "veranstalter": "Checkpoint",
    "themen": [
@@ -214,7 +214,7 @@
    "ende": "2027-01-11",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 2118,
+   "anmeldungen": 2293,
    "ort": "Online",
    "veranstalter": "Cognizant",
    "themen": [
@@ -230,7 +230,7 @@
    "ende": "2027-01-12",
    "preisUsd": 25000,
    "geldpreise": 7,
-   "anmeldungen": 1308,
+   "anmeldungen": 1388,
    "ort": "Online",
    "veranstalter": "Cloud9",
    "themen": [
@@ -246,7 +246,7 @@
    "ende": "2027-01-18",
    "preisUsd": 147105,
    "geldpreise": 15,
-   "anmeldungen": 1601,
+   "anmeldungen": 1658,
    "ort": "Online",
    "veranstalter": "Cosmo Hacks",
    "themen": [
@@ -257,12 +257,12 @@
   },
   {
    "id": "devpost-31886",
-   "titel": "Build with AI - Pico Space Program",
+   "titel": "Build with AI - PICO Space Program",
    "url": "https://pico-space-program.devpost.com/",
    "ende": "2027-02-01",
    "preisUsd": 50000,
    "geldpreise": 15,
-   "anmeldungen": 428,
+   "anmeldungen": 449,
    "ort": "Online",
    "veranstalter": "XR Bootcamp",
    "themen": [
@@ -278,7 +278,7 @@
    "ende": "2027-02-04",
    "preisUsd": 10000,
    "geldpreise": 1,
-   "anmeldungen": 255,
+   "anmeldungen": 258,
    "ort": "Online",
    "veranstalter": "IWU",
    "themen": [
@@ -294,7 +294,7 @@
    "ende": "2027-02-13",
    "preisUsd": 10200,
    "geldpreise": 16,
-   "anmeldungen": 57,
+   "anmeldungen": 64,
    "ort": "Online",
    "veranstalter": "BASIS Independent Silicon Valley",
    "themen": [
@@ -310,7 +310,7 @@
    "ende": "2027-03-15",
    "preisUsd": 5000,
    "geldpreise": 1,
-   "anmeldungen": 101,
+   "anmeldungen": 106,
    "ort": "Online",
    "veranstalter": "OSC",
    "themen": [
@@ -326,7 +326,7 @@
    "ende": "2027-03-31",
    "preisUsd": 10000,
    "geldpreise": 3,
-   "anmeldungen": 26,
+   "anmeldungen": 30,
    "ort": "Online",
    "veranstalter": "Paramam",
    "themen": [
