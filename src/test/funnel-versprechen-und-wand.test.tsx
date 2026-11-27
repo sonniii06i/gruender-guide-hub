@@ -54,6 +54,7 @@ describe("Texte versprechen kein E-Mail-Tor, das es nicht gibt", () => {
       "1 (Nutzung|Prüfung|Umwandlung|Berechnung) kostenlos",
       "je einmal (kostenlos|nutzen)",
       "einmal kostenlos",
+      "eine (Nutzung|Prüfung|Berechnung|Umwandlung) kostenlos",
     ].join("|"),
     "i",
   );
@@ -75,6 +76,18 @@ describe("Texte versprechen kein E-Mail-Tor, das es nicht gibt", () => {
         .map((z) => `${d}: ${z.trim().slice(0, 140)}`),
     );
     expect(funde).toEqual([]);
+  });
+
+  // llms.txt lesen KI-Assistenten (ChatGPT ist die größte Quelle der Vorlagen-Besucher). Sie nannte das
+  // Tor am 27.11. noch in zwei Überschriften und neun Zeilen.
+  it("llms.txt und index.html nennen das Tor ebenfalls nicht", () => {
+    for (const d of ["public/llms.txt", "index.html"]) {
+      const funde = readFileSync(d, "utf8")
+        .split("\n")
+        .filter((z) => TOR.test(z))
+        .map((z) => `${d}: ${z.trim().slice(0, 140)}`);
+      expect(funde).toEqual([]);
+    }
   });
 });
 
