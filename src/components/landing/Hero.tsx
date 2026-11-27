@@ -68,7 +68,7 @@ const ALTER_WEGE: ZielgruppePfad[] = [
       { nr: "02", label: "Eltern & Familiengericht", detail: "Vorlage für § 112 BGB direkt im Arbeitsfenster vorbereiten." },
       { nr: "03", label: "Gewerbe & Konto", detail: "GewA1 ausfüllen, Steuernummer holen und erste Rechnung stellen." },
     ],
-    quizLink: "/quiz/u18-start-check",
+    quizLink: "/quiz/u18-check",
   },
   {
     id: "studium",
@@ -96,7 +96,7 @@ const ALTER_WEGE: ZielgruppePfad[] = [
       { nr: "02", label: "GewA1 & Fragebogen", detail: "Nebenerwerb korrekt melden und Vorauszahlungen planen." },
       { nr: "03", label: "Steuer-Cockpit", detail: "Einnahmen neben dem Gehalt ohne Nachzahlungsschock steuern." },
     ],
-    quizLink: "/quiz/nebengewerbe-ready",
+    quizLink: "/quiz/nebengewerbe-check",
   },
   {
     id: "webapp",
@@ -110,7 +110,7 @@ const ALTER_WEGE: ZielgruppePfad[] = [
       { nr: "02", label: "Zahlung & Steuern", detail: "Stripe/App-Store-Abrechnung, Bruttopreise und Rechnungen einrichten." },
       { nr: "03", label: "SEO & KI-Sichtbarkeit", detail: "Seiten so strukturieren, dass Google und KI-Suche sie finden." },
     ],
-    quizLink: "/quiz/website-oder-app",
+    quizLink: "/quiz/webseite-app-check",
   },
   {
     id: "us",
@@ -124,7 +124,7 @@ const ALTER_WEGE: ZielgruppePfad[] = [
       { nr: "02", label: "Tello eSIM & Bank", detail: "US-Nummer für Amex-Anrufe + sicheres US-Filialkonto (Chase/BofA)." },
       { nr: "03", label: "Global Transfer & Business", detail: "Erst private US-Amex über Global Transfer, dann Business-Karten." },
     ],
-    quizLink: "/quiz/amex-us-check",
+    quizLink: "/quiz/us-amex-check",
   },
   {
     id: "ab50",
