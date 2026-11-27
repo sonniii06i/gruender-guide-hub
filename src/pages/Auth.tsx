@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { trackSignup } from "@/utils/analytics";
 import { startGuestCheckout } from "@/utils/guestCheckout";
@@ -106,6 +106,10 @@ const SIGNUP_GOALS: {
 const Auth = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  // AppLayout schickt ausgeloggte Besucher von Mitglieder-Seiten hierher und nennt die Seite im
+  // Router-State. Dann erklärt ein Hinweis die Wand, statt kommentarlos ein Formular zu zeigen.
+  const wandZiel = (useLocation().state as { wand?: unknown } | null)?.wand;
+  const vonMitgliederSeite = typeof wandZiel === "string" && wandZiel.startsWith("/");
   const { user, loading: authLoading } = useAuth();
   const iosApp = isGruenderXIosApp();
   const [mode, setMode] = useState<"signin" | "signup">(
@@ -463,7 +467,7 @@ const Auth = () => {
                 {[
                   {
                     id: "trial" as const,
-                    badge: "Meistgewählt zum Testen",
+                    badge: "Günstigster Einstieg",
                     badgeTone: "bg-brand-green text-white",
                     title: "7 Tage für 1,00 € testen",
                     sub: `Danach ${formatEurCents(monat.grossCents)} / Monat, monatlich kündbar. Während der 7 Tage mit 1 Klick kündbar.`,
@@ -760,6 +764,42 @@ const Auth = () => {
       </header>
 
       <main className="container max-w-5xl flex-1 px-4 py-7 md:py-12">
+        {vonMitgliederSeite && (
+          <aside
+            role="note"
+            data-testid="auth-wand"
+            className="relative mb-6 overflow-hidden rounded-2xl border border-border bg-white p-5 pl-6 shadow-card"
+          >
+            <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-primary" />
+            <div className="flex items-start gap-3">
+              <Lock className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-primary">Diese Seite liegt im Mitgliederbereich.</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  Tools, Guides und der Anbieter-Vergleich im Cockpit gehören zum GründerX-Zugang. Wenn du schon dabei
+                  bist, melde dich an. Sonst steht unter Preise, was der Zugang kostet. Einige Rechner und alle Vorlagen
+                  gehen auch ohne Konto.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-x-5 text-sm font-semibold text-accent-blue">
+                  <button
+                    type="button"
+                    data-cta="auth-wand:anmelden"
+                    onClick={() => setMode("signin")}
+                    className="inline-flex min-h-11 items-center hover:underline"
+                  >
+                    Anmelden
+                  </button>
+                  <Link to="/preise" data-cta="auth-wand:preise" className="inline-flex min-h-11 items-center hover:underline">
+                    Preise ansehen
+                  </Link>
+                  <Link to="/gratis-tools" data-cta="auth-wand:gratis-tools" className="inline-flex min-h-11 items-center hover:underline">
+                    Kostenlose Tools öffnen
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </aside>
+        )}
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-10">
           {/* Links: Interaktiver Ziel-Konfigurator */}
           <section className="order-2 space-y-5 lg:order-1 lg:pt-2">

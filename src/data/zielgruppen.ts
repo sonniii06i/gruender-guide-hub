@@ -374,7 +374,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
     ],
     toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
     toolsLead:
-      "Den Verpackungslizenz-Rechner nutzt du frei und so oft du willst. Die TikTok-Shop-Checkliste und den WEEE-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse, alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen dazu.",
+      "Den Verpackungslizenz-Rechner nutzt du frei und so oft du willst. Auch die TikTok-Shop-Checkliste und der WEEE-Check sind kostenlos, ohne Konto und ohne E-Mail-Adresse. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen dazu.",
     freeTools: [FT_TTS, FT_LUCID, FT_WEEE],
     tools: [
       { slug: "gewerbeanmeldung-wizard", title: "Gewerbeanmeldung-Wizard", desc: "Tätigkeit „Online-Handel“ richtig angeben." },
@@ -571,7 +571,7 @@ export const ZIELGRUPPEN: Zielgruppe[] = [
       { title: "Umsatzsteuer, OSS und Marge" },
     ],
     toolsTitel: "Drei Tools gratis. Der Rest im Cockpit.",
-    toolsLead: "Den Rechner nutzt du frei und so oft du willst. WEEE-Check und USt-ID-Check gibt es je einmal kostenlos, das Ergebnis gegen deine E-Mail-Adresse, alles ohne Konto. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
+    toolsLead: "Den Rechner nutzt du frei und so oft du willst. WEEE-Check und USt-ID-Check sind ebenfalls kostenlos, ohne Konto und ohne E-Mail-Adresse. Im Abo kommen die Wizards für Gewerbeanmeldung und Fragebogen und die Amazon-Werkzeuge für die Buchhaltung dazu.",
     freeTools: [FT_LUCID, FT_WEEE, FT_USTID],
     tools: [
       { slug: "fse-wizard", title: "Fragebogen-Wizard", desc: "Zur Steuernummer, Teilseite für Teilseite in der Reihenfolge von ELSTER." },

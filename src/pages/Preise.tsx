@@ -66,7 +66,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Kann ich GründerX vorher ausprobieren?",
-    a: `Ja, ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner je einmal kostenlos, das Ergebnis gibt es gegen deine E-Mail-Adresse. Dazu kommt je eine kostenlose Nutzung der Generatoren unter /gratis-tools (Businessplan, Rechtsform-Finder, Amazon-Widersprüche). Das Konto selbst legst du kostenlos an; alle Tools, Guides und Felix schaltet das Abo frei, für Neukunden zum Start 7 Tage für 1 €.`,
+    a: `Ja, ohne Konto und ohne E-Mail-Adresse: WEEE-Check, Brand-Check, LUCID-Wizard und Gründungskosten-Rechner sind kostenlos, so oft du willst. Dasselbe gilt für die Generatoren unter /gratis-tools (Businessplan, Rechtsform-Finder, Amazon-Widersprüche). Das Konto selbst legst du kostenlos an; alle Tools, Guides und Felix schaltet das Abo frei, für Neukunden zum Start 7 Tage für 1 €.`,
   },
   {
     q: "Was ist der Unterschied zwischen Monats- und Jahreszugang?",
@@ -346,7 +346,7 @@ const Preise = () => {
             <Gift className="h-5 w-5 text-brand-green" aria-hidden="true" /> Erst ausprobieren: {TRIAL_CLAIM}
           </h2>
           <p className="mb-5 text-sm text-muted-foreground">
-            Diese Tools kannst du ohne Konto je einmal nutzen. Das Ergebnis gibt es gegen deine E-Mail-Adresse.
+            Diese Tools nutzt du ohne Konto und ohne E-Mail-Adresse, so oft du willst.
           </p>
           <ul className="grid gap-3 sm:grid-cols-2">
             {TRIAL_TOOLS.map((t) => (

@@ -259,7 +259,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
   badge: "Amazon-Transparency",
   heroTitle: "Amazon Transparency: Seriennummer/Code-Upload abgelehnt? Widerspruch-Generator",
   heroSubtitle:
-    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den Transparency-Vorgaben (gültige Formate, manuelle Prüfung). 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto und ohne Zahlung; unbegrenzt im Abo.",
+    "Dein Upload von Seriennummern oder Transparency-Codes wird abgelehnt – obwohl die Kennzeichnung auf dem Produkt ist und bereits übermittelt wurde? Erstelle in Minuten einen sachlichen, faktenbasierten Widerspruch nach den Transparency-Vorgaben (gültige Formate, manuelle Prüfung). Kostenlos, ohne Konto und ohne E-Mail-Adresse.",
   resultFilename: "amazon-transparency-widerspruch",
   steps: [
     {
@@ -360,7 +360,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
   seo: {
     title: "Amazon Transparency abgelehnt: Widerspruch | GründerX",
     description:
-      "Transparency-Code oder Seriennummer wird abgelehnt, obwohl vorhanden und übermittelt? Erstelle einen faktenbasierten Widerspruch mit Bitte um manuelle Prüfung, inkl. gültiger Formate. 1 kostenlose Nutzung, nur E-Mail nötig.",
+      "Transparency-Code oder Seriennummer wird abgelehnt, obwohl vorhanden und übermittelt? Erstelle einen faktenbasierten Widerspruch mit Bitte um manuelle Prüfung, inkl. gültiger Formate. Kostenlos, ohne Konto und ohne E-Mail.",
     keywords:
       "amazon transparency code abgelehnt, transparency seriennummer upload abgelehnt, amazon transparency codes fehlen obwohl vorhanden, transparency freischaltung seriennummer, amazon transparency widerspruch, transparency code format AZ ZA SGTIN, transparency code nicht lesbar",
     faqs: [
@@ -378,7 +378,7 @@ export const transparencySeriennummerConfig: ToolConfig = {
       },
       {
         q: "Ist der Generator kostenlos?",
-        a: "Der erste Widerspruch ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst die fertige Vorlage samt PDF – ohne Konto und ohne Zahlung. Das ist 1 kostenlose Nutzung je Generator; weitere Durchläufe und alle anderen Tools gibt es unbegrenzt im GründerX-Abo.",
+        a: "Der Widerspruch ist kostenlos: Du bekommst die fertige Vorlage samt PDF – ohne Konto, ohne E-Mail-Adresse und ohne Zahlung, so oft du willst. Die übrigen Tools und Guides im Cockpit gibt es im GründerX-Abo.",
       },
     ],
   },

@@ -515,7 +515,7 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       },
       {
         q: "Gibt es die Tippgebervereinbarung als PDF oder Word-Datei?",
-        a: "Beides. Du lädst das Muster als PDF, als Word-Datei (.docx) oder als Text herunter. Der Download ist kostenlos: Du bestätigst einmal deine E-Mail-Adresse, danach sind alle Vorlagen frei. Den ganzen Vertragstext kannst du vorher auf dieser Seite lesen.",
+        a: "Beides. Du lädst das Muster als PDF, als Word-Datei (.docx) oder als Text herunter. Der Download ist kostenlos und startet ohne Konto und ohne E-Mail-Adresse. Den ganzen Vertragstext kannst du vorher auf dieser Seite lesen.",
       },
     ],
     seo: {
@@ -576,7 +576,7 @@ export const VORLAGEN_DIENSTLEISTUNG: Vorlage[] = [
       },
       {
         q: "Gibt es den Kooperationsvertrag als Word-Datei?",
-        a: "Ja. Du lädst die Vorlage als Word-Datei (.docx), als PDF oder als Text herunter. Der Download ist kostenlos: Du bestätigst einmal deine E-Mail-Adresse, danach sind alle Vorlagen frei. Den ganzen Vertragstext kannst du vorher auf dieser Seite lesen.",
+        a: "Ja. Du lädst die Vorlage als Word-Datei (.docx), als PDF oder als Text herunter. Der Download ist kostenlos und startet ohne Konto und ohne E-Mail-Adresse. Den ganzen Vertragstext kannst du vorher auf dieser Seite lesen.",
       },
     ],
     seo: {

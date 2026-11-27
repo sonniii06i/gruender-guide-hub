@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import HeaderActions from "@/components/HeaderActions";
@@ -61,16 +61,22 @@ export default function AppLayout() {
 
   useEffect(() => { merkeBesuch(user?.id, pathname); }, [user?.id, pathname]);
 
+  // Wer in diesem Aufruf schon angemeldet war, hat sich abgemeldet: dann kein Hinweis auf /auth.
+  const warAngemeldet = useRef(false);
+  useEffect(() => { if (user) warAngemeldet.current = true; }, [user]);
+
   useEffect(() => {
     if (loading) return;
     if (!user) {
-      navigate("/auth", { replace: true });
+      // Ausgeloggter Einstieg auf einer Mitglieder-Seite: /auth bekommt die Seite genannt und
+      // erklärt die Wand (Funnel-Lauf 27.11.2026, vorher 0 Konten aus 46 solchen Umleitungen).
+      navigate("/auth", { replace: true, state: warAngemeldet.current ? undefined : { wand: pathname } });
       return;
     }
     if (!accessLoading && accessKnown && !onboardingCompleted) {
       navigate("/onboarding", { replace: true });
     }
-  }, [user, loading, accessLoading, accessKnown, onboardingCompleted, navigate]);
+  }, [user, loading, accessLoading, accessKnown, onboardingCompleted, navigate, pathname]);
 
   if (loading || !user) {
     return (

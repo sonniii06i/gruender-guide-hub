@@ -346,7 +346,7 @@ export const gruendungskostenConfig: ToolConfig = {
   badge: "Kosten-Rechner",
   heroTitle: "Gründungskosten-Rechner für GmbH, UG und Einzelunternehmen",
   heroSubtitle:
-    "Notar- und Handelsregisterkosten nach dem Gesetz gerechnet, nicht geschätzt: jede Position mit Paragraf, dazu deine eigenen Startkosten. Die Beispielwerte stehen direkt unten; deine eigene Rechnung gibt es einmal kostenlos gegen E-Mail.",
+    "Notar- und Handelsregisterkosten nach dem Gesetz gerechnet, nicht geschätzt: jede Position mit Paragraf, dazu deine eigenen Startkosten. Die Beispielwerte stehen direkt unten; deine eigene Rechnung ist kostenlos, ohne Konto und ohne E-Mail.",
   resultFilename: "gruendungskosten",
   format: "rechner",
   stand: GK_STAND,
@@ -565,7 +565,7 @@ export const gruendungskostenConfig: ToolConfig = {
     faqs: [
       {
         q: "Ist der Gründungskosten-Rechner kostenlos?",
-        a: "Die Tabelle mit den Beispielfällen und der Rechenweg stehen frei auf der Seite. Eine eigene Berechnung mit deinen Zahlen ist einmal kostenlos: Du gibst deine E-Mail-Adresse an und bekommst die Übersicht samt PDF, ohne Konto und ohne Zahlung. Weitere Berechnungen gibt es mit dem GründerX-Abo.",
+        a: "Die Tabelle mit den Beispielfällen und der Rechenweg stehen frei auf der Seite. Eine eigene Berechnung mit deinen Zahlen ist ebenfalls kostenlos: Du bekommst die Übersicht samt PDF, ohne Konto, ohne E-Mail-Adresse und ohne Zahlung, so oft du willst.",
       },
       {
         q: "Was kostet die Gründung einer GmbH?",

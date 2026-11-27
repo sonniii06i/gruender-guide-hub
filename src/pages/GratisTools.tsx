@@ -110,14 +110,14 @@ export default function GratisTools() {
         </div>
       </section>
 
-      {/* Vorlagen-Bibliothek: eigener Bereich, Download gegen bestätigte E-Mail */}
+      {/* Vorlagen-Bibliothek: eigener Bereich, Download ohne Anmeldung (seit 25.11.2026) */}
       <section className="pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <Link to="/vorlagen" className="press group flex flex-col gap-3 rounded-2xl border border-foreground/25 bg-accent/40 p-6 hover:border-foreground/30 sm:flex-row sm:items-center">
             <div className="flex-1">
               <h2 className="text-xl font-semibold text-foreground">Vertragsvorlagen: GbR-Vertrag, Kaufverträge, NDA, AGB &amp; mehr</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Fertige Muster nach deutschem Recht als Word, PDF und Text. Einmal die E-Mail-Adresse bestätigen, dann alle Vorlagen kostenlos laden.
+                Fertige Muster nach deutschem Recht als Word, PDF und Text. Alle Vorlagen kostenlos laden, ohne Konto und ohne E-Mail-Adresse.
               </p>
             </div>
             <span className="inline-flex items-center gap-1 text-sm font-semibold text-accent-blue">
@@ -127,13 +127,13 @@ export default function GratisTools() {
         </div>
       </section>
 
-      {/* Checks aus dem Cockpit: je eine kostenlose Prüfung */}
+      {/* Checks aus dem Cockpit: frei nutzbar (trialTools.frei) */}
       <section className="pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="mb-2 text-2xl font-semibold text-foreground">Checks aus dem Cockpit: {TRIAL_CLAIM}</h2>
           <p className="text-sm text-muted-foreground mb-6">
-            Diese Tools gehören zum Abo. Eine Prüfung pro Tool ist kostenlos; das Ergebnis gibt es gegen deine
-            E-Mail-Adresse.
+            Diese Checks aus dem Cockpit nutzt du hier ohne Konto und ohne E-Mail-Adresse,
+            so oft du willst.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {TRIAL_TOOLS.filter((t) => t.trialPath !== t.landingPath).map((t) => (

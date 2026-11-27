@@ -101,8 +101,8 @@ export default function VorlagenKategorie() {
               </p>
             ))}
             <p className="my-3 text-[15px] leading-relaxed text-foreground/85">
-              So funktioniert der Download: Vorlage öffnen, E-Mail-Adresse eingeben, Link in der Bestätigungsmail klicken. Danach sind
-              alle Vorlagen der Bibliothek in diesem Browser frei, ohne Konto und ohne Zahlung. Jede Vorlage ist reiner Text mit
+              So funktioniert der Download: Vorlage öffnen, Format wählen, Datei laden. Das geht bei jeder Vorlage der Bibliothek
+              ohne Konto, ohne E-Mail-Adresse und ohne Zahlung. Jede Vorlage ist reiner Text mit
               Platzhaltern in eckigen Klammern, dazu Hinweise, Rechtsgrundlagen und ein Ratgeber zum Ausfüllen.
             </p>
           </div>

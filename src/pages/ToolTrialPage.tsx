@@ -74,7 +74,7 @@ const ToolTrialPage = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title={`${tool.name} kostenlos testen | GründerX`}
-        description={`${tool.desc} Eine kostenlose Prüfung, nur E-Mail nötig – kein Konto, keine Zahlung.`}
+        description={`${tool.desc} Kostenlos und ohne Anmeldung – kein Konto, keine E-Mail, keine Zahlung.`}
         path={tool.landingPath}
         noindex
       />

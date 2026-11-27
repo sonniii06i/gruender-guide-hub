@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ArrowRight, FileText, MailCheck, Search, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Eye, FileText, Search, ShieldCheck, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,11 +21,11 @@ const SITE = "https://gruenderx.de";
 const faqs = [
   {
     q: "Sind die Vorlagen wirklich kostenlos?",
-    a: "Ja, alle. Du gibst einmal deine E-Mail-Adresse an und bestätigst sie über den Link in der Mail. Danach kannst du jede Vorlage als Word, PDF oder Text herunterladen – ohne Konto, ohne Zahlung, so oft du willst.",
+    a: "Ja, alle. Du lädst jede Vorlage direkt als Word, PDF oder Text herunter – ohne Konto, ohne E-Mail-Adresse, ohne Zahlung, so oft du willst.",
   },
   {
-    q: "Warum muss ich die E-Mail-Adresse bestätigen?",
-    a: "Damit niemand fremde Adressen eintragen kann und wir sicher wissen, dass die Vorlage bei dir ankommt. Die Bestätigung ist ein Klick; sie gilt für alle Vorlagen und nur für den Download – du bekommst dadurch keinen Newsletter.",
+    q: "Muss ich mich anmelden oder eine E-Mail-Adresse angeben?",
+    a: "Nein. Der Download startet direkt auf der Seite der Vorlage, ohne Konto und ohne E-Mail-Adresse. Den ganzen Text kannst du vorher dort lesen.",
   },
   {
     q: "Darf ich die Vorlagen so verwenden?",
@@ -39,7 +39,7 @@ const faqs = [
 
 const schritte = [
   { icon: Search, title: "Vorlage auswählen", desc: `${VORLAGEN.length} Verträge, Schreiben und Formulare in ${VORLAGEN_KATEGORIEN.length} Kategorien, jede mit Hinweisen und FAQ.` },
-  { icon: MailCheck, title: "E-Mail bestätigen", desc: "Adresse eingeben, Link in der Mail klicken – einmal für alle Vorlagen. Kein Konto, keine Werbung." },
+  { icon: Eye, title: "Text vorab lesen", desc: "Der ganze Vertragstext steht offen auf der Seite, dazu Hinweise und ein Ratgeber zum Ausfüllen. Kein Konto, keine E-Mail-Adresse." },
   { icon: FileText, title: "Word, PDF oder Text", desc: "Download in drei Formaten, Platzhalter in eckigen Klammern selbst ausfüllen." },
 ];
 
@@ -71,7 +71,7 @@ export default function Vorlagen() {
   const jsonLd = [
     serviceSchema(
       "Kostenlose Vertragsvorlagen für Gründer",
-      `${VORLAGEN.length} Vorlagen: GbR-Vertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten und mehr. Kostenlos als Word, PDF und Text gegen bestätigte E-Mail-Adresse.`,
+      `${VORLAGEN.length} Vorlagen: GbR-Vertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten und mehr. Kostenlos als Word, PDF und Text, ohne Konto und ohne E-Mail-Adresse.`,
     ),
     faqSchema(faqs),
     breadcrumbSchema([
@@ -98,7 +98,7 @@ export default function Vorlagen() {
     <div className="min-h-screen bg-background">
       <Seo
         title={`${VORLAGEN.length} Vertragsvorlagen kostenlos (Word & PDF) | GründerX`}
-        description={`GbR-Vertrag, Kaufvertrag, Arbeitsvertrag, NDA, AGB, Vollmacht: ${VORLAGEN.length} Vorlagen nach deutschem Recht, kostenlos als Word, PDF und Text. Nur E-Mail bestätigen, kein Konto.`}
+        description={`GbR-Vertrag, Kaufvertrag, Arbeitsvertrag, NDA, AGB, Vollmacht: ${VORLAGEN.length} Vorlagen nach deutschem Recht, kostenlos als Word, PDF und Text. Sofort laden, ohne Konto und ohne E-Mail.`}
         path="/vorlagen"
         type="website"
         jsonLd={jsonLd}
@@ -111,15 +111,15 @@ export default function Vorlagen() {
           kicker={
             <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              {frei ? "Deine E-Mail ist bestätigt – alles frei" : `${VORLAGEN.length} Vorlagen, kostenlos gegen bestätigte E-Mail`}
+              {frei ? "Deine E-Mail ist bestätigt – alles frei" : `${VORLAGEN.length} Vorlagen, kostenlos und ohne Anmeldung`}
             </span>
           }
           title="Kostenlose Vertragsvorlagen für Gründer"
           lead={
             <p>
               GbR-Vertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten und Schreiben ans Finanzamt – nach
-              deutschem Recht, mit Platzhaltern zum Ausfüllen. Einmal die E-Mail-Adresse bestätigen, dann jede Vorlage als
-              Word, PDF oder Text herunterladen. Kein Konto, keine Zahlung.
+              deutschem Recht, mit Platzhaltern zum Ausfüllen. Jede Vorlage lädst du direkt als Word, PDF oder Text herunter.
+              Kein Konto, keine E-Mail-Adresse, keine Zahlung.
             </p>
           }
         >

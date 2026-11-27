@@ -101,7 +101,7 @@ export const tiktokShopChecklisteConfig: ToolConfig = {
   badge: "Für TikTok-Shop-Verkäufer & Creator",
   heroTitle: "TikTok-Shop-Checkliste: Bist du startklar?",
   heroSubtitle:
-    "Sag uns, ob du verkaufst oder als Creator Provisionen verdienst und was du anbietest – du bekommst deine Pflichten in der richtigen Reihenfolge: Gewerbe, Fragebogen, Registrierungsweg, Verpackung, Elektro, Plattform-Meldung. 1 kostenlose Checkliste, nur E-Mail nötig.",
+    "Sag uns, ob du verkaufst oder als Creator Provisionen verdienst und was du anbietest – du bekommst deine Pflichten in der richtigen Reihenfolge: Gewerbe, Fragebogen, Registrierungsweg, Verpackung, Elektro, Plattform-Meldung. Kostenlos, ohne Konto und ohne E-Mail.",
   resultFilename: "tiktok-shop-checkliste",
   steps: [
     {
@@ -220,7 +220,7 @@ export const tiktokShopChecklisteConfig: ToolConfig = {
       },
       {
         q: "Ist die Checkliste kostenlos?",
-        a: "Eine Checkliste ist kostenlos – E-Mail angeben, Ergebnis samt PDF erhalten. Unbegrenzt und mit Felix im GründerX-Abo.",
+        a: "Die Checkliste ist kostenlos – ohne Konto und ohne E-Mail-Adresse, Ergebnis samt PDF. Felix und die übrigen Tools gibt es im GründerX-Abo.",
       },
     ],
   },

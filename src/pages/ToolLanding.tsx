@@ -68,7 +68,7 @@ const ToolLanding = () => {
   const topic = TOOL_CAT_TOPIC[tool.categorySlug];
   const matchCtx = { text: `${tool.title} ${tool.desc}`, topic };
   const relatedGuides = relatedGuidesFor(matchCtx, 4);
-  // WEEE-Check, Brand-Check, LUCID-Wizard: eine kostenlose Prüfung ohne Konto.
+  // WEEE-Check, Brand-Check, LUCID-Wizard, Gründungskosten: frei ohne Konto und ohne E-Mail (trialTools.frei).
   const trial = TRIAL_TOOL_BY_SLUG[slug];
 
   const faq: LandingFaq[] = [
@@ -80,7 +80,7 @@ const ToolLanding = () => {
     {
       q: `Was kostet die Nutzung?`,
       a: trial
-        ? `Eine Prüfung ist kostenlos: Du brauchst kein Konto, das Ergebnis gibt es gegen deine E-Mail-Adresse. Unbegrenzt nutzt du „${tool.title}" mit dem GründerX-Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt., zusammen mit allen anderen Rechnern, Wizards und Guides.`
+        ? `„${tool.title}" ist kostenlos: kein Konto, keine E-Mail-Adresse, so oft du willst. Alle anderen Rechner, Wizards und Guides nutzt du mit dem GründerX-Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt.`
         : `Das Tool ist Teil des GründerX-Abos ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt., mit Zugriff auf alle Rechner, Wizards und Schritt-für-Schritt-Guides. Alle Preise stehen auf gruenderx.de/preise.`,
     },
   ];
@@ -146,8 +146,8 @@ const ToolLanding = () => {
               <div>
                 <p className="font-semibold">{TRIAL_CLAIM}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  Kein Konto, keine Zahlung: Du nutzt „{tool.title}" einmal kostenlos und bekommst das Ergebnis gegen
-                  deine E-Mail-Adresse. Danach geht es mit dem GründerX-Abo unbegrenzt weiter.
+                  Kein Konto, keine E-Mail-Adresse, keine Zahlung: Du nutzt „{tool.title}" kostenlos und so oft du
+                  willst. Das Ergebnis siehst du sofort.
                 </p>
               </div>
             </div>

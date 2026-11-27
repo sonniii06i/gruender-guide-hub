@@ -18,11 +18,11 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Gibt es eine kostenlose Testphase?",
-    a: "Ja: Das Konto ist kostenlos, und für Neukunden gibt es den vollen Zugang zum Start 7 Tage für 1 €, danach das Monatsabo, monatlich kündbar. Ausprobieren kannst du außerdem ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren je einmal kostenlos. Das Ergebnis gibt es jeweils gegen deine E-Mail-Adresse.",
+    a: "Ja: Das Konto ist kostenlos, und für Neukunden gibt es den vollen Zugang zum Start 7 Tage für 1 €, danach das Monatsabo, monatlich kündbar. Ausprobieren kannst du außerdem ohne Konto: WEEE-Check, Brand-Check, LUCID-Wizard sowie Businessplan-Generator, Gründungskosten-Rechner, Rechtsform-Finder und die Amazon-Widerspruchs-Generatoren sind kostenlos nutzbar, ohne E-Mail-Adresse und so oft du willst.",
   },
   {
     q: "Gibt es kostenlose Vertragsvorlagen?",
-    a: "Ja, über 100 Vorlagen nach deutschem Recht unter gruenderx.de/vorlagen: GbR-Gesellschaftsvertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten, Darlehen, Mahnung und mehr. Du bestätigst einmal deine E-Mail-Adresse, danach lädst du jede Vorlage als Word, PDF oder Text ohne Konto und ohne Zahlung. Jede Vorlage hat einen Ratgeber zum Ausfüllen.",
+    a: "Ja, über 100 Vorlagen nach deutschem Recht unter gruenderx.de/vorlagen: GbR-Gesellschaftsvertrag, Kaufverträge, Arbeitsverträge, NDA, AGB, Vollmachten, Darlehen, Mahnung und mehr. Du lädst jede Vorlage direkt als Word, PDF oder Text, ohne Konto, ohne E-Mail-Adresse und ohne Zahlung. Jede Vorlage hat einen Ratgeber zum Ausfüllen.",
   },
   {
     q: "Ersetzt GründerX meinen Steuerberater oder Anwalt?",

@@ -103,7 +103,7 @@ export const prPaketRechnerConfig: ToolConfig = {
   badge: "Für Creator & Influencer",
   heroTitle: "PR-Paket-Rechner: Was musst du versteuern?",
   heroSubtitle:
-    "Trag deine PR-Pakete und Gratis-Leistungen ein – du bekommst den Wert, den du als Einnahme ansetzt, plus Checkliste für die Belege. Nach den Regeln der Finanzverwaltung. 1 kostenlose Berechnung, nur E-Mail nötig.",
+    "Trag deine PR-Pakete und Gratis-Leistungen ein – du bekommst den Wert, den du als Einnahme ansetzt, plus Checkliste für die Belege. Nach den Regeln der Finanzverwaltung. Kostenlos, ohne Konto und ohne E-Mail.",
   resultFilename: "pr-pakete-uebersicht",
   steps: [
     {
@@ -164,7 +164,7 @@ export const prPaketRechnerConfig: ToolConfig = {
       },
       {
         q: "Ist der Rechner kostenlos?",
-        a: "Eine Berechnung ist kostenlos – E-Mail angeben, Übersicht samt PDF erhalten. Unbegrenzt im GründerX-Abo.",
+        a: "Die Berechnung ist kostenlos – ohne Konto und ohne E-Mail-Adresse, Übersicht samt PDF. Die übrigen Tools gibt es im GründerX-Abo.",
       },
     ],
   },

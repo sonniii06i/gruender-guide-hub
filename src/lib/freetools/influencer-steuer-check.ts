@@ -153,7 +153,7 @@ export const influencerSteuerCheckConfig: ToolConfig = {
   badge: "Für Creator & Influencer",
   heroTitle: "Influencer-Steuer-Check: Brauche ich ein Gewerbe?",
   heroSubtitle:
-    "Kreuze an, womit du Geld verdienst – du bekommst deinen persönlichen Fahrplan: Gewerbe, Fragebogen, Kleinunternehmer, Einkommen- und Gewerbesteuer. Nach den Regeln der Finanzverwaltung (Stand 2026). 1 kostenloser Check, nur E-Mail nötig.",
+    "Kreuze an, womit du Geld verdienst – du bekommst deinen persönlichen Fahrplan: Gewerbe, Fragebogen, Kleinunternehmer, Einkommen- und Gewerbesteuer. Nach den Regeln der Finanzverwaltung (Stand 2026). Kostenlos, ohne Konto und ohne E-Mail.",
   resultFilename: "influencer-steuer-fahrplan",
   steps: [
     {
@@ -272,7 +272,7 @@ export const influencerSteuerCheckConfig: ToolConfig = {
       },
       {
         q: "Ist der Check kostenlos?",
-        a: "Ein Check ist kostenlos: E-Mail angeben, Fahrplan samt PDF erhalten – ohne Konto und ohne Zahlung. Weitere Checks und alle Tools gibt es im GründerX-Abo.",
+        a: "Der Check ist kostenlos: Fahrplan samt PDF, ohne Konto, ohne E-Mail-Adresse und ohne Zahlung. Die übrigen Tools gibt es im GründerX-Abo.",
       },
     ],
   },

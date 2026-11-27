@@ -321,7 +321,7 @@ export default function PdfInERechnung() {
             inLanguage: "de-DE",
             dateModified: STAND_ISO,
             description: "Wandelt eine PDF-Rechnung im Browser in eine XRechnung 3.0 (CII, EN 16931) um, mit Summenabgleich gegen das PDF und dem Original-PDF als Anlage.",
-            offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", description: "1 Umwandlung kostenlos gegen E-Mail-Adresse; unbegrenzt im GründerX-Abo" },
+            offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", description: "Kostenlos, ohne Konto und ohne E-Mail-Adresse" },
             publisher: { "@type": "Organization", name: "GründerX", url: SITE },
           },
         ]}
@@ -332,7 +332,7 @@ export default function PdfInERechnung() {
           width="max-w-4xl"
           kicker={
             <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/25 bg-brand-green-soft px-3 py-1 text-[13px] font-medium text-brand-green">
-              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> 1 Umwandlung kostenlos, die Datei bleibt auf deinem Gerät
+              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Kostenlos und ohne Anmeldung, die Datei bleibt auf deinem Gerät
             </span>
           }
           title="PDF in E-Rechnung umwandeln"
@@ -576,7 +576,7 @@ export default function PdfInERechnung() {
                     <Download className="h-4 w-4" /> XRechnung herunterladen
                   </Button>
                   <p className="text-xs text-muted-foreground">
-                    {subscriber ? "Unbegrenzt im Abo." : "1 Umwandlung kostenlos, nur E-Mail. "}
+                    {subscriber ? "Unbegrenzt im Abo. " : "Kostenlos, ohne Konto und ohne E-Mail-Adresse. "}
                     Keine Rechts- oder Steuerberatung – im Einzelfall Anwalt oder Steuerberater fragen.
                   </p>
                   {fertig && (

@@ -135,7 +135,7 @@ export const businessplanConfig: ToolConfig = {
   badge: "Für Gründer & Förderung",
   heroTitle: "Kostenloser Businessplan-Generator",
   heroSubtitle:
-    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto und ohne Zahlung; unbegrenzt im Abo.",
+    "Erstelle Schritt für Schritt einen strukturierten Businessplan – mit allen Kapiteln, die Bank, Förderstelle und Investoren erwarten. In Minuten fertig. Kostenlos, ohne Konto und ohne E-Mail-Adresse.",
   resultFilename: "businessplan",
   steps: [
     {
@@ -224,13 +224,13 @@ export const businessplanConfig: ToolConfig = {
   seo: {
     title: "Businessplan erstellen: kostenloser Generator | GründerX",
     description:
-      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig: 1 kostenlose Nutzung, nur E-Mail nötig; unbegrenzt im Abo.",
+      "Businessplan kostenlos erstellen: Schritt-für-Schritt-Generator mit allen Kapiteln für Bank, Gründungszuschuss & Förderung. In Minuten fertig, ohne Konto und ohne E-Mail.",
     keywords:
       "businessplan erstellen, businessplan vorlage, businessplan generator, businessplan kostenlos, businessplan gründungszuschuss, businessplan muster",
     faqs: [
       {
         q: "Ist der Businessplan-Generator kostenlos?",
-        a: "Der erste Businessplan ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst das Ergebnis samt PDF – ohne Konto und ohne Zahlung. Das ist 1 kostenlose Nutzung je Generator; weitere Durchläufe und alle anderen Tools gibt es unbegrenzt im GründerX-Abo.",
+        a: "Der Businessplan ist kostenlos: Du bekommst das Ergebnis samt PDF – ohne Konto, ohne E-Mail-Adresse und ohne Zahlung, so oft du willst. Die übrigen Tools und Guides im Cockpit gibt es im GründerX-Abo.",
       },
       {
         q: "Reicht der Businessplan für den Gründungszuschuss oder die Bank?",

@@ -170,7 +170,7 @@ export const baueRechtsformConfig = (rabattAktiv: boolean): ToolConfig => ({
   badge: "Rechtsform-Finder",
   heroTitle: "Kostenloser Rechtsform-Finder",
   heroSubtitle:
-    "Einzelunternehmen, GbR, UG oder GmbH? Beantworte ein paar Fragen und erhalte eine begründete Rechtsform-Empfehlung mit Vor- und Nachteilen. 1 kostenlose Nutzung je Generator, nur E-Mail nötig – ohne Konto und ohne Zahlung; unbegrenzt im Abo.",
+    "Einzelunternehmen, GbR, UG oder GmbH? Beantworte ein paar Fragen und erhalte eine begründete Rechtsform-Empfehlung mit Vor- und Nachteilen. Kostenlos, ohne Konto und ohne E-Mail-Adresse.",
   resultFilename: "rechtsform-empfehlung",
   steps: [
     {
@@ -284,13 +284,13 @@ export const baueRechtsformConfig = (rabattAktiv: boolean): ToolConfig => ({
   seo: {
     title: "Rechtsform-Finder: Einzelunternehmen, UG oder GmbH?",
     description:
-      "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. 1 kostenlose Nutzung, nur E-Mail nötig; unbegrenzt im Abo.",
+      "Welche Rechtsform passt zu dir? Kostenloser Rechtsform-Finder mit begründeter Empfehlung (Einzelunternehmen, GbR, UG, GmbH) inkl. Vor- und Nachteilen. Ohne Konto und ohne E-Mail.",
     keywords:
       "rechtsform finden, welche rechtsform, rechtsform gründung, einzelunternehmen ug gmbh, rechtsform vergleich, rechtsform wählen",
     faqs: [
       {
         q: "Ist der Rechtsform-Finder kostenlos?",
-        a: "Die erste Empfehlung ist kostenlos: Du gibst deine E-Mail-Adresse an und bekommst das Ergebnis samt PDF – ohne Konto und ohne Zahlung. Das ist 1 kostenlose Nutzung je Generator; weitere Durchläufe und alle anderen Tools gibt es unbegrenzt im GründerX-Abo.",
+        a: "Die Empfehlung ist kostenlos: Du bekommst das Ergebnis samt PDF – ohne Konto, ohne E-Mail-Adresse und ohne Zahlung, so oft du willst. Die übrigen Tools und Guides im Cockpit gibt es im GründerX-Abo.",
       },
       {
         q: "Welche Rechtsform ist die beste?",
