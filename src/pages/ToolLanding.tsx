@@ -17,6 +17,8 @@ import { guideHref } from "@/data/guideMerges";
 import { screenFuerTool } from "@/data/screenshots";
 import { NewsletterOptin } from "@/components/NewsletterOptin";
 import { ToolTrialProvider } from "@/components/freetools/ToolTrial";
+import { TOOL_TIEFE } from "@/data/toolTiefe";
+import { ToolTiefe } from "@/components/landing/ToolTiefe";
 
 // Freie Tools (trialTools.frei, 11.11.2026): das Tool selbst steht direkt auf der Landing – Google bevorzugt bei
 // Rechner-Suchen Seiten, auf denen man sofort rechnen kann. Dazu der Einbettcode (Linkköder, Top-1-Programm).
@@ -35,6 +37,7 @@ const TOOL_CAT_TOPIC: Record<string, string> = {
 };
 
 const SITE = "https://gruenderx.de";
+const AUTOR = { "@type": "Person", name: "Sonni Buttke", jobTitle: "Gründer von GründerX", url: `${SITE}/impressum` };
 
 /**
  * Öffentliche Marketing-Landing pro Cockpit-Tool (/tools/:slug).
@@ -71,21 +74,42 @@ const ToolLanding = () => {
   // WEEE-Check, Brand-Check, LUCID-Wizard, Gründungskosten: frei ohne Konto und ohne E-Mail (trialTools.frei).
   const trial = TRIAL_TOOL_BY_SLUG[slug];
 
-  const faq: LandingFaq[] = [
+  // Textteil (Top-1-Programm Punkt 3) nur für Tools mit Eintrag in data/toolTiefe.ts.
+  const tiefe = TOOL_TIEFE[slug];
+
+  const kostenFaq: LandingFaq = {
+    q: `Was kostet die Nutzung?`,
+    a: trial
+      ? `„${tool.title}" ist kostenlos: kein Konto, keine E-Mail-Adresse, so oft du willst. Alle anderen Rechner, Wizards und Guides nutzt du mit dem GründerX-Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt.`
+      : `Das Tool ist Teil des GründerX-Abos ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt., mit Zugriff auf alle Rechner, Wizards und Schritt-für-Schritt-Guides. Alle Preise stehen auf gruenderx.de/preise.`,
+  };
+
+  const faq: LandingFaq[] = tiefe ? [...tiefe.faq, kostenFaq] : [
     { q: `Was ist „${tool.title}"?`, a: `${tool.desc} Teil von ${cat} im GründerX-Cockpit.` },
     {
       q: `Für wen ist „${tool.title}" gedacht?`,
       a: `${tool.categoryTagline}. Gebaut für Gründerinnen und Gründer von 12 bis 70: von der ersten Website oder App über Nebengewerbe bis zu E-Commerce, Creator und US-Setup.`,
     },
-    {
-      q: `Was kostet die Nutzung?`,
-      a: trial
-        ? `„${tool.title}" ist kostenlos: kein Konto, keine E-Mail-Adresse, so oft du willst. Alle anderen Rechner, Wizards und Guides nutzt du mit dem GründerX-Abo ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt.`
-        : `Das Tool ist Teil des GründerX-Abos ab ${formatEurCents(PRO_MONTH_GROSS_CENTS)} im Monat inkl. USt., mit Zugriff auf alle Rechner, Wizards und Schritt-für-Schritt-Guides. Alle Preise stehen auf gruenderx.de/preise.`,
-    },
+    kostenFaq,
   ];
 
   const jsonLd = [
+    ...(tiefe
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: copy.seoTitle,
+            description: copy.seoDescription,
+            url: `${SITE}/tools/${tool.slug}`,
+            inLanguage: "de-DE",
+            dateModified: tiefe.stand.iso,
+            author: AUTOR,
+            publisher: { "@type": "Organization", name: "GründerX", url: SITE },
+            citation: tiefe.quellen.map((q) => q.href),
+          },
+        ]
+      : []),
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
@@ -127,7 +151,7 @@ const ToolLanding = () => {
       jsonLd={jsonLd}
       crumbs={[{ label: "Start", to: "/" }, { label: "Tools", to: "/tools" }, { label: tool.title }]}
       eyebrow={cat}
-      heading={tool.title}
+      heading={tiefe?.h1 ?? tool.title}
       lead={copy.lead}
       urgency={copy.urgency}
       outcomes={copy.outcomes}
@@ -157,6 +181,8 @@ const ToolLanding = () => {
               </Link>
             </Button>
           </section>
+        ) : tiefe ? (
+          <ToolTiefe t={tiefe} />
         ) : undefined
       }
       ctaTitle={trial?.frei ? "Alle weiteren Gründungs-Tools im GründerX-Cockpit" : `„${tool.title}" unbegrenzt im GründerX-Cockpit`}

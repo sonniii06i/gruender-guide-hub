@@ -54,6 +54,8 @@ import { WZ_2008, WZ_GRUPPEN, type WzEntry, type WzGruppe } from "@/data/wz2008"
 type Rechtsform = "einzel" | "gbr" | "ohg" | "kg" | "ug" | "gmbh" | "ag" | "eg" | "andere";
 type Anmeldegrund = "neugruendung" | "uebernahme" | "filiale" | "wiederaufnahme" | "umzug";
 type KuStatus = "ja" | "nein" | "unsicher";
+/** Feld 21 GewA 1: Art des angemeldeten Betriebes (Mehrfachnennung möglich) */
+type Betriebsart = "industrie" | "handwerk" | "handel" | "sonstiges";
 
 type WizardData = {
   // Step 1: Person (autosaved als Personal-Profil)
@@ -84,10 +86,14 @@ type WizardData = {
   mitgesellschafter?: string;
   // Step 4: Tätigkeit (Klartext)
   taetigkeit: string;
+  /** Feld 21 GewA 1 */
+  betriebsart: Betriebsart[];
   // Step 5: WZ 2008
   wzCode: string;
   // Step 6: Beginn + KU
   beginnDatum: string;
+  /** Feld 19 GewA 1: Tätigkeit (vorerst) im Nebenerwerb? */
+  nebenerwerb: "" | "ja" | "nein";
   mitarbeiterZahl: number;
   kuStatus: KuStatus;
   voraussichtlicherUmsatz: number;
@@ -140,8 +146,10 @@ const defaultData: WizardData = {
   gfAnzahl: 1,
   mitgesellschafter: "",
   taetigkeit: "",
+  betriebsart: [],
   wzCode: "",
   beginnDatum: heute,
+  nebenerwerb: "",
   mitarbeiterZahl: 0,
   kuStatus: "unsicher",
   voraussichtlicherUmsatz: 25000,
@@ -218,9 +226,9 @@ const GewerbeanmeldungWizard = () => {
     checks[1] = !!(data.privatStrasse && data.privatPlz && data.privatOrt
       && (!data.betriebsstaetteAndere || (data.betriebStrasse && data.betriebPlz && data.betriebOrt)));
     checks[2] = !!(data.rechtsform && data.anmeldegrund);
-    checks[3] = data.taetigkeit.trim().length >= 30; // Mindest-Qualität
+    checks[3] = data.taetigkeit.trim().length >= 30 && data.betriebsart.length > 0; // Mindest-Qualität + Feld 21
     checks[4] = true; // WZ-Code ist Hilfsinfo: das GewA1 hat kein WZ-Feld, das Amt vergibt den Schlüssel selbst
-    checks[5] = !!(data.beginnDatum && data.kuStatus);
+    checks[5] = !!(data.beginnDatum && data.nebenerwerb && data.kuStatus);
     checks[6] = true; // Behörden-Status: alle Felder optional
     checks[7] = true;
     return checks;
@@ -330,6 +338,16 @@ const GewerbeanmeldungWizard = () => {
       // === Felder 18, 20: Tätigkeit ===
       tryText("f18_taetigkeit", data.taetigkeit);
       tryText("f20_beginn", fmtDate(data.beginnDatum));
+
+      // === Feld 19: Nebenerwerb ===
+      tryCheck("f19_ja", data.nebenerwerb === "ja");
+      tryCheck("f19_nein", data.nebenerwerb === "nein");
+
+      // === Feld 21: Art des Betriebes (Mehrfachnennung) ===
+      tryCheck("f21_industrie", data.betriebsart.includes("industrie"));
+      tryCheck("f21_handwerk", data.betriebsart.includes("handwerk"));
+      tryCheck("f21_handel", data.betriebsart.includes("handel"));
+      tryCheck("f21_sonstiges", data.betriebsart.includes("sonstiges"));
 
       // === Feld 22: Personen ===
       tryCheck("f22_keine", data.mitarbeiterZahl === 0);
@@ -846,8 +864,54 @@ const StepTaetigkeit = ({ data, update, qualitaet }: StepProps & { qualitaet: { 
         ))}
       </ul>
     )}
+
+    <fieldset className="mt-6">
+      <legend className="mb-1 text-sm font-medium">Art des Betriebs (Feld 21)<Pflicht /></legend>
+      <p className="mb-2 text-xs text-muted-foreground">Kreuze an, was zutrifft. Bei mehreren Tätigkeiten unterstreichst du den Schwerpunkt in der Beschreibung oben (Hinweis im Vordruck).</p>
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        {BETRIEBSARTEN.map((opt) => {
+          const aktiv = data.betriebsart.includes(opt.v);
+          return (
+            <label
+              key={opt.v}
+              className="flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border border-border bg-card p-3.5 text-sm transition-colors hover:border-foreground/25 has-[:checked]:border-primary has-[:checked]:ring-1 has-[:checked]:ring-primary"
+            >
+              <input
+                type="checkbox"
+                name="betriebsart"
+                value={opt.v}
+                checked={aktiv}
+                onChange={() =>
+                  update(
+                    "betriebsart",
+                    aktiv ? data.betriebsart.filter((b) => b !== opt.v) : [...data.betriebsart, opt.v],
+                  )
+                }
+                className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+              />
+              <span>
+                <span className="block font-medium">{opt.titel}</span>
+                <span className="mt-0.5 block text-muted-foreground">{opt.text}</span>
+              </span>
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
   </div>
 );
+
+const BETRIEBSARTEN: { v: Betriebsart; titel: string; text: string }[] = [
+  { v: "handel", titel: "Handel", text: "Du kaufst Waren ein und verkaufst sie weiter, online oder im Laden." },
+  { v: "handwerk", titel: "Handwerk", text: "Tätigkeit aus der Handwerksordnung (Anlage A oder B), z. B. Friseur oder Tischler." },
+  { v: "industrie", titel: "Industrie", text: "Herstellung von Waren in industriellem Umfang." },
+  { v: "sonstiges", titel: "Sonstiges", text: "Dienstleistung, Beratung, Agentur- oder IT-Arbeit und alles, was nicht oben passt." },
+];
+
+const NEBENERWERB_OPTIONEN: { v: "ja" | "nein"; titel: string; text: string }[] = [
+  { v: "ja", titel: "Ja, im Nebenerwerb", text: "Das Gewerbe läuft neben Job, Studium oder Ausbildung." },
+  { v: "nein", titel: "Nein, im Haupterwerb", text: "Das Gewerbe ist deine Haupttätigkeit." },
+];
 
 const StepBranche = ({ data, update }: StepProps) => {
   const [suche, setSuche] = useState("");
@@ -954,10 +1018,34 @@ const StepBeginn = ({ data, update }: StepProps) => (
       <Field label={<>Beginn der Tätigkeit<Pflicht /></>} htmlFor="gw-beginn">
         <Input id="gw-beginn" type="date" value={data.beginnDatum} onChange={(e) => update("beginnDatum", e.target.value)} />
       </Field>
-      <Field label="Anzahl Mitarbeitende" hint="Ohne dich selbst">
+      <Field label="Anzahl Mitarbeitende" hint="Ohne dich selbst, aber mit Aushilfen und mithelfendem Ehe- oder Lebenspartner (Feld 22)">
         <NumberField value={data.mitarbeiterZahl} onChange={(n) => update("mitarbeiterZahl", n)} min={0} aria-label="Anzahl Mitarbeitende" />
       </Field>
     </div>
+
+    <fieldset className="mt-5">
+      <legend className="mb-2 text-sm font-medium">Betreibst du die Tätigkeit (vorerst) im Nebenerwerb? (Feld 19)<Pflicht /></legend>
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        {NEBENERWERB_OPTIONEN.map((opt) => (
+          <label
+            key={opt.v}
+            className="flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border border-border bg-card p-3.5 text-sm transition-colors hover:border-foreground/25 has-[:checked]:border-primary has-[:checked]:ring-1 has-[:checked]:ring-primary"
+          >
+            <input
+              type="radio"
+              name="nebenerwerb"
+              checked={data.nebenerwerb === opt.v}
+              onChange={() => update("nebenerwerb", opt.v)}
+              className="mt-0.5 h-4 w-4 accent-[hsl(var(--primary))]"
+            />
+            <span>
+              <span className="block font-medium">{opt.titel}</span>
+              <span className="mt-0.5 block text-muted-foreground">{opt.text}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
 
     <div className="mt-6 rounded-xl border border-foreground/25 bg-accent/60 p-4 md:p-5">
       <h3 className="text-base font-semibold">§ 19 UStG Kleinunternehmer: deine Entscheidung</h3>
@@ -1163,11 +1251,15 @@ const StepZusammenfassung = ({ data, stepValid, allValid, onGeneratePdf }: { dat
             <p className="text-sm text-muted-foreground">Noch keine Beschreibung</p>
           )}
         </SummaryGroup>
+        <SummaryGroup title="Feld 21: Art des Betriebs">
+          <SummaryRow label="Art" value={data.betriebsart.length ? BETRIEBSARTEN.filter((b) => data.betriebsart.includes(b.v)).map((b) => b.titel).join(", ") : ""} />
+        </SummaryGroup>
         <SummaryGroup title="5. WZ 2008">
           <SummaryRow label="Code" value={`${data.wzCode}${wzEntry ? `, ${wzEntry.label}` : ""}`} />
         </SummaryGroup>
         <SummaryGroup title="6. Beginn und § 19">
           <SummaryRow label="Beginn" value={data.beginnDatum} />
+          <SummaryRow label="Nebenerwerb" value={data.nebenerwerb === "ja" ? "Ja" : data.nebenerwerb === "nein" ? "Nein, Haupterwerb" : ""} />
           <SummaryRow label="Mitarbeitende" value={String(data.mitarbeiterZahl)} />
           <SummaryRow label="§ 19 UStG" value={data.kuStatus === "ja" ? "Ja, KU nutzen" : data.kuStatus === "nein" ? "Nein, Regelbesteuerung" : "Noch unsicher (im FsE entscheiden)"} />
           <SummaryRow label="Prognose Umsatz" value={`${data.voraussichtlicherUmsatz.toLocaleString("de-DE")} €`} />

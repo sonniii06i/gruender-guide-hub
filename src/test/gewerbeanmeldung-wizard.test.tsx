@@ -160,7 +160,7 @@ describe("GewerbeanmeldungWizard — Steps", () => {
     renderWithRouter(<GewerbeanmeldungWizard />);
     const dots = document.querySelectorAll("button[title^='Step']");
     fireEvent.click(dots[5] as HTMLElement);
-    const radios = screen.getAllByRole("radio");
+    const radios = screen.getAllByRole("radio").filter((r) => (r as HTMLInputElement).name === "kuStatus");
     expect(radios.length).toBe(3);
     fireEvent.click(radios[0]);
     expect((radios[0] as HTMLInputElement).checked).toBe(true);
@@ -171,13 +171,47 @@ describe("GewerbeanmeldungWizard — Steps", () => {
     const dots = document.querySelectorAll("button[title^='Step']");
     fireEvent.click(dots[5] as HTMLElement);
     // KU = ja wählen
-    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    const radios = (screen.getAllByRole("radio") as HTMLInputElement[]).filter((r) => r.name === "kuStatus");
     fireEvent.click(radios[0]); // "ja"
     // Umsatz hochsetzen
     const inputs = screen.getAllByRole("spinbutton") as HTMLInputElement[];
     const umsatzInput = inputs.find((i) => i.value === "25000");
     fireEvent.change(umsatzInput!, { target: { value: "50000" } });
     expect(document.body.innerHTML).toMatch(/funktioniert KU nicht|KU funktioniert nicht/);
+  });
+});
+
+describe("GewerbeanmeldungWizard — Felder 19 und 21 (GewA 1)", () => {
+  it("Step 4: Feld 21 Art des Betriebs ist Pflicht und erlaubt Mehrfachauswahl", () => {
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    const dots = document.querySelectorAll("button[title^='Step']");
+    fireEvent.click(dots[3] as HTMLElement);
+    const boxen = (screen.getAllByRole("checkbox") as HTMLInputElement[]).filter((c) => c.name === "betriebsart");
+    expect(boxen.map((b) => b.value).sort()).toEqual(["handel", "handwerk", "industrie", "sonstiges"]);
+    fireEvent.click(boxen.find((b) => b.value === "handel")!);
+    fireEvent.click(boxen.find((b) => b.value === "sonstiges")!);
+    const nachher = (screen.getAllByRole("checkbox") as HTMLInputElement[]).filter((c) => c.name === "betriebsart" && c.checked);
+    expect(nachher.map((b) => b.value).sort()).toEqual(["handel", "sonstiges"]);
+  });
+
+  it("Step 6: Feld 19 Nebenerwerb fragt ja/nein ab und landet in der Zusammenfassung", () => {
+    renderWithRouter(<GewerbeanmeldungWizard />);
+    const dots = document.querySelectorAll("button[title^='Step']");
+    fireEvent.click(dots[5] as HTMLElement);
+    const radios = (screen.getAllByRole("radio") as HTMLInputElement[]).filter((r) => r.name === "nebenerwerb");
+    expect(radios.length).toBe(2);
+    fireEvent.click(radios[0]);
+    expect(radios[0].checked).toBe(true);
+    fireEvent.click(document.querySelectorAll("button[title^='Step']")[7] as HTMLElement);
+    expect(document.body.innerHTML).toMatch(/Nebenerwerb/);
+  });
+
+  it("der Wizard befüllt Feld 19 und alle vier Kästchen von Feld 21 im PDF", async () => {
+    const { readFileSync } = await import("node:fs");
+    const src = readFileSync("src/pages/GewerbeanmeldungWizard.tsx", "utf8");
+    for (const f of ["f19_ja", "f19_nein", "f21_industrie", "f21_handwerk", "f21_handel", "f21_sonstiges"]) {
+      expect(src).toContain(`tryCheck("${f}"`);
+    }
   });
 });
 

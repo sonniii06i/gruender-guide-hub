@@ -172,15 +172,15 @@ export const TOOL_COPY: Record<string, LandingCopy> = {
     "disclaimer": "Die Werte sind allgemeine Orientierung, deine konkrete Steuersituation klärt am sichersten ein Steuerberater."
   },
   "gewerbeanmeldung-wizard": {
-    "seoTitle": "Gewerbeanmeldung-Wizard: GewA1 richtig ausfüllen",
-    "seoDescription": "Füll das amtliche Gewerbe-Formular GewA1 in 8 Schritten korrekt aus, mit WZ-Branchenschlüssel und Tätigkeits-Check. Ohne Rätselraten.",
-    "lead": "Ein 8-Schritte-Wizard, der das amtliche GewA1-Formular mit deinen Daten füllt, von Person und Anschrift bis Rechtsform, Tätigkeit und Branchenschlüssel.",
-    "urgency": "Eine schlampig ausgefüllte Gewerbeanmeldung führt zu Rückfragen, falschen Branchenschlüsseln und unnötigen Verzögerungen beim Start. Genau die Tätigkeitsbeschreibung und der WZ-2008-Schlüssel sind die Felder, an denen Anfänger am häufigsten scheitern. Mit dem Gewerbeanmeldung-Wizard von GründerX füllst du das Formular einmal sauber aus und gehst vorbereitet zum Amt.",
+    "seoTitle": "Gewerbeanmeldung ausfüllen: GewA 1 Feld für Feld | GründerX",
+    "seoDescription": "Gewerbeanmeldung (GewA 1) richtig ausfüllen: Tätigkeit, Nebenerwerb, Art des Betriebs. Mit Feld-Tabelle, Fristen, Gebühren-Beispiel und Wizard fürs PDF.",
+    "lead": "Der Wizard fragt dich in acht Schritten ab und füllt den amtlichen Vordruck GewA 1 als PDF aus. Was in den kniffligen Feldern gemeint ist, steht direkt hier auf der Seite, ohne Konto.",
+    "urgency": "Die Anzeige ist gleichzeitig mit dem Beginn fällig (§ 14 Abs. 1 GewO). Name und Anschrift sind schnell eingetragen. Nachdenken musst du bei den Fragen danach: Wie genau muss die Tätigkeit beschrieben sein? Läuft das Gewerbe im Nebenerwerb? Ist es Handel oder Sonstiges? Der Wizard stellt diese Fragen einzeln und schreibt die Antworten in die richtigen Felder des Vordrucks.",
     "outcomes": [
-      "Ein vollständig ausgefülltes GewA1-Formular mit deinen Daten",
-      "Der passende WZ-2008-Branchenschlüssel für deine Tätigkeit",
-      "Eine geprüfte Tätigkeitsbeschreibung ohne typische Stolperfallen",
-      "Klarheit über die nächsten Behörden-Schritte nach der Anmeldung"
+      "Der amtliche Vordruck GewA 1 als PDF, mit deinen Angaben ausgefüllt",
+      "Eine Tätigkeitsbeschreibung, die Ware, Verkaufsweg und Kunden nennt",
+      "Feld 19 (Nebenerwerb) und Feld 21 (Art des Betriebs) passend angekreuzt",
+      "Ein Überblick, was danach kommt: Empfangsbescheinigung, Fragebogen fürs Finanzamt, IHK und Berufsgenossenschaft"
     ],
     "disclaimer": "Der Wizard hilft beim Ausfüllen, ersetzt aber keine verbindliche Auskunft deines Gewerbeamts."
   },
