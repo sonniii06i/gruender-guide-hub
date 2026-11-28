@@ -398,7 +398,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
     ],
     pros: [
       "Sehr seriöse Jurisdiktion (Big-4-CPAs, deutschsprachige Berater)",
-      "EU-Mitglied + DBA-DE mit 0 % Quellensteuer",
+      "EU-Mitglied + DBA-DE (Royalty-Quellensteuer höchstens 5 %, 0 % nach § 50g EStG)",
       "Mutter-Tochter-RL für Holdings",
       "Stabile Politik + Reputations-Vorteil",
       "Software auch ohne Patent qualifiziert",
@@ -411,7 +411,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Compliance-Costs jährlich 15.000-30.000 €",
     ],
     dbaNote:
-      "DBA-DE 2012, 0 % Quellensteuer auf Royalties. AStG-Risiko niedrig bei aktiver IP-Lizenzierung mit Substanz.",
+      "DBA-DE 2012: Quellensteuer auf Royalties höchstens 5 % (Art. 12 Abs. 2), 0 % nur zwischen verbundenen Unternehmen auf Antrag (§ 50g EStG). AStG-Risiko niedrig bei aktiver IP-Lizenzierung mit Substanz.",
     cfcRisk: "Niedrig",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 1000000,
@@ -519,7 +519,7 @@ export const IP_BOX_REGIMES: IPBoxRegime[] = [
       "Compliance-Costs 10.000-20.000 €/Jahr",
     ],
     dbaNote:
-      "DBA-DE 2002 (Update 2021), 0 % Quellensteuer auf Royalties. AStG-Risiko niedrig bei aktiver R&D-Substanz.",
+      "DBA-DE vom 11.04.1967 (Zusatzabkommen 2002), 0 % Quellensteuer auf Royalties (Art. 12 Abs. 1). AStG-Risiko niedrig bei aktiver R&D-Substanz.",
     cfcRisk: "Niedrig",
     setupComplexity: "Komplex",
     minRoyaltiesEur: 500000,

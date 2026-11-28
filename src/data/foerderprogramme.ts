@@ -291,14 +291,14 @@ export const FOERDERPROGRAMME: Foerderung[] = [
     zielgruppe: ["Tech-Startups EU-weit", "Deep-Tech"],
     phase: ["aufbau", "wachstum"],
     branche: ["deep-tech", "klima", "gesundheit", "digital"],
-    description: "EU-Top-Programm für deeptech Startups. 8–12 % Zusagequote, sehr kompetitiv. SME-Status erforderlich.",
+    description: "EU-Top-Programm für deeptech Startups. Zuletzt 35 von 453 Vollanträgen ausgewählt, rund 8 % (Meldung vom 16.11.2026), sehr kompetitiv. SME-Status erforderlich.",
     conditions: [
-      "SME-Status (< 250 MA, < 50 Mio Umsatz, < 43 Mio Bilanzsumme)",
+      "KMU-Status: unter 250 Beschäftigte, dazu Umsatz höchstens 50 Mio. € oder Bilanzsumme höchstens 43 Mio. €",
       "Bahnbrechende Innovation",
       "Skalier­bar EU/global",
-      "2-Stufen-Antrag (Short Application + Full Application + Interview)",
+      "3 Stufen: Kurzantrag, Vollantrag, Interview vor der EIC-Jury",
     ],
-    antragUrl: "https://eic.ec.europa.eu",
+    antragUrl: "https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en",
   },
   {
     slug: "esif-efre",

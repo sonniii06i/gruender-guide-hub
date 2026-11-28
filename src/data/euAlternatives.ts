@@ -149,7 +149,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
     ],
     cons: [
       "**Innovation Box**: hohe Substanz-Anforderungen (BEPS), pure IP-Holding ohne F&E reicht nicht mehr",
-      "**Substanz wird geprüft**: Mailbox-BV ohne lokale Mitarbeiter wird über § 50d Abs. 3 EStG und den Principal-Purpose-Test der DBA durchschaut (ATAD III wurde nie verabschiedet und 2025 zurückgezogen)",
+      "**Substanz wird geprüft**: Mailbox-BV ohne lokale Mitarbeiter wird über § 50d Abs. 3 EStG und den Principal-Purpose-Test der DBA durchschaut (ATAD III wurde nie verabschiedet und 2026 förmlich zurückgezogen)",
       "Doppel-Buchhaltung DE + NL nötig wenn DE-Wohnsitz",
       "GF muss tatsächlich Geschäftsleitung in NL ausführen (nicht nur Briefkasten)",
     ],
@@ -165,7 +165,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "3. Bank-Account vor Notar-Termin vorbereiten (ABN AMRO, ING, bunq für Solos)",
       "4. Notar-Termin (kann remote via Video, ~1.000 € Notar-Fee)",
       "5. Eintragung im KVK (Kamer van Koophandel, 85,15 €)",
-      "6. BTW-Nummer (NL-USt-ID) bei Belastingdienst beantragen",
+      "6. BTW-Nummer (NL-USt-ID): kommt nach der KVK-Eintragung automatisch vom Belastingdienst",
       "7. Substance-Setup: Adresse, ggf. lokaler Director / Co-Director",
     ],
     deTaxImpact: "Wenn DE-Wohnsitz: §§ 7 ff. AStG Hinzurechnung wenn Beherrschung > 50 % + niedrige Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) bei passiven Einkünften. Aktive NL-BV mit Substanz: Mutter-Tochter-Richtlinie greift, 0 % Quellensteuer auf Dividenden zu DE-Holding.",
@@ -648,8 +648,8 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "Hohe laufende Kosten, Standard-Soparfi ab 10 k €/Jahr Compliance, komplexe ab 25 k €+",
       "**Gewerbesteuer 6,75 % auf operatives Geschäft** (anders als reine Holding)",
       "Vermögensteuer 0,5 % bzw. Mindest-Vermögensteuer (seit 2025 nur nach Bilanzsumme: 535 € bis 350.000 € bis 1.605 € bis 2 Mio. €, 4.815 € darüber)",
-      "**Substanz-Prüfung**: Mailbox-Soparfis werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III wurde 2025 zurückgezogen)",
-      "**§AStG-Hinzurechnung** bei DE-Wohnsitz + passiven Einkünften möglich",
+      "**Substanz-Prüfung**: Mailbox-Soparfis werden über § 50d Abs. 3 EStG und den DBA-Principal-Purpose-Test durchschaut (ATAD III wurde 2026 förmlich zurückgezogen)",
+      "**Hinzurechnung nach §§ 7 ff. AStG** bei DE-Wohnsitz + passiven Einkünften möglich",
       "Bei DE-Töchtern: Mutter-Tochter-RL macht 0 % Quellensteuer ohnehin verfügbar, LU-Vorteil eher bei Multi-Country-Setups",
     ],
     realExamples: [
@@ -669,7 +669,7 @@ export const EU_ALTERNATIVES: EUAlternative[] = [
       "7. Bank-Account (BGL BNP Paribas, Banque de Luxembourg, BIL für Standard-Strukturen)",
       "8. Steuer-Anmeldung beim Administration des Contributions Directes",
     ],
-    deTaxImpact: "Mutter-Tochter-RL: 0 % Quellensteuer auf Dividenden zwischen LU-Soparfi + DE-GmbH (≥ 10 % Beteiligung). Bei DE-Wohnsitz: §AStG-Hinzurechnung bei niedriger Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) UND passiven Einkünften, Soparfi mit aktivem Beteiligungs-Management typisch unkritisch. Beratung essentiell (Substanz nach § 50d Abs. 3 EStG / DBA-PPT).",
+    deTaxImpact: "Mutter-Tochter-RL: 0 % Quellensteuer auf Dividenden zwischen LU-Soparfi + DE-GmbH (≥ 10 % Beteiligung). Bei DE-Wohnsitz: Hinzurechnung nach §§ 7 ff. AStG bei niedriger Besteuerung (< 15 %, § 8 Abs. 5 AStG seit 2024) UND passiven Einkünften, Soparfi mit aktivem Beteiligungs-Management typisch unkritisch. Beratung essentiell (Substanz nach § 50d Abs. 3 EStG / DBA-PPT).",
     officialLinks: [
       { label: "Luxembourg Business Registers (RCS)", url: "https://www.lbr.lu" },
       { label: "Big-4 LU Tax (PwC)", url: "https://taxsummaries.pwc.com/luxembourg" },
